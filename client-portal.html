@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="Client portal for Momentum Data Solutions projects." name="description" />
+  <title>Client Portal | Momentum Data Solutions</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet" />
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="styles.css" rel="stylesheet" />
+</head>
+<body>
+  <header class="site-header" id="top">
+    <nav aria-label="Client portal navigation" class="nav container">
+      <a aria-label="Momentum Data home" class="brand" href="index.html#top">
+        <span class="brand-text-logo">Momentum Data Solutions</span>
+      </a>
+      <button aria-expanded="false" aria-label="Open menu" class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="nav-links">
+        <a href="index.html#top">Home</a>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#process">What We Do</a>
+        <a href="index.html#about">About Us</a>
+        <a class="mobile-client-login" href="client-portal.html">Client Login</a>
+        <a class="mobile-contact" href="index.html#contact">Contact us</a>
+      </div>
+      <div class="nav-actions nav-contact">
+        <a class="nav-client-login" href="client-portal.html">Client Login</a>
+        <a class="nav-cta" href="index.html#contact">Contact us</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="client-portal-main">
+    <section class="client-portal-hero">
+      <div class="container client-portal-grid">
+        <div class="client-portal-copy">
+          <p class="eyebrow">Client Portal</p>
+          <h1>Project access for Momentum Data clients.</h1>
+          <p>Log in to view your project welcome message, company details, project summary, and deliverable due date.</p>
+        </div>
+
+        <div class="client-login-card" id="clientLoginCard">
+          <h2>Client Log In</h2>
+          <p class="portal-note">This is a front-end portal preview. A secure login system can be connected later.</p>
+          <form class="client-login-form" id="clientLoginForm">
+            <label>
+              Client name
+              <input name="clientName" placeholder="Client name" required type="text" />
+            </label>
+            <label>
+              Client company
+              <input name="companyName" placeholder="Company name" required type="text" />
+            </label>
+            <label>
+              Project name
+              <input name="projectName" placeholder="Project name" required type="text" />
+            </label>
+            <button class="btn primary full" type="submit">Log in</button>
+          </form>
+        </div>
+
+        <div class="client-dashboard-card" id="clientDashboard" hidden>
+          <h2 id="clientWelcome">Hi, client name, welcome to your project.</h2>
+          <p class="portal-note">Your project information is summarized below.</p>
+          <div class="client-table-wrap">
+            <table class="client-project-table">
+              <thead>
+                <tr>
+                  <th>Client company</th>
+                  <th>Project Name</th>
+                  <th>Project details</th>
+                  <th>Deliverable due date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td id="portalClientCompany">Client company</td>
+                  <td id="portalProjectName">Project name</td>
+                  <td id="portalProjectDetails">Project details</td>
+                  <td id="portalDueDate">Deliverable due date</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="portal-actions">
+            <a class="btn secondary" href="index.html#contact">Contact Momentum Data</a>
+            <button class="btn primary" id="portalLogout" type="button">Log out</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="cookie-notice" id="cookieNotice" role="dialog" aria-live="polite" aria-label="Cookie notice" hidden>
+    <div class="cookie-notice-content">
+      <div>
+        <strong>Cookie Notice</strong>
+        <p>We use basic cookies and local storage to remember preferences and improve your browsing experience.</p>
+      </div>
+      <button class="cookie-btn" id="cookieAccept" type="button">Accept</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

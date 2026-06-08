@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Client Project Page | Momentum Data Solutions</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet" />
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="styles.css" rel="stylesheet" />
+</head>
+<body class="client-page">
+  <header class="site-header" id="top">
+    <nav aria-label="Client navigation" class="nav container portal-nav">
+      <a aria-label="Momentum Data home" class="brand" href="index.html">
+        <span class="brand-text-logo">Momentum Data Solutions</span>
+      </a>
+      <div class="nav-actions">
+        <button class="text-button" id="logoutBtn" type="button">Log Out</button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="client-hero" aria-labelledby="welcomeMessage">
+      <div class="client-hero-content">
+        <p class="eyebrow">Client Project Portal</p>
+        <h1 id="welcomeMessage">Hi, client name, welcome to your project.</h1>
+        <p>
+          Track your project details, delivery status, and important due dates in one clean client space.
+        </p>
+      </div>
+    </section>
+
+    <section class="project-section" aria-labelledby="projectTableTitle">
+      <div class="section-heading">
+        <p class="eyebrow">Project Overview</p>
+        <h2 id="projectTableTitle">Current project details</h2>
+      </div>
+
+      <div class="table-card">
+        <table class="project-table">
+          <thead>
+            <tr>
+              <th>Client company</th>
+              <th>Project Name</th>
+              <th>Project details</th>
+              <th>Deliverable due date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="companyCell">Client company</td>
+              <td>Data Extraction Workflow</td>
+              <td>Extract, clean, validate, and format client source data for final delivery.</td>
+              <td>To be confirmed</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

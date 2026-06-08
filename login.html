@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Client Log-in | Momentum Data Solutions</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet" />
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="styles.css" rel="stylesheet" />
+</head>
+<body class="login-page">
+  <header class="site-header" id="top">
+    <nav aria-label="Client login navigation" class="nav container portal-nav">
+      <a aria-label="Momentum Data home" class="brand" href="index.html">
+        <span class="brand-text-logo">Momentum Data Solutions</span>
+      </a>
+      <div class="nav-actions">
+        <a class="nav-simple-link" href="index.html">Home</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="login-wrap">
+    <section class="login-card" aria-labelledby="login-title">
+      <p class="eyebrow">Client Access</p>
+      <h1 id="login-title">Log in to your project page</h1>
+      <p class="muted-text">Enter your name and company to preview the client-only project page.</p>
+
+      <form id="clientLoginForm" class="login-form">
+        <label for="clientName">
+          Client name
+          <input id="clientName" name="clientName" type="text" placeholder="Example: Taylor" required />
+        </label>
+
+        <label for="clientCompany">
+          Client company
+          <input id="clientCompany" name="clientCompany" type="text" placeholder="Example: Acme Payroll Group" required />
+        </label>
+
+        <button class="btn primary full-width" type="submit">Log In</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
