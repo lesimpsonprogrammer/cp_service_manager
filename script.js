@@ -67,6 +67,9 @@ const portalProjectName = document.querySelector('#portalProjectName');
 const portalProjectDetails = document.querySelector('#portalProjectDetails');
 const portalDueDate = document.querySelector('#portalDueDate');
 const portalLogout = document.querySelector('#portalLogout');
+const portalMessageForm = document.querySelector('#portalMessageForm');
+const messageConfirmation = document.querySelector('#messageConfirmation');
+const loginPageForm = document.querySelector('#loginPageForm');
 
 if (clientLoginForm && clientLoginCard && clientDashboard) {
   clientLoginForm.addEventListener('submit', (event) => {
@@ -77,10 +80,10 @@ if (clientLoginForm && clientLoginCard && clientDashboard) {
     const companyName = String(formData.get('companyName') || 'Client company').trim() || 'Client company';
     const projectName = String(formData.get('projectName') || 'Data extraction project').trim() || 'Data extraction project';
 
-    clientWelcome.textContent = `Hi, ${clientName}, welcome to your project.`;
+    clientWelcome.textContent = `Hi, ${clientName}.`;
     portalClientCompany.textContent = companyName;
     portalProjectName.textContent = projectName;
-    portalProjectDetails.textContent = 'Project scope, extraction details, validation notes, and next deliverables will appear here.';
+    portalProjectDetails.textContent = `${projectName} is currently in mapping and validation. Your Momentum Data team is preparing the next review package and tracking open items here.`;
     portalDueDate.textContent = 'To be confirmed';
 
     clientLoginCard.hidden = true;
@@ -90,10 +93,28 @@ if (clientLoginForm && clientLoginCard && clientDashboard) {
 
 if (portalLogout && clientLoginCard && clientDashboard) {
   portalLogout.addEventListener('click', () => {
-    clientDashboard.hidden = true;
-    clientLoginCard.hidden = false;
+    window.location.href = 'login.html';
     if (clientLoginForm) {
       clientLoginForm.reset();
     }
+    if (portalMessageForm && messageConfirmation) {
+      portalMessageForm.reset();
+      messageConfirmation.hidden = true;
+    }
+  });
+}
+
+if (portalMessageForm && messageConfirmation) {
+  portalMessageForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    portalMessageForm.reset();
+    messageConfirmation.hidden = false;
+  });
+}
+
+if (loginPageForm) {
+  loginPageForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    window.location.href = 'client-portal.html';
   });
 }
