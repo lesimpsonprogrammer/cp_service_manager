@@ -45,6 +45,7 @@ const cookieNoticeKey = 'momentumDataCookieNoticeAccepted';
 if (cookieNotice && cookieAccept) {
   const cookieAccepted = localStorage.getItem(cookieNoticeKey) === 'true';
 
+
   if (!cookieAccepted) {
     cookieNotice.hidden = false;
   }
