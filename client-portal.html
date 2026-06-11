@@ -13,6 +13,7 @@
   <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
   <link href="styles.css" rel="stylesheet" />
   <link href="client-portal-overrides.css" rel="stylesheet" />
+  <link href="client-portfolio-menu.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -53,6 +54,15 @@
             <button class="btn primary" type="submit">Search</button>
             <span>Powered by Google</span>
           </form>
+
+          <button class="portal-panel-toggle" id="portalPanelToggle" type="button" aria-controls="portalPanelMenu" aria-expanded="false">
+            <span class="portal-panel-toggle-icon" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+            <span>Portal Menu</span>
+          </button>
         </div>
 
         <div class="portal-workspace">
@@ -156,6 +166,71 @@
     </section>
   </main>
 
+  <div class="portal-panel-backdrop" id="portalPanelBackdrop" hidden></div>
+  <aside class="portal-panel-drawer" id="portalPanelMenu" aria-label="Client Portfolio hamburger menu" aria-hidden="true" hidden>
+    <div class="portal-panel-drawer-header">
+      <div>
+        <p class="tile-kicker">Client Portfolio</p>
+        <h2>Portal Menu</h2>
+      </div>
+      <button class="portal-panel-close" id="portalPanelClose" type="button" aria-label="Close portal menu">×</button>
+    </div>
+
+    <div class="portal-panel-sections">
+      <section class="side-panel-card tools-card">
+        <p class="tile-kicker">Tools</p>
+        <h2>Project tools</h2>
+        <div class="tool-link-list">
+          <a href="calculator.html" target="_blank" rel="noopener">
+            <strong>Calculator</strong>
+            <span>Open tool</span>
+          </a>
+          <a href="project-estimator.html" target="_blank" rel="noopener">
+            <strong>Project estimator</strong>
+            <span>Open tool</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="side-panel-card authorized-card">
+        <p class="tile-kicker">Authorized representatives</p>
+        <h2>Client approvals</h2>
+        <div class="representative-list">
+          <div class="representative-row">
+            <strong>Authorized Representative 1</strong>
+            <span>Job Title</span>
+          </div>
+          <div class="representative-row">
+            <strong>Authorized Representative 2</strong>
+            <span>Job Title</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="side-panel-card invoices-card">
+        <p class="tile-kicker">Invoices</p>
+        <h2>Billing status</h2>
+        <div class="invoice-list">
+          <div>
+            <strong>Invoice #001</strong>
+            <span>Pending</span>
+          </div>
+          <div>
+            <strong>Invoice #002</strong>
+            <span>Not issued</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="side-panel-card portal-contact-tile">
+        <p class="tile-kicker">Account access</p>
+        <h2>Momentum Data Team</h2>
+        <p>Replies within one business day.</p>
+        <button class="btn secondary full" id="portalMenuLogout" type="button">Log out</button>
+      </section>
+    </div>
+  </aside>
+
   <div class="cookie-notice" id="cookieNotice" role="dialog" aria-live="polite" aria-label="Cookie notice" hidden>
     <div class="cookie-notice-content">
       <div>
@@ -167,6 +242,7 @@
   </div>
 
   <script src="script.js"></script>
+  <script src="client-portfolio-menu.js"></script>
 </body>
 
 </html>
