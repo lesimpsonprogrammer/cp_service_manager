@@ -1,0 +1,14 @@
+/* Client Portfolio greeting alignment */
+.client-portal-main .portal-heading-bar {
+  text-align: left;
+}
+
+.client-portal-main .portal-heading-bar h1 {
+  text-align: left;
+}
+
+@media (max-width: 1080px) {
+  .client-portal-main .portal-heading-bar {
+    align-items: flex-start;
+  }
+}
