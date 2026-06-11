@@ -42,51 +42,21 @@
   </header>
 
   <main class="client-portal-main">
-    <section class="client-portal-hero">
-      <div class="container client-portal-grid">
-        <div class="client-portal-copy">
-          <p class="eyebrow">Client Portal</p>
-          <h1>Your project command center.</h1>
-          <p>Review your project summary, current status, and deliverable due date in one clean view.</p>
-          <div class="portal-benefits" aria-label="Client portal features">
-            <span>Status updates</span>
-            <span>Project details</span>
-            <span>Deliverable tracking</span>
-          </div>
+    <section class="client-project-hero" aria-labelledby="clientWelcome">
+      <div class="client-project-hero-content">
+        <p class="eyebrow">Client Portal</p>
+        <h1 id="clientWelcome">Hi, Client, welcome to your project.</h1>
+        <p class="portal-note"><span id="portalClientCompany">Momentum Data client</span> · <span
+            id="portalProjectName">Active project</span></p>
+        <div class="portal-hero-actions">
+          <button class="btn secondary" id="portalLogout" type="button">Log out</button>
         </div>
+      </div>
+    </section>
 
-        <div class="client-login-card" id="clientLoginCard" hidden>
-          <h2>Client Log In</h2>
-          <p class="portal-note">This preview shows the client hub experience. Secure authentication and live project
-            data can be connected next.</p>
-          <form class="client-login-form" id="clientLoginForm">
-            <label>
-              Client Name:
-              <input name="clientName" placeholder="Client name" required type="text" />
-            </label>
-            <label>
-              Client Company
-              <input name="companyName" placeholder="Company name" required type="text" />
-            </label>
-            <label>
-              Project Name:
-              <input name="projectName" placeholder="Project name" required type="text" />
-            </label>
-            <button class="btn primary full" type="submit">Log in</button>
-          </form>
-        </div>
-
-        <div class="client-dashboard-card" id="clientDashboard">
-          <div class="dashboard-header">
-            <div>
-              <p class="eyebrow">Project Dashboard</p>
-              <h2 id="clientWelcome">Hi, Client, welcome to your project.</h2>
-              <p class="portal-note"><span id="portalClientCompany">Momentum Data client</span> · <span
-                  id="portalProjectName">Active project</span></p>
-            </div>
-            <button class="btn secondary" id="portalLogout" type="button">Log out</button>
-          </div>
-
+    <section class="client-project-content" aria-label="Client project summary">
+      <div class="container">
+        <div class="client-dashboard-card single-project-card" id="clientDashboard">
           <div class="portal-status-banner">
             <div>
               <span class="status-pill">On track</span>
