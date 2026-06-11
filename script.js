@@ -118,3 +118,40 @@ if (loginPageForm) {
     window.location.href = 'client-portal.html';
   });
 }
+
+// Project Manager name storage and editor (allows changing without editing HTML)
+(() => {
+  const pmNameKey = 'projectManagerName';
+  const pmDisplay = document.getElementById('projectManagerName');
+  const editBtn = document.getElementById('editProjectManager');
+  const editor = document.getElementById('projectManagerEditor');
+  const input = document.getElementById('projectManagerInput');
+  const saveBtn = document.getElementById('saveProjectManager');
+
+  function loadPM() {
+    const name = localStorage.getItem(pmNameKey) || 'LSimpson';
+    if (pmDisplay) pmDisplay.textContent = name;
+    if (input) input.value = name;
+  }
+
+  function toggleEditor(show) {
+    if (!editor) return;
+    editor.hidden = !show;
+    if (show && input) input.focus();
+  }
+
+  if (editBtn) {
+    editBtn.addEventListener('click', () => toggleEditor(true));
+  }
+
+  if (saveBtn && input) {
+    saveBtn.addEventListener('click', () => {
+      const newName = String(input.value || '').trim() || 'LSimpson';
+      localStorage.setItem(pmNameKey, newName);
+      if (pmDisplay) pmDisplay.textContent = newName;
+      toggleEditor(false);
+    });
+  }
+
+  loadPM();
+})();
