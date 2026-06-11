@@ -316,3 +316,20 @@ button.btn:hover,
 .portal-panel-drawer .tool-link-list span {
   font-weight: 500 !important;
 }
+
+/* Client Portfolio login visual */
+.login-visual-panel {
+  background-image:
+    linear-gradient(180deg, rgba(11, 31, 58, 0.08), rgba(11, 31, 58, 0.42)),
+    url("assets/client-portfolio-etl-visual.svg") !important;
+  background-position: center !important;
+  background-size: cover !important;
+}
+
+.login-visual-overlay {
+  max-width: 620px !important;
+  padding: clamp(1.5rem, 3vw, 2.5rem) !important;
+  border-radius: 1.25rem !important;
+  background: rgba(3, 15, 42, 0.22) !important;
+  backdrop-filter: blur(2px) !important;
+}
