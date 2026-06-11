@@ -17,8 +17,17 @@
 </head>
 
 <body>
-  <header class="site-header" id="top">
+  <header class="site-header client-portfolio-header" id="top">
     <nav aria-label="Client portal navigation" class="nav container">
+      <button class="portal-panel-toggle header-panel-toggle" id="portalPanelToggle" type="button" aria-label="Open Client Portfolio menu" aria-controls="portalPanelMenu" aria-expanded="false">
+        <span class="portal-panel-toggle-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+        <span class="portal-panel-toggle-label">Portal Menu</span>
+      </button>
+
       <a aria-label="Momentum Data home" class="brand brand-image-only" href="index.html#top">
         <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data logo" class="brand-logo brand-logo-transparent" />
       </a>
@@ -54,15 +63,6 @@
             <button class="btn primary" type="submit">Search</button>
             <span>Powered by Google</span>
           </form>
-
-          <button class="portal-panel-toggle" id="portalPanelToggle" type="button" aria-controls="portalPanelMenu" aria-expanded="false">
-            <span class="portal-panel-toggle-icon" aria-hidden="true">
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
-            <span>Portal Menu</span>
-          </button>
         </div>
 
         <div class="portal-workspace">
@@ -71,15 +71,15 @@
               <section class="portal-tile portal-tile-large status-delivery-card">
                 <div class="tile-heading-row">
                   <div>
-                    <p class="tile-kicker">Current status update</p>
-                    <h2>Project is on track.</h2>
+                    <h2>Current status update</h2>
+                    <p class="status-summary">Project is on track.</p>
                   </div>
                   <span class="status-pill">On track</span>
                 </div>
                 <p id="portalProjectDetails">Data mapping is underway. The next client review is scheduled after validation notes are prepared.</p>
                 <div class="status-delivery-row">
                   <div>
-                    <p class="tile-kicker">Next delivery</p>
+                    <h3>Next delivery</h3>
                     <strong id="portalDueDate">To be confirmed</strong>
                   </div>
                   <p>Your deliverable due date will appear here once the project schedule is finalized.</p>
@@ -87,8 +87,7 @@
               </section>
 
               <section class="portal-tile deliverables-card">
-                <p class="tile-kicker">Deliverables</p>
-                <h2>Latest files</h2>
+                <h2>Deliverables</h2>
                 <div class="clean-list">
                   <div><strong>Project brief</strong><span>Approved</span></div>
                   <div><strong>Data mapping workbook</strong><span>In progress</span></div>
@@ -97,8 +96,7 @@
               </section>
 
               <section class="portal-tile actions-card">
-                <p class="tile-kicker">Next actions</p>
-                <h2>Client queue</h2>
+                <h2>Next actions</h2>
                 <ul class="clean-action-list">
                   <li>Review sample column labels</li>
                   <li>Confirm preferred delivery format</li>
@@ -110,8 +108,7 @@
 
           <aside class="portal-side-panel" aria-label="Client Portfolio side panel">
             <section class="side-panel-card tools-card">
-              <p class="tile-kicker">Tools</p>
-              <h2>Project tools</h2>
+              <h2>Tools</h2>
               <div class="tool-link-list">
                 <a href="calculator.html" target="_blank" rel="noopener">
                   <strong>Calculator</strong>
@@ -125,8 +122,7 @@
             </section>
 
             <section class="side-panel-card authorized-card">
-              <p class="tile-kicker">Authorized representatives</p>
-              <h2>Client approvals</h2>
+              <h2>Authorized representatives</h2>
               <div class="representative-list">
                 <div class="representative-row">
                   <strong>Authorized Representative 1</strong>
@@ -140,8 +136,7 @@
             </section>
 
             <section class="side-panel-card invoices-card">
-              <p class="tile-kicker">Invoices</p>
-              <h2>Billing status</h2>
+              <h2>Invoices</h2>
               <div class="invoice-list">
                 <div>
                   <strong>Invoice #001</strong>
@@ -155,8 +150,7 @@
             </section>
 
             <section class="side-panel-card portal-contact-tile">
-              <p class="tile-kicker">Account access</p>
-              <h2>Momentum Data Team</h2>
+              <h2>Account access</h2>
               <p>Replies within one business day.</p>
               <button class="btn secondary full" id="portalLogout" type="button">Log out</button>
             </section>
@@ -170,7 +164,6 @@
   <aside class="portal-panel-drawer" id="portalPanelMenu" aria-label="Client Portfolio hamburger menu" aria-hidden="true" hidden>
     <div class="portal-panel-drawer-header">
       <div>
-        <p class="tile-kicker">Client Portfolio</p>
         <h2>Portal Menu</h2>
       </div>
       <button class="portal-panel-close" id="portalPanelClose" type="button" aria-label="Close portal menu">×</button>
@@ -178,8 +171,7 @@
 
     <div class="portal-panel-sections">
       <section class="side-panel-card tools-card">
-        <p class="tile-kicker">Tools</p>
-        <h2>Project tools</h2>
+        <h2>Tools</h2>
         <div class="tool-link-list">
           <a href="calculator.html" target="_blank" rel="noopener">
             <strong>Calculator</strong>
@@ -193,8 +185,7 @@
       </section>
 
       <section class="side-panel-card authorized-card">
-        <p class="tile-kicker">Authorized representatives</p>
-        <h2>Client approvals</h2>
+        <h2>Authorized representatives</h2>
         <div class="representative-list">
           <div class="representative-row">
             <strong>Authorized Representative 1</strong>
@@ -208,8 +199,7 @@
       </section>
 
       <section class="side-panel-card invoices-card">
-        <p class="tile-kicker">Invoices</p>
-        <h2>Billing status</h2>
+        <h2>Invoices</h2>
         <div class="invoice-list">
           <div>
             <strong>Invoice #001</strong>
@@ -223,8 +213,7 @@
       </section>
 
       <section class="side-panel-card portal-contact-tile">
-        <p class="tile-kicker">Account access</p>
-        <h2>Momentum Data Team</h2>
+        <h2>Account access</h2>
         <p>Replies within one business day.</p>
         <button class="btn secondary full" id="portalMenuLogout" type="button">Log out</button>
       </section>
