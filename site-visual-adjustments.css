@@ -33,8 +33,13 @@
   min-width: max-content;
 }
 
+.nav-links {
+  font-weight: 500 !important;
+}
+
 .nav-links a {
   color: #ffffff !important;
+  font-weight: 500 !important;
   text-shadow: 0 1px 6px rgba(11, 31, 58, 0.18);
 }
 
@@ -42,14 +47,28 @@
   color: #eaf4ff !important;
 }
 
-.nav-client-login {
-  border-color: rgba(255, 255, 255, 0.62) !important;
-  background: rgba(255, 255, 255, 0.16) !important;
+.btn,
+button.btn,
+.btn.primary,
+.btn.secondary,
+.nav-client-login,
+.nav-cta,
+.cookie-btn {
+  background: #1f6feb !important;
+  border-color: #1f6feb !important;
   color: #ffffff !important;
+  font-weight: 600 !important;
 }
 
-.nav-cta {
-  background: #0b1f3a !important;
+.btn:hover,
+button.btn:hover,
+.btn.primary:hover,
+.btn.secondary:hover,
+.nav-client-login:hover,
+.nav-cta:hover,
+.cookie-btn:hover {
+  background: #1557bf !important;
+  border-color: #1557bf !important;
   color: #ffffff !important;
 }
 
@@ -182,6 +201,7 @@
 
   .nav-links a {
     color: var(--text) !important;
+    font-weight: 500 !important;
     text-shadow: none;
   }
 
