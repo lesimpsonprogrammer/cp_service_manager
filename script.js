@@ -33,46 +33,6 @@ if (heroActions && !heroActions.querySelector('.client-login-hero')) {
   heroActions.appendChild(heroClientLogin);
 }
 
-// Current Status Update background adjustment.
-if (document.querySelector('.portal-status-banner')) {
-  const portalStatusStyle = document.createElement('style');
-  portalStatusStyle.textContent = `
-    .portal-status-banner {
-      background: #ffffff !important;
-      color: var(--text) !important;
-      border: 1px solid var(--line) !important;
-      box-shadow: 0 12px 28px rgba(11, 31, 58, 0.06) !important;
-    }
-
-    .portal-status-banner h3 {
-      color: var(--text) !important;
-    }
-
-    .portal-status-banner p {
-      color: var(--muted) !important;
-    }
-
-    .portal-status-banner .status-pill {
-      background: var(--light-blue) !important;
-      color: var(--blue) !important;
-    }
-
-    .portal-status-banner .status-date {
-      background: var(--soft-gray) !important;
-      border: 1px solid var(--line) !important;
-    }
-
-    .portal-status-banner .status-date span {
-      color: var(--muted) !important;
-    }
-
-    .portal-status-banner .status-date strong {
-      color: var(--text) !important;
-    }
-  `;
-  document.head.appendChild(portalStatusStyle);
-}
-
 if (navToggle && navLinks) {
   navToggle.addEventListener('click', () => {
     const isOpen = navLinks.classList.toggle('open');
@@ -103,15 +63,12 @@ if (carouselLines.length > 0) {
   }, 3500);
 }
 
-
-
 const cookieNotice = document.querySelector('#cookieNotice');
 const cookieAccept = document.querySelector('#cookieAccept');
 const cookieNoticeKey = 'momentumDataCookieNoticeAccepted';
 
 if (cookieNotice && cookieAccept) {
   const cookieAccepted = localStorage.getItem(cookieNoticeKey) === 'true';
-
 
   if (!cookieAccepted) {
     cookieNotice.hidden = false;
@@ -123,8 +80,6 @@ if (cookieNotice && cookieAccept) {
   });
 }
 
-
-
 const clientLoginForm = document.querySelector('#clientLoginForm');
 const clientLoginCard = document.querySelector('#clientLoginCard');
 const clientDashboard = document.querySelector('#clientDashboard');
@@ -133,6 +88,10 @@ const portalClientCompany = document.querySelector('#portalClientCompany');
 const portalProjectName = document.querySelector('#portalProjectName');
 const portalProjectDetails = document.querySelector('#portalProjectDetails');
 const portalDueDate = document.querySelector('#portalDueDate');
+const portalTableCompany = document.querySelector('#portalTableCompany');
+const portalTableProject = document.querySelector('#portalTableProject');
+const portalTableDetails = document.querySelector('#portalTableDetails');
+const portalTableDueDate = document.querySelector('#portalTableDueDate');
 const portalLogout = document.querySelector('#portalLogout');
 const portalMessageForm = document.querySelector('#portalMessageForm');
 const messageConfirmation = document.querySelector('#messageConfirmation');
@@ -146,12 +105,36 @@ if (clientLoginForm && clientLoginCard && clientDashboard) {
     const clientName = String(formData.get('clientName') || 'Client').trim() || 'Client';
     const companyName = String(formData.get('companyName') || 'Client company').trim() || 'Client company';
     const projectName = String(formData.get('projectName') || 'Data extraction project').trim() || 'Data extraction project';
+    const projectDetails = `${projectName} is currently in mapping and validation. Your Momentum Data team is preparing the next review package and tracking open items here.`;
+    const dueDate = 'To be confirmed';
 
-    clientWelcome.textContent = `Hi, ${clientName}, welcome to your project.`;
-    portalClientCompany.textContent = companyName;
-    portalProjectName.textContent = projectName;
-    portalProjectDetails.textContent = `${projectName} is currently in mapping and validation. Your Momentum Data team is preparing the next review package and tracking open items here.`;
-    portalDueDate.textContent = 'To be confirmed';
+    if (clientWelcome) {
+      clientWelcome.textContent = `Hi, ${clientName}, welcome to your project.`;
+    }
+    if (portalClientCompany) {
+      portalClientCompany.textContent = companyName;
+    }
+    if (portalProjectName) {
+      portalProjectName.textContent = projectName;
+    }
+    if (portalProjectDetails) {
+      portalProjectDetails.textContent = projectDetails;
+    }
+    if (portalDueDate) {
+      portalDueDate.textContent = dueDate;
+    }
+    if (portalTableCompany) {
+      portalTableCompany.textContent = companyName;
+    }
+    if (portalTableProject) {
+      portalTableProject.textContent = projectName;
+    }
+    if (portalTableDetails) {
+      portalTableDetails.textContent = projectDetails;
+    }
+    if (portalTableDueDate) {
+      portalTableDueDate.textContent = dueDate;
+    }
 
     clientLoginCard.hidden = true;
     clientDashboard.hidden = false;
