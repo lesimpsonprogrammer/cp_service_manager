@@ -6,6 +6,73 @@ if (year) {
   year.textContent = new Date().getFullYear();
 }
 
+// Keep the Client Log-in button on the homepage and positioned after Contact us.
+const desktopNavActions = document.querySelector('.nav-actions');
+const desktopContactLink = desktopNavActions?.querySelector('.nav-cta[href="#contact"], .nav-cta[href="index.html#contact"]');
+const desktopClientLoginLink = desktopNavActions?.querySelector('.nav-client-login[href="login.html"]');
+
+if (desktopContactLink && desktopClientLoginLink) {
+  desktopClientLoginLink.textContent = 'Client Log-in';
+  desktopContactLink.insertAdjacentElement('afterend', desktopClientLoginLink);
+}
+
+const mobileContactLink = navLinks?.querySelector('.mobile-contact');
+const mobileClientLoginLink = navLinks?.querySelector('.mobile-client-login');
+
+if (mobileContactLink && mobileClientLoginLink) {
+  mobileClientLoginLink.textContent = 'Client Log-in';
+  mobileContactLink.insertAdjacentElement('afterend', mobileClientLoginLink);
+}
+
+const heroActions = document.querySelector('.hero-actions');
+if (heroActions && !heroActions.querySelector('.client-login-hero')) {
+  const heroClientLogin = document.createElement('a');
+  heroClientLogin.className = 'btn secondary client-login-hero';
+  heroClientLogin.href = 'login.html';
+  heroClientLogin.textContent = 'Client Log-in';
+  heroActions.appendChild(heroClientLogin);
+}
+
+// Current Status Update background adjustment.
+if (document.querySelector('.portal-status-banner')) {
+  const portalStatusStyle = document.createElement('style');
+  portalStatusStyle.textContent = `
+    .portal-status-banner {
+      background: #ffffff !important;
+      color: var(--text) !important;
+      border: 1px solid var(--line) !important;
+      box-shadow: 0 12px 28px rgba(11, 31, 58, 0.06) !important;
+    }
+
+    .portal-status-banner h3 {
+      color: var(--text) !important;
+    }
+
+    .portal-status-banner p {
+      color: var(--muted) !important;
+    }
+
+    .portal-status-banner .status-pill {
+      background: var(--light-blue) !important;
+      color: var(--blue) !important;
+    }
+
+    .portal-status-banner .status-date {
+      background: var(--soft-gray) !important;
+      border: 1px solid var(--line) !important;
+    }
+
+    .portal-status-banner .status-date span {
+      color: var(--muted) !important;
+    }
+
+    .portal-status-banner .status-date strong {
+      color: var(--text) !important;
+    }
+  `;
+  document.head.appendChild(portalStatusStyle);
+}
+
 if (navToggle && navLinks) {
   navToggle.addEventListener('click', () => {
     const isOpen = navLinks.classList.toggle('open');
@@ -80,7 +147,7 @@ if (clientLoginForm && clientLoginCard && clientDashboard) {
     const companyName = String(formData.get('companyName') || 'Client company').trim() || 'Client company';
     const projectName = String(formData.get('projectName') || 'Data extraction project').trim() || 'Data extraction project';
 
-    clientWelcome.textContent = `Hi, ${clientName}.`;
+    clientWelcome.textContent = `Hi, ${clientName}, welcome to your project.`;
     portalClientCompany.textContent = companyName;
     portalProjectName.textContent = projectName;
     portalProjectDetails.textContent = `${projectName} is currently in mapping and validation. Your Momentum Data team is preparing the next review package and tracking open items here.`;
