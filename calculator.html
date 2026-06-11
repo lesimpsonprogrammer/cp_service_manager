@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Calculator | Client Portfolio</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet" />
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="styles.css" rel="stylesheet" />
+  <link href="client-portal-overrides.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header class="site-header" id="top">
+    <nav aria-label="Tool navigation" class="nav container">
+      <a aria-label="Back to Client Portfolio" class="brand brand-image-only" href="client-portal.html">
+        <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data logo" class="brand-logo brand-logo-transparent" />
+      </a>
+      <div class="nav-links">
+        <a href="client-portal.html">Client Portfolio</a>
+        <a href="project-estimator.html">Project Estimator</a>
+      </div>
+      <div class="nav-actions nav-contact">
+        <a class="nav-cta" href="client-portal.html">Back to Portfolio</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="tool-page-main">
+    <div class="container">
+      <section class="tool-page-card" aria-labelledby="calculatorTitle">
+        <p class="tile-kicker">Client Portfolio Tool</p>
+        <h1 id="calculatorTitle">Calculator</h1>
+        <p>Use this quick calculator for project-related totals, estimates, and simple checks.</p>
+        <div class="tool-page-form">
+          <div class="tool-inline-form">
+            <input id="calcValueOne" type="number" inputmode="decimal" placeholder="0" />
+            <select id="calcOperator" aria-label="Calculator operation">
+              <option value="add">+</option>
+              <option value="subtract">−</option>
+              <option value="multiply">×</option>
+              <option value="divide">÷</option>
+            </select>
+            <input id="calcValueTwo" type="number" inputmode="decimal" placeholder="0" />
+          </div>
+          <button class="btn primary full" id="calculateTool" type="button">Calculate</button>
+          <p class="tool-result" id="calculatorResult">Result will appear here.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+  <script src="client-portfolio-tools.js"></script>
+</body>
+
+</html>
