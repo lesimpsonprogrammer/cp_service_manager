@@ -6,9 +6,9 @@
 }
 
 .site-header .nav {
-  min-height: 96px !important;
-  padding-top: 8px !important;
-  padding-bottom: 8px !important;
+  min-height: 112px !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
 }
 
 .brand {
@@ -17,9 +17,9 @@
 
 .brand-logo,
 .brand-logo-transparent {
-  height: 72px !important;
-  max-height: 72px !important;
-  max-width: 230px !important;
+  height: 84px !important;
+  max-height: 84px !important;
+  max-width: 250px !important;
   object-fit: contain !important;
 }
 
@@ -111,16 +111,68 @@
   font-size: 0.74rem !important;
 }
 
+/* Client Portfolio spacing cleanup */
+.client-portal-main .portal-heading-bar {
+  max-width: 1240px !important;
+  gap: clamp(3rem, 6vw, 5.25rem) !important;
+  margin-bottom: clamp(3.25rem, 5vw, 4.5rem) !important;
+}
+
+.client-portal-main .portal-heading-bar h1 {
+  flex: 0 1 410px !important;
+  font-size: clamp(1.35rem, 2vw, 2rem) !important;
+  line-height: 1.08 !important;
+}
+
+.client-portal-main .portal-google-search {
+  flex: 0 1 580px !important;
+}
+
+.client-portal-main .portal-workspace {
+  grid-template-columns: minmax(0, 1fr) minmax(330px, 370px) !important;
+  gap: clamp(3rem, 5vw, 4.5rem) !important;
+}
+
+.client-portal-main .portal-card-grid {
+  gap: 2.15rem !important;
+}
+
+.client-portal-main .portal-side-panel {
+  gap: 1.65rem !important;
+}
+
+.client-portal-main .portal-tile,
+.client-portal-main .side-panel-card {
+  padding: 1.75rem !important;
+}
+
+@media (max-width: 1080px) {
+  .client-portal-main .portal-heading-bar {
+    gap: 2rem !important;
+    margin-bottom: 3rem !important;
+  }
+
+  .client-portal-main .portal-heading-bar h1 {
+    flex-basis: auto !important;
+    font-size: clamp(1.7rem, 5vw, 2.4rem) !important;
+  }
+
+  .client-portal-main .portal-workspace {
+    grid-template-columns: 1fr !important;
+    gap: 2.75rem !important;
+  }
+}
+
 @media (max-width: 760px) {
   .site-header .nav {
-    min-height: 86px !important;
+    min-height: 96px !important;
   }
 
   .brand-logo,
   .brand-logo-transparent {
-    height: 62px !important;
-    max-height: 62px !important;
-    max-width: 200px !important;
+    height: 68px !important;
+    max-height: 68px !important;
+    max-width: 210px !important;
   }
 
   .brand-text-logo,
@@ -140,5 +192,14 @@
 
   .portal-page-heading h1 {
     font-size: clamp(2rem, 10vw, 2.8rem) !important;
+  }
+
+  .client-portal-main .portal-heading-bar {
+    gap: 1.5rem !important;
+    margin-bottom: 2.5rem !important;
+  }
+
+  .client-portal-main .portal-heading-bar h1 {
+    font-size: clamp(1.55rem, 7vw, 2rem) !important;
   }
 }
