@@ -11,34 +11,45 @@
     linear-gradient(135deg, #eaf4ff 0%, #fff0df 48%, #eaf4ff 100%);
 }
 
-.portal-page-heading {
-  max-width: 780px;
-  margin-bottom: 2.25rem;
+.brand-image-only {
+  min-width: auto;
 }
 
-.portal-page-heading .eyebrow {
-  margin-bottom: 18px;
+.brand-image-only .brand-logo {
+  max-width: 168px;
+  max-height: 58px;
 }
 
-.portal-page-heading h1 {
-  max-width: 760px;
-  margin-bottom: 1rem;
-  font-size: clamp(2.15rem, 3.6vw, 3.4rem);
+.portal-heading-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6rem;
+  max-width: 1100px;
+  margin: 0 auto 2.25rem;
+  text-align: center;
+}
+
+.portal-heading-bar h1 {
+  flex: 0 1 470px;
+  margin: 0;
+  font-size: clamp(2rem, 3.2vw, 3rem);
   line-height: 1.04;
   letter-spacing: -0.02em;
 }
 
 .portal-google-search {
+  flex: 0 1 520px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 0.75rem;
-  max-width: 760px;
-  margin-top: 1.35rem;
+  margin: 0;
 }
 
 .portal-google-search input[type="search"] {
-  flex: 1 1 320px;
+  flex: 1 1 260px;
   min-height: 50px;
   border: 2px solid #8e99a8;
   border-radius: 1rem;
@@ -46,8 +57,9 @@
 }
 
 .portal-google-search span {
+  flex-basis: 100%;
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -84,7 +96,8 @@
 }
 
 .portal-tile,
-.side-panel-card {
+.side-panel-card,
+.tool-page-card {
   min-height: 210px;
   padding: 1.55rem;
   border: 2px solid #8e99a8;
@@ -116,14 +129,16 @@
 }
 
 .portal-tile h2,
-.side-panel-card h2 {
+.side-panel-card h2,
+.tool-page-card h1 {
   margin-bottom: 0.7rem;
   font-size: clamp(1.35rem, 1.75vw, 1.75rem);
   line-height: 1.1;
   letter-spacing: -0.01em;
 }
 
-.side-panel-card h3 {
+.side-panel-card h3,
+.tool-page-card h2 {
   margin: 0 0 0.75rem;
   font-size: 1rem;
   line-height: 1.15;
@@ -133,7 +148,9 @@
 .portal-tile li,
 .side-panel-card p,
 .side-panel-card li,
-.side-panel-card label {
+.side-panel-card label,
+.tool-page-card p,
+.tool-page-card label {
   color: var(--muted);
   font-size: 0.92rem;
   line-height: 1.55;
@@ -150,6 +167,22 @@
   color: var(--blue) !important;
   font-size: 0.72rem;
   font-weight: 800;
+}
+
+.status-delivery-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.45fr) 1fr;
+  gap: 1.25rem;
+  margin-top: 1.35rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #b0b8c4;
+}
+
+.status-delivery-row strong {
+  display: block;
+  color: var(--text);
+  font-size: 1.2rem;
+  line-height: 1.2;
 }
 
 .project-summary-table-wrap {
@@ -201,7 +234,8 @@
 
 .clean-list div,
 .representative-row,
-.invoice-list div {
+.invoice-list div,
+.tool-link-list a {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
@@ -211,20 +245,23 @@
 
 .clean-list div:last-child,
 .representative-row:last-child,
-.invoice-list div:last-child {
+.invoice-list div:last-child,
+.tool-link-list a:last-child {
   border-bottom: 0;
   padding-bottom: 0;
 }
 
 .clean-list strong,
 .representative-row strong,
-.invoice-list strong {
+.invoice-list strong,
+.tool-link-list strong {
   color: var(--text);
 }
 
 .clean-list span,
 .representative-row span,
-.invoice-list span {
+.invoice-list span,
+.tool-link-list span {
   color: var(--blue);
   font-size: 0.75rem;
   font-weight: 800;
@@ -239,8 +276,15 @@
   padding-left: 1.2rem;
 }
 
-.portal-side-panel {
+.portal-side-panel,
+.tool-link-list,
+.representative-list,
+.invoice-list {
   display: grid;
+  gap: 1rem;
+}
+
+.portal-side-panel {
   gap: 1.2rem;
 }
 
@@ -249,17 +293,42 @@
   padding: 1.35rem;
 }
 
-.tool-block {
-  display: grid;
-  gap: 0.75rem;
-  padding-top: 1rem;
-  margin-top: 1rem;
-  border-top: 1px solid #b0b8c4;
+.tool-link-list {
+  margin-top: 1.25rem;
 }
 
-.tool-block:first-of-type {
-  border-top: 0;
-  padding-top: 0;
+.tool-link-list a {
+  align-items: center;
+  text-decoration: none;
+}
+
+.tool-link-list a:hover strong {
+  color: var(--blue);
+}
+
+.portal-contact-tile .btn {
+  margin-top: 1.2rem;
+}
+
+.tool-page-main {
+  min-height: calc(100vh - 78px);
+  padding: 72px 0 96px;
+  background:
+    radial-gradient(circle at top left, rgba(31, 111, 235, 0.10), transparent 34%),
+    linear-gradient(135deg, #eaf4ff 0%, #fff0df 48%, #eaf4ff 100%);
+}
+
+.tool-page-card {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  min-height: auto;
+}
+
+.tool-page-form,
+.tool-block {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
 }
 
 .tool-inline-form {
@@ -268,8 +337,8 @@
   gap: 0.5rem;
 }
 
-.tool-block input,
-.tool-block select {
+.tool-page-card input,
+.tool-page-card select {
   border: 1px solid #b0b8c4;
   border-radius: 0.8rem;
   background: #ffffff;
@@ -282,18 +351,22 @@
   font-weight: 700;
 }
 
-.representative-list,
-.invoice-list {
-  display: grid;
-  gap: 1rem;
-  margin-top: 1.25rem;
-}
-
-.portal-contact-tile .btn {
-  margin-top: 1.2rem;
-}
-
 @media (max-width: 1080px) {
+  .portal-heading-bar,
+  .portal-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .portal-heading-bar {
+    flex-direction: column;
+  }
+
+  .portal-heading-bar h1,
+  .portal-google-search {
+    flex-basis: auto;
+    width: min(760px, 100%);
+  }
+
   .portal-workspace {
     grid-template-columns: 1fr;
   }
@@ -304,7 +377,8 @@
 }
 
 @media (max-width: 760px) {
-  .client-portal-dashboard {
+  .client-portal-dashboard,
+  .tool-page-main {
     padding: 48px 0 72px;
   }
 
@@ -315,10 +389,15 @@
   }
 
   .portal-tile,
-  .side-panel-card {
+  .side-panel-card,
+  .tool-page-card {
     min-height: auto;
     padding: 1.5rem;
     border-radius: 1rem;
+  }
+
+  .portal-heading-bar h1 {
+    font-size: clamp(1.9rem, 9vw, 2.65rem);
   }
 
   .project-summary-table-wrap {
@@ -328,7 +407,10 @@
   .tile-heading-row,
   .clean-list div,
   .representative-row,
-  .invoice-list div {
+  .invoice-list div,
+  .tool-link-list a,
+  .status-delivery-row {
+    grid-template-columns: 1fr;
     flex-direction: column;
   }
 
