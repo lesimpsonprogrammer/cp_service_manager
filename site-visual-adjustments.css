@@ -132,19 +132,32 @@ button.btn:hover,
 
 /* Client Portfolio spacing cleanup */
 .client-portal-main .portal-heading-bar {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(330px, 370px) !important;
+  align-items: center !important;
   max-width: 1240px !important;
-  gap: clamp(3rem, 6vw, 5.25rem) !important;
+  gap: clamp(3rem, 5vw, 4.5rem) !important;
   margin-bottom: clamp(3.25rem, 5vw, 4.5rem) !important;
 }
 
 .client-portal-main .portal-heading-bar h1 {
-  flex: 0 1 410px !important;
+  justify-self: center !important;
+  max-width: 410px !important;
+  flex: initial !important;
   font-size: clamp(1.35rem, 2vw, 2rem) !important;
   line-height: 1.08 !important;
 }
 
 .client-portal-main .portal-google-search {
-  flex: 0 1 580px !important;
+  justify-self: stretch !important;
+  width: 100% !important;
+  flex: initial !important;
+  justify-content: flex-start !important;
+}
+
+.client-portal-main .portal-google-search input[type="search"] {
+  min-width: 0 !important;
+  flex: 1 1 0 !important;
 }
 
 .client-portal-main .portal-workspace {
@@ -202,13 +215,20 @@ button.btn:hover,
 
 @media (max-width: 1080px) {
   .client-portal-main .portal-heading-bar {
+    grid-template-columns: 1fr !important;
     gap: 2rem !important;
     margin-bottom: 3rem !important;
   }
 
   .client-portal-main .portal-heading-bar h1 {
-    flex-basis: auto !important;
+    justify-self: center !important;
+    max-width: 760px !important;
     font-size: clamp(1.7rem, 5vw, 2.4rem) !important;
+  }
+
+  .client-portal-main .portal-google-search {
+    justify-self: center !important;
+    width: min(760px, 100%) !important;
   }
 
   .client-portal-main .portal-workspace {
