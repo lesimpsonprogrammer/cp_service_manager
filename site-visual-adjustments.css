@@ -283,3 +283,36 @@ button.btn:hover,
     flex-direction: initial !important;
   }
 }
+
+/* Remove heavy/bold typography from Client Portfolio cards */
+.client-portal-main .portal-tile,
+.client-portal-main .portal-tile *,
+.client-portal-main .side-panel-card,
+.client-portal-main .side-panel-card *,
+.portal-panel-drawer .side-panel-card,
+.portal-panel-drawer .side-panel-card * {
+  font-weight: 400 !important;
+}
+
+.client-portal-main .portal-tile h2,
+.client-portal-main .portal-tile h3,
+.client-portal-main .portal-tile strong,
+.client-portal-main .side-panel-card h2,
+.client-portal-main .side-panel-card h3,
+.client-portal-main .side-panel-card strong,
+.portal-panel-drawer .side-panel-card h2,
+.portal-panel-drawer .side-panel-card h3,
+.portal-panel-drawer .side-panel-card strong {
+  font-weight: 500 !important;
+}
+
+.client-portal-main .status-pill,
+.client-portal-main .clean-list span,
+.client-portal-main .representative-row span,
+.client-portal-main .invoice-list span,
+.client-portal-main .tool-link-list span,
+.portal-panel-drawer .representative-row span,
+.portal-panel-drawer .invoice-list span,
+.portal-panel-drawer .tool-link-list span {
+  font-weight: 500 !important;
+}
