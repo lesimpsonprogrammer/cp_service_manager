@@ -1,3 +1,12 @@
+const visualAdjustmentsHref = 'site-visual-adjustments.css';
+
+if (!document.querySelector(`link[href="${visualAdjustmentsHref}"]`)) {
+  const visualAdjustmentsLink = document.createElement('link');
+  visualAdjustmentsLink.rel = 'stylesheet';
+  visualAdjustmentsLink.href = visualAdjustmentsHref;
+  document.head.appendChild(visualAdjustmentsLink);
+}
+
 const momentumLogoSrc = 'assets/momentum-data-logo-transparent.svg';
 
 function applyMomentumDataLogo() {
