@@ -1,0 +1,193 @@
+/* Client portal final two-column layout overrides */
+.client-portal-main {
+  min-height: calc(100vh - 78px);
+  background: #ffffff;
+}
+
+.client-project-hero {
+  position: relative;
+  min-height: calc(100vh - 78px);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 86px 0 120px;
+  background-image:
+    linear-gradient(180deg, rgba(11, 31, 58, 0.32) 0%, rgba(11, 31, 58, 0.58) 56%, rgba(255, 255, 255, 0.02) 100%),
+    url("assets/client-portal-bg.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.client-project-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 230px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 92%);
+  pointer-events: none;
+}
+
+.client-project-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(300px, 0.82fr) minmax(560px, 1.18fr);
+  gap: 42px;
+  align-items: center;
+}
+
+.client-project-intro {
+  max-width: 520px;
+}
+
+.client-project-intro .eyebrow,
+.client-project-intro h1,
+.client-project-intro p {
+  color: #ffffff;
+  text-shadow: 0 8px 22px rgba(0, 0, 0, 0.48);
+}
+
+.client-project-intro .eyebrow {
+  margin-bottom: 22px;
+}
+
+.client-project-intro h1 {
+  margin-bottom: 22px;
+  font-size: clamp(3.4rem, 6.6vw, 6.1rem);
+  line-height: 0.96;
+}
+
+.client-project-intro p {
+  font-size: 1.06rem;
+  max-width: 460px;
+}
+
+.client-project-intro .portal-benefits span {
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--text);
+  border-color: rgba(255, 255, 255, 0.72);
+  text-shadow: none;
+}
+
+.single-project-card {
+  width: 100%;
+  background: #ffffff !important;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 24px 70px rgba(11, 31, 58, 0.18);
+}
+
+.single-project-card .dashboard-header {
+  margin-bottom: 22px;
+}
+
+.single-project-card .dashboard-header h2 {
+  font-size: clamp(2.1rem, 3.4vw, 3.1rem);
+}
+
+.single-project-card .dashboard-header .btn {
+  flex: 0 0 auto;
+  min-width: 92px;
+}
+
+.portal-status-banner {
+  background: #ffffff !important;
+  color: var(--text) !important;
+  border: 1px solid var(--line) !important;
+  box-shadow: 0 12px 28px rgba(11, 31, 58, 0.06) !important;
+}
+
+.portal-status-banner h3 {
+  color: var(--text) !important;
+}
+
+.portal-status-banner p {
+  color: var(--muted) !important;
+}
+
+.portal-status-banner .status-pill {
+  background: var(--light-blue) !important;
+  color: var(--blue) !important;
+}
+
+.portal-status-banner .status-date {
+  background: var(--soft-gray) !important;
+  border: 1px solid var(--line) !important;
+}
+
+.portal-status-banner .status-date span {
+  color: var(--muted) !important;
+}
+
+.portal-status-banner .status-date strong {
+  color: var(--text) !important;
+}
+
+.project-summary-table-wrap {
+  margin-top: 22px;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 12px 28px rgba(11, 31, 58, 0.06);
+}
+
+.project-summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.project-summary-table th,
+.project-summary-table td {
+  padding: 16px 18px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+.project-summary-table th {
+  background: var(--soft-gray);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.project-summary-table td {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.project-summary-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+@media (max-width: 980px) {
+  .client-project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .client-project-intro {
+    max-width: 720px;
+  }
+}
+
+@media (max-width: 760px) {
+  .client-project-hero {
+    min-height: auto;
+    padding: 56px 0 96px;
+  }
+
+  .portal-status-banner {
+    grid-template-columns: 1fr;
+  }
+
+  .single-project-card .dashboard-header {
+    flex-direction: column;
+  }
+}

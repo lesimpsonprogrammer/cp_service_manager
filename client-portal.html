@@ -12,6 +12,7 @@
     rel="stylesheet" />
   <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
   <link href="styles.css" rel="stylesheet" />
+  <link href="client-portal-overrides.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -30,29 +31,31 @@
         <a href="index.html#services">Services</a>
         <a href="index.html#process">What We Do</a>
         <a href="index.html#about">About Us</a>
-        <a class="mobile-client-login" href="login.html">Client Login</a>
         <a class="mobile-contact" href="index.html#contact">Contact us</a>
+        <a class="mobile-client-login" href="login.html">Client Log-in</a>
       </div>
       <div class="nav-actions nav-contact">
-        <a class="nav-client-login" href="login.html">Client Login</a>
         <a class="nav-cta" href="index.html#contact">Contact us</a>
+        <a class="nav-client-login" href="login.html">Client Log-in</a>
       </div>
     </nav>
   </header>
 
   <main class="client-portal-main">
-    <section class="client-portal-hero">
-      <div class="container client-portal-grid">
-        <div class="client-portal-copy">
+    <section class="client-project-hero" aria-labelledby="clientWelcome">
+      <div class="container client-project-grid">
+        <aside class="client-project-intro" aria-label="Client project overview">
           <p class="eyebrow">Client Portal</p>
-          <h2>Your project, at-glance</h2>
-          <p>Track your project status, review upcoming milestones, review invoices, message your Project Manager, and
+          <h1>Your project command center.</h1>
+          <p>Track your project status, review upcoming milestones, review invoices, message your account manager, and
             keep deliverables in
             one place.</p>
           <div class="portal-benefits" aria-label="Client portal features">
-
+            <span>Status updates</span>
+            <span>Account manager messaging</span>
+            <span>Deliverable tracking</span>
           </div>
-        </div>
+        </aside>
 
         <div class="client-login-card" id="clientLoginCard" hidden>
           <h2>Client Log In</h2>
@@ -75,12 +78,11 @@
           </form>
         </div>
 
-        <!-- Dashboard header and status remain; dashboard card container removed. -->
-        <div>
+        <div class="client-dashboard-card" id="clientDashboard">
           <div class="dashboard-header">
             <div>
               <p class="eyebrow">Project Dashboard</p>
-              <h2 id="clientWelcome">Welcome to your project dashboard.</h2>
+              <h2 id="clientWelcome">Hi, Client, welcome to your project.</h2>
               <p class="portal-note"><span id="portalClientCompany">Momentum Data client</span> · <span
                   id="portalProjectName">Active project</span></p>
             </div>
@@ -100,84 +102,72 @@
             </div>
           </div>
 
-          <!-- Separated project-management cards (Progress, Open items, Last update) -->
-          <div class="pm-row pm-row-1">
-            <article class="pm-card">
-              <h4>Progress</h4>
-              <div class="pm-card-body">
-                <strong>68%</strong>
-                <div class="progress-track"><span style="width: 68%"></span></div>
-              </div>
+          <div class="portal-metrics" aria-label="Project Health metrics">
+            <article>
+              <span>Progress</span>
+              <strong>68%</strong>
+              <div class="progress-track"><span style="width: 68%"></span></div>
             </article>
-            <article class="pm-card">
-              <h4>Open Items</h4>
-              <div class="pm-card-body">
-                <strong>3</strong>
-                <p>Waiting on sample file approval</p>
-              </div>
+            <article>
+              <span>Open items</span>
+              <strong>3</strong>
+              <p>Waiting on sample file approval</p>
             </article>
-            <article class="pm-card">
-              <h4>Last Update</h4>
-              <div class="pm-card-body">
-                <strong>Today</strong>
-                <p>Validation rules confirmed</p>
-              </div>
+            <article>
+              <span>Last update</span>
+              <strong>Today</strong>
+              <p>Validation rules confirmed</p>
             </article>
           </div>
 
-          <!-- Second row with Milestones and Deliverables -->
-          <div class="pm-row pm-row-2">
-            <section class="pm-card pm-wide">
-              <h4>Milestones</h4>
-              <div class="pm-card-body">
-                <ol class="milestone-list">
-                  <li class="complete"><strong>Kickoff and Access</strong>
-                    <p>Project goals, source systems, and account access confirmed.</p>
-                  </li>
-                  <li class="complete"><strong>Data intake</strong>
-                    <p>Initial files received and reviewed for completeness.</p>
-                  </li>
-                  <li class="active"><strong>Mapping and validation</strong>
-                    <p>Fields are being mapped, cleaned, and checked against agreed rules.</p>
-                  </li>
-                  <li><strong>Delivery and walkthrough</strong>
-                    <p>Final files, summary notes, and handoff meeting.</p>
-                  </li>
-                </ol>
-              </div>
-            </section>
-
-            <section class="pm-card pm-wide">
-              <h4>Deliverables</h4>
-              <div class="pm-card-body deliverable-list">
-                <div><strong>Project brief</strong><span>Approved</span></div>
-                <div><strong>Data mapping workbook</strong><span>In progress</span></div>
-                <div><strong>Validation summary</strong><span>Due next</span></div>
-              </div>
-            </section>
-          </div>
-
-          <!-- Keep other panels: Project Manager (renamed), Next Actions -->
           <div class="portal-dashboard-grid">
-            <section class="portal-panel project-manager-card">
+            <section class="portal-panel">
               <div class="panel-heading">
-                <h3>Project Manager</h3>
+                <h3>Milestones</h3>
+                <span>4 phases</span>
+              </div>
+              <ol class="milestone-list">
+                <li class="complete">
+                  <span></span>
+                  <div>
+                    <strong>Kickoff and access</strong>
+                    <p>Project goals, source systems, and account access confirmed.</p>
+                  </div>
+                </li>
+                <li class="complete">
+                  <span></span>
+                  <div>
+                    <strong>Data intake</strong>
+                    <p>Initial files received and reviewed for completeness.</p>
+                  </div>
+                </li>
+                <li class="active">
+                  <span></span>
+                  <div>
+                    <strong>Mapping and validation</strong>
+                    <p>Fields are being mapped, cleaned, and checked against agreed rules.</p>
+                  </div>
+                </li>
+                <li>
+                  <span></span>
+                  <div>
+                    <strong>Delivery and walkthrough</strong>
+                    <p>Final files, summary notes, and handoff meeting.</p>
+                  </div>
+                </li>
+              </ol>
+            </section>
+
+            <section class="portal-panel account-manager-card">
+              <div class="panel-heading">
+                <h3>Account Manager</h3>
                 <span>Primary contact</span>
               </div>
               <div class="manager-profile">
                 <div class="manager-avatar" aria-hidden="true">MD</div>
                 <div>
-                  <strong id="projectManagerName">LSimpson</strong>
-                  <p id="projectManagerReply">Replies within one business day</p>
-                </div>
-              </div>
-              <div class="manager-controls">
-                <button class="btn tertiary" id="editProjectManager">Change Project Manager</button>
-                <div id="projectManagerEditor" hidden>
-                  <label>Project Manager name
-                    <input id="projectManagerInput" type="text" />
-                  </label>
-                  <button class="btn primary" id="saveProjectManager">Save</button>
+                  <strong>Momentum Data Team</strong>
+                  <p>Replies within one business day</p>
                 </div>
               </div>
               <form class="portal-message-form" id="portalMessageForm">
@@ -188,9 +178,30 @@
                     rows="4"></textarea>
                 </label>
                 <button class="btn primary full" type="submit">Send message</button>
-                <p class="message-confirmation" id="messageConfirmation" hidden>Message saved for your Project Manager.
+                <p class="message-confirmation" id="messageConfirmation" hidden>Message saved for your account manager.
                 </p>
               </form>
+            </section>
+
+            <section class="portal-panel">
+              <div class="panel-heading">
+                <h3>Deliverables</h3>
+                <span>Latest files</span>
+              </div>
+              <div class="deliverable-list">
+                <div>
+                  <strong>Project brief</strong>
+                  <span>Approved</span>
+                </div>
+                <div>
+                  <strong>Data mapping workbook</strong>
+                  <span>In progress</span>
+                </div>
+                <div>
+                  <strong>Validation summary</strong>
+                  <span>Due next</span>
+                </div>
+              </div>
             </section>
 
             <section class="portal-panel">

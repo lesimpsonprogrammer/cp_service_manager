@@ -6,6 +6,33 @@ if (year) {
   year.textContent = new Date().getFullYear();
 }
 
+// Keep the Client Log-in button on the homepage and positioned after Contact us.
+const desktopNavActions = document.querySelector('.nav-actions');
+const desktopContactLink = desktopNavActions?.querySelector('.nav-cta[href="#contact"], .nav-cta[href="index.html#contact"]');
+const desktopClientLoginLink = desktopNavActions?.querySelector('.nav-client-login[href="login.html"]');
+
+if (desktopContactLink && desktopClientLoginLink) {
+  desktopClientLoginLink.textContent = 'Client Log-in';
+  desktopContactLink.insertAdjacentElement('afterend', desktopClientLoginLink);
+}
+
+const mobileContactLink = navLinks?.querySelector('.mobile-contact');
+const mobileClientLoginLink = navLinks?.querySelector('.mobile-client-login');
+
+if (mobileContactLink && mobileClientLoginLink) {
+  mobileClientLoginLink.textContent = 'Client Log-in';
+  mobileContactLink.insertAdjacentElement('afterend', mobileClientLoginLink);
+}
+
+const heroActions = document.querySelector('.hero-actions');
+if (heroActions && !heroActions.querySelector('.client-login-hero')) {
+  const heroClientLogin = document.createElement('a');
+  heroClientLogin.className = 'btn secondary client-login-hero';
+  heroClientLogin.href = 'login.html';
+  heroClientLogin.textContent = 'Client Log-in';
+  heroActions.appendChild(heroClientLogin);
+}
+
 if (navToggle && navLinks) {
   navToggle.addEventListener('click', () => {
     const isOpen = navLinks.classList.toggle('open');
@@ -36,15 +63,12 @@ if (carouselLines.length > 0) {
   }, 3500);
 }
 
-
-
 const cookieNotice = document.querySelector('#cookieNotice');
 const cookieAccept = document.querySelector('#cookieAccept');
 const cookieNoticeKey = 'momentumDataCookieNoticeAccepted';
 
 if (cookieNotice && cookieAccept) {
   const cookieAccepted = localStorage.getItem(cookieNoticeKey) === 'true';
-
 
   if (!cookieAccepted) {
     cookieNotice.hidden = false;
@@ -56,8 +80,6 @@ if (cookieNotice && cookieAccept) {
   });
 }
 
-
-
 const clientLoginForm = document.querySelector('#clientLoginForm');
 const clientLoginCard = document.querySelector('#clientLoginCard');
 const clientDashboard = document.querySelector('#clientDashboard');
@@ -66,10 +88,60 @@ const portalClientCompany = document.querySelector('#portalClientCompany');
 const portalProjectName = document.querySelector('#portalProjectName');
 const portalProjectDetails = document.querySelector('#portalProjectDetails');
 const portalDueDate = document.querySelector('#portalDueDate');
+const portalTableCompany = document.querySelector('#portalTableCompany');
+const portalTableProject = document.querySelector('#portalTableProject');
+const portalTableDetails = document.querySelector('#portalTableDetails');
+const portalTableDueDate = document.querySelector('#portalTableDueDate');
 const portalLogout = document.querySelector('#portalLogout');
 const portalMessageForm = document.querySelector('#portalMessageForm');
 const messageConfirmation = document.querySelector('#messageConfirmation');
 const loginPageForm = document.querySelector('#loginPageForm');
+const clientSessionKey = 'momentumDataClientPortalPreview';
+
+const defaultPortalData = {
+  clientName: 'Client',
+  companyName: 'Momentum Data client',
+  projectName: 'Active project',
+  projectDetails: 'Data mapping is underway. The next client review is scheduled after validation notes are prepared.',
+  dueDate: 'To be confirmed',
+};
+
+function populateClientPortal(data = {}) {
+  const portalData = { ...defaultPortalData, ...data };
+
+  if (clientWelcome) {
+    clientWelcome.textContent = `Hi, ${portalData.clientName}, welcome to your project.`;
+  }
+  if (portalClientCompany) {
+    portalClientCompany.textContent = portalData.companyName;
+  }
+  if (portalProjectName) {
+    portalProjectName.textContent = portalData.projectName;
+  }
+  if (portalProjectDetails) {
+    portalProjectDetails.textContent = portalData.projectDetails;
+  }
+  if (portalDueDate) {
+    portalDueDate.textContent = portalData.dueDate;
+  }
+  if (portalTableCompany) {
+    portalTableCompany.textContent = portalData.companyName;
+  }
+  if (portalTableProject) {
+    portalTableProject.textContent = portalData.projectName;
+  }
+  if (portalTableDetails) {
+    portalTableDetails.textContent = portalData.projectDetails;
+  }
+  if (portalTableDueDate) {
+    portalTableDueDate.textContent = portalData.dueDate;
+  }
+}
+
+if (clientWelcome || portalTableCompany) {
+  const savedPortalData = JSON.parse(sessionStorage.getItem(clientSessionKey) || '{}');
+  populateClientPortal(savedPortalData);
+}
 
 if (clientLoginForm && clientLoginCard && clientDashboard) {
   clientLoginForm.addEventListener('submit', (event) => {
@@ -79,28 +151,22 @@ if (clientLoginForm && clientLoginCard && clientDashboard) {
     const clientName = String(formData.get('clientName') || 'Client').trim() || 'Client';
     const companyName = String(formData.get('companyName') || 'Client company').trim() || 'Client company';
     const projectName = String(formData.get('projectName') || 'Data extraction project').trim() || 'Data extraction project';
+    const projectDetails = `${projectName} is currently in mapping and validation. Your Momentum Data team is preparing the next review package and tracking open items here.`;
+    const dueDate = 'To be confirmed';
 
-    clientWelcome.textContent = `Hi, ${clientName}.`;
-    portalClientCompany.textContent = companyName;
-    portalProjectName.textContent = projectName;
-    portalProjectDetails.textContent = `${projectName} is currently in mapping and validation. Your Momentum Data team is preparing the next review package and tracking open items here.`;
-    portalDueDate.textContent = 'To be confirmed';
+    const portalData = { clientName, companyName, projectName, projectDetails, dueDate };
+    sessionStorage.setItem(clientSessionKey, JSON.stringify(portalData));
+    populateClientPortal(portalData);
 
     clientLoginCard.hidden = true;
     clientDashboard.hidden = false;
   });
 }
 
-if (portalLogout && clientLoginCard && clientDashboard) {
+if (portalLogout) {
   portalLogout.addEventListener('click', () => {
+    sessionStorage.removeItem(clientSessionKey);
     window.location.href = 'login.html';
-    if (clientLoginForm) {
-      clientLoginForm.reset();
-    }
-    if (portalMessageForm && messageConfirmation) {
-      portalMessageForm.reset();
-      messageConfirmation.hidden = true;
-    }
   });
 }
 
@@ -115,6 +181,18 @@ if (portalMessageForm && messageConfirmation) {
 if (loginPageForm) {
   loginPageForm.addEventListener('submit', (event) => {
     event.preventDefault();
+    const formData = new FormData(loginPageForm);
+    const userName = String(formData.get('userName') || 'Client').trim() || 'Client';
+    const clientId = String(formData.get('clientId') || 'Momentum Data client').trim() || 'Momentum Data client';
+
+    sessionStorage.setItem(clientSessionKey, JSON.stringify({
+      clientName: userName,
+      companyName: clientId,
+      projectName: 'Active project',
+      projectDetails: defaultPortalData.projectDetails,
+      dueDate: defaultPortalData.dueDate,
+    }));
+
     window.location.href = 'client-portal.html';
   });
 }
