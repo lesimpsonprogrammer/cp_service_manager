@@ -334,34 +334,30 @@ button.btn:hover,
   backdrop-filter: blur(2px) !important;
 }
 
-/* About Us visual placement */
-#about .highlight-box {
-  position: relative !important;
+/* About Us image card */
+#about .about-visual-card {
+  display: block !important;
   min-height: 430px !important;
+  margin: 0 !important;
   overflow: hidden !important;
   border: 1px solid rgba(216, 230, 247, 0.95) !important;
   border-radius: 28px !important;
-  background:
-    linear-gradient(180deg, rgba(2, 12, 31, 0.05), rgba(2, 12, 31, 0.62)),
-    url("assets/about-us-team-data-flow.svg") center / cover no-repeat !important;
+  background: #06142f !important;
   box-shadow: 0 24px 70px rgba(11, 31, 58, 0.18) !important;
-  color: #ffffff !important;
 }
 
-#about .highlight-box h3,
-#about .highlight-box li {
-  position: relative !important;
-  z-index: 1 !important;
-  color: #ffffff !important;
-  text-shadow: 0 8px 22px rgba(0, 0, 0, 0.48) !important;
-}
-
-#about .highlight-box h3 {
-  margin-top: 220px !important;
+#about .about-visual-card img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 430px !important;
+  object-fit: cover !important;
+  object-position: center !important;
 }
 
 @media (max-width: 900px) {
-  #about .highlight-box {
+  #about .about-visual-card,
+  #about .about-visual-card img {
     min-height: 330px !important;
   }
 }
