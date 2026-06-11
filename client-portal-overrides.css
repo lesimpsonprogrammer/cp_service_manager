@@ -7,8 +7,8 @@
 .client-portal-dashboard {
   padding: 72px 0 96px;
   background:
-    radial-gradient(circle at top left, rgba(31, 111, 235, 0.08), transparent 34%),
-    #ffffff;
+    radial-gradient(circle at top left, rgba(31, 111, 235, 0.10), transparent 34%),
+    linear-gradient(135deg, #eaf4ff 0%, #fff0df 48%, #eaf4ff 100%);
 }
 
 .portal-page-heading {
@@ -43,9 +43,9 @@
 .portal-tile {
   min-height: 250px;
   padding: 2rem;
-  border: 3px solid var(--blue);
-  border-radius: 3rem;
-  background: #ffffff;
+  border: 2px solid #8e99a8;
+  border-radius: 1.15rem;
+  background: rgba(255, 255, 255, 0.94);
   box-shadow: 0 24px 70px rgba(11, 31, 58, 0.08);
 }
 
@@ -102,9 +102,9 @@
 .project-summary-table-wrap {
   margin-top: 1.4rem;
   overflow-x: auto;
-  border: 3px solid var(--blue);
-  border-radius: 3rem;
-  background: #ffffff;
+  border: 2px solid #8e99a8;
+  border-radius: 1.15rem;
+  background: rgba(255, 255, 255, 0.96);
 }
 
 .project-summary-table {
@@ -118,11 +118,11 @@
   padding: 1.25rem 1.5rem;
   text-align: left;
   vertical-align: top;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid #b0b8c4;
 }
 
 .project-summary-table th {
-  background: var(--soft-gray);
+  background: #f3f5f8;
   color: var(--text);
   font-size: 0.8rem;
   font-weight: 800;
@@ -150,7 +150,7 @@
   justify-content: space-between;
   gap: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid #b0b8c4;
 }
 
 .clean-list div:last-child {
@@ -205,11 +205,11 @@
   .portal-tile {
     min-height: auto;
     padding: 1.5rem;
-    border-radius: 2rem;
+    border-radius: 1rem;
   }
 
   .project-summary-table-wrap {
-    border-radius: 2rem;
+    border-radius: 1rem;
   }
 
   .tile-heading-row,
