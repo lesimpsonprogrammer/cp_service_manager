@@ -96,6 +96,52 @@ const portalLogout = document.querySelector('#portalLogout');
 const portalMessageForm = document.querySelector('#portalMessageForm');
 const messageConfirmation = document.querySelector('#messageConfirmation');
 const loginPageForm = document.querySelector('#loginPageForm');
+const clientSessionKey = 'momentumDataClientPortalPreview';
+
+const defaultPortalData = {
+  clientName: 'Client',
+  companyName: 'Momentum Data client',
+  projectName: 'Active project',
+  projectDetails: 'Data mapping is underway. The next client review is scheduled after validation notes are prepared.',
+  dueDate: 'To be confirmed',
+};
+
+function populateClientPortal(data = {}) {
+  const portalData = { ...defaultPortalData, ...data };
+
+  if (clientWelcome) {
+    clientWelcome.textContent = `Hi, ${portalData.clientName}, welcome to your project.`;
+  }
+  if (portalClientCompany) {
+    portalClientCompany.textContent = portalData.companyName;
+  }
+  if (portalProjectName) {
+    portalProjectName.textContent = portalData.projectName;
+  }
+  if (portalProjectDetails) {
+    portalProjectDetails.textContent = portalData.projectDetails;
+  }
+  if (portalDueDate) {
+    portalDueDate.textContent = portalData.dueDate;
+  }
+  if (portalTableCompany) {
+    portalTableCompany.textContent = portalData.companyName;
+  }
+  if (portalTableProject) {
+    portalTableProject.textContent = portalData.projectName;
+  }
+  if (portalTableDetails) {
+    portalTableDetails.textContent = portalData.projectDetails;
+  }
+  if (portalTableDueDate) {
+    portalTableDueDate.textContent = portalData.dueDate;
+  }
+}
+
+if (clientWelcome || portalTableCompany) {
+  const savedPortalData = JSON.parse(sessionStorage.getItem(clientSessionKey) || '{}');
+  populateClientPortal(savedPortalData);
+}
 
 if (clientLoginForm && clientLoginCard && clientDashboard) {
   clientLoginForm.addEventListener('submit', (event) => {
@@ -108,49 +154,19 @@ if (clientLoginForm && clientLoginCard && clientDashboard) {
     const projectDetails = `${projectName} is currently in mapping and validation. Your Momentum Data team is preparing the next review package and tracking open items here.`;
     const dueDate = 'To be confirmed';
 
-    if (clientWelcome) {
-      clientWelcome.textContent = `Hi, ${clientName}, welcome to your project.`;
-    }
-    if (portalClientCompany) {
-      portalClientCompany.textContent = companyName;
-    }
-    if (portalProjectName) {
-      portalProjectName.textContent = projectName;
-    }
-    if (portalProjectDetails) {
-      portalProjectDetails.textContent = projectDetails;
-    }
-    if (portalDueDate) {
-      portalDueDate.textContent = dueDate;
-    }
-    if (portalTableCompany) {
-      portalTableCompany.textContent = companyName;
-    }
-    if (portalTableProject) {
-      portalTableProject.textContent = projectName;
-    }
-    if (portalTableDetails) {
-      portalTableDetails.textContent = projectDetails;
-    }
-    if (portalTableDueDate) {
-      portalTableDueDate.textContent = dueDate;
-    }
+    const portalData = { clientName, companyName, projectName, projectDetails, dueDate };
+    sessionStorage.setItem(clientSessionKey, JSON.stringify(portalData));
+    populateClientPortal(portalData);
 
     clientLoginCard.hidden = true;
     clientDashboard.hidden = false;
   });
 }
 
-if (portalLogout && clientLoginCard && clientDashboard) {
+if (portalLogout) {
   portalLogout.addEventListener('click', () => {
+    sessionStorage.removeItem(clientSessionKey);
     window.location.href = 'login.html';
-    if (clientLoginForm) {
-      clientLoginForm.reset();
-    }
-    if (portalMessageForm && messageConfirmation) {
-      portalMessageForm.reset();
-      messageConfirmation.hidden = true;
-    }
   });
 }
 
@@ -165,6 +181,18 @@ if (portalMessageForm && messageConfirmation) {
 if (loginPageForm) {
   loginPageForm.addEventListener('submit', (event) => {
     event.preventDefault();
+    const formData = new FormData(loginPageForm);
+    const userName = String(formData.get('userName') || 'Client').trim() || 'Client';
+    const clientId = String(formData.get('clientId') || 'Momentum Data client').trim() || 'Momentum Data client';
+
+    sessionStorage.setItem(clientSessionKey, JSON.stringify({
+      clientName: userName,
+      companyName: clientId,
+      projectName: 'Active project',
+      projectDetails: defaultPortalData.projectDetails,
+      dueDate: defaultPortalData.dueDate,
+    }));
+
     window.location.href = 'client-portal.html';
   });
 }
