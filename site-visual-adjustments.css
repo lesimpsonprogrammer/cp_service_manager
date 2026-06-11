@@ -165,6 +165,41 @@ button.btn:hover,
   padding: 1.75rem !important;
 }
 
+.client-portal-main .status-summary {
+  margin: 0.65rem 0 0 !important;
+  color: var(--text) !important;
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+}
+
+.client-portal-main .status-delivery-row h3 {
+  margin: 0 0 0.55rem !important;
+  color: var(--blue) !important;
+  font-size: 0.72rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.10em !important;
+  text-transform: uppercase !important;
+}
+
+.client-portal-main .deliverables-card .clean-list div {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) max-content !important;
+  align-items: center !important;
+  column-gap: 1.5rem !important;
+}
+
+.client-portal-main .deliverables-card .clean-list span {
+  justify-self: end !important;
+  min-width: 112px !important;
+  text-align: right !important;
+  white-space: nowrap !important;
+}
+
+.client-portal-main .side-panel-card h2,
+.portal-panel-drawer .side-panel-card h2 {
+  margin-bottom: 1.25rem !important;
+}
+
 @media (max-width: 1080px) {
   .client-portal-main .portal-heading-bar {
     gap: 2rem !important;
@@ -221,5 +256,10 @@ button.btn:hover,
 
   .client-portal-main .portal-heading-bar h1 {
     font-size: clamp(1.55rem, 7vw, 2rem) !important;
+  }
+
+  .client-portal-main .deliverables-card .clean-list div {
+    grid-template-columns: minmax(0, 1fr) max-content !important;
+    flex-direction: initial !important;
   }
 }
