@@ -14,6 +14,33 @@
   cursor: pointer;
 }
 
+.header-panel-toggle {
+  order: -2;
+  width: 52px;
+  min-width: 52px;
+  height: 52px;
+  min-height: 52px;
+  padding: 0;
+  margin-right: 0.85rem;
+  border-radius: 0.95rem;
+}
+
+.header-panel-toggle .portal-panel-toggle-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.client-portfolio-header .brand-image-only {
+  order: -1;
+}
+
 .portal-panel-toggle-icon {
   display: inline-grid;
   gap: 4px;
@@ -92,14 +119,12 @@
   padding: 1.25rem;
 }
 
-@media (max-width: 1080px) {
-  .portal-panel-toggle {
-    width: min(760px, 100%);
-  }
-}
-
 @media (max-width: 760px) {
-  .portal-panel-toggle {
-    width: 100%;
+  .header-panel-toggle {
+    width: 48px;
+    min-width: 48px;
+    height: 48px;
+    min-height: 48px;
+    margin-right: 0.6rem;
   }
 }
