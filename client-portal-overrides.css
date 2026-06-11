@@ -1,4 +1,100 @@
-/* Client portal simplification overrides */
+/* Client portal final layout overrides */
+.client-portal-main {
+  min-height: calc(100vh - 78px);
+  background: #ffffff;
+}
+
+.client-project-hero {
+  position: relative;
+  min-height: 470px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background-image:
+    linear-gradient(180deg, rgba(11, 31, 58, 0.30) 0%, rgba(11, 31, 58, 0.60) 62%, rgba(255, 255, 255, 0.02) 100%),
+    url("assets/client-portal-bg.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.client-project-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 190px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #ffffff 92%);
+  pointer-events: none;
+}
+
+.client-project-hero-content {
+  position: relative;
+  z-index: 1;
+  width: min(980px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 90px 0 130px;
+}
+
+.client-project-hero-content .eyebrow,
+.client-project-hero-content h1,
+.client-project-hero-content .portal-note {
+  color: #ffffff;
+  text-shadow: 0 8px 22px rgba(0, 0, 0, 0.48);
+}
+
+.client-project-hero-content .eyebrow {
+  margin-bottom: 22px;
+}
+
+.client-project-hero-content h1 {
+  max-width: 850px;
+  margin-bottom: 16px;
+  font-size: clamp(3.4rem, 7vw, 6.4rem);
+}
+
+.client-project-hero-content .portal-note {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.portal-hero-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.portal-hero-actions .btn.secondary {
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--text);
+  border-color: rgba(255, 255, 255, 0.92);
+}
+
+.client-project-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 0 90px;
+  margin-top: -82px;
+}
+
+.single-project-card {
+  width: min(1080px, 100%);
+  margin: 0 auto;
+  background: #ffffff !important;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 24px 70px rgba(11, 31, 58, 0.13);
+}
+
+.single-project-card .dashboard-header {
+  margin-bottom: 22px;
+}
+
+.single-project-card .dashboard-header h2 {
+  font-size: clamp(2.2rem, 4vw, 3.45rem);
+}
+
 .portal-status-banner {
   background: #ffffff !important;
   color: var(--text) !important;
@@ -73,6 +169,21 @@
   border-bottom: 0;
 }
 
-.client-dashboard-card {
-  background: #ffffff;
+@media (max-width: 760px) {
+  .client-project-hero {
+    min-height: 430px;
+  }
+
+  .client-project-hero-content {
+    padding: 64px 0 120px;
+  }
+
+  .client-project-content {
+    margin-top: -64px;
+    padding-bottom: 64px;
+  }
+
+  .portal-status-banner {
+    grid-template-columns: 1fr;
+  }
 }
