@@ -41,6 +41,43 @@
   order: -1;
 }
 
+/* Stable Client Portfolio header layout */
+.client-portfolio-header .nav {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: clamp(0.85rem, 2vw, 1.6rem) !important;
+}
+
+.client-portfolio-header .header-panel-toggle {
+  order: 0 !important;
+  flex: 0 0 52px !important;
+  margin-right: 0.35rem !important;
+}
+
+.client-portfolio-header .brand-image-only {
+  order: 1 !important;
+  flex: 0 0 auto !important;
+  margin-right: auto !important;
+}
+
+.client-portfolio-header .nav-links {
+  order: 2 !important;
+  flex: 0 1 auto !important;
+  justify-content: flex-end !important;
+  gap: clamp(1.1rem, 2.2vw, 1.9rem) !important;
+}
+
+.client-portfolio-header .nav-actions {
+  order: 3 !important;
+  flex: 0 0 auto !important;
+  margin-left: 0.25rem !important;
+}
+
+.client-portfolio-header .nav-toggle {
+  order: 4 !important;
+}
+
 .portal-panel-toggle-icon {
   display: inline-grid;
   gap: 4px;
@@ -117,6 +154,22 @@
 
 .portal-panel-drawer .side-panel-card {
   padding: 1.25rem;
+}
+
+@media (max-width: 980px) {
+  .client-portfolio-header .nav-links,
+  .client-portfolio-header .nav-actions {
+    display: none !important;
+  }
+
+  .client-portfolio-header .nav-toggle {
+    display: inline-flex !important;
+    margin-left: auto !important;
+  }
+
+  .client-portfolio-header .brand-image-only {
+    margin-right: 0 !important;
+  }
 }
 
 @media (max-width: 760px) {
