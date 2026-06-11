@@ -1,0 +1,105 @@
+/* Client Portfolio hamburger side-panel menu */
+.portal-panel-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 50px;
+  padding: 0 1.1rem;
+  border: 2px solid #1f6feb;
+  border-radius: 1rem;
+  background: #1f6feb;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.portal-panel-toggle-icon {
+  display: inline-grid;
+  gap: 4px;
+}
+
+.portal-panel-toggle-icon span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.portal-panel-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(11, 31, 58, 0.34);
+  backdrop-filter: blur(3px);
+}
+
+.portal-panel-backdrop[hidden],
+.portal-panel-drawer[hidden] {
+  display: none;
+}
+
+.portal-panel-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 90;
+  width: min(440px, calc(100vw - 28px));
+  height: 100vh;
+  overflow-y: auto;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, #eaf4ff 0%, #fff4e8 100%);
+  border-left: 2px solid #8e99a8;
+  box-shadow: -24px 0 70px rgba(11, 31, 58, 0.22);
+}
+
+.portal-panel-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.portal-panel-drawer-header h2 {
+  margin: 0;
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  line-height: 1;
+}
+
+.portal-panel-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 2px solid #1f6feb;
+  border-radius: 0.85rem;
+  background: #1f6feb;
+  color: #ffffff;
+  font-size: 1.35rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.portal-panel-sections {
+  display: grid;
+  gap: 1rem;
+}
+
+.portal-panel-drawer .side-panel-card {
+  padding: 1.25rem;
+}
+
+@media (max-width: 1080px) {
+  .portal-panel-toggle {
+    width: min(760px, 100%);
+  }
+}
+
+@media (max-width: 760px) {
+  .portal-panel-toggle {
+    width: 100%;
+  }
+}
