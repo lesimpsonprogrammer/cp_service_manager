@@ -1,13 +1,29 @@
 /* Clean About Us visual card */
+#about .about-visual-card,
 #about .highlight-box {
+  display: block !important;
   position: relative !important;
   min-height: 430px !important;
+  margin: 0 !important;
   padding: 0 !important;
   overflow: hidden !important;
   border: 1px solid rgba(216, 230, 247, 0.95) !important;
   border-radius: 28px !important;
-  background: #06142f url("assets/about-us-team-data-flow.svg") center / cover no-repeat !important;
+  background: #06142f !important;
   box-shadow: 0 24px 70px rgba(11, 31, 58, 0.18) !important;
+}
+
+#about .about-visual-card img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 430px !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+#about .highlight-box {
+  background: #06142f url("assets/about-us-team-data-flow.svg") center / cover no-repeat !important;
 }
 
 #about .highlight-box h3,
@@ -16,7 +32,12 @@
 }
 
 @media (max-width: 900px) {
+  #about .about-visual-card,
   #about .highlight-box {
+    min-height: 330px !important;
+  }
+
+  #about .about-visual-card img {
     min-height: 330px !important;
   }
 }
