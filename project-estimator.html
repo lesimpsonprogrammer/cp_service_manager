@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Project Estimator | Client Portfolio</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet" />
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="styles.css" rel="stylesheet" />
+  <link href="client-portal-overrides.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header class="site-header" id="top">
+    <nav aria-label="Tool navigation" class="nav container">
+      <a aria-label="Back to Client Portfolio" class="brand brand-image-only" href="client-portal.html">
+        <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data logo" class="brand-logo brand-logo-transparent" />
+      </a>
+      <div class="nav-links">
+        <a href="client-portal.html">Client Portfolio</a>
+        <a href="calculator.html">Calculator</a>
+      </div>
+      <div class="nav-actions nav-contact">
+        <a class="nav-cta" href="client-portal.html">Back to Portfolio</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="tool-page-main">
+    <div class="container">
+      <section class="tool-page-card" aria-labelledby="estimatorTitle">
+        <p class="tile-kicker">Client Portfolio Tool</p>
+        <h1 id="estimatorTitle">Project estimator</h1>
+        <p>Estimate a project total using estimated hours and an hourly rate.</p>
+        <div class="tool-page-form">
+          <label>
+            Estimated hours
+            <input id="estimateHours" type="number" inputmode="decimal" placeholder="Hours" />
+          </label>
+          <label>
+            Hourly rate
+            <input id="estimateRate" type="number" inputmode="decimal" placeholder="Rate" />
+          </label>
+          <button class="btn primary full" id="estimateProject" type="button">Estimate project</button>
+          <p class="tool-result" id="estimateResult">Estimated total will appear here.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+  <script src="client-portfolio-tools.js"></script>
+</body>
+
+</html>
