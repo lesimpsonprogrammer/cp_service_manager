@@ -1,0 +1,22 @@
+/* Clean About Us visual card */
+#about .highlight-box {
+  position: relative !important;
+  min-height: 430px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(216, 230, 247, 0.95) !important;
+  border-radius: 28px !important;
+  background: #06142f url("assets/about-us-team-data-flow.svg") center / cover no-repeat !important;
+  box-shadow: 0 24px 70px rgba(11, 31, 58, 0.18) !important;
+}
+
+#about .highlight-box h3,
+#about .highlight-box ul {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  #about .highlight-box {
+    min-height: 330px !important;
+  }
+}
