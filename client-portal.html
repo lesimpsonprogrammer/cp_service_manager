@@ -41,181 +41,88 @@
     </nav>
   </header>
 
-  <main class="client-portal-main">
-    <section class="client-project-hero" aria-labelledby="clientWelcome">
-      <div class="container client-project-grid">
-        <aside class="client-project-intro" aria-label="Client project overview">
+  <main class="client-portal-main clean-card-portal">
+    <section class="client-portal-dashboard" aria-labelledby="clientWelcome">
+      <div class="container">
+        <div class="portal-page-heading">
           <p class="eyebrow">Client Portal</p>
-          <h1>Your project command center.</h1>
-          <p>Track your project status, review upcoming milestones, review invoices, message your account manager, and
-            keep deliverables in
-            one place.</p>
-          <div class="portal-benefits" aria-label="Client portal features">
-            <span>Status updates</span>
-            <span>Account manager messaging</span>
-            <span>Deliverable tracking</span>
-          </div>
-        </aside>
-
-        <div class="client-login-card" id="clientLoginCard" hidden>
-          <h2>Client Log In</h2>
-          <p class="portal-note">This preview shows the client hub experience. Secure authentication and live project
-            data can be connected next.</p>
-          <form class="client-login-form" id="clientLoginForm">
-            <label>
-              Client Name:
-              <input name="clientName" placeholder="Client name" required type="text" />
-            </label>
-            <label>
-              Client Company
-              <input name="companyName" placeholder="Company name" required type="text" />
-            </label>
-            <label>
-              Project Name:
-              <input name="projectName" placeholder="Project name" required type="text" />
-            </label>
-            <button class="btn primary full" type="submit">Log in</button>
-          </form>
+          <h1 id="clientWelcome">Hi, Client, welcome to your project.</h1>
+          <p><span id="portalClientCompany">Momentum Data client</span> · <span id="portalProjectName">Active project</span></p>
         </div>
 
-        <div class="client-dashboard-card" id="clientDashboard">
-          <div class="dashboard-header">
-            <div>
-              <p class="eyebrow">Project Dashboard</p>
-              <h2 id="clientWelcome">Hi, Client, welcome to your project.</h2>
-              <p class="portal-note"><span id="portalClientCompany">Momentum Data client</span> · <span
-                  id="portalProjectName">Active project</span></p>
-            </div>
-            <button class="btn secondary" id="portalLogout" type="button">Log out</button>
-          </div>
-
-          <div class="portal-status-banner">
-            <div>
+        <div class="portal-card-grid" aria-label="Client project dashboard tiles">
+          <section class="portal-tile portal-tile-large">
+            <div class="tile-heading-row">
+              <div>
+                <p class="tile-kicker">Current status update</p>
+                <h2>Project is on track.</h2>
+              </div>
               <span class="status-pill">On track</span>
-              <h3>Current Status Update:</h3>
-              <p id="portalProjectDetails">Data mapping is underway. The next client review is scheduled after
-                validation notes are prepared.</p>
             </div>
-            <div class="status-date">
-              <span>Next Delivery</span>
-              <strong id="portalDueDate">To be confirmed</strong>
+            <p id="portalProjectDetails">Data mapping is underway. The next client review is scheduled after validation notes are prepared.</p>
+          </section>
+
+          <section class="portal-tile portal-tile-small">
+            <p class="tile-kicker">Next delivery</p>
+            <h2 id="portalDueDate">To be confirmed</h2>
+            <p>Your deliverable due date will appear here once the project schedule is finalized.</p>
+          </section>
+
+          <section class="portal-tile portal-tile-wide">
+            <div class="tile-heading-row">
+              <div>
+                <p class="tile-kicker">Project summary</p>
+                <h2>Project details</h2>
+              </div>
             </div>
-          </div>
+            <div class="project-summary-table-wrap">
+              <table class="project-summary-table">
+                <thead>
+                  <tr>
+                    <th>Client company</th>
+                    <th>Project Name</th>
+                    <th>Project details</th>
+                    <th>Deliverable due date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td id="portalTableCompany">Momentum Data client</td>
+                    <td id="portalTableProject">Active project</td>
+                    <td id="portalTableDetails">Data mapping is underway. The next client review is scheduled after validation notes are prepared.</td>
+                    <td id="portalTableDueDate">To be confirmed</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
 
-          <div class="portal-metrics" aria-label="Project Health metrics">
-            <article>
-              <span>Progress</span>
-              <strong>68%</strong>
-              <div class="progress-track"><span style="width: 68%"></span></div>
-            </article>
-            <article>
-              <span>Open items</span>
-              <strong>3</strong>
-              <p>Waiting on sample file approval</p>
-            </article>
-            <article>
-              <span>Last update</span>
-              <strong>Today</strong>
-              <p>Validation rules confirmed</p>
-            </article>
-          </div>
+          <section class="portal-tile">
+            <p class="tile-kicker">Deliverables</p>
+            <h2>Latest files</h2>
+            <div class="clean-list">
+              <div><strong>Project brief</strong><span>Approved</span></div>
+              <div><strong>Data mapping workbook</strong><span>In progress</span></div>
+              <div><strong>Validation summary</strong><span>Due next</span></div>
+            </div>
+          </section>
 
-          <div class="portal-dashboard-grid">
-            <section class="portal-panel">
-              <div class="panel-heading">
-                <h3>Milestones</h3>
-                <span>4 phases</span>
-              </div>
-              <ol class="milestone-list">
-                <li class="complete">
-                  <span></span>
-                  <div>
-                    <strong>Kickoff and access</strong>
-                    <p>Project goals, source systems, and account access confirmed.</p>
-                  </div>
-                </li>
-                <li class="complete">
-                  <span></span>
-                  <div>
-                    <strong>Data intake</strong>
-                    <p>Initial files received and reviewed for completeness.</p>
-                  </div>
-                </li>
-                <li class="active">
-                  <span></span>
-                  <div>
-                    <strong>Mapping and validation</strong>
-                    <p>Fields are being mapped, cleaned, and checked against agreed rules.</p>
-                  </div>
-                </li>
-                <li>
-                  <span></span>
-                  <div>
-                    <strong>Delivery and walkthrough</strong>
-                    <p>Final files, summary notes, and handoff meeting.</p>
-                  </div>
-                </li>
-              </ol>
-            </section>
+          <section class="portal-tile">
+            <p class="tile-kicker">Next actions</p>
+            <h2>Client queue</h2>
+            <ul class="clean-action-list">
+              <li>Review sample column labels</li>
+              <li>Confirm preferred delivery format</li>
+              <li>Send any additional source files</li>
+            </ul>
+          </section>
 
-            <section class="portal-panel account-manager-card">
-              <div class="panel-heading">
-                <h3>Account Manager</h3>
-                <span>Primary contact</span>
-              </div>
-              <div class="manager-profile">
-                <div class="manager-avatar" aria-hidden="true">MD</div>
-                <div>
-                  <strong>Momentum Data Team</strong>
-                  <p>Replies within one business day</p>
-                </div>
-              </div>
-              <form class="portal-message-form" id="portalMessageForm">
-                <label>
-                  Message
-                  <textarea name="portalMessage"
-                    placeholder="Ask for an update, share a file note, or request a meeting..." required
-                    rows="4"></textarea>
-                </label>
-                <button class="btn primary full" type="submit">Send message</button>
-                <p class="message-confirmation" id="messageConfirmation" hidden>Message saved for your account manager.
-                </p>
-              </form>
-            </section>
-
-            <section class="portal-panel">
-              <div class="panel-heading">
-                <h3>Deliverables</h3>
-                <span>Latest files</span>
-              </div>
-              <div class="deliverable-list">
-                <div>
-                  <strong>Project brief</strong>
-                  <span>Approved</span>
-                </div>
-                <div>
-                  <strong>Data mapping workbook</strong>
-                  <span>In progress</span>
-                </div>
-                <div>
-                  <strong>Validation summary</strong>
-                  <span>Due next</span>
-                </div>
-              </div>
-            </section>
-
-            <section class="portal-panel">
-              <div class="panel-heading">
-                <h3>Next Actions</h3>
-                <span>Client queue</span>
-              </div>
-              <ul class="action-list">
-                <li>Review sample column labels</li>
-                <li>Confirm preferred delivery format</li>
-                <li>Send any additional source files</li>
-              </ul>
-            </section>
-          </div>
+          <section class="portal-tile portal-contact-tile">
+            <p class="tile-kicker">Project contact</p>
+            <h2>Momentum Data Team</h2>
+            <p>Replies within one business day.</p>
+            <button class="btn secondary" id="portalLogout" type="button">Log out</button>
+          </section>
         </div>
       </div>
     </section>
