@@ -5,6 +5,24 @@
   box-shadow: 0 10px 28px rgba(11, 31, 58, 0.08);
 }
 
+.site-header .nav {
+  min-height: 96px !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+.brand {
+  margin-left: 0 !important;
+}
+
+.brand-logo,
+.brand-logo-transparent {
+  height: 72px !important;
+  max-height: 72px !important;
+  max-width: 230px !important;
+  object-fit: contain !important;
+}
+
 .brand-text-logo,
 .brand-logo-label {
   color: #0b1f3a !important;
@@ -94,6 +112,17 @@
 }
 
 @media (max-width: 760px) {
+  .site-header .nav {
+    min-height: 86px !important;
+  }
+
+  .brand-logo,
+  .brand-logo-transparent {
+    height: 62px !important;
+    max-height: 62px !important;
+    max-width: 200px !important;
+  }
+
   .brand-text-logo,
   .brand-logo-label {
     color: #ffffff !important;
