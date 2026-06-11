@@ -1,0 +1,115 @@
+/* Shared visual refinements for main website and Client Portfolio */
+.site-header {
+  background: linear-gradient(90deg, #e4e9ef 0%, #eaf4ff 24%, #1f6feb 64%, #c45a12 100%) !important;
+  border-bottom: 1px solid rgba(142, 153, 168, 0.42) !important;
+  box-shadow: 0 10px 28px rgba(11, 31, 58, 0.08);
+}
+
+.brand-text-logo,
+.brand-logo-label {
+  color: #0b1f3a !important;
+  text-shadow: none !important;
+}
+
+.brand-logo-wrap {
+  min-width: max-content;
+}
+
+.nav-links a {
+  color: #ffffff !important;
+  text-shadow: 0 1px 6px rgba(11, 31, 58, 0.18);
+}
+
+.nav-links a:hover {
+  color: #eaf4ff !important;
+}
+
+.nav-client-login {
+  border-color: rgba(255, 255, 255, 0.62) !important;
+  background: rgba(255, 255, 255, 0.16) !important;
+  color: #ffffff !important;
+}
+
+.nav-cta {
+  background: #0b1f3a !important;
+  color: #ffffff !important;
+}
+
+/* Client Portfolio typography refinements */
+.portal-page-heading {
+  max-width: 780px;
+  margin-bottom: 2.25rem !important;
+}
+
+.portal-page-heading h1 {
+  max-width: 760px !important;
+  font-size: clamp(2.15rem, 3.6vw, 3.4rem) !important;
+  line-height: 1.04 !important;
+  letter-spacing: -0.02em !important;
+  margin-bottom: 0.9rem !important;
+}
+
+.portal-page-heading p {
+  font-size: 0.98rem !important;
+  font-weight: 600 !important;
+}
+
+.portal-card-grid {
+  gap: 1.65rem !important;
+}
+
+.portal-tile {
+  min-height: 210px !important;
+  padding: 1.55rem !important;
+}
+
+.portal-tile h2 {
+  font-size: clamp(1.35rem, 1.75vw, 1.75rem) !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.01em !important;
+  margin-bottom: 0.7rem !important;
+}
+
+.tile-kicker {
+  font-size: 0.72rem !important;
+  letter-spacing: 0.10em !important;
+  margin-bottom: 0.55rem !important;
+}
+
+.portal-tile p,
+.portal-tile li,
+.project-summary-table td {
+  font-size: 0.92rem !important;
+  line-height: 1.55 !important;
+}
+
+.status-pill {
+  min-height: 30px !important;
+  padding: 0 12px !important;
+  font-size: 0.72rem !important;
+}
+
+.project-summary-table th {
+  font-size: 0.74rem !important;
+}
+
+@media (max-width: 760px) {
+  .brand-text-logo,
+  .brand-logo-label {
+    color: #ffffff !important;
+  }
+
+  .nav-links a {
+    color: var(--text) !important;
+    text-shadow: none;
+  }
+
+  .mobile-contact,
+  .mobile-client-login {
+    color: var(--blue-dark) !important;
+  }
+
+  .portal-page-heading h1 {
+    font-size: clamp(2rem, 10vw, 2.8rem) !important;
+  }
+}
