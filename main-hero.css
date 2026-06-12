@@ -1,18 +1,44 @@
 /* Main website hero layout */
 .hero {
+  position: relative !important;
+  overflow: hidden !important;
   background: #202a50 !important;
   border-bottom-color: rgba(255, 255, 255, 0.12) !important;
 }
 
 .hero .hero-grid {
-  grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1fr) !important;
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.08fr) !important;
   align-items: center !important;
   justify-items: start !important;
   text-align: left !important;
-  gap: clamp(2.5rem, 5vw, 4.5rem) !important;
+  gap: clamp(2.5rem, 5vw, 4.75rem) !important;
+}
+
+.hero .hero-grid::after {
+  content: "";
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: stretch;
+  min-height: clamp(330px, 38vw, 560px);
+  width: 100%;
+  border-radius: 34px;
+  background-image: url("assets/city%20of%20lights.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: 0 38px 95px rgba(0, 0, 0, 0.48), 0 0 70px rgba(31, 111, 235, 0.34), 0 0 95px rgba(196, 90, 18, 0.22);
+  filter: saturate(1.18) contrast(1.08);
+  transform: perspective(1400px) rotateY(-5deg) translateY(-8px) scale(1.025);
+  animation: heroImageFloat 6s ease-in-out infinite;
+  mask-image: radial-gradient(ellipse at center, #000 58%, rgba(0, 0, 0, 0.78) 72%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 58%, rgba(0, 0, 0, 0.78) 72%, transparent 100%);
 }
 
 .hero .hero-copy {
+  position: relative !important;
+  z-index: 3 !important;
   max-width: 660px !important;
   margin: 0 !important;
   justify-self: start !important;
@@ -33,6 +59,10 @@
   margin-right: 0 !important;
 }
 
+.hero .carousel-line {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
 .hero .hero-actions,
 .hero .trust-row {
   justify-content: flex-start !important;
@@ -44,8 +74,28 @@
   background: rgba(255, 255, 255, 0.08) !important;
 }
 
+@keyframes heroImageFloat {
+  0%, 100% {
+    transform: perspective(1400px) rotateY(-5deg) translateY(-8px) scale(1.025);
+  }
+  50% {
+    transform: perspective(1400px) rotateY(-3deg) translateY(-14px) scale(1.045);
+  }
+}
+
 @media (max-width: 980px) {
   .hero .hero-grid {
     grid-template-columns: 1fr !important;
+  }
+
+  .hero .hero-grid::after {
+    grid-column: 1;
+    grid-row: 2;
+    min-height: 320px;
+    transform: none;
+  }
+
+  .hero .hero-copy {
+    max-width: 100% !important;
   }
 }
