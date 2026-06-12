@@ -125,7 +125,11 @@ a {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: linear-gradient(135deg, var(--dark-orange) 0%, #d46b1d 42%, var(--blue) 100%);
+  background:
+    linear-gradient(135deg, var(--dark-orange) 0%, #d46b1d 42%, var(--blue) 100%),
+    url("assets/city-of-lights.png");
+  background-size: cover;
+  background-position: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.18);
 }
 
@@ -266,7 +270,7 @@ a {
   background: #ffffff;
 }
 
-background-image: url("assets/city-of-lights.png");
+
 
 .hero-text-carousel {
   position: relative;
