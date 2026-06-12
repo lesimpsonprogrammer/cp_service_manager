@@ -1,4 +1,21 @@
 /* Shared visual refinements for main website and Client Portfolio */
+
+/* Main website first section background */
+.hero {
+  background: #202a50 !important;
+  border-bottom-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.hero h1 {
+  color: #ffffff !important;
+}
+
+.hero .trust-row span {
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.28) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
 .site-header {
   background: linear-gradient(90deg, #e4e9ef 0%, #eaf4ff 24%, #1f6feb 64%, #c45a12 100%) !important;
   border-bottom: 1px solid rgba(142, 153, 168, 0.42) !important;
