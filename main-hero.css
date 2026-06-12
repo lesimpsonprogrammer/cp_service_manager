@@ -1,0 +1,51 @@
+/* Main website hero layout */
+.hero {
+  background: #202a50 !important;
+  border-bottom-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.hero .hero-grid {
+  grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1fr) !important;
+  align-items: center !important;
+  justify-items: start !important;
+  text-align: left !important;
+  gap: clamp(2.5rem, 5vw, 4.5rem) !important;
+}
+
+.hero .hero-copy {
+  max-width: 660px !important;
+  margin: 0 !important;
+  justify-self: start !important;
+  text-align: left !important;
+}
+
+.hero h1 {
+  color: #ffffff !important;
+  text-align: left !important;
+}
+
+.hero .hero-text,
+.hero .hero-text-carousel,
+.hero .carousel-line {
+  text-align: left !important;
+  justify-content: flex-start !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.hero .hero-actions,
+.hero .trust-row {
+  justify-content: flex-start !important;
+}
+
+.hero .trust-row span {
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.28) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+@media (max-width: 980px) {
+  .hero .hero-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
