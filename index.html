@@ -56,3 +56,61 @@
 </body>
 
 </html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Client Log-in | Momentum Data Solutions</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap"
+    rel="stylesheet" />
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="styles.css" rel="stylesheet" />
+</head>
+
+<body class="login-page">
+  <main class="login-split-screen">
+    <section class="login-visual-panel" aria-label="Client portal preview">
+      <div class="login-visual-overlay">
+        <h1>Welcome to Client Portfolio</h1>
+        <p>Stay connected to every project update. Access status updates, deliverables, and Project Manager messages
+          from one secure hub.</p>
+      </div>
+    </section>
+
+    <section class="login-form-panel" aria-labelledby="login-title">
+      <div class="login-form-stack">
+        <div class="login-card">
+          <h2 id="login-title">Log into Client Portfolio</h2>
+
+          <form id="loginPageForm" class="login-form">
+            <label for="clientId">
+              Client ID:
+              <input id="clientId" name="clientId" type="text" placeholder="Client ID" required />
+            </label>
+
+            <label for="userName">
+              User Name:
+              <input id="userName" name="userName" type="text" placeholder="User Name" required />
+            </label>
+
+            <label for="password">
+              Password:
+              <input id="password" name="password" type="password" placeholder="Password" required />
+            </label>
+
+            <button class="btn primary full" type="submit">Log In</button>
+          </form>
+        </div>
+        <p class="portfolio-update-note">Client Portfolio will undergo scheduled update on July 24.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
