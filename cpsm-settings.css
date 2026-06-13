@@ -1,0 +1,271 @@
+/* CPSM settings configuration */
+.settings-main {
+  min-height: calc(100vh - 78px);
+  background: #ffffff;
+}
+
+.settings-hero {
+  padding: 72px 0 42px;
+  background:
+    radial-gradient(circle at top left, rgba(31, 111, 235, 0.12), transparent 34%),
+    linear-gradient(135deg, #eaf4ff 0%, #fff0df 48%, #eaf4ff 100%);
+}
+
+.settings-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.settings-hero h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2.3rem, 5vw, 4.7rem);
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+}
+
+.settings-intro {
+  max-width: 760px;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  line-height: 1.6;
+}
+
+.settings-status-card,
+.settings-sidebar,
+.settings-panel {
+  border: 2px solid #8e99a8;
+  border-radius: 1.15rem;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 24px 70px rgba(11, 31, 58, 0.08);
+}
+
+.settings-status-card {
+  display: grid;
+  align-content: center;
+  gap: 0.85rem;
+  padding: 1.55rem;
+}
+
+.settings-status-card h2 {
+  margin: 0;
+  font-size: clamp(1.45rem, 2vw, 1.85rem);
+}
+
+.settings-status-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.settings-workspace {
+  padding: 42px 0 96px;
+  background: #ffffff;
+}
+
+.settings-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  gap: 1.75rem;
+  align-items: start;
+}
+
+.settings-sidebar {
+  position: sticky;
+  top: 100px;
+  display: grid;
+  gap: 0.4rem;
+  padding: 1rem;
+}
+
+.settings-sidebar a {
+  display: block;
+  padding: 0.82rem 0.95rem;
+  border-radius: 0.85rem;
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.settings-sidebar a:hover,
+.settings-sidebar a:focus {
+  background: var(--light-blue);
+  color: var(--blue);
+}
+
+.settings-form {
+  display: grid;
+  gap: 1.35rem;
+}
+
+.settings-panel {
+  padding: clamp(1.25rem, 3vw, 2rem);
+  scroll-margin-top: 105px;
+}
+
+.settings-panel-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.35rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #b0b8c4;
+}
+
+.settings-panel-heading h2 {
+  margin: 0;
+  font-size: clamp(1.45rem, 2.4vw, 2.15rem);
+  line-height: 1.05;
+}
+
+.settings-section-number {
+  color: rgba(31, 111, 235, 0.18);
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 900;
+  line-height: 0.85;
+}
+
+.settings-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.settings-field-grid label,
+.settings-toggle-grid label {
+  display: grid;
+  gap: 0.45rem;
+  color: var(--text);
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.settings-field-grid input,
+.settings-field-grid select {
+  min-height: 50px;
+  width: 100%;
+  border: 1px solid #b0b8c4;
+  border-radius: 0.85rem;
+  background: #ffffff;
+  color: var(--text);
+  font: inherit;
+  font-weight: 500;
+}
+
+.settings-toggle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.settings-toggle-grid label {
+  grid-template-columns: 22px 1fr;
+  align-items: center;
+  min-height: 54px;
+  padding: 0.85rem 1rem;
+  border: 1px solid #b0b8c4;
+  border-radius: 0.9rem;
+  background: #ffffff;
+}
+
+.settings-toggle-grid input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--blue);
+}
+
+.role-map {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-top: 1.3rem;
+}
+
+.role-map div {
+  min-height: 92px;
+  padding: 1rem;
+  border: 1px solid #b0b8c4;
+  border-radius: 0.95rem;
+  background: #ffffff;
+}
+
+.role-map strong,
+.role-map span {
+  display: block;
+}
+
+.role-map strong {
+  margin-bottom: 0.35rem;
+  color: var(--text);
+}
+
+.role-map span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.settings-actions-bar {
+  position: sticky;
+  bottom: 1rem;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.85rem;
+  padding: 1rem;
+  border: 2px solid #8e99a8;
+  border-radius: 1.15rem;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 20px 50px rgba(11, 31, 58, 0.12);
+  backdrop-filter: blur(8px);
+}
+
+.settings-save-message {
+  margin: 0;
+  padding: 1rem 1.2rem;
+  border: 1px solid rgba(31, 111, 235, 0.35);
+  border-radius: 1rem;
+  background: var(--light-blue);
+  color: var(--blue);
+  font-weight: 800;
+}
+
+@media (max-width: 1080px) {
+  .settings-hero-grid,
+  .settings-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-sidebar {
+    position: static;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .settings-hero {
+    padding: 48px 0 32px;
+  }
+
+  .settings-workspace {
+    padding: 32px 0 72px;
+  }
+
+  .settings-sidebar,
+  .settings-field-grid,
+  .settings-toggle-grid,
+  .role-map {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-panel-heading,
+  .settings-actions-bar {
+    flex-direction: column;
+  }
+
+  .settings-actions-bar .btn {
+    width: 100%;
+  }
+}
