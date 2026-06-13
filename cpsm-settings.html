@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="Settings configuration for the Client Portfolio Service Manager." name="description" />
+  <title>CPSM Settings | Client Portfolio Service Manager</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet" />
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="styles.css" rel="stylesheet" />
+  <link href="client-portal-overrides.css" rel="stylesheet" />
+  <link href="client-portfolio-menu.css" rel="stylesheet" />
+  <link href="cpsm-settings.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header class="site-header client-portfolio-header" id="top">
+    <nav aria-label="CPSM settings navigation" class="nav container">
+      <button class="portal-panel-toggle header-panel-toggle" id="portalPanelToggle" type="button" aria-label="Open Client Portfolio menu" aria-controls="portalPanelMenu" aria-expanded="false">
+        <span class="portal-panel-toggle-icon" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+        <span class="portal-panel-toggle-label">Portal Menu</span>
+      </button>
+
+      <a aria-label="Momentum Data home" class="brand brand-image-only" href="client-portal.html">
+        <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data logo" class="brand-logo brand-logo-transparent" />
+      </a>
+
+      <button aria-expanded="false" aria-label="Open menu" class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="nav-links">
+        <a href="client-portal.html">Dashboard</a>
+        <a href="cpsm-settings.html" aria-current="page">Settings</a>
+        <a class="mobile-client-login" href="login.html">Log out</a>
+      </div>
+
+      <div class="nav-actions nav-contact">
+        <a class="nav-cta" href="client-portal.html">Dashboard</a>
+        <a class="nav-client-login" href="login.html">Log out</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="settings-main">
+    <section class="settings-hero" aria-labelledby="settingsTitle">
+      <div class="container settings-hero-grid">
+        <div>
+          <p class="tile-kicker">Client Portfolio Service Manager</p>
+          <h1 id="settingsTitle">Settings Configuration</h1>
+          <p class="settings-intro">Configure the operating defaults for CPSM, including organization profile, role access, project settings, notifications, and portal preferences.</p>
+        </div>
+        <aside class="settings-status-card" aria-label="Settings status summary">
+          <span class="status-pill">Preview mode</span>
+          <h2>Configuration baseline</h2>
+          <p>Settings are currently saved in browser storage for the CPSM preview. A future version can connect this configuration to authentication and a database.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="settings-workspace" aria-label="CPSM settings workspace">
+      <div class="container settings-layout">
+        <aside class="settings-sidebar" aria-label="Settings sections">
+          <a href="#organizationSettings">Organization</a>
+          <a href="#userRoleSettings">Roles & Access</a>
+          <a href="#projectDefaults">Project Defaults</a>
+          <a href="#notificationSettings">Notifications</a>
+          <a href="#portalPreferences">Portal Preferences</a>
+          <a href="#securitySettings">Security Preview</a>
+        </aside>
+
+        <form class="settings-form" id="cpsmSettingsForm">
+          <section class="settings-panel" id="organizationSettings">
+            <div class="settings-panel-heading">
+              <div>
+                <p class="tile-kicker">Organization</p>
+                <h2>Company & account settings</h2>
+              </div>
+              <span class="settings-section-number">01</span>
+            </div>
+
+            <div class="settings-field-grid">
+              <label for="organizationName">
+                Organization name
+                <input id="organizationName" name="organizationName" type="text" placeholder="Momentum Data client" />
+              </label>
+              <label for="clientId">
+                Client ID
+                <input id="clientId" name="clientId" type="text" placeholder="CPSM-CLIENT-001" />
+              </label>
+              <label for="accountOwner">
+                Account owner
+                <input id="accountOwner" name="accountOwner" type="text" placeholder="Larry Simpson" />
+              </label>
+              <label for="projectManagerNameSetting">
+                Project Manager display name
+                <input id="projectManagerNameSetting" name="projectManagerName" type="text" placeholder="LSimpson" />
+              </label>
+            </div>
+          </section>
+
+          <section class="settings-panel" id="userRoleSettings">
+            <div class="settings-panel-heading">
+              <div>
+                <p class="tile-kicker">Roles & Access</p>
+                <h2>User role configuration</h2>
+              </div>
+              <span class="settings-section-number">02</span>
+            </div>
+
+            <div class="settings-field-grid">
+              <label for="defaultRole">
+                Default role
+                <select id="defaultRole" name="defaultRole">
+                  <option>Client</option>
+                  <option>Superuser</option>
+                  <option>Admin</option>
+                  <option>Regional Director</option>
+                  <option>Manager</option>
+                  <option>Account Manager</option>
+                  <option>Project Manager</option>
+                  <option>Project Consultant</option>
+                  <option>Engineering Admin</option>
+                </select>
+              </label>
+
+              <label for="accessScope">
+                Access scope
+                <select id="accessScope" name="accessScope">
+                  <option>Assigned projects only</option>
+                  <option>Client portfolio</option>
+                  <option>Regional portfolio</option>
+                  <option>All active projects</option>
+                  <option>System-wide administration</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="role-map" aria-label="CPSM role map">
+              <div><strong>Superuser</strong><span>Full system configuration</span></div>
+              <div><strong>Admin</strong><span>Manage users, clients, and settings</span></div>
+              <div><strong>Regional Director</strong><span>Regional portfolio oversight</span></div>
+              <div><strong>Manager</strong><span>Team and project supervision</span></div>
+              <div><strong>Account Manager</strong><span>Client relationship visibility</span></div>
+              <div><strong>Project Manager</strong><span>Project delivery ownership</span></div>
+              <div><strong>Project Consultant</strong><span>Assigned delivery support</span></div>
+              <div><strong>Engineering Admin</strong><span>Technical setup and support</span></div>
+              <div><strong>Client</strong><span>Client-facing project access</span></div>
+            </div>
+          </section>
+
+          <section class="settings-panel" id="projectDefaults">
+            <div class="settings-panel-heading">
+              <div>
+                <p class="tile-kicker">Projects</p>
+                <h2>Project defaults</h2>
+              </div>
+              <span class="settings-section-number">03</span>
+            </div>
+
+            <div class="settings-field-grid">
+              <label for="defaultProjectName">
+                Default project name
+                <input id="defaultProjectName" name="defaultProjectName" type="text" placeholder="Active project" />
+              </label>
+              <label for="defaultStatus">
+                Default status
+                <select id="defaultStatus" name="defaultStatus">
+                  <option>On track</option>
+                  <option>Needs review</option>
+                  <option>At risk</option>
+                  <option>Paused</option>
+                  <option>Complete</option>
+                </select>
+              </label>
+              <label for="defaultDeliveryFormat">
+                Preferred delivery format
+                <select id="defaultDeliveryFormat" name="defaultDeliveryFormat">
+                  <option>Google Sheet</option>
+                  <option>Excel workbook</option>
+                  <option>CSV export</option>
+                  <option>Dashboard</option>
+                  <option>PDF summary</option>
+                </select>
+              </label>
+              <label for="defaultDueDateText">
+                Due date placeholder
+                <input id="defaultDueDateText" name="defaultDueDateText" type="text" placeholder="To be confirmed" />
+              </label>
+            </div>
+          </section>
+
+          <section class="settings-panel" id="notificationSettings">
+            <div class="settings-panel-heading">
+              <div>
+                <p class="tile-kicker">Notifications</p>
+                <h2>Communication preferences</h2>
+              </div>
+              <span class="settings-section-number">04</span>
+            </div>
+
+            <div class="settings-toggle-grid">
+              <label><input type="checkbox" name="notifyStatusUpdates" /> Status update notifications</label>
+              <label><input type="checkbox" name="notifyDeliverables" /> Deliverable notifications</label>
+              <label><input type="checkbox" name="notifyInvoices" /> Invoice notifications</label>
+              <label><input type="checkbox" name="weeklySummary" /> Weekly portfolio summary</label>
+            </div>
+          </section>
+
+          <section class="settings-panel" id="portalPreferences">
+            <div class="settings-panel-heading">
+              <div>
+                <p class="tile-kicker">Experience</p>
+                <h2>Portal preferences</h2>
+              </div>
+              <span class="settings-section-number">05</span>
+            </div>
+
+            <div class="settings-field-grid">
+              <label for="landingPage">
+                Default landing page
+                <select id="landingPage" name="landingPage">
+                  <option>Dashboard</option>
+                  <option>Project Portfolio</option>
+                  <option>Deliverables</option>
+                  <option>Messages</option>
+                  <option>Settings</option>
+                </select>
+              </label>
+              <label for="dashboardDensity">
+                Dashboard density
+                <select id="dashboardDensity" name="dashboardDensity">
+                  <option>Comfortable</option>
+                  <option>Compact</option>
+                  <option>Detailed</option>
+                </select>
+              </label>
+              <label for="themePreference">
+                Theme preference
+                <select id="themePreference" name="themePreference">
+                  <option>Momentum light</option>
+                  <option>High contrast</option>
+                  <option>System default</option>
+                </select>
+              </label>
+              <label for="timeZonePreference">
+                Time zone
+                <input id="timeZonePreference" name="timeZonePreference" type="text" placeholder="America/Chicago" />
+              </label>
+            </div>
+          </section>
+
+          <section class="settings-panel" id="securitySettings">
+            <div class="settings-panel-heading">
+              <div>
+                <p class="tile-kicker">Security Preview</p>
+                <h2>Access controls for future build</h2>
+              </div>
+              <span class="settings-section-number">06</span>
+            </div>
+
+            <div class="settings-field-grid">
+              <label for="sessionTimeout">
+                Session timeout
+                <select id="sessionTimeout" name="sessionTimeout">
+                  <option>15 minutes</option>
+                  <option>30 minutes</option>
+                  <option>60 minutes</option>
+                  <option>End of browser session</option>
+                </select>
+              </label>
+              <label for="passwordResetCadence">
+                Password reset cadence
+                <select id="passwordResetCadence" name="passwordResetCadence">
+                  <option>Every 90 days</option>
+                  <option>Every 180 days</option>
+                  <option>Annual</option>
+                  <option>Only when requested</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="settings-toggle-grid">
+              <label><input type="checkbox" name="requireMfa" /> Require MFA when available</label>
+              <label><input type="checkbox" name="auditLogEnabled" /> Enable audit log tracking</label>
+            </div>
+          </section>
+
+          <div class="settings-actions-bar">
+            <button class="btn secondary" id="resetSettings" type="button">Reset preview</button>
+            <button class="btn primary" type="submit">Save settings</button>
+          </div>
+
+          <p class="settings-save-message" id="settingsSaveMessage" role="status" aria-live="polite" hidden>Settings saved for this CPSM preview.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div class="portal-panel-backdrop" id="portalPanelBackdrop" hidden></div>
+  <aside class="portal-panel-drawer" id="portalPanelMenu" aria-label="Client Portfolio hamburger menu" aria-hidden="true" hidden>
+    <div class="portal-panel-drawer-header">
+      <div>
+        <h2>Portal Menu</h2>
+      </div>
+      <button class="portal-panel-close" id="portalPanelClose" type="button" aria-label="Close portal menu">×</button>
+    </div>
+
+    <div class="portal-panel-sections">
+      <section class="side-panel-card tools-card">
+        <h2>Workspace</h2>
+        <div class="tool-link-list">
+          <a href="client-portal.html">
+            <strong>Dashboard</strong>
+            <span>Open workspace</span>
+          </a>
+          <a href="cpsm-settings.html" aria-current="page">
+            <strong>Settings</strong>
+            <span>Configure CPSM</span>
+          </a>
+          <a href="calculator.html" target="_blank" rel="noopener">
+            <strong>Calculator</strong>
+            <span>Open tool</span>
+          </a>
+          <a href="project-estimator.html" target="_blank" rel="noopener">
+            <strong>Project estimator</strong>
+            <span>Open tool</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="side-panel-card portal-contact-tile">
+        <h2>Account access</h2>
+        <p>Replies within one business day.</p>
+        <button class="btn secondary full" id="portalMenuLogout" type="button">Log out</button>
+      </section>
+    </div>
+  </aside>
+
+  <script src="script.js"></script>
+  <script src="client-portfolio-menu.js"></script>
+  <script src="cpsm-settings.js"></script>
+</body>
+
+</html>
