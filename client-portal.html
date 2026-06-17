@@ -4,52 +4,46 @@
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <meta content="Client portal for Momentum Data Solutions projects." name="description" />
-  <title>Client Portal | Momentum Data Solutions</title>
+  <meta content="Client dashboard for Client Portfolio Service Manager." name="description" />
+  <title>CPSM Dashboard | Client Portfolio Service Manager</title>
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet" />
   <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
   <link href="styles.css" rel="stylesheet" />
   <link href="client-portal-overrides.css" rel="stylesheet" />
   <link href="client-portfolio-menu.css" rel="stylesheet" />
-  <link href="client-portfolio-greeting.css" rel="stylesheet" />
+  <link href="cpsm-navigation.css" rel="stylesheet" />
 </head>
 
-<body>
-  <header class="site-header client-portfolio-header" id="top">
-    <nav aria-label="Client portal navigation" class="nav container">
-      <button class="portal-panel-toggle header-panel-toggle" id="portalPanelToggle" type="button" aria-label="Open Client Portfolio menu" aria-controls="portalPanelMenu" aria-expanded="false">
-        <span class="portal-panel-toggle-icon" aria-hidden="true">
-          <span></span>
-          <span></span>
-          <span></span>
-        </span>
-        <span class="portal-panel-toggle-label">Portal Menu</span>
+<body class="cpsm-app cpsm-protected-page">
+  <header class="site-header client-portfolio-header cpsm-header" id="top">
+    <nav aria-label="CPSM navigation" class="nav container">
+      <button class="portal-panel-toggle header-panel-toggle" id="portalPanelToggle" type="button" aria-label="Open CPSM menu" aria-controls="portalPanelMenu" aria-expanded="false">
+        <span class="portal-panel-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="portal-panel-toggle-label">CPSM Menu</span>
       </button>
 
-      <a aria-label="Momentum Data home" class="brand brand-image-only" href="index.html#top">
-        <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data logo" class="brand-logo brand-logo-transparent" />
+      <a aria-label="CPSM dashboard" class="brand cpsm-brand" href="client-portal.html">
+        <span class="cpsm-brand-mark">CPSM</span>
+        <span class="cpsm-brand-text">Client Portfolio Service Manager</span>
       </a>
-      <button aria-expanded="false" aria-label="Open menu" class="nav-toggle">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-      <div class="nav-links">
-        <a href="index.html#top">Home</a>
-        <a href="index.html#services">Services</a>
-        <a href="index.html#process">What We Do</a>
-        <a href="index.html#about">About Us</a>
+
+      <button aria-expanded="false" aria-label="Open menu" class="nav-toggle"><span></span><span></span><span></span></button>
+
+      <div class="nav-links cpsm-nav-links">
+        <a href="client-portal.html" aria-current="page">Dashboard</a>
+        <a href="cpsm-portfolio.html">Portfolio</a>
+        <a href="cpsm-requests.html">Requests</a>
+        <a href="cpsm-documents.html">Documents</a>
+        <a href="cpsm-messages.html">Messages</a>
+        <a href="cpsm-agreements.html">Agreements</a>
         <a href="cpsm-settings.html">Settings</a>
-        <a class="mobile-contact" href="index.html#contact">Contact us</a>
-        <a class="mobile-client-login" href="login.html">Client Log-in</a>
+        <a class="mobile-client-login" href="login.html">Log out</a>
       </div>
+
       <div class="nav-actions nav-contact">
-        <a class="nav-cta" href="index.html#contact">Contact us</a>
-        <a class="nav-cta" href="cpsm-settings.html">Settings</a>
-        <a class="nav-client-login" href="login.html">Client Log-in</a>
+        <a class="nav-client-login" href="login.html">Log out</a>
       </div>
     </nav>
   </header>
@@ -58,11 +52,14 @@
     <section class="client-portal-dashboard" aria-labelledby="clientWelcome">
       <div class="container">
         <div class="portal-heading-bar">
-          <h1 id="clientWelcome">Hi, Client, welcome to your project.</h1>
+          <div>
+            <p class="tile-kicker">Client Portfolio Service Manager</p>
+            <h1 id="clientWelcome">Hi, Client, welcome to your CPSM dashboard.</h1>
+          </div>
 
           <form class="portal-google-search" action="https://www.google.com/search" method="get" target="_blank" rel="noopener" role="search">
             <label class="sr-only" for="portalGoogleSearch">Search with Google</label>
-            <input id="portalGoogleSearch" name="q" type="search" placeholder="Search Google from your Client Portfolio" />
+            <input id="portalGoogleSearch" name="q" type="search" placeholder="Search Google from CPSM" />
             <button class="btn primary" type="submit">Search</button>
             <span>Powered by Google</span>
           </form>
@@ -70,12 +67,12 @@
 
         <div class="portal-workspace">
           <div class="portal-main-content">
-            <div class="portal-card-grid" aria-label="Client project dashboard tiles">
+            <div class="portal-card-grid" aria-label="CPSM dashboard tiles">
               <section class="portal-tile portal-tile-large status-delivery-card">
                 <div class="tile-heading-row">
                   <div>
                     <h2>Current status update</h2>
-                    <p class="status-summary">Project is on track.</p>
+                    <p class="status-summary">Client portfolio is on track.</p>
                   </div>
                   <span class="status-pill">On track</span>
                 </div>
@@ -90,11 +87,11 @@
               </section>
 
               <section class="portal-tile deliverables-card">
-                <h2>Deliverables</h2>
+                <h2>Portfolio snapshot</h2>
                 <div class="clean-list">
-                  <div><strong>Project brief</strong><span>Approved</span></div>
-                  <div><strong>Data mapping workbook</strong><span>In progress</span></div>
-                  <div><strong>Validation summary</strong><span>Due next</span></div>
+                  <div><strong>Active services</strong><span>3</span></div>
+                  <div><strong>Open requests</strong><span>2</span></div>
+                  <div><strong>Documents pending review</strong><span>1</span></div>
                 </div>
               </section>
 
@@ -109,50 +106,22 @@
             </div>
           </div>
 
-          <aside class="portal-side-panel" aria-label="Client Portfolio side panel">
+          <aside class="portal-side-panel" aria-label="CPSM side panel">
             <section class="side-panel-card tools-card">
               <h2>Workspace</h2>
               <div class="tool-link-list">
-                <a href="cpsm-settings.html">
-                  <strong>Settings</strong>
-                  <span>Configure CPSM</span>
-                </a>
-                <a href="calculator.html" target="_blank" rel="noopener">
-                  <strong>Calculator</strong>
-                  <span>Open tool</span>
-                </a>
-                <a href="project-estimator.html" target="_blank" rel="noopener">
-                  <strong>Project estimator</strong>
-                  <span>Open tool</span>
-                </a>
+                <a href="cpsm-portfolio.html"><strong>Portfolio</strong><span>Review services and status</span></a>
+                <a href="cpsm-requests.html"><strong>Requests</strong><span>Track open support items</span></a>
+                <a href="cpsm-documents.html"><strong>Documents</strong><span>Access shared files</span></a>
+                <a href="cpsm-agreements.html"><strong>Agreements</strong><span>Review signed terms</span></a>
               </div>
             </section>
 
             <section class="side-panel-card authorized-card">
               <h2>Authorized representatives</h2>
               <div class="representative-list">
-                <div class="representative-row">
-                  <strong>Authorized Representative 1</strong>
-                  <span>Job Title</span>
-                </div>
-                <div class="representative-row">
-                  <strong>Authorized Representative 2</strong>
-                  <span>Job Title</span>
-                </div>
-              </div>
-            </section>
-
-            <section class="side-panel-card invoices-card">
-              <h2>Invoices</h2>
-              <div class="invoice-list">
-                <div>
-                  <strong>Invoice #001</strong>
-                  <span>Pending</span>
-                </div>
-                <div>
-                  <strong>Invoice #002</strong>
-                  <span>Not issued</span>
-                </div>
+                <div class="representative-row"><strong>Authorized Representative 1</strong><span>Job Title</span></div>
+                <div class="representative-row"><strong>Authorized Representative 2</strong><span>Job Title</span></div>
               </div>
             </section>
 
@@ -168,65 +137,24 @@
   </main>
 
   <div class="portal-panel-backdrop" id="portalPanelBackdrop" hidden></div>
-  <aside class="portal-panel-drawer" id="portalPanelMenu" aria-label="Client Portfolio hamburger menu" aria-hidden="true" hidden>
+  <aside class="portal-panel-drawer" id="portalPanelMenu" aria-label="CPSM menu" aria-hidden="true" hidden>
     <div class="portal-panel-drawer-header">
-      <div>
-        <h2>Portal Menu</h2>
-      </div>
+      <div><p class="tile-kicker">CPSM</p><h2>Portal Menu</h2></div>
       <button class="portal-panel-close" id="portalPanelClose" type="button" aria-label="Close portal menu">×</button>
     </div>
-
     <div class="portal-panel-sections">
       <section class="side-panel-card tools-card">
         <h2>Workspace</h2>
         <div class="tool-link-list">
-          <a href="client-portal.html">
-            <strong>Dashboard</strong>
-            <span>Open workspace</span>
-          </a>
-          <a href="cpsm-settings.html">
-            <strong>Settings</strong>
-            <span>Configure CPSM</span>
-          </a>
-          <a href="calculator.html" target="_blank" rel="noopener">
-            <strong>Calculator</strong>
-            <span>Open tool</span>
-          </a>
-          <a href="project-estimator.html" target="_blank" rel="noopener">
-            <strong>Project estimator</strong>
-            <span>Open tool</span>
-          </a>
+          <a href="client-portal.html" aria-current="page"><strong>Dashboard</strong><span>Open workspace</span></a>
+          <a href="cpsm-portfolio.html"><strong>Portfolio</strong><span>Review client portfolio</span></a>
+          <a href="cpsm-requests.html"><strong>Requests</strong><span>Track service requests</span></a>
+          <a href="cpsm-documents.html"><strong>Documents</strong><span>Access shared files</span></a>
+          <a href="cpsm-messages.html"><strong>Messages</strong><span>View communications</span></a>
+          <a href="cpsm-agreements.html"><strong>Agreements</strong><span>Review agreements</span></a>
+          <a href="cpsm-settings.html"><strong>Settings</strong><span>Configure CPSM</span></a>
         </div>
       </section>
-
-      <section class="side-panel-card authorized-card">
-        <h2>Authorized representatives</h2>
-        <div class="representative-list">
-          <div class="representative-row">
-            <strong>Authorized Representative 1</strong>
-            <span>Job Title</span>
-          </div>
-          <div class="representative-row">
-            <strong>Authorized Representative 2</strong>
-            <span>Job Title</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="side-panel-card invoices-card">
-        <h2>Invoices</h2>
-        <div class="invoice-list">
-          <div>
-            <strong>Invoice #001</strong>
-            <span>Pending</span>
-          </div>
-          <div>
-            <strong>Invoice #002</strong>
-            <span>Not issued</span>
-          </div>
-        </div>
-      </section>
-
       <section class="side-panel-card portal-contact-tile">
         <h2>Account access</h2>
         <p>Replies within one business day.</p>
@@ -235,16 +163,16 @@
     </div>
   </aside>
 
-  <div class="cookie-notice" id="cookieNotice" role="dialog" aria-live="polite" aria-label="Cookie notice" hidden>
-    <div class="cookie-notice-content">
-      <div>
-        <strong>Cookie Notice</strong>
-        <p>We use basic cookies and local storage to remember preferences and improve your browsing experience.</p>
-      </div>
-      <button class="cookie-btn" id="cookieAccept" type="button">Accept</button>
-    </div>
-  </div>
-
+  <script>
+    const agreement = JSON.parse(localStorage.getItem('cpsmAgreementAcceptance') || '{}');
+    if (!(agreement.confidentialityAccepted && agreement.engagementAccepted && agreement.electronicSignatureConsent)) {
+      window.location.href = 'cpsm-agreements.html';
+    }
+    const data = JSON.parse(sessionStorage.getItem('cpsmClientPortalPreview') || sessionStorage.getItem('momentumDataClientPortalPreview') || '{}');
+    if (data.clientName && document.getElementById('clientWelcome')) document.getElementById('clientWelcome').textContent = `Hi, ${data.clientName}, welcome to your CPSM dashboard.`;
+    if (data.projectDetails && document.getElementById('portalProjectDetails')) document.getElementById('portalProjectDetails').textContent = data.projectDetails;
+    if (data.dueDate && document.getElementById('portalDueDate')) document.getElementById('portalDueDate').textContent = data.dueDate;
+  </script>
   <script src="script.js"></script>
   <script src="client-portfolio-menu.js"></script>
 </body>
