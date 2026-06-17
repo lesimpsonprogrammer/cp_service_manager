@@ -4,111 +4,102 @@
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <title>Client Log-in | Momentum Data Solutions</title>
+  <meta content="Momentum Data services and access point for the CPSM client portal." name="description" />
+  <title>Momentum Data | Data Services and Client Portal</title>
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet" />
   <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
   <link href="styles.css" rel="stylesheet" />
 </head>
 
-<body class="login-page">
-  <main class="login-split-screen">
-    <section class="login-visual-panel" aria-label="Client portal preview">
-      <div class="login-visual-overlay">
-        <h1>Welcome to Client Portfolio</h1>
-        <p>Stay connected to every project update. Access status updates, deliverables, and Project Manager messages
-          from one secure hub.</p>
+<body>
+  <header class="site-header" id="top">
+    <nav aria-label="Momentum Data navigation" class="nav container">
+      <a aria-label="Momentum Data home" class="brand" href="#top">
+        <span class="brand-text-logo">Momentum Data</span>
+      </a>
+
+      <button aria-expanded="false" aria-label="Open menu" class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="nav-links">
+        <a href="#top">Home</a>
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a class="mobile-contact" href="#contact">Contact</a>
+        <a class="mobile-client-login" href="login.html">Client Portal</a>
+      </div>
+
+      <div class="nav-actions nav-contact">
+        <a class="nav-cta" href="#contact">Contact</a>
+        <a class="nav-client-login" href="login.html">Client Portal</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="homeTitle">
+      <div class="container hero-content">
+        <div>
+          <p class="eyebrow">Data services with momentum</p>
+          <h1 id="homeTitle">Clean, organized, actionable data for growing teams.</h1>
+          <p>Momentum Data helps businesses extract, clean, validate, transform, and organize complex operational data into useful files, reports, dashboards, and system-ready deliverables.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#services">Explore services</a>
+            <a class="btn secondary client-login-hero" href="login.html">Client Portal</a>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="login-form-panel" aria-labelledby="login-title">
-      <div class="login-form-stack">
-        <div class="login-card">
-          <h2 id="login-title">Log into Client Portfolio</h2>
-
-          <form id="loginPageForm" class="login-form">
-            <label for="clientId">
-              Client ID:
-              <input id="clientId" name="clientId" type="text" placeholder="Client ID" required />
-            </label>
-
-            <label for="userName">
-              User Name:
-              <input id="userName" name="userName" type="text" placeholder="User Name" required />
-            </label>
-
-            <label for="password">
-              Password:
-              <input id="password" name="password" type="password" placeholder="Password" required />
-            </label>
-
-            <button class="btn primary full" type="submit">Log In</button>
-          </form>
+    <section class="section" id="services" aria-labelledby="servicesTitle">
+      <div class="container">
+        <p class="eyebrow">Services</p>
+        <h2 id="servicesTitle">Support for document, data, and workflow operations.</h2>
+        <div class="portal-card-grid">
+          <section class="portal-tile">
+            <h3>Data extraction and cleanup</h3>
+            <p>Convert messy exports, spreadsheets, documents, and source files into structured usable data.</p>
+          </section>
+          <section class="portal-tile">
+            <h3>Reporting and analysis</h3>
+            <p>Build organized reports, dashboards, validation summaries, and client-ready deliverables.</p>
+          </section>
+          <section class="portal-tile">
+            <h3>Workflow support</h3>
+            <p>Design practical workflows that help businesses move information more smoothly across tools and teams.</p>
+          </section>
         </div>
-        <p class="portfolio-update-note">Client Portfolio will undergo scheduled update on July 24.</p>
+      </div>
+    </section>
+
+    <section class="section" id="about" aria-labelledby="aboutTitle">
+      <div class="container">
+        <p class="eyebrow">About</p>
+        <h2 id="aboutTitle">Built to make operational data easier to manage.</h2>
+        <p>Momentum Data supports businesses that need cleaner information, better organization, and more efficient data-driven workflows without adding unnecessary complexity.</p>
+      </div>
+    </section>
+
+    <section class="section" id="contact" aria-labelledby="contactTitle">
+      <div class="container">
+        <p class="eyebrow">Contact</p>
+        <h2 id="contactTitle">Start a conversation.</h2>
+        <p>Use this section for the business contact form, email address, or scheduling link.</p>
+        <a class="btn primary" href="mailto:your-email@example.com">Contact Momentum Data</a>
       </div>
     </section>
   </main>
 
-  <script src="script.js"></script>
-</body>
-
-</html>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8" />
-  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <title>Client Log-in | Momentum Data Solutions</title>
-  <link href="https://fonts.googleapis.com" rel="preconnect" />
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap"
-    rel="stylesheet" />
-  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
-  <link href="styles.css" rel="stylesheet" />
-</head>
-
-<body class="login-page">
-  <main class="login-split-screen">
-    <section class="login-visual-panel" aria-label="Client portal preview">
-      <div class="login-visual-overlay">
-        <h1>Welcome to Client Portfolio</h1>
-        <p>Stay connected to every project update. Access status updates, deliverables, and Project Manager messages
-          from one secure hub.</p>
-      </div>
-    </section>
-
-    <section class="login-form-panel" aria-labelledby="login-title">
-      <div class="login-form-stack">
-        <div class="login-card">
-          <h2 id="login-title">Log into Client Portfolio</h2>
-
-          <form id="loginPageForm" class="login-form">
-            <label for="clientId">
-              Client ID:
-              <input id="clientId" name="clientId" type="text" placeholder="Client ID" required />
-            </label>
-
-            <label for="userName">
-              User Name:
-              <input id="userName" name="userName" type="text" placeholder="User Name" required />
-            </label>
-
-            <label for="password">
-              Password:
-              <input id="password" name="password" type="password" placeholder="Password" required />
-            </label>
-
-            <button class="btn primary full" type="submit">Log In</button>
-          </form>
-        </div>
-        <p class="portfolio-update-note">Client Portfolio will undergo scheduled update on July 24.</p>
-      </div>
-    </section>
-  </main>
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> Momentum Data. All rights reserved.</p>
+    </div>
+  </footer>
 
   <script src="script.js"></script>
 </body>
