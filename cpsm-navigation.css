@@ -1,0 +1,134 @@
+/* CPSM standalone navigation and agreement gate */
+.cpsm-header .nav {
+  gap: clamp(0.75rem, 1.5vw, 1.25rem) !important;
+}
+
+.cpsm-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #ffffff;
+  text-decoration: none;
+  margin-right: auto;
+}
+
+.cpsm-brand-mark,
+.cpsm-login-brand .cpsm-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 64px;
+  min-height: 42px;
+  padding: 0.35rem 0.65rem;
+  border: 2px solid rgba(255, 255, 255, 0.88);
+  border-radius: 0.85rem;
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.cpsm-brand-text,
+.cpsm-login-brand .cpsm-brand-text {
+  max-width: 220px;
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+.cpsm-nav-links {
+  gap: clamp(0.7rem, 1.2vw, 1.15rem) !important;
+}
+
+.cpsm-nav-links a[aria-current="page"],
+.tool-link-list a[aria-current="page"] {
+  outline: 2px solid rgba(255, 255, 255, 0.75);
+  outline-offset: 4px;
+  border-radius: 0.6rem;
+}
+
+.tool-link-list a[aria-current="page"] {
+  background: rgba(31, 111, 235, 0.12);
+  outline-color: #1f6feb;
+}
+
+.cpsm-section-main {
+  background: linear-gradient(135deg, #f7fbff 0%, #fff7ef 100%);
+  min-height: calc(100vh - 90px);
+}
+
+.cpsm-section-hero {
+  padding: clamp(3rem, 6vw, 5rem) 0 1.25rem;
+}
+
+.cpsm-section-hero h1,
+.settings-hero h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2.5rem, 6vw, 4.75rem);
+  line-height: 0.95;
+}
+
+.cpsm-section-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.cpsm-agreement-form {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.agreement-review-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.agreement-review-grid section {
+  padding: 1rem;
+  border: 1px solid rgba(31, 111, 235, 0.22);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.agreement-review-grid h3 {
+  margin-top: 0;
+}
+
+.cpsm-login-card {
+  position: relative;
+}
+
+.cpsm-login-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.cpsm-login-brand .cpsm-brand-mark {
+  border-color: #1f6feb;
+  background: #1f6feb;
+}
+
+.cpsm-login-brand .cpsm-brand-text {
+  color: #0b1f3a;
+}
+
+@media (max-width: 1180px) {
+  .cpsm-nav-links {
+    display: none !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .cpsm-section-grid,
+  .agreement-review-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cpsm-brand-text {
+    display: none;
+  }
+}
