@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Requests | Client Portfolio Service Manager</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet" />
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="styles.css" rel="stylesheet" />
+  <link href="client-portal-overrides.css" rel="stylesheet" />
+  <link href="client-portfolio-menu.css" rel="stylesheet" />
+  <link href="cpsm-navigation.css" rel="stylesheet" />
+</head>
+<body class="cpsm-app cpsm-module-page" data-cpsm-page="requests">
+  <main class="cpsm-section-main">
+    <section class="cpsm-section-hero" aria-labelledby="requestsTitle"><div class="container"><p class="tile-kicker">Client Portfolio Service Manager</p><h1 id="requestsTitle">Requests</h1><p class="portal-note">Submit, review, and track CPSM support and service requests.</p></div></section>
+    <section class="section"><div class="container"><div class="portal-card-grid cpsm-section-grid">
+      <section class="portal-tile portal-tile-large"><h2>Submit a request</h2><form class="portal-message-form" id="portalRequestForm"><label for="requestType">Request type<select id="requestType" name="requestType"><option>General support</option><option>Document upload question</option><option>Portfolio update</option><option>Access or settings support</option></select></label><label for="requestDetails">Details<textarea id="requestDetails" name="requestDetails" rows="5" placeholder="Describe what you need help with."></textarea></label><button class="btn primary" type="submit">Submit request</button><p class="message-confirmation" id="requestConfirmation" hidden>Your request has been captured in this preview.</p></form></section>
+      <section class="portal-tile"><h2>Open items</h2><div class="deliverable-list"><div><strong>Confirm preferred delivery format</strong><span>Open</span></div><div><strong>Review sample columns</strong><span>Open</span></div><div><strong>Send source files</strong><span>Pending</span></div></div></section>
+    </div></div></section>
+  </main>
+  <script src="client-portfolio-menu.js"></script>
+  <script src="script.js"></script>
+  <script>document.addEventListener('DOMContentLoaded',()=>{const f=document.getElementById('portalRequestForm');const c=document.getElementById('requestConfirmation');f?.addEventListener('submit',e=>{e.preventDefault();f.reset();c.hidden=false;});});</script>
+</body>
+</html>
