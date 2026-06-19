@@ -1,0 +1,52 @@
+/* CPSM login rendering fixes */
+.cpsm-login-brand-logo {
+  min-height: 112px;
+}
+
+.cpsm-login-logo {
+  display: block;
+  width: min(100%, 390px);
+  height: auto;
+  min-height: 104px;
+  object-fit: contain;
+}
+
+.cpsm-logo-fallback {
+  display: none;
+  width: min(100%, 390px);
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(31, 111, 235, 0.24);
+  border-radius: 1.25rem;
+  background: linear-gradient(135deg, #ffffff 0%, #eaf4ff 100%);
+  color: #081f3f;
+  box-shadow: 0 16px 36px rgba(8, 31, 63, 0.1);
+}
+
+.cpsm-logo-fallback strong {
+  display: block;
+  font-size: clamp(2.25rem, 8vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+}
+
+.cpsm-logo-fallback span {
+  display: block;
+  margin-top: 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+
+.cpsm-login-brand-logo.logo-image-failed .cpsm-logo-fallback {
+  display: block;
+}
+
+@media (max-width: 860px) {
+  .cpsm-login-brand-logo {
+    min-height: 96px;
+  }
+
+  .cpsm-login-logo {
+    min-height: 88px;
+  }
+}
