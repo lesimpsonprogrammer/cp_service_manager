@@ -1,45 +1,45 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 260" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="260" viewBox="0 0 900 260" role="img" aria-labelledby="title desc">
   <title id="title">CPSM Client Portfolio Service Manager logo</title>
-  <desc id="desc">Horizontal CPSM logo with navigation wheel emblem, abbreviation wordmark, and full Client Portfolio Service Manager text.</desc>
-  <defs>
-    <style>
-      .navy{fill:#081f3f}.blue{fill:#0b7cff}.gold{fill:#e89a00}.stroke-navy{stroke:#081f3f}.stroke-blue{stroke:#0b7cff}.stroke-gold{stroke:#e89a00}.thin{stroke-width:5}.mid{stroke-width:8}.thick{stroke-width:13}.line{fill:none;stroke-linecap:round;stroke-linejoin:round}.word{font-family:Arial Black, Arial, Helvetica, sans-serif;font-weight:900;letter-spacing:-8px}.sub{font-family:Arial, Helvetica, sans-serif;font-weight:800;letter-spacing:7px}
-    </style>
-  </defs>
+  <desc id="desc">Transparent horizontal logo with a navigation wheel emblem, CPSM abbreviation, and Client Portfolio Service Manager text.</desc>
 
-  <g transform="translate(128 130)">
-    <circle r="92" fill="none" class="stroke-blue line thin"/>
-    <circle r="78" fill="none" class="stroke-navy line thick"/>
-    <circle r="56" fill="none" class="stroke-navy line thin" opacity=".92"/>
-    <circle r="43" fill="none" class="stroke-blue line thin" stroke-dasharray="2 11" opacity=".85"/>
-    <path d="M0-122 L12-85 L-12-85 Z M0 122 L12 85 L-12 85 Z M-122 0 L-85 12 L-85-12 Z M122 0 L85 12 L85-12 Z" class="navy"/>
-    <path d="M-58-58 A82 82 0 0 1 -18-80" class="stroke-blue line thin"/>
-    <path d="M60 58 A82 82 0 0 1 82 18" class="stroke-gold line thin" stroke-dasharray="3 8"/>
-    <path d="M-58 58 A82 82 0 0 0 -20 80" class="stroke-navy line thin" stroke-dasharray="2 10" opacity=".75"/>
+  <g transform="translate(128 130)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle r="92" stroke="#0b7cff" stroke-width="5"/>
+    <circle r="78" stroke="#081f3f" stroke-width="13"/>
+    <circle r="56" stroke="#081f3f" stroke-width="5" opacity="0.92"/>
+    <circle r="43" stroke="#0b7cff" stroke-width="5" stroke-dasharray="2 11" opacity="0.85"/>
 
-    <g class="stroke-navy line thin">
-      <path d="M0 0 L0-62 M0 0 L44-44 M0 0 L62 0 M0 0 L44 44 M0 0 L0 62 M0 0 L-44 44 M0 0 L-62 0 M0 0 L-44-44"/>
+    <path d="M0 0 L0 -62 M0 0 L44 -44 M0 0 L62 0 M0 0 L44 44 M0 0 L0 62 M0 0 L-44 44 M0 0 L-62 0 M0 0 L-44 -44" stroke="#081f3f" stroke-width="5"/>
+
+    <path d="M-58 -58 A82 82 0 0 1 -18 -80" stroke="#0b7cff" stroke-width="5"/>
+    <path d="M60 58 A82 82 0 0 1 82 18" stroke="#e89a00" stroke-width="5" stroke-dasharray="3 8"/>
+    <path d="M-58 58 A82 82 0 0 0 -20 80" stroke="#081f3f" stroke-width="5" stroke-dasharray="2 10" opacity="0.75"/>
+
+    <g fill="#ffffff" stroke-width="8">
+      <circle cx="0" cy="-62" r="13" stroke="#0b7cff"/>
+      <circle cx="44" cy="-44" r="13" stroke="#e89a00"/>
+      <circle cx="62" cy="0" r="13" stroke="#0b7cff"/>
+      <circle cx="44" cy="44" r="13" stroke="#0b7cff"/>
+      <circle cx="0" cy="62" r="13" stroke="#0b7cff"/>
+      <circle cx="-44" cy="44" r="13" stroke="#e89a00"/>
+      <circle cx="-62" cy="0" r="13" stroke="#0b7cff"/>
+      <circle cx="-44" cy="-44" r="13" stroke="#0b7cff"/>
     </g>
-    <circle r="28" class="navy"/>
-    <circle r="19" fill="#fff"/>
-    <circle r="13" class="gold"/>
 
-    <g>
-      <circle cx="0" cy="-62" r="13" fill="#fff" class="stroke-blue line mid"/>
-      <circle cx="44" cy="-44" r="13" fill="#fff" class="stroke-gold line mid"/>
-      <circle cx="62" cy="0" r="13" fill="#fff" class="stroke-blue line mid"/>
-      <circle cx="44" cy="44" r="13" fill="#fff" class="stroke-blue line mid"/>
-      <circle cx="0" cy="62" r="13" fill="#fff" class="stroke-blue line mid"/>
-      <circle cx="-44" cy="44" r="13" fill="#fff" class="stroke-gold line mid"/>
-      <circle cx="-62" cy="0" r="13" fill="#fff" class="stroke-blue line mid"/>
-      <circle cx="-44" cy="-44" r="13" fill="#fff" class="stroke-blue line mid"/>
+    <g fill="#081f3f" stroke="none">
+      <path d="M0 -122 L12 -85 L-12 -85 Z"/>
+      <path d="M0 122 L12 85 L-12 85 Z"/>
+      <path d="M-122 0 L-85 12 L-85 -12 Z"/>
+      <path d="M122 0 L85 12 L85 -12 Z"/>
+      <circle r="28"/>
     </g>
+    <circle r="19" fill="#ffffff" stroke="none"/>
+    <circle r="13" fill="#e89a00" stroke="none"/>
   </g>
 
   <g transform="translate(238 88)">
-    <text class="word navy" x="0" y="82" font-size="118">CPSM</text>
-    <polygon points="58,50 92,35 84,70" class="gold"/>
-    <polygon points="585,4 650,4 617,60" class="blue"/>
-    <text class="sub navy" x="2" y="123" font-size="24">CLIENT PORTFOLIO SERVICE MANAGER</text>
+    <text x="0" y="82" fill="#081f3f" font-family="Arial, Helvetica, sans-serif" font-size="118" font-weight="900" letter-spacing="-6">CPSM</text>
+    <polygon points="58,50 92,35 84,70" fill="#e89a00"/>
+    <polygon points="585,4 650,4 617,60" fill="#0b7cff"/>
+    <text x="2" y="123" fill="#081f3f" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="800" letter-spacing="7">CLIENT PORTFOLIO SERVICE MANAGER</text>
   </g>
 </svg>
