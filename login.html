@@ -11,6 +11,7 @@
   <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
   <link href="styles.css" rel="stylesheet" />
   <link href="cpsm-navigation.css" rel="stylesheet" />
+  <link href="cpsm-login-fix.css" rel="stylesheet" />
 </head>
 
 <body class="login-page cpsm-app">
@@ -27,7 +28,16 @@
       <div class="login-form-stack">
         <div class="login-card cpsm-login-card">
           <div class="cpsm-login-brand cpsm-login-brand-logo" aria-label="Client Portfolio Service Manager">
-            <img class="cpsm-logo cpsm-login-logo" src="assets/cpsm-logo-horizontal.svg" alt="Client Portfolio Service Manager logo" />
+            <img
+              class="cpsm-logo cpsm-login-logo"
+              src="assets/cpsm-logo-horizontal.svg?v=20260619"
+              alt="Client Portfolio Service Manager logo"
+              onerror="this.hidden=true; this.closest('.cpsm-login-brand-logo').classList.add('logo-image-failed');"
+            />
+            <span class="cpsm-logo-fallback" aria-hidden="true">
+              <strong>CPSM</strong>
+              <span>Client Portfolio Service Manager</span>
+            </span>
           </div>
 
           <h2 id="login-title">Client log-in</h2>
