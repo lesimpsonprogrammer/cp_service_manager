@@ -12,6 +12,37 @@
   margin-right: auto;
 }
 
+.cpsm-brand-logo-link {
+  margin-left: 0;
+  padding: 0.38rem 0.65rem;
+  border-radius: 1.15rem;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.68);
+  box-shadow: 0 16px 36px rgba(8, 31, 63, 0.14);
+}
+
+.cpsm-logo {
+  display: block;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.cpsm-header-logo {
+  width: clamp(210px, 24vw, 330px);
+  max-height: 76px;
+}
+
+.cpsm-login-brand-logo {
+  justify-content: flex-start;
+  margin-bottom: 1.75rem;
+}
+
+.cpsm-login-logo {
+  width: min(100%, 390px);
+  max-height: 142px;
+}
+
 .cpsm-brand-mark,
 .cpsm-login-brand .cpsm-brand-mark {
   display: inline-flex;
@@ -120,6 +151,10 @@
   .cpsm-nav-links {
     display: none !important;
   }
+
+  .cpsm-header-logo {
+    width: clamp(180px, 44vw, 280px);
+  }
 }
 
 @media (max-width: 900px) {
@@ -130,5 +165,17 @@
 
   .cpsm-brand-text {
     display: none;
+  }
+
+  .cpsm-brand-logo-link {
+    padding: 0.32rem 0.5rem;
+  }
+
+  .cpsm-header-logo {
+    width: min(58vw, 250px);
+  }
+
+  .cpsm-login-logo {
+    width: min(100%, 330px);
   }
 }
