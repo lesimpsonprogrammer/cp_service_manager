@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Messages | Client Portfolio Service Manager</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet" />
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="styles.css" rel="stylesheet" />
+  <link href="client-portal-overrides.css" rel="stylesheet" />
+  <link href="client-portfolio-menu.css" rel="stylesheet" />
+  <link href="cpsm-navigation.css" rel="stylesheet" />
+</head>
+<body class="cpsm-app cpsm-module-page" data-cpsm-page="messages">
+  <main class="cpsm-section-main">
+    <section class="cpsm-section-hero" aria-labelledby="messagesTitle"><div class="container"><p class="tile-kicker">Client Portfolio Service Manager</p><h1 id="messagesTitle">Messages</h1><p class="portal-note">Send and review communications related to the client portfolio.</p></div></section>
+    <section class="section"><div class="container"><div class="portal-card-grid cpsm-section-grid">
+      <section class="portal-tile portal-tile-large"><h2>Send a message</h2><form class="portal-message-form" id="portalMessageForm"><label for="messageSubject">Subject<input id="messageSubject" name="messageSubject" type="text" placeholder="Message subject" /></label><label for="messageBody">Message<textarea id="messageBody" name="messageBody" rows="6" placeholder="Write your message."></textarea></label><button class="btn primary" type="submit">Send message</button><p class="message-confirmation" id="messageConfirmation" hidden>Your message has been captured in this preview.</p></form></section>
+      <section class="portal-tile"><h2>Recent communication</h2><div class="deliverable-list"><div><strong>Welcome note</strong><span>Sent</span></div><div><strong>Validation reminder</strong><span>Draft</span></div><div><strong>Delivery update</strong><span>Upcoming</span></div></div></section>
+    </div></div></section>
+  </main>
+  <script src="client-portfolio-menu.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
