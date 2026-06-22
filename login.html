@@ -56,7 +56,7 @@
             <button class="btn primary full" type="submit">Log In</button>
           </form>
 
-          <p class="portfolio-update-note">After log-in, clients review the agreement packet initiated through Client Onboarding before entering the dashboard.</p>
+          <p class="portfolio-update-note">After log-in, the Dashboard opens first. Any pending agreement packet will appear as a required dashboard action.</p>
         </div>
       </div>
     </section>
@@ -74,14 +74,12 @@
         clientName: packet.authorizedSigner || userName,
         companyName: packet.clientEmail || clientId,
         projectName: packet.id ? 'Client onboarding' : 'Active portfolio',
-        projectDetails: packet.id ? 'Client onboarding has been initiated. The agreement packet is pending client acceptance.' : 'Data mapping is underway. The next client review is scheduled after validation notes are prepared.',
+        projectDetails: packet.id ? 'Client onboarding has been initiated. Review any required agreement packet from the Dashboard.' : 'Data mapping is underway. The next client review is scheduled after validation notes are prepared.',
         dueDate: packet.onboardingDate || 'To be confirmed'
       };
       sessionStorage.setItem('cpsmClientPortalPreview', JSON.stringify(portalData));
       sessionStorage.setItem('momentumDataClientPortalPreview', JSON.stringify(portalData));
-      const agreement = JSON.parse(localStorage.getItem('cpsmAgreementAcceptance') || '{}');
-      const accepted = agreement.confidentialityAccepted && agreement.engagementAccepted && agreement.electronicSignatureConsent;
-      window.location.href = accepted ? 'client-portal.html' : 'cpsm-agreements.html';
+      window.location.href = 'client-portal.html';
     });
   </script>
 </body>
