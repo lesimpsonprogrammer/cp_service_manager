@@ -4,20 +4,21 @@
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <meta content="Momentum Data services and access point for the CPSM client portal." name="description" />
-  <title>Momentum Data | Data Services and Client Portal</title>
+  <meta content="CPSM is a Client Portfolio Service Manager for onboarding, agreements, requests, documents, messages, and client service delivery." name="description" />
+  <title>CPSM | Client Portfolio Service Manager</title>
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet" />
   <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
   <link href="styles.css" rel="stylesheet" />
+  <link href="cpsm-navigation.css" rel="stylesheet" />
 </head>
 
-<body>
-  <header class="site-header" id="top">
-    <nav aria-label="Momentum Data navigation" class="nav container">
-      <a aria-label="Momentum Data home" class="brand" href="#top">
-        <span class="brand-text-logo">Momentum Data</span>
+<body class="cpsm-app cpsm-landing-page">
+  <header class="site-header cpsm-header" id="top">
+    <nav aria-label="CPSM website navigation" class="nav container">
+      <a aria-label="CPSM home" class="brand cpsm-brand cpsm-brand-logo-link" href="#top">
+        <img class="cpsm-logo cpsm-header-logo" src="assets/cpsm-logo-horizontal.svg?v=20260622" alt="Client Portfolio Service Manager logo" />
       </a>
 
       <button aria-expanded="false" aria-label="Open menu" class="nav-toggle">
@@ -26,17 +27,15 @@
         <span></span>
       </button>
 
-      <div class="nav-links">
-        <a href="#top">Home</a>
-        <a href="#services">Services</a>
-        <a href="#about">About</a>
-        <a class="mobile-contact" href="#contact">Contact</a>
-        <a class="mobile-client-login" href="login.html">Client Portal</a>
+      <div class="nav-links cpsm-nav-links">
+        <a href="#product">Product</a>
+        <a href="cpsm-client-onboarding.html">Client Onboarding</a>
+        <a href="login.html">Client Login</a>
+        <a href="#modules">Modules</a>
       </div>
 
       <div class="nav-actions nav-contact">
-        <a class="nav-cta" href="#contact">Contact</a>
-        <a class="nav-client-login" href="login.html">Client Portal</a>
+        <a class="nav-client-login" href="login.html">Launch CPSM</a>
       </div>
     </nav>
   </header>
@@ -45,59 +44,50 @@
     <section class="hero" aria-labelledby="homeTitle">
       <div class="container hero-content">
         <div>
-          <p class="eyebrow">Data services with momentum</p>
-          <h1 id="homeTitle">Clean, organized, actionable data for growing teams.</h1>
-          <p>Momentum Data helps businesses extract, clean, validate, transform, and organize complex operational data into useful files, reports, dashboards, and system-ready deliverables.</p>
+          <p class="eyebrow">Client Portfolio Service Manager</p>
+          <h1 id="homeTitle">Organized client onboarding, agreements, and service delivery in one CPSM workspace.</h1>
+          <p>CPSM helps service teams initiate client onboarding, manage agreement acceptance, track portfolio work, centralize documents, capture requests, and keep client communications organized.</p>
           <div class="hero-actions">
-            <a class="btn primary" href="#services">Explore services</a>
-            <a class="btn secondary client-login-hero" href="login.html">Client Portal</a>
+            <a class="btn primary" href="cpsm-client-onboarding.html">Start Client Onboarding</a>
+            <a class="btn secondary client-login-hero" href="login.html">Client Login</a>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="services" aria-labelledby="servicesTitle">
+    <section class="section" id="product" aria-labelledby="productTitle">
       <div class="container">
-        <p class="eyebrow">Services</p>
-        <h2 id="servicesTitle">Support for document, data, and workflow operations.</h2>
-        <div class="portal-card-grid">
+        <p class="eyebrow">Product direction</p>
+        <h2 id="productTitle">CPSM is being positioned as a standalone service management product.</h2>
+        <p>CPSM is no longer just a Momentum Data client portal page. It now has its own landing page, onboarding workspace, agreement packet flow, and client dashboard structure.</p>
+      </div>
+    </section>
+
+    <section class="section" id="modules" aria-labelledby="modulesTitle">
+      <div class="container">
+        <p class="eyebrow">Modules</p>
+        <h2 id="modulesTitle">Core CPSM sections.</h2>
+        <div class="portal-card-grid cpsm-section-grid">
           <section class="portal-tile">
-            <h3>Data extraction and cleanup</h3>
-            <p>Convert messy exports, spreadsheets, documents, and source files into structured usable data.</p>
+            <h3>Client Onboarding</h3>
+            <p>Initiate onboarding from the CPSM side, capture the client email, authorized signer, onboarding date, and status.</p>
           </section>
           <section class="portal-tile">
-            <h3>Reporting and analysis</h3>
-            <p>Build organized reports, dashboards, validation summaries, and client-ready deliverables.</p>
+            <h3>Agreements</h3>
+            <p>Review agreement packets that were initiated through onboarding before client dashboard access is completed.</p>
           </section>
           <section class="portal-tile">
-            <h3>Workflow support</h3>
-            <p>Design practical workflows that help businesses move information more smoothly across tools and teams.</p>
+            <h3>Client Workspace</h3>
+            <p>Give clients access to portfolio status, requests, documents, messages, settings, and service updates.</p>
           </section>
         </div>
-      </div>
-    </section>
-
-    <section class="section" id="about" aria-labelledby="aboutTitle">
-      <div class="container">
-        <p class="eyebrow">About</p>
-        <h2 id="aboutTitle">Built to make operational data easier to manage.</h2>
-        <p>Momentum Data supports businesses that need cleaner information, better organization, and more efficient data-driven workflows without adding unnecessary complexity.</p>
-      </div>
-    </section>
-
-    <section class="section" id="contact" aria-labelledby="contactTitle">
-      <div class="container">
-        <p class="eyebrow">Contact</p>
-        <h2 id="contactTitle">Start a conversation.</h2>
-        <p>Use this section for the business contact form, email address, or scheduling link.</p>
-        <a class="btn primary" href="mailto:your-email@example.com">Contact Momentum Data</a>
       </div>
     </section>
   </main>
 
   <footer class="footer">
     <div class="container">
-      <p>&copy; <span id="year"></span> Momentum Data. All rights reserved.</p>
+      <p>&copy; <span id="year"></span> CPSM. All rights reserved.</p>
     </div>
   </footer>
 
