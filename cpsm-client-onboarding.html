@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="Initiate and track CPSM client onboarding, agreement packets, and onboarding status." name="description" />
+  <title>Client Onboarding | Client Portfolio Service Manager</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet" />
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="styles.css" rel="stylesheet" />
+  <link href="client-portal-overrides.css" rel="stylesheet" />
+  <link href="client-portfolio-menu.css" rel="stylesheet" />
+  <link href="cpsm-navigation.css" rel="stylesheet" />
+</head>
+<body class="cpsm-app cpsm-module-page" data-cpsm-page="onboarding">
+  <main class="cpsm-section-main">
+    <section class="cpsm-section-hero" aria-labelledby="onboardingTitle">
+      <div class="container cpsm-hero-with-actions">
+        <div>
+          <p class="tile-kicker">Client Portfolio Service Manager</p>
+          <h1 id="onboardingTitle">Client Onboarding</h1>
+          <p class="portal-note">Initiate onboarding from the CPSM side, create the client agreement packet, and track each client through acceptance and activation.</p>
+        </div>
+        <button class="btn primary" id="showOnboardingForm" type="button">Initiate Client Onboarding</button>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Client onboarding workspace">
+      <div class="container cpsm-onboarding-shell">
+        <section class="portal-tile onboarding-form-panel" id="onboardingFormPanel" hidden>
+          <div class="tile-heading-row">
+            <div>
+              <p class="tile-kicker">New client packet</p>
+              <h2>Initiate client onboarding</h2>
+            </div>
+            <button class="btn secondary" id="cancelOnboardingForm" type="button">Cancel</button>
+          </div>
+
+          <form class="portal-message-form" id="clientOnboardingForm">
+            <label for="clientEmail">
+              Client email address
+              <input id="clientEmail" name="clientEmail" type="email" placeholder="client@example.com" required />
+            </label>
+
+            <label for="authorizedSigner">
+              Name of authorized signer
+              <input id="authorizedSigner" name="authorizedSigner" type="text" placeholder="Authorized signer name" required />
+            </label>
+
+            <label for="onboardingDate">
+              Onboarding date
+              <input id="onboardingDate" name="onboardingDate" type="date" required />
+            </label>
+
+            <button class="btn primary" type="submit">Create onboarding packet</button>
+            <p class="message-confirmation" id="onboardingConfirmation" hidden>Client onboarding has been initiated and the agreement packet is ready for review.</p>
+          </form>
+        </section>
+
+        <section class="portal-tile portal-tile-large">
+          <div class="tile-heading-row onboarding-heading-row">
+            <div>
+              <p class="tile-kicker">Onboarded clients</p>
+              <h2>Client onboarding status</h2>
+            </div>
+            <a class="btn secondary" href="cpsm-agreements.html">Open Agreements</a>
+          </div>
+
+          <div class="cpsm-table-wrap">
+            <table class="cpsm-data-table" aria-describedby="onboardingStatusNote">
+              <thead>
+                <tr>
+                  <th scope="col">Client</th>
+                  <th scope="col">Authorized signer</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Agreement packet</th>
+                </tr>
+              </thead>
+              <tbody id="onboardingClientRows"></tbody>
+            </table>
+          </div>
+          <p class="portal-note" id="onboardingStatusNote">Statuses are stored in this static preview using browser storage until CPSM is connected to a backend database.</p>
+          <p class="message-confirmation" id="emptyOnboardingState" hidden>No clients have been onboarded yet. Select “Initiate Client Onboarding” to create the first client packet.</p>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="client-portfolio-menu.js"></script>
+  <script src="script.js"></script>
+  <script>
+    (() => {
+      const recordsKey = 'cpsmOnboardingClients';
+      const packetKey = 'cpsmAgreementPacket';
+      const acceptanceKey = 'cpsmAgreementAcceptance';
+      const formPanel = document.getElementById('onboardingFormPanel');
+      const showButton = document.getElementById('showOnboardingForm');
+      const cancelButton = document.getElementById('cancelOnboardingForm');
+      const form = document.getElementById('clientOnboardingForm');
+      const rows = document.getElementById('onboardingClientRows');
+      const emptyState = document.getElementById('emptyOnboardingState');
+      const confirmation = document.getElementById('onboardingConfirmation');
+      const dateInput = document.getElementById('onboardingDate');
+
+      function readRecords() {
+        return JSON.parse(localStorage.getItem(recordsKey) || '[]');
+      }
+
+      function writeRecords(records) {
+        localStorage.setItem(recordsKey, JSON.stringify(records));
+      }
+
+      function formatDate(value) {
+        if (!value) return 'Not set';
+        const parsed = new Date(`${value}T00:00:00`);
+        if (Number.isNaN(parsed.getTime())) return value;
+        return parsed.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+      }
+
+      function renderRecords() {
+        const records = readRecords();
+        rows.innerHTML = '';
+        emptyState.hidden = records.length > 0;
+
+        records.forEach((record) => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong>${record.clientEmail}</strong></td>
+            <td>${record.authorizedSigner}</td>
+            <td>${formatDate(record.onboardingDate)}</td>
+            <td><span class="status-pill ${record.status === 'Onboarded' ? 'accepted' : 'pending'}">${record.status}</span></td>
+            <td>${record.agreementStatus}</td>
+          `;
+          rows.appendChild(tr);
+        });
+      }
+
+      function openForm() {
+        formPanel.hidden = false;
+        confirmation.hidden = true;
+        dateInput.value = new Date().toISOString().slice(0, 10);
+        document.getElementById('clientEmail').focus();
+      }
+
+      function closeForm() {
+        formPanel.hidden = true;
+        form.reset();
+      }
+
+      showButton.addEventListener('click', openForm);
+      cancelButton.addEventListener('click', closeForm);
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const record = {
+          id: `cpsm-${Date.now()}`,
+          clientEmail: String(formData.get('clientEmail') || '').trim(),
+          authorizedSigner: String(formData.get('authorizedSigner') || '').trim(),
+          onboardingDate: String(formData.get('onboardingDate') || '').trim(),
+          status: 'Agreement packet initiated',
+          agreementStatus: 'Pending client acceptance',
+          initiatedBy: 'CPSM administrator',
+          initiatedAt: new Date().toISOString()
+        };
+
+        const records = readRecords().filter((item) => item.clientEmail !== record.clientEmail);
+        records.unshift(record);
+        writeRecords(records);
+        localStorage.setItem(packetKey, JSON.stringify(record));
+        localStorage.removeItem(acceptanceKey);
+        sessionStorage.setItem('cpsmClientPortalPreview', JSON.stringify({
+          clientName: record.authorizedSigner,
+          companyName: record.clientEmail,
+          projectName: 'Client onboarding',
+          projectDetails: 'Client onboarding has been initiated. The agreement packet is pending client acceptance.',
+          dueDate: record.onboardingDate || 'To be confirmed'
+        }));
+
+        confirmation.hidden = false;
+        renderRecords();
+      });
+
+      renderRecords();
+    })();
+  </script>
+</body>
+</html>
