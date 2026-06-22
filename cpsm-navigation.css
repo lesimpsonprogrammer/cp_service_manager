@@ -14,9 +14,9 @@
 
 .cpsm-brand-logo-link {
   margin-left: 0;
-  padding: 0.38rem 0.65rem;
+  padding: 0.3rem 0.52rem;
   border-radius: 1.15rem;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.96);
   border: 1px solid rgba(255, 255, 255, 0.68);
   box-shadow: 0 16px 36px rgba(8, 31, 63, 0.14);
 }
@@ -29,8 +29,8 @@
 }
 
 .cpsm-header-logo {
-  width: clamp(210px, 24vw, 330px);
-  max-height: 76px;
+  width: clamp(230px, 24vw, 370px);
+  max-height: 82px;
 }
 
 .cpsm-login-brand-logo {
@@ -39,8 +39,10 @@
 }
 
 .cpsm-login-logo {
-  width: min(100%, 390px);
-  max-height: 142px;
+  display: block;
+  width: min(100%, 430px);
+  max-height: 160px;
+  object-fit: contain;
 }
 
 .cpsm-brand-mark,
@@ -70,7 +72,7 @@
 }
 
 .cpsm-nav-links {
-  gap: clamp(0.7rem, 1.2vw, 1.15rem) !important;
+  gap: clamp(0.65rem, 1vw, 1rem) !important;
 }
 
 .cpsm-nav-links a[aria-current="page"],
@@ -101,11 +103,19 @@
   line-height: 0.95;
 }
 
+.cpsm-hero-with-actions {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
 .cpsm-section-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.cpsm-agreement-form {
+.cpsm-agreement-form,
+.cpsm-onboarding-shell {
   display: grid;
   gap: 1.25rem;
 }
@@ -116,7 +126,8 @@
   gap: 1rem;
 }
 
-.agreement-review-grid section {
+.agreement-review-grid section,
+.packet-summary-grid > div {
   padding: 1rem;
   border: 1px solid rgba(31, 111, 235, 0.22);
   border-radius: 1rem;
@@ -125,6 +136,78 @@
 
 .agreement-review-grid h3 {
   margin-top: 0;
+}
+
+.packet-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.packet-summary-grid strong {
+  display: block;
+  color: #081f3f;
+  font-weight: 800;
+  margin-bottom: 0.35rem;
+}
+
+.packet-summary-grid span {
+  color: #38516f;
+  overflow-wrap: anywhere;
+}
+
+.onboarding-form-panel[hidden] {
+  display: none;
+}
+
+.onboarding-heading-row {
+  align-items: flex-start;
+}
+
+.cpsm-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 1rem;
+  border: 1px solid rgba(31, 111, 235, 0.16);
+  border-radius: 1.15rem;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.cpsm-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+}
+
+.cpsm-data-table th,
+.cpsm-data-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(31, 111, 235, 0.14);
+  vertical-align: top;
+}
+
+.cpsm-data-table th {
+  color: #081f3f;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(31, 111, 235, 0.08);
+}
+
+.cpsm-data-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.status-pill.pending {
+  background: rgba(232, 154, 0, 0.12);
+  color: #9a6200;
+}
+
+.status-pill.accepted {
+  background: rgba(31, 111, 235, 0.12);
+  color: #0b4ea2;
 }
 
 .cpsm-login-card {
@@ -153,14 +236,20 @@
   }
 
   .cpsm-header-logo {
-    width: clamp(180px, 44vw, 280px);
+    width: clamp(190px, 44vw, 300px);
   }
 }
 
 @media (max-width: 900px) {
   .cpsm-section-grid,
-  .agreement-review-grid {
+  .agreement-review-grid,
+  .packet-summary-grid {
     grid-template-columns: 1fr;
+  }
+
+  .cpsm-hero-with-actions {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .cpsm-brand-text {
@@ -168,14 +257,14 @@
   }
 
   .cpsm-brand-logo-link {
-    padding: 0.32rem 0.5rem;
+    padding: 0.28rem 0.45rem;
   }
 
   .cpsm-header-logo {
-    width: min(58vw, 250px);
+    width: min(58vw, 260px);
   }
 
   .cpsm-login-logo {
-    width: min(100%, 330px);
+    width: min(100%, 350px);
   }
 }
