@@ -1,52 +1,234 @@
 /* CPSM login rendering fixes */
+.login-page .login-split-screen {
+  background: #ffffff;
+}
+
+.login-page .login-visual-panel.cpsm-branded-visual-panel {
+  position: relative;
+  overflow: hidden;
+  background-image:
+    radial-gradient(circle at 24% 24%, rgba(232, 154, 0, 0.32), transparent 28%),
+    radial-gradient(circle at 78% 18%, rgba(31, 111, 235, 0.38), transparent 31%),
+    radial-gradient(circle at 72% 82%, rgba(232, 154, 0, 0.2), transparent 30%),
+    linear-gradient(135deg, #061a35 0%, #081f3f 46%, #0b7cff 100%);
+  background-position: center;
+  background-size: cover;
+}
+
+.login-page .login-visual-panel.cpsm-branded-visual-panel::before {
+  content: "";
+  position: absolute;
+  inset: 9%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 2rem;
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.08), transparent 40%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.07) 0 1px, transparent 1px 74px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.055) 0 1px, transparent 1px 74px);
+  opacity: 0.72;
+}
+
+.login-page .login-visual-panel.cpsm-branded-visual-panel::after {
+  content: "";
+  position: absolute;
+  width: min(54vw, 560px);
+  aspect-ratio: 1;
+  right: -18%;
+  bottom: -18%;
+  border-radius: 50%;
+  border: 18px solid rgba(255, 255, 255, 0.11);
+  box-shadow:
+    0 0 0 34px rgba(255, 255, 255, 0.045),
+    0 0 0 68px rgba(232, 154, 0, 0.1),
+    0 30px 90px rgba(0, 0, 0, 0.24);
+}
+
+.cpsm-visual-brand-mark {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  left: clamp(34px, 8vw, 96px);
+  top: clamp(42px, 10vw, 118px);
+  border: 10px solid rgba(255, 255, 255, 0.72);
+  border-radius: 50%;
+  box-shadow:
+    inset 0 0 0 18px rgba(8, 31, 63, 0.46),
+    inset 0 0 0 42px rgba(11, 124, 255, 0.24),
+    0 24px 80px rgba(0, 0, 0, 0.24);
+  opacity: 0.62;
+}
+
+.cpsm-visual-brand-mark::before,
+.cpsm-visual-brand-mark::after {
+  content: "";
+  position: absolute;
+  inset: 50%;
+  width: 58%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.54);
+  transform-origin: left center;
+}
+
+.cpsm-visual-brand-mark::before {
+  transform: rotate(0deg) translateX(-50%);
+}
+
+.cpsm-visual-brand-mark::after {
+  transform: rotate(90deg) translateX(-50%);
+}
+
+.cpsm-visual-brand-mark span {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 4px solid #e89a00;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+}
+
+.cpsm-visual-brand-mark span:nth-child(1) { left: 50%; top: -9px; transform: translateX(-50%); }
+.cpsm-visual-brand-mark span:nth-child(2) { right: 27px; top: 27px; }
+.cpsm-visual-brand-mark span:nth-child(3) { right: -9px; top: 50%; transform: translateY(-50%); }
+.cpsm-visual-brand-mark span:nth-child(4) { right: 27px; bottom: 27px; }
+.cpsm-visual-brand-mark span:nth-child(5) { left: 50%; bottom: -9px; transform: translateX(-50%); }
+.cpsm-visual-brand-mark span:nth-child(6) { left: 27px; bottom: 27px; }
+.cpsm-visual-brand-mark span:nth-child(7) { left: -9px; top: 50%; transform: translateY(-50%); }
+.cpsm-visual-brand-mark span:nth-child(8) { left: 27px; top: 27px; }
+
+.login-page .login-visual-overlay {
+  position: relative;
+  z-index: 1;
+  padding: clamp(1.5rem, 4vw, 2.4rem);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 2rem;
+  background: rgba(6, 26, 53, 0.42);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.24);
+}
+
+.login-page .login-visual-overlay .tile-kicker {
+  max-width: 420px;
+  color: #ffffff;
+  letter-spacing: 0.14em;
+}
+
 .cpsm-login-brand-logo {
-  min-height: 112px;
-}
-
-.cpsm-login-logo {
   display: block;
-  width: min(100%, 390px);
-  height: auto;
-  min-height: 104px;
-  object-fit: contain;
+  min-height: 0;
+  margin-bottom: 1.55rem;
 }
 
-.cpsm-logo-fallback {
-  display: none;
-  width: min(100%, 390px);
-  padding: 1rem 1.1rem;
-  border: 1px solid rgba(31, 111, 235, 0.24);
-  border-radius: 1.25rem;
-  background: linear-gradient(135deg, #ffffff 0%, #eaf4ff 100%);
+.cpsm-login-logo-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  width: min(100%, 430px);
+  padding: 0.95rem 1rem;
+  border: 1px solid rgba(31, 111, 235, 0.22);
+  border-radius: 1.35rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f7fbff 54%, #fff7ef 100%);
   color: #081f3f;
   box-shadow: 0 16px 36px rgba(8, 31, 63, 0.1);
 }
 
-.cpsm-logo-fallback strong {
-  display: block;
-  font-size: clamp(2.25rem, 8vw, 4rem);
-  line-height: 0.95;
-  letter-spacing: -0.06em;
+.cpsm-logo-wheel {
+  position: relative;
+  flex: 0 0 auto;
+  width: 74px;
+  height: 74px;
+  border: 4px solid #0b7cff;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 7px #081f3f, inset 0 0 0 18px rgba(11, 124, 255, 0.12);
 }
 
-.cpsm-logo-fallback span {
+.cpsm-logo-wheel::before,
+.cpsm-logo-wheel::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 72%;
+  height: 2px;
+  background: rgba(8, 31, 63, 0.62);
+  transform-origin: left center;
+}
+
+.cpsm-logo-wheel::before {
+  transform: rotate(0deg) translateX(-50%);
+}
+
+.cpsm-logo-wheel::after {
+  transform: rotate(90deg) translateX(-50%);
+}
+
+.cpsm-logo-wheel span {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #e89a00;
+}
+
+.cpsm-logo-wheel span:nth-child(1) { left: 50%; top: -5px; transform: translateX(-50%); }
+.cpsm-logo-wheel span:nth-child(2) { right: 5px; top: 5px; }
+.cpsm-logo-wheel span:nth-child(3) { right: -5px; top: 50%; transform: translateY(-50%); }
+.cpsm-logo-wheel span:nth-child(4) { right: 5px; bottom: 5px; }
+.cpsm-logo-wheel span:nth-child(5) { left: 50%; bottom: -5px; transform: translateX(-50%); }
+.cpsm-logo-wheel span:nth-child(6) { left: 5px; bottom: 5px; }
+.cpsm-logo-wheel span:nth-child(7) { left: -5px; top: 50%; transform: translateY(-50%); }
+.cpsm-logo-wheel span:nth-child(8) { left: 5px; top: 5px; }
+
+.cpsm-logo-copy {
+  display: grid;
+  gap: 0.18rem;
+  min-width: 0;
+}
+
+.cpsm-logo-copy strong {
   display: block;
-  margin-top: 0.45rem;
-  font-size: 0.78rem;
+  color: #081f3f;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(2.5rem, 8vw, 4.4rem);
+  font-weight: 900;
+  line-height: 0.86;
+  letter-spacing: -0.08em;
+}
+
+.cpsm-logo-copy span {
+  display: block;
+  color: #081f3f;
+  font-size: clamp(0.62rem, 2.2vw, 0.82rem);
   font-weight: 800;
-  letter-spacing: 0.18em;
-}
-
-.cpsm-login-brand-logo.logo-image-failed .cpsm-logo-fallback {
-  display: block;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 @media (max-width: 860px) {
-  .cpsm-login-brand-logo {
-    min-height: 96px;
+  .login-page .login-visual-panel.cpsm-branded-visual-panel {
+    min-height: 44vh;
   }
 
-  .cpsm-login-logo {
-    min-height: 88px;
+  .cpsm-visual-brand-mark {
+    width: 180px;
+    height: 180px;
+    opacity: 0.42;
+  }
+
+  .cpsm-login-logo-lockup {
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .cpsm-logo-wheel {
+    width: 58px;
+    height: 58px;
+  }
+}
+
+@media (max-width: 520px) {
+  .cpsm-login-logo-lockup {
+    display: grid;
   }
 }
