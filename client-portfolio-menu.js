@@ -1,11 +1,12 @@
 (() => {
   const menuItems = [
     { page: 'dashboard', label: 'Dashboard', href: 'client-portal.html', description: 'Open workspace' },
+    { page: 'onboarding', label: 'Client Onboarding', href: 'cpsm-client-onboarding.html', description: 'Initiate clients and agreement packets' },
     { page: 'portfolio', label: 'Portfolio', href: 'cpsm-portfolio.html', description: 'Review client portfolio' },
     { page: 'requests', label: 'Requests', href: 'cpsm-requests.html', description: 'Track service requests' },
     { page: 'documents', label: 'Documents', href: 'cpsm-documents.html', description: 'Access shared files' },
     { page: 'messages', label: 'Messages', href: 'cpsm-messages.html', description: 'View communications' },
-    { page: 'agreements', label: 'Agreements', href: 'cpsm-agreements.html', description: 'Review agreements' },
+    { page: 'agreements', label: 'Agreements', href: 'cpsm-agreements.html', description: 'Review initiated contracts' },
     { page: 'settings', label: 'Settings', href: 'cpsm-settings.html', description: 'Configure CPSM' },
   ];
 
@@ -38,6 +39,13 @@
       .join('');
   }
 
+  function logoMarkup() {
+    return `
+      <a aria-label="CPSM dashboard" class="brand cpsm-brand cpsm-brand-logo-link" href="client-portal.html">
+        <img class="cpsm-logo cpsm-header-logo" src="assets/cpsm-logo-horizontal.svg?v=20260622" alt="Client Portfolio Service Manager logo" />
+      </a>`;
+  }
+
   function injectHeader() {
     if (document.querySelector('.cpsm-header')) return;
 
@@ -51,10 +59,7 @@
           <span class="portal-panel-toggle-label">CPSM Menu</span>
         </button>
 
-        <a aria-label="CPSM dashboard" class="brand cpsm-brand" href="client-portal.html">
-          <span class="cpsm-brand-mark">CPSM</span>
-          <span class="cpsm-brand-text">Client Portfolio Service Manager</span>
-        </a>
+        ${logoMarkup()}
 
         <button aria-expanded="false" aria-label="Open menu" class="nav-toggle"><span></span><span></span><span></span></button>
 
