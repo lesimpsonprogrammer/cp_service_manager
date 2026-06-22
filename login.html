@@ -16,9 +16,13 @@
 
 <body class="login-page cpsm-app">
   <main class="login-split-screen">
-    <section class="login-visual-panel" aria-label="CPSM client portal preview">
+    <section class="login-visual-panel cpsm-branded-visual-panel" aria-label="CPSM client portal preview">
+      <div class="cpsm-visual-brand-mark" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </div>
       <div class="login-visual-overlay">
-        <p class="tile-kicker">Client Portfolio Service Manager</p>
+        <p class="tile-kicker">Client Portfolio Service Manager, A Momentum Data Solutions Software Company</p>
         <h1>Welcome to CPSM</h1>
         <p>Access your dashboard, portfolio, requests, documents, messages, agreements, and settings from one secure client portal.</p>
       </div>
@@ -28,16 +32,16 @@
       <div class="login-form-stack">
         <div class="login-card cpsm-login-card">
           <div class="cpsm-login-brand cpsm-login-brand-logo" aria-label="Client Portfolio Service Manager">
-            <img
-              class="cpsm-logo cpsm-login-logo"
-              src="assets/cpsm-logo-horizontal.svg?v=20260619"
-              alt="Client Portfolio Service Manager logo"
-              onerror="this.hidden=true; this.closest('.cpsm-login-brand-logo').classList.add('logo-image-failed');"
-            />
-            <span class="cpsm-logo-fallback" aria-hidden="true">
-              <strong>CPSM</strong>
-              <span>Client Portfolio Service Manager</span>
-            </span>
+            <div class="cpsm-login-logo-lockup" aria-hidden="true">
+              <span class="cpsm-logo-wheel">
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+              </span>
+              <span class="cpsm-logo-copy">
+                <strong>CPSM</strong>
+                <span>Client Portfolio Service Manager</span>
+              </span>
+            </div>
           </div>
 
           <h2 id="login-title">Client log-in</h2>
