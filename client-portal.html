@@ -34,6 +34,18 @@
           </form>
         </div>
 
+        <section class="portal-tile portal-tile-large agreement-action-card" id="agreementActionCard" hidden>
+          <div class="tile-heading-row">
+            <div>
+              <p class="tile-kicker">Required action</p>
+              <h2>Agreement packet pending</h2>
+            </div>
+            <span class="status-pill pending">Pending</span>
+          </div>
+          <p id="agreementActionText">Your CPSM agreement packet is ready for review. Please complete the required agreement acceptance to continue onboarding.</p>
+          <a class="btn primary" href="cpsm-agreements.html">Review agreements</a>
+        </section>
+
         <div class="portal-workspace">
           <div class="portal-main-content">
             <div class="portal-card-grid" aria-label="CPSM dashboard tiles">
@@ -66,7 +78,7 @@
 
               <section class="portal-tile actions-card">
                 <h2>Next actions</h2>
-                <ul class="clean-action-list">
+                <ul class="clean-action-list" id="dashboardActionList">
                   <li>Review sample column labels</li>
                   <li>Confirm preferred delivery format</li>
                   <li>Send any additional source files</li>
@@ -108,16 +120,25 @@
 
   <script>
     const agreement = JSON.parse(localStorage.getItem('cpsmAgreementAcceptance') || '{}');
-    if (!(agreement.confidentialityAccepted && agreement.engagementAccepted && agreement.electronicSignatureConsent)) {
-      window.location.href = 'cpsm-agreements.html';
-    }
     const packet = JSON.parse(localStorage.getItem('cpsmAgreementPacket') || '{}');
     const data = JSON.parse(sessionStorage.getItem('cpsmClientPortalPreview') || sessionStorage.getItem('momentumDataClientPortalPreview') || '{}');
+    const agreementAccepted = agreement.confidentialityAccepted && agreement.engagementAccepted && agreement.electronicSignatureConsent;
+
     if ((packet.authorizedSigner || data.clientName) && document.getElementById('clientWelcome')) document.getElementById('clientWelcome').textContent = `Hi, ${packet.authorizedSigner || data.clientName}, welcome to your CPSM dashboard.`;
     if ((packet.authorizedSigner || data.clientName) && document.getElementById('authorizedSignerName')) document.getElementById('authorizedSignerName').textContent = packet.authorizedSigner || data.clientName;
     if (data.projectDetails && document.getElementById('portalProjectDetails')) document.getElementById('portalProjectDetails').textContent = data.projectDetails;
     if ((packet.onboardingDate || data.dueDate) && document.getElementById('portalDueDate')) document.getElementById('portalDueDate').textContent = packet.onboardingDate || data.dueDate;
-    if (packet.agreementStatus === 'Accepted') {
+
+    if (packet.id && !agreementAccepted) {
+      document.getElementById('agreementActionCard').hidden = false;
+      document.getElementById('portalStatusSummary').textContent = 'Agreement packet pending client acceptance.';
+      document.getElementById('portalStatusPill').textContent = 'Pending';
+      document.getElementById('portalStatusPill').classList.add('pending');
+      const actionList = document.getElementById('dashboardActionList');
+      actionList.innerHTML = '<li>Review and accept the CPSM agreement packet</li><li>Confirm authorized signer details</li><li>Return to dashboard after agreement acceptance</li>';
+    }
+
+    if (agreementAccepted) {
       document.getElementById('portalStatusSummary').textContent = 'Onboarding agreements accepted.';
       document.getElementById('portalStatusPill').textContent = 'Accepted';
       document.getElementById('portalStatusPill').classList.add('accepted');
