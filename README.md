@@ -1,70 +1,51 @@
-# Momentum Data Website Starter
+# CPSM — Client Portfolio Service Manager
 
-This is a one-page responsive website for Momentum Data, a small business focused on data extraction, spreadsheet cleanup, reporting, workflow automation, and HCM/payroll data support.
+CPSM is a standalone client portfolio service management product preview. It is designed to organize client onboarding, agreement packet initiation, portfolio status, service requests, shared documents, messages, and settings in one client-facing workspace.
 
-## Files included
+## Current product state
 
-- `index.html` — main website page
-- `styles.css` — website styling and responsive layout
-- `script.js` — mobile navigation and current year script
+This repository currently contains a static HTML/CSS/JavaScript preview that can be deployed to Vercel, GitHub Pages, Netlify, or any static host. It is not yet a production SaaS application and does not include backend authentication, database persistence, or secure document storage.
 
-## How to preview locally
+## Core files
 
-1. Unzip this folder.
-2. Open `index.html` in your browser.
+- `index.html` — CPSM standalone landing page and product entry point.
+- `login.html` — CPSM client log-in preview.
+- `client-portal.html` — client dashboard after agreement acceptance.
+- `cpsm-client-onboarding.html` — internal/admin-style client onboarding page for initiating client onboarding and agreement packets.
+- `cpsm-agreements.html` — client agreement review and acceptance page for packets initiated through onboarding.
+- `cpsm-portfolio.html` — portfolio status module.
+- `cpsm-requests.html` — service request module.
+- `cpsm-documents.html` — document access module.
+- `cpsm-messages.html` — communication module.
+- `cpsm-settings.html` — account, notification, and access settings module.
+- `client-portfolio-menu.js` — shared CPSM navigation and drawer behavior.
+- `cpsm-navigation.css` — CPSM navigation, onboarding, agreements, and module styling.
+- `assets/cpsm-logo-horizontal.svg` — approved CPSM logo lockup used across navigation and login screens.
 
-## How to publish online
+## Client onboarding flow
 
-You can upload this folder to a static hosting service such as Netlify, GitHub Pages, Vercel, or your web host.
+1. Open `cpsm-client-onboarding.html`.
+2. Select **Initiate Client Onboarding**.
+3. Enter the client email address, authorized signer name, and onboarding date.
+4. CPSM creates a local agreement packet and marks the client as pending client acceptance.
+5. Open `cpsm-agreements.html` for agreement review and acceptance.
+6. After acceptance, the client can access `client-portal.html`.
 
-For the easiest Netlify upload:
+## Preview storage
 
-1. Unzip the ZIP file.
-2. Drag the entire `momentum-data-website` folder into Netlify's deploy area.
-3. Netlify will give you a temporary live website link.
+The current static preview uses browser storage:
 
-## Before publishing
+- `localStorage.cpsmOnboardingClients` — client onboarding records.
+- `localStorage.cpsmAgreementPacket` — currently active agreement packet.
+- `localStorage.cpsmAgreementAcceptance` — agreement acceptance flags and timestamp.
+- `sessionStorage.cpsmClientPortalPreview` — dashboard preview information.
 
-1. Replace `your-email@example.com` in `index.html` with your real business email.
-2. Review the service wording and package names.
-3. Connect the contact form to Netlify Forms, Formspree, or another form service if you do not want to use the mail app fallback.
+These are placeholders until CPSM is connected to a backend database, authentication layer, and document storage service.
 
+## Recommended next steps
 
-Review update:
-- Removed the hero card for a cleaner hero section.
-- Applied the white, light blue, #1f6feb blue, and dark orange palette.
-- Updated typography: Cormorant Garamond for titles/subtitles and Arial for body/navigation text.
-- Adjusted header so menu links center and Contact us sits on the right on desktop.
-
-
-## Logo update
-
-This version includes the Momentum Data logo applied to the website header, hero area, and footer.
-
-Logo assets included:
-- `assets/momentum-data-md-mark.png` — standalone MD logo graphic
-- `assets/momentum-data-wordmark.png` — standalone Momentum Data wordmark
-- `assets/momentum-data-logo-full.png` — combined MD graphic and Momentum Data wordmark
-- `assets/favicon.svg` — browser tab icon
-
-
-## Latest review fixes
-
-- Fixed the hero text carousel so only one sentence displays at a time.
-- Added the orange-to-blue gradient navigation bar.
-- Restored the desktop navigation spacing with `gap: 30px`.
-- Cleaned duplicate navigation link CSS rules that were overriding the white nav text.
-- Kept the mobile menu readable on a white dropdown background.
-- Kept the navigation logo controlled so it does not appear oversized.
-- Corrected the Home link to point back to the top of the page.
-
-
-## Latest synced update
-
-This package includes:
-- `client-portal.html` — front-end client login and project portal preview.
-- `assets/services-consultation-bg.jpg` — Services section background photo.
-- Approved cookie notice banner HTML/CSS/JavaScript.
-- Services section background image scoped only to `#services`.
-
-Note: The client portal is a static front-end preview and does not provide secure authentication until connected to a backend or member portal service.
+1. Rename the GitHub repository from `cp_service_manager` to `cp-service-manager` for cleaner product naming.
+2. Connect the repository to Vercel as the official CPSM deployment.
+3. Convert the static prototype to a Next.js app when backend routing, authentication, role-based access, and database persistence are ready.
+4. Add admin/client role separation so Client Onboarding is limited to internal users.
+5. Replace browser storage with a real database model for clients, agreement packets, signatures, requests, documents, and messages.
