@@ -9,8 +9,8 @@ This repository currently contains a static HTML/CSS/JavaScript preview that can
 ## Core files
 
 - `index.html` — CPSM standalone landing page and product entry point.
-- `login.html` — CPSM client log-in preview.
-- `client-portal.html` — client dashboard after agreement acceptance.
+- `login.html` — CPSM client log-in preview; sends users to the Dashboard first.
+- `client-portal.html` — CPSM app home/dashboard. Pending agreements appear as required dashboard actions instead of replacing the Dashboard as the home page.
 - `cpsm-client-onboarding.html` — internal/admin-style client onboarding page for initiating client onboarding and agreement packets.
 - `cpsm-agreements.html` — client agreement review and acceptance page for packets initiated through onboarding.
 - `cpsm-portfolio.html` — portfolio status module.
@@ -28,8 +28,9 @@ This repository currently contains a static HTML/CSS/JavaScript preview that can
 2. Select **Initiate Client Onboarding**.
 3. Enter the client email address, authorized signer name, and onboarding date.
 4. CPSM creates a local agreement packet and marks the client as pending client acceptance.
-5. Open `cpsm-agreements.html` for agreement review and acceptance.
-6. After acceptance, the client can access `client-portal.html`.
+5. The client logs in and lands on `client-portal.html`, the Dashboard.
+6. If an agreement packet is pending, the Dashboard shows a required action card linking to `cpsm-agreements.html`.
+7. After acceptance, the Dashboard status updates to accepted/onboarded.
 
 ## Preview storage
 
