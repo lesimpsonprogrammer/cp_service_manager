@@ -22,9 +22,9 @@
         <span></span><span></span><span></span><span></span>
       </div>
       <div class="login-visual-overlay">
-        <p class="tile-kicker">Client Portfolio Service Manager, A Momentum Data Solutions Software Company</p>
+        <p class="tile-kicker">Client Portfolio Service Manager</p>
         <h1>Welcome to CPSM</h1>
-        <p>Access your dashboard, portfolio, requests, documents, messages, agreements, and settings from one secure client portal.</p>
+        <p>Access onboarding, agreements, portfolio updates, requests, documents, messages, and settings from one organized client service workspace.</p>
       </div>
     </section>
 
@@ -32,16 +32,7 @@
       <div class="login-form-stack">
         <div class="login-card cpsm-login-card">
           <div class="cpsm-login-brand cpsm-login-brand-logo" aria-label="Client Portfolio Service Manager">
-            <div class="cpsm-login-logo-lockup" aria-hidden="true">
-              <span class="cpsm-logo-wheel">
-                <span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span>
-              </span>
-              <span class="cpsm-logo-copy">
-                <strong>CPSM</strong>
-                <span>Client Portfolio Service Manager</span>
-              </span>
-            </div>
+            <img class="cpsm-login-logo" src="assets/cpsm-logo-horizontal.svg?v=20260622" alt="Client Portfolio Service Manager logo" />
           </div>
 
           <h2 id="login-title">Client log-in</h2>
@@ -65,7 +56,7 @@
             <button class="btn primary full" type="submit">Log In</button>
           </form>
 
-          <p class="portfolio-update-note">After log-in, clients must accept the required agreements before entering the dashboard.</p>
+          <p class="portfolio-update-note">After log-in, clients review the agreement packet initiated through Client Onboarding before entering the dashboard.</p>
         </div>
       </div>
     </section>
@@ -78,12 +69,13 @@
       const formData = new FormData(form);
       const userName = String(formData.get('userName') || 'Client').trim() || 'Client';
       const clientId = String(formData.get('clientId') || 'CPSM client').trim() || 'CPSM client';
+      const packet = JSON.parse(localStorage.getItem('cpsmAgreementPacket') || '{}');
       const portalData = {
-        clientName: userName,
-        companyName: clientId,
-        projectName: 'Active portfolio',
-        projectDetails: 'Data mapping is underway. The next client review is scheduled after validation notes are prepared.',
-        dueDate: 'To be confirmed'
+        clientName: packet.authorizedSigner || userName,
+        companyName: packet.clientEmail || clientId,
+        projectName: packet.id ? 'Client onboarding' : 'Active portfolio',
+        projectDetails: packet.id ? 'Client onboarding has been initiated. The agreement packet is pending client acceptance.' : 'Data mapping is underway. The next client review is scheduled after validation notes are prepared.',
+        dueDate: packet.onboardingDate || 'To be confirmed'
       };
       sessionStorage.setItem('cpsmClientPortalPreview', JSON.stringify(portalData));
       sessionStorage.setItem('momentumDataClientPortalPreview', JSON.stringify(portalData));
