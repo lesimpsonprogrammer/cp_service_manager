@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <meta content="Review and accept CPSM confidentiality, engagement, and electronic signature terms." name="description" />
+  <meta content="Review CPSM agreement packets initiated through Client Onboarding." name="description" />
   <title>Agreements | Client Portfolio Service Manager</title>
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
@@ -15,56 +14,146 @@
   <link href="client-portfolio-menu.css" rel="stylesheet" />
   <link href="cpsm-navigation.css" rel="stylesheet" />
 </head>
-
 <body class="cpsm-app cpsm-module-page" data-cpsm-page="agreements">
-  <header class="site-header client-portfolio-header cpsm-header" id="top">
-    <nav aria-label="CPSM navigation" class="nav container">
-      <button class="portal-panel-toggle header-panel-toggle" id="portalPanelToggle" type="button" aria-label="Open CPSM menu" aria-controls="portalPanelMenu" aria-expanded="false">
-        <span class="portal-panel-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
-        <span class="portal-panel-toggle-label">CPSM Menu</span>
-      </button>
-      <a aria-label="CPSM dashboard" class="brand cpsm-brand" href="client-portal.html"><span class="cpsm-brand-mark">CPSM</span><span class="cpsm-brand-text">Client Portfolio Service Manager</span></a>
-      <button aria-expanded="false" aria-label="Open menu" class="nav-toggle"><span></span><span></span><span></span></button>
-      <div class="nav-links cpsm-nav-links">
-        <a href="client-portal.html">Dashboard</a><a href="cpsm-portfolio.html">Portfolio</a><a href="cpsm-requests.html">Requests</a><a href="cpsm-documents.html">Documents</a><a href="cpsm-messages.html">Messages</a><a href="cpsm-agreements.html" aria-current="page">Agreements</a><a href="cpsm-settings.html">Settings</a><a class="mobile-client-login" href="login.html">Log out</a>
-      </div>
-      <div class="nav-actions nav-contact"><a class="nav-client-login" href="login.html">Log out</a></div>
-    </nav>
-  </header>
-
   <main class="cpsm-section-main">
-    <section class="cpsm-section-hero" aria-labelledby="agreementsTitle"><div class="container"><p class="tile-kicker">Client Portfolio Service Manager</p><h1 id="agreementsTitle">Agreements</h1><p class="portal-note">Clients must accept the confidentiality agreement, engagement contract, and electronic signature consent before entering the CPSM dashboard.</p></div></section>
-    <section class="section" aria-label="CPSM agreement acceptance"><div class="container">
-      <form class="portal-tile cpsm-agreement-form" id="cpsmAgreementForm">
-        <div class="agreement-review-grid"><section><h3>Confidentiality agreement</h3><p>Client agrees to protect confidential information, shared files, project notes, credentials, and business data exchanged through CPSM.</p></section><section><h3>Client engagement contract</h3><p>Client agrees to the scope of services, communication expectations, delivery review process, and responsibilities for requested work.</p></section></div>
-        <label><input id="confidentialityAccepted" name="confidentialityAccepted" type="checkbox" required /> I agree to comply with the CPSM confidentiality agreement.</label>
-        <label><input id="engagementAccepted" name="engagementAccepted" type="checkbox" required /> I agree to the client engagement contract for the selected services.</label>
-        <label><input id="electronicSignatureConsent" name="electronicSignatureConsent" type="checkbox" required /> I consent to using electronic acknowledgement as my acceptance.</label>
-        <button class="btn primary" type="submit">Accept and continue</button>
-        <p class="message-confirmation" id="agreementConfirmation" hidden>Agreement acceptance saved. Opening your dashboard now.</p>
-      </form>
-    </div></section>
+    <section class="cpsm-section-hero" aria-labelledby="agreementsTitle">
+      <div class="container">
+        <p class="tile-kicker">Client Portfolio Service Manager</p>
+        <h1 id="agreementsTitle">Agreements</h1>
+        <p class="portal-note">Agreement packets are initiated through Client Onboarding before the client accepts confidentiality, engagement, and electronic signature terms.</p>
+      </div>
+    </section>
+
+    <section class="section" aria-label="CPSM agreement packet acceptance">
+      <div class="container cpsm-onboarding-shell">
+        <section class="portal-tile portal-tile-large" id="agreementPacketCard">
+          <div class="tile-heading-row">
+            <div>
+              <p class="tile-kicker">Initiated packet</p>
+              <h2>Client agreement packet</h2>
+            </div>
+            <a class="btn secondary" href="cpsm-client-onboarding.html">Client Onboarding</a>
+          </div>
+          <div class="packet-summary-grid" id="agreementPacketSummary"></div>
+          <p class="portal-note" id="agreementPacketNote"></p>
+        </section>
+
+        <form class="portal-tile cpsm-agreement-form" id="cpsmAgreementForm">
+          <div class="agreement-review-grid">
+            <section>
+              <h3>Confidentiality agreement</h3>
+              <p>Client agrees to protect confidential information, shared files, project notes, credentials, and business data exchanged through CPSM.</p>
+            </section>
+            <section>
+              <h3>Client engagement contract</h3>
+              <p>Client agrees to the scope of services, communication expectations, delivery review process, and responsibilities for requested work.</p>
+            </section>
+          </div>
+
+          <label><input id="confidentialityAccepted" name="confidentialityAccepted" type="checkbox" required /> I agree to comply with the CPSM confidentiality agreement.</label>
+          <label><input id="engagementAccepted" name="engagementAccepted" type="checkbox" required /> I agree to the client engagement contract for the selected services.</label>
+          <label><input id="electronicSignatureConsent" name="electronicSignatureConsent" type="checkbox" required /> I consent to using electronic acknowledgement as my acceptance.</label>
+
+          <button class="btn primary" id="agreementSubmitButton" type="submit">Accept and continue</button>
+          <p class="message-confirmation" id="agreementConfirmation" hidden>Agreement acceptance saved. Opening your dashboard now.</p>
+        </form>
+      </div>
+    </section>
   </main>
 
-  <div class="portal-panel-backdrop" id="portalPanelBackdrop" hidden></div>
-  <aside class="portal-panel-drawer" id="portalPanelMenu" aria-label="CPSM menu" aria-hidden="true" hidden><div class="portal-panel-drawer-header"><div><p class="tile-kicker">CPSM</p><h2>Portal Menu</h2></div><button class="portal-panel-close" id="portalPanelClose" type="button" aria-label="Close portal menu">×</button></div><div class="portal-panel-sections"><section class="side-panel-card tools-card"><h2>Workspace</h2><div class="tool-link-list"><a href="client-portal.html"><strong>Dashboard</strong><span>Open workspace</span></a><a href="cpsm-portfolio.html"><strong>Portfolio</strong><span>Review client portfolio</span></a><a href="cpsm-requests.html"><strong>Requests</strong><span>Track service requests</span></a><a href="cpsm-documents.html"><strong>Documents</strong><span>Access shared files</span></a><a href="cpsm-messages.html"><strong>Messages</strong><span>View communications</span></a><a href="cpsm-agreements.html" aria-current="page"><strong>Agreements</strong><span>Review agreements</span></a><a href="cpsm-settings.html"><strong>Settings</strong><span>Configure CPSM</span></a></div></section><section class="side-panel-card portal-contact-tile"><h2>Account access</h2><p>Replies within one business day.</p><button class="btn secondary full" id="portalMenuLogout" type="button">Log out</button></section></div></aside>
-
-  <script src="script.js"></script>
   <script src="client-portfolio-menu.js"></script>
+  <script src="script.js"></script>
   <script>
     (() => {
+      const packetKey = 'cpsmAgreementPacket';
+      const acceptanceKey = 'cpsmAgreementAcceptance';
+      const recordsKey = 'cpsmOnboardingClients';
       const form = document.getElementById('cpsmAgreementForm');
       const confirmation = document.getElementById('agreementConfirmation');
-      const savedAgreement = JSON.parse(localStorage.getItem('cpsmAgreementAcceptance') || '{}');
-      ['confidentialityAccepted', 'engagementAccepted', 'electronicSignatureConsent'].forEach((field) => { const input = document.getElementById(field); if (input) input.checked = Boolean(savedAgreement[field]); });
+      const summary = document.getElementById('agreementPacketSummary');
+      const packetNote = document.getElementById('agreementPacketNote');
+      const submitButton = document.getElementById('agreementSubmitButton');
+      const packet = JSON.parse(localStorage.getItem(packetKey) || '{}');
+      const savedAgreement = JSON.parse(localStorage.getItem(acceptanceKey) || '{}');
+      const fields = ['confidentialityAccepted', 'engagementAccepted', 'electronicSignatureConsent'];
+
+      function formatDate(value) {
+        if (!value) return 'Not set';
+        const parsed = new Date(`${value}T00:00:00`);
+        if (Number.isNaN(parsed.getTime())) return value;
+        return parsed.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+      }
+
+      function renderPacket() {
+        const hasPacket = Boolean(packet.id);
+        summary.innerHTML = hasPacket ? `
+          <div><strong>Client email</strong><span>${packet.clientEmail}</span></div>
+          <div><strong>Authorized signer</strong><span>${packet.authorizedSigner}</span></div>
+          <div><strong>Onboarding date</strong><span>${formatDate(packet.onboardingDate)}</span></div>
+          <div><strong>Status</strong><span>${packet.agreementStatus || packet.status || 'Pending client acceptance'}</span></div>
+        ` : `
+          <div><strong>Client email</strong><span>Not initiated</span></div>
+          <div><strong>Authorized signer</strong><span>Not initiated</span></div>
+          <div><strong>Onboarding date</strong><span>Not initiated</span></div>
+          <div><strong>Status</strong><span>No active packet</span></div>
+        `;
+
+        packetNote.textContent = hasPacket
+          ? 'This packet was initiated from the Client Onboarding page and is ready for client acceptance.'
+          : 'No active agreement packet has been initiated. Open Client Onboarding first, then return here for client acceptance.';
+
+        fields.forEach((field) => {
+          const input = document.getElementById(field);
+          if (!input) return;
+          input.checked = Boolean(savedAgreement[field]);
+          input.disabled = !hasPacket;
+        });
+        submitButton.disabled = !hasPacket;
+      }
+
+      function updateOnboardingRecord(acceptedAgreement) {
+        const records = JSON.parse(localStorage.getItem(recordsKey) || '[]');
+        const updatedRecords = records.map((record) => {
+          if (record.id !== acceptedAgreement.packetId) return record;
+          return {
+            ...record,
+            status: 'Onboarded',
+            agreementStatus: 'Accepted',
+            acceptedAt: acceptedAgreement.acceptedAt
+          };
+        });
+        localStorage.setItem(recordsKey, JSON.stringify(updatedRecords));
+        localStorage.setItem(packetKey, JSON.stringify({
+          ...packet,
+          status: 'Onboarded',
+          agreementStatus: 'Accepted',
+          acceptedAt: acceptedAgreement.acceptedAt
+        }));
+      }
+
       form.addEventListener('submit', (event) => {
         event.preventDefault();
-        localStorage.setItem('cpsmAgreementAcceptance', JSON.stringify({ confidentialityAccepted: document.getElementById('confidentialityAccepted').checked, engagementAccepted: document.getElementById('engagementAccepted').checked, electronicSignatureConsent: document.getElementById('electronicSignatureConsent').checked, acceptedAt: new Date().toISOString() }));
+        if (!packet.id) return;
+
+        const acceptedAgreement = {
+          packetId: packet.id,
+          clientEmail: packet.clientEmail,
+          authorizedSigner: packet.authorizedSigner,
+          onboardingDate: packet.onboardingDate,
+          confidentialityAccepted: document.getElementById('confidentialityAccepted').checked,
+          engagementAccepted: document.getElementById('engagementAccepted').checked,
+          electronicSignatureConsent: document.getElementById('electronicSignatureConsent').checked,
+          acceptedAt: new Date().toISOString()
+        };
+
+        localStorage.setItem(acceptanceKey, JSON.stringify(acceptedAgreement));
+        updateOnboardingRecord(acceptedAgreement);
         confirmation.hidden = false;
         window.location.href = 'client-portal.html';
       });
+
+      renderPacket();
     })();
   </script>
 </body>
-
 </html>
