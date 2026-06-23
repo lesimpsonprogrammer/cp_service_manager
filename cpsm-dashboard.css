@@ -56,7 +56,8 @@
   background: #ffffff;
 }
 
-.dashboard-rail {
+.dashboard-rail,
+.dashboard-rail-group {
   display: grid;
   gap: 0.14rem;
 }
@@ -80,11 +81,23 @@
   color: #111111;
 }
 
-.dashboard-rail a:first-child {
+.dashboard-rail > a:first-child {
   margin-bottom: 0.75rem;
   padding-bottom: 0.68rem;
   border-bottom-color: #eeeeee;
   color: #111111;
+}
+
+.dashboard-rail-nested {
+  margin-left: 0.72rem;
+  padding-left: 0.76rem !important;
+  color: #666666 !important;
+  font-size: 0.8rem !important;
+}
+
+.dashboard-rail-nested::before {
+  content: "↳ ";
+  color: #a3a3a3;
 }
 
 .dashboard-content {
@@ -182,7 +195,8 @@
 }
 
 .dashboard-metric-row div,
-.dashboard-list div {
+.dashboard-list div,
+.module-card {
   padding: 0.85rem;
   border: 1px solid #e5e5e5;
   border-radius: 0.65rem;
@@ -191,7 +205,8 @@
 
 .dashboard-metric-row span,
 .dashboard-list span,
-.dashboard-list em {
+.dashboard-list em,
+.module-card span {
   display: block;
   color: #666666;
   font-size: 0.78rem;
@@ -200,13 +215,15 @@
 }
 
 .dashboard-metric-row strong,
-.dashboard-list span {
+.dashboard-list span,
+.module-card strong {
   margin-top: 0.25rem;
   color: #111111;
   font-size: 0.88rem;
 }
 
-.dashboard-grid {
+.dashboard-grid,
+.module-card-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
@@ -239,6 +256,32 @@
   line-height: 1.5;
 }
 
+.module-page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.module-page-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 0.9rem;
+  border: 1px solid #d9d9d9;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  color: #111111;
+  font-size: 0.84rem;
+  text-decoration: none;
+}
+
+.module-page-actions a:hover,
+.module-page-actions a:focus {
+  border-color: #111111;
+}
+
 .cookie-notice-content strong {
   color: #111111;
 }
@@ -264,7 +307,8 @@
 
 @media (max-width: 760px) {
   .dashboard-grid,
-  .dashboard-metric-row {
+  .dashboard-metric-row,
+  .module-card-grid {
     grid-template-columns: 1fr;
   }
 
