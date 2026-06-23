@@ -32,6 +32,20 @@ This document is the source of truth for important CPSM project decisions, appro
 - Core visual proportions.
 - Dashboard or client portal structure.
 
+## Active Change Notes
+
+### 2026-06-23 — Form proportion pass
+
+Controlled adjustment completed on `feature/cpsm-form-v1`:
+
+- Reduced the size of the `Log into Client Portfolio` heading.
+- Removed the blue border around the right-side form card.
+- Increased the width of the form stack and entry fields.
+- Updated the second field label from `User Name` to `Client User`.
+- Added `cpsm-login-experience.css` as a dedicated override file so the approved baseline styles remain easier to protect and review.
+
+This pass is limited to form/card proportions and should be visually reviewed before any merge into `main`.
+
 ## Baseline Decision
 
 The CPSM login page was restored to commit `5f52e25` after later versions introduced visual drift, including a blurry left-side image, oversized login text, missing welcome messaging, and a layout that no longer matched the intended direction.
