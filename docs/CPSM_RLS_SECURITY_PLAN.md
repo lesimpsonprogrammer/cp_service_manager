@@ -10,7 +10,7 @@ This document defines the initial security direction for Client Portfolio Servic
 
 **Database status:** No public tables were found during the first read-only table check.
 
-**Schema status:** `supabase/schema.sql` exists as a review-only draft. It has not been applied to Supabase.
+**Schema status:** Review-only migration drafts exist in GitHub. They have not been applied to Supabase.
 
 ## Security Principle
 
@@ -42,7 +42,7 @@ Recommended roles with system-level access:
 
 - Superuser
 - Admin
-- Engineering Admin, only for technical setup and support areas
+- Engineering Admin, only for technical setup and support areas unless temporary sudo access has been approved
 
 ### Client Company Level
 
@@ -77,7 +77,7 @@ Recommended roles with client-company-level access:
 
 ### Superuser
 
-Full access across CPSM. Can configure system settings, manage all clients, manage all users, apply security settings, and review audit logs.
+Full access across CPSM. Can configure system settings, manage all clients, manage all users, apply security settings, approve sudo access, and review audit logs.
 
 ### Admin
 
@@ -105,11 +105,44 @@ Assigned delivery support. Can access assigned project records, workflows, and d
 
 ### Engineering Admin
 
-Technical setup and support. Can help configure technical settings but should not automatically receive business-financial authority unless assigned.
+Technical setup and support. Can help configure technical settings but should not automatically receive broad business-financial authority.
+
+Engineering Admin may gain temporary elevated sudo access only when approved by a Superuser. Sudo access must be tied to a user request, specific reason, defined scope, one-hour expiration, and audit logging.
 
 ### Client
 
 Client-facing access only. Can access approved records for their assigned client company, such as project updates, agreements, invoices, deliverables, and messages. Clients should not access system settings or other client companies.
+
+## Sudo Access Model
+
+CPSM should support temporary, approved, audited sudo access for situations where an Engineering Admin or approved user must manage and/or assist in the absence of a Super Admin or Superuser.
+
+### Sudo Access Rules
+
+- **Who requested access:** the user requesting access.
+- **Who approved access:** a Superuser.
+- **Why access was needed:** based on the user request.
+- **What scope was granted:** permission to manage and/or assist in the absence of a Super Admin or Superuser.
+- **When access expires:** one hour from approval.
+- **Audit logging:** every request, approval, denial, revocation, expiration, and update must be logged.
+
+### Sudo Access Statuses
+
+Sudo access should support these statuses:
+
+- `requested`
+- `approved`
+- `expired`
+- `revoked`
+- `denied`
+
+### Sudo Access Controls
+
+Only a Superuser should approve, deny, or revoke sudo access.
+
+Users may request sudo access for themselves only.
+
+Approved sudo access should be time-bound and should expire automatically or be treated as inactive after the one-hour expiration window.
 
 ## Table Protection Direction
 
@@ -122,9 +155,10 @@ These tables should have the strictest policies:
 - `permissions`
 - `role_permissions`
 - `client_user_access`
+- `sudo_access_sessions`
 - `audit_logs`
 
-Only approved internal roles should manage these tables.
+Only approved internal roles should manage these tables. Sudo access may temporarily extend internal admin authority only when approved and active.
 
 ### Client-Scoped Protection
 
@@ -161,7 +195,11 @@ Add policies that allow users to see records connected to client companies where
 
 Add permission-based checks for create, update, and delete actions using assigned roles and permissions.
 
-### Phase 4 — Client User Experience
+### Phase 4 — Sudo Access
+
+Add temporary sudo access that allows approved users to gain time-bound elevated access. Sudo access must be approved by a Superuser, expire one hour from approval, and write to audit logs.
+
+### Phase 5 — Client User Experience
 
 Add client-facing policies for read-only or limited update access to approved client records.
 
@@ -174,12 +212,17 @@ CPSM should log important actions, including:
 - Client company setup changes
 - System settings changes
 - Security settings changes
+- Sudo access requests
+- Sudo access approvals
+- Sudo access denials
+- Sudo access revocations
+- Sudo access expirations
 - Agreement status changes
 - Invoice status changes
 - Project status changes
 - Workflow changes
 
-The `audit_logs` table should not be freely editable by normal users. Ideally, audit records should be written through controlled backend logic or database functions.
+The `audit_logs` table should not be freely editable by normal users. Ideally, audit records should be written through controlled backend logic, database functions, or audited triggers.
 
 ## Frontend Security Direction
 
@@ -198,27 +241,29 @@ Frontend code may use:
 
 ## Pre-Migration Checklist
 
-Before applying `supabase/schema.sql` to Supabase:
+Before applying migrations to Supabase:
 
 - Review table names.
 - Review role names.
 - Review permission groups.
 - Confirm RLS should be enabled on all application tables.
-- Decide whether seed role and permission data should be included in the first migration.
-- Define initial policies or prepare a second policy migration.
+- Decide whether seed role and permission data should be included in the first migration or kept separate.
+- Review initial policies.
+- Review sudo access policy and expiration rules.
 - Confirm no frontend page is connected before policies are ready.
 
 ## Recommended Migration Order
 
-1. `create_cpsm_core_schema`
-2. `create_cpsm_initial_rls_policies`
-3. `seed_cpsm_roles_and_permissions`
-4. `create_cpsm_storage_buckets`
-5. `create_cpsm_audit_helpers`
+1. `001_create_cpsm_core_schema`
+2. `002_seed_cpsm_roles_and_permissions`
+3. `003_create_cpsm_initial_rls_policies`
+4. `004_create_cpsm_sudo_access_model`
+5. `005_create_cpsm_storage_buckets`
+6. `006_create_cpsm_audit_helpers`
 
 ## Do Not Do Yet
 
-Do not apply the draft schema directly to production until the schema and RLS policy approach are reviewed.
+Do not apply the draft migrations directly to production until the schema and RLS policy approach are reviewed.
 
 Do not connect the settings page to Supabase until RLS policies and test users are in place.
 
