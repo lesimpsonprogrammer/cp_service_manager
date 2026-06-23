@@ -49,6 +49,19 @@ The settings shell currently saves preview values in browser storage only. A fut
 
 ## Active Change Notes
 
+### 2026-06-23 — Persistent Vercel-inspired settings side panel
+
+Controlled adjustment completed on `feature/cpsm-settings-v1`:
+
+- Removed the hamburger menu interaction from the Settings page.
+- Moved Settings & Configuration navigation into a persistent left-side panel.
+- Kept Dashboard as the always-available return link at the top of the side panel.
+- Refined the side panel toward a Vercel-inspired workspace style: white surface, thin borders, compact text, subtle hover states, and neutral black/gray controls.
+- Preserved CPSM/Momentum branding while using Vercel only as high-level inspiration.
+- Future versions should filter side panel items by the user's approved role and permissions.
+
+This settings page should be visually reviewed before it is merged into `main`.
+
 ### 2026-06-23 — Settings and side panel menu restructure
 
 Controlled adjustment completed on `feature/cpsm-settings-v1`:
