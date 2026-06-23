@@ -19,15 +19,6 @@
 <body>
   <header class="site-header client-portfolio-header" id="top">
     <nav aria-label="CPSM settings navigation" class="nav container">
-      <button class="portal-panel-toggle header-panel-toggle" id="portalPanelToggle" type="button" aria-label="Open Client Portfolio menu" aria-controls="portalPanelMenu" aria-expanded="false">
-        <span class="portal-panel-toggle-icon" aria-hidden="true">
-          <span></span>
-          <span></span>
-          <span></span>
-        </span>
-        <span class="portal-panel-toggle-label">Portal Menu</span>
-      </button>
-
       <a aria-label="Momentum Data home" class="brand brand-image-only" href="client-portal.html">
         <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data logo" class="brand-logo brand-logo-transparent" />
       </a>
@@ -69,7 +60,18 @@
 
     <section class="settings-workspace" aria-label="CPSM settings workspace">
       <div class="container settings-layout">
-        <aside class="settings-sidebar" aria-label="Settings sections">
+        <aside class="settings-sidebar" aria-label="Settings and configuration side panel">
+          <div class="settings-sidebar-header">
+            <span class="status-pill">Settings</span>
+            <h2>Settings &amp; Configuration</h2>
+            <p>Context-aware settings menu. Dashboard always remains available.</p>
+          </div>
+
+          <div class="settings-sidebar-group settings-sidebar-dashboard">
+            <span>Always Available</span>
+            <a href="client-portal.html">Dashboard</a>
+          </div>
+
           <div class="settings-sidebar-group">
             <span>System Settings Level</span>
             <a href="#systemSettings" class="is-active">System Settings</a>
@@ -484,7 +486,7 @@
               <div>
                 <p class="tile-kicker">Side Panel Navigation</p>
                 <h2>Menu Visibility</h2>
-                <p>Choose which workspace destinations appear in the hamburger side panel menu.</p>
+                <p>Choose which workspace destinations appear in the persistent side panel menu.</p>
               </div>
               <span class="settings-section-number">12</span>
             </div>
@@ -539,69 +541,7 @@
     </section>
   </main>
 
-  <div class="portal-panel-backdrop" id="portalPanelBackdrop" hidden></div>
-  <aside class="portal-panel-drawer" id="portalPanelMenu" aria-label="Settings and configuration side panel menu" aria-hidden="true" hidden>
-    <div class="portal-panel-drawer-header">
-      <div>
-        <span class="status-pill">Settings Context</span>
-        <h2>Settings &amp; Configuration</h2>
-        <p class="portal-panel-context-note">This menu changes based on where the user is working. On Settings, it focuses on configuration areas.</p>
-      </div>
-      <button class="portal-panel-close" id="portalPanelClose" type="button" aria-label="Close portal menu">×</button>
-    </div>
-
-    <div class="portal-panel-sections">
-      <section class="side-panel-card tools-card always-available-card">
-        <h2>Always Available</h2>
-        <div class="tool-link-list">
-          <a href="client-portal.html">
-            <strong>Dashboard</strong>
-            <span>Return to the client workspace</span>
-          </a>
-        </div>
-      </section>
-
-      <section class="side-panel-card tools-card">
-        <h2>System Settings Level</h2>
-        <div class="tool-link-list">
-          <a href="#systemSettings"><strong>System Settings</strong><span>Global platform defaults</span></a>
-          <a href="#securitySettings"><strong>Security</strong><span>Login, sessions, audit, and sudo access</span></a>
-          <a href="#roleSettings"><strong>User Roles</strong><span>Role hierarchy and authority</span></a>
-          <a href="#permissionSettings"><strong>User Access Permissions</strong><span>Role permissions and visibility</span></a>
-          <a href="#onboardingSettings"><strong>Client Onboarding Settings</strong><span>Required agreements and launch rules</span></a>
-          <a href="#workflowCenterSettings"><strong>Workflow Center Settings</strong><span>Workflow defaults and approvals</span></a>
-        </div>
-      </section>
-
-      <section class="side-panel-card tools-card">
-        <h2>Client Company Level</h2>
-        <div class="tool-link-list">
-          <a href="#clientCompanySettings"><strong>Configure Client Company</strong><span>Client ID, status, and visibility</span></a>
-          <a href="#projectManagementSettings"><strong>Project Management Settings</strong><span>Project defaults and delivery preferences</span></a>
-          <a href="#financialManagementSettings"><strong>Financial Management Settings</strong><span>Financial menu and access controls</span></a>
-          <a href="#accountingSettings"><strong>Accounting</strong><span>Accounting direction and review role</span></a>
-          <a href="#invoiceSetupSettings"><strong>Invoice Set-up</strong><span>Invoice defaults and visibility</span></a>
-        </div>
-      </section>
-
-      <section class="side-panel-card tools-card">
-        <h2>Navigation Configuration</h2>
-        <div class="tool-link-list">
-          <a href="#sidePanelNavigation"><strong>Side Panel Menu Visibility</strong><span>Configure visible menu destinations</span></a>
-          <a href="#auditSettings"><strong>Audit Log</strong><span>Review settings and security activity</span></a>
-        </div>
-      </section>
-
-      <section class="side-panel-card portal-contact-tile">
-        <h2>Role-based menu</h2>
-        <p>Future versions should show settings links according to the user's approved role. Dashboard should remain available at all times.</p>
-        <button class="btn secondary full" id="portalMenuLogout" type="button">Log out</button>
-      </section>
-    </div>
-  </aside>
-
   <script src="script.js"></script>
-  <script src="client-portfolio-menu.js"></script>
   <script src="cpsm-settings.js"></script>
 </body>
 
