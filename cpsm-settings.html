@@ -540,101 +540,61 @@
   </main>
 
   <div class="portal-panel-backdrop" id="portalPanelBackdrop" hidden></div>
-  <aside class="portal-panel-drawer" id="portalPanelMenu" aria-label="Client Portfolio hamburger menu" aria-hidden="true" hidden>
+  <aside class="portal-panel-drawer" id="portalPanelMenu" aria-label="Settings and configuration side panel menu" aria-hidden="true" hidden>
     <div class="portal-panel-drawer-header">
       <div>
-        <span class="status-pill">Client Portfolio</span>
-        <h2>Side Panel Menu</h2>
+        <span class="status-pill">Settings Context</span>
+        <h2>Settings &amp; Configuration</h2>
+        <p class="portal-panel-context-note">This menu changes based on where the user is working. On Settings, it focuses on configuration areas.</p>
       </div>
       <button class="portal-panel-close" id="portalPanelClose" type="button" aria-label="Close portal menu">×</button>
     </div>
 
     <div class="portal-panel-sections">
-      <section class="side-panel-card tools-card">
-        <h2>Workspace</h2>
+      <section class="side-panel-card tools-card always-available-card">
+        <h2>Always Available</h2>
         <div class="tool-link-list">
           <a href="client-portal.html">
             <strong>Dashboard</strong>
-            <span>Open client workspace</span>
-          </a>
-          <a href="cpsm-settings.html" aria-current="page">
-            <strong>Settings</strong>
-            <span>Configure CPSM</span>
+            <span>Return to the client workspace</span>
           </a>
         </div>
       </section>
 
       <section class="side-panel-card tools-card">
-        <h2>Operations</h2>
+        <h2>System Settings Level</h2>
         <div class="tool-link-list">
-          <a href="#workflowCenterSettings">
-            <strong>Workflows</strong>
-            <span>Manage workflow center</span>
-          </a>
-          <a href="#projectManagementSettings">
-            <strong>Project Management</strong>
-            <span>Projects, milestones, and status</span>
-          </a>
-          <a href="#financialManagementSettings">
-            <strong>Financial Management</strong>
-            <span>Financial settings and controls</span>
-          </a>
+          <a href="#systemSettings"><strong>System Settings</strong><span>Global platform defaults</span></a>
+          <a href="#securitySettings"><strong>Security</strong><span>Login, sessions, audit, and sudo access</span></a>
+          <a href="#roleSettings"><strong>User Roles</strong><span>Role hierarchy and authority</span></a>
+          <a href="#permissionSettings"><strong>User Access Permissions</strong><span>Role permissions and visibility</span></a>
+          <a href="#onboardingSettings"><strong>Client Onboarding Settings</strong><span>Required agreements and launch rules</span></a>
+          <a href="#workflowCenterSettings"><strong>Workflow Center Settings</strong><span>Workflow defaults and approvals</span></a>
         </div>
       </section>
 
       <section class="side-panel-card tools-card">
-        <h2>Client Records</h2>
+        <h2>Client Company Level</h2>
         <div class="tool-link-list">
-          <a href="#onboardingSettings">
-            <strong>Agreements</strong>
-            <span>Client acknowledgments</span>
-          </a>
-          <a href="#invoiceSetupSettings">
-            <strong>Invoices</strong>
-            <span>Invoice setup and visibility</span>
-          </a>
-          <a href="#financialManagementSettings">
-            <strong>Sales Management</strong>
-            <span>Sales tracking direction</span>
-          </a>
+          <a href="#clientCompanySettings"><strong>Configure Client Company</strong><span>Client ID, status, and visibility</span></a>
+          <a href="#projectManagementSettings"><strong>Project Management Settings</strong><span>Project defaults and delivery preferences</span></a>
+          <a href="#financialManagementSettings"><strong>Financial Management Settings</strong><span>Financial menu and access controls</span></a>
+          <a href="#accountingSettings"><strong>Accounting</strong><span>Accounting direction and review role</span></a>
+          <a href="#invoiceSetupSettings"><strong>Invoice Set-up</strong><span>Invoice defaults and visibility</span></a>
         </div>
       </section>
 
       <section class="side-panel-card tools-card">
-        <h2>Client Setup</h2>
+        <h2>Navigation Configuration</h2>
         <div class="tool-link-list">
-          <a href="#clientCompanySettings">
-            <strong>Configure Client Company</strong>
-            <span>Client ID, status, and visibility</span>
-          </a>
-          <a href="#onboardingSettings">
-            <strong>Client Onboarding</strong>
-            <span>Launch requirements</span>
-          </a>
-          <a href="#permissionSettings">
-            <strong>Client Directory</strong>
-            <span>Users and access direction</span>
-          </a>
-        </div>
-      </section>
-
-      <section class="side-panel-card tools-card">
-        <h2>Tools</h2>
-        <div class="tool-link-list">
-          <a href="calculator.html" target="_blank" rel="noopener">
-            <strong>Calculator</strong>
-            <span>Open tool</span>
-          </a>
-          <a href="project-estimator.html" target="_blank" rel="noopener">
-            <strong>Project Estimator</strong>
-            <span>Open tool</span>
-          </a>
+          <a href="#sidePanelNavigation"><strong>Side Panel Menu Visibility</strong><span>Configure visible menu destinations</span></a>
+          <a href="#auditSettings"><strong>Audit Log</strong><span>Review settings and security activity</span></a>
         </div>
       </section>
 
       <section class="side-panel-card portal-contact-tile">
-        <h2>Account access</h2>
-        <p>Access remains in preview mode until Supabase roles and policies are connected.</p>
+        <h2>Role-based menu</h2>
+        <p>Future versions should show settings links according to the user's approved role. Dashboard should remain available at all times.</p>
         <button class="btn secondary full" id="portalMenuLogout" type="button">Log out</button>
       </section>
     </div>
