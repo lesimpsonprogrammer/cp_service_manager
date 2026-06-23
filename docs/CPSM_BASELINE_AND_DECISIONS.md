@@ -49,6 +49,21 @@ The settings shell currently saves preview values in browser storage only. A fut
 
 ## Active Change Notes
 
+### 2026-06-23 — Dashboard module links moved to pages
+
+Controlled adjustment completed on `feature/cpsm-settings-v1`:
+
+- Removed Dashboard module tiles for Financial Management, Project Management, Client Onboarding, ETL Pipeline, API, Workflow Center, Notifications, and Agreements.
+- Kept the Dashboard as a focused overview page with the current status panel and key project metrics.
+- Moved those module destinations into the persistent left-side rail.
+- Nested Financial Management under Project Management.
+- Nested Agreements under Client Onboarding.
+- Created dedicated module pages for Project Management, Financial Management, Client Onboarding, Agreements, Workflow Center, ETL Pipeline, API Center, and Notifications.
+- Used `api-center.html` as the page filename while keeping the visible side-panel label as API.
+- Kept the Vercel-inspired workspace style: Arial, clean white cards, compact left rail, thin borders, and neutral controls.
+
+These pages should be visually reviewed before they are merged into `main`.
+
 ### 2026-06-23 — Vercel-inspired dashboard side rail
 
 Controlled adjustment completed on `feature/cpsm-settings-v1`:
