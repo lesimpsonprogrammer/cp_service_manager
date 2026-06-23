@@ -46,6 +46,18 @@ Controlled adjustment completed on `feature/cpsm-form-v1`:
 
 This pass is limited to form/card proportions and should be visually reviewed before any merge into `main`.
 
+### 2026-06-23 — Inline field label pass
+
+Controlled adjustment completed on `feature/cpsm-form-v1`:
+
+- Removed placeholder text from the Client ID, Client User Name, and Password fields.
+- Moved the field labels directly in front of the entry fields on wider screens.
+- Updated the second field label to `Client User Name:`.
+- Removed bold styling from the scheduled update note.
+- Kept mobile behavior readable by stacking labels above fields on narrow screens.
+
+This pass should be visually reviewed before closing the form update.
+
 ## Baseline Decision
 
 The CPSM login page was restored to commit `5f52e25` after later versions introduced visual drift, including a blurry left-side image, oversized login text, missing welcome messaging, and a layout that no longer matched the intended direction.
