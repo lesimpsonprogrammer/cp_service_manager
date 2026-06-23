@@ -30,8 +30,21 @@ create table if not exists public.sudo_access_sessions (
     status in ('requested', 'approved', 'expired', 'revoked', 'denied')
   ),
   constraint sudo_access_sessions_approval_check check (
-    (status = 'approved' and approved_by is not null and approved_at is not null and expires_at is not null)
+    (
+      status = 'approved'
+      and approved_by is not null
+      and approved_at is not null
+      and expires_at is not null
+      and revoked_at is null
+    )
     or status <> 'approved'
+  ),
+  constraint sudo_access_sessions_one_hour_expiration_check check (
+    status <> 'approved'
+    or (
+      expires_at > approved_at
+      and expires_at <= approved_at + interval '1 hour'
+    )
   )
 );
 
@@ -60,6 +73,7 @@ as $$
       and sas.status = 'approved'
       and sas.approved_at is not null
       and sas.expires_at > now()
+      and sas.revoked_at is null
   );
 $$;
 
@@ -183,3 +197,4 @@ for each row execute function public.log_sudo_access_session_change();
 -- approved_at = now()
 -- expires_at = now() + interval '1 hour'
 -- scope_granted = 'manage_or_assist_absence_super_admin_or_superuser'
+-- The database check constraint prevents approved sudo sessions from exceeding one hour.
