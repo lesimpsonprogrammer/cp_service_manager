@@ -81,12 +81,7 @@
 }
 
 .settings-sidebar-group span {
-  display: block;
-  padding: 0.3rem 0.5rem 0.2rem;
-  color: #777777;
-  font-size: 0.72rem;
-  letter-spacing: 0.01em;
-  text-transform: none;
+  display: none;
 }
 
 .settings-sidebar a {
