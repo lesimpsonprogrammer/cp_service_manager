@@ -28,7 +28,7 @@ This document is the source of truth for important CPSM project decisions, appro
 
 **Branch:** `feature/cpsm-settings-v1`
 
-**Purpose:** Build the CPSM Settings v1 shell separately from the login form work and protected baseline.
+**Purpose:** Build the CPSM Settings v1 shell and dashboard workspace updates separately from the login form work and protected baseline.
 
 **Settings v1 scope:**
 
@@ -48,6 +48,20 @@ This document is the source of truth for important CPSM project decisions, appro
 The settings shell currently saves preview values in browser storage only. A future version should connect settings to the Supabase database after seed data, RLS policies, and sudo access policies are approved.
 
 ## Active Change Notes
+
+### 2026-06-23 — Vercel-inspired dashboard side rail
+
+Controlled adjustment completed on `feature/cpsm-settings-v1`:
+
+- Removed the Google search bar and search button from the Dashboard.
+- Removed the Dashboard hamburger side drawer pattern.
+- Added a persistent left-side navigation rail to the Dashboard.
+- Dashboard appears as the first/top rail item.
+- Added Dashboard rail destinations for Financial Management, Project Management, Agreements, Client Onboarding, Workflow Center, ETL Pipeline, API, and Notifications.
+- Added `cpsm-dashboard.css` to align the Dashboard with the Vercel-inspired settings style: Arial, white workspace, thin borders, compact side navigation, neutral controls, and clean cards.
+- Kept the Settings page and Dashboard direction consistent while preserving CPSM/Momentum branding.
+
+This dashboard page should be visually reviewed before it is merged into `main`.
 
 ### 2026-06-23 — Persistent Vercel-inspired settings side panel
 
