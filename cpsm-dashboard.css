@@ -33,15 +33,21 @@
   box-shadow: none !important;
 }
 
-.dashboard-main {
-  min-height: calc(100vh - 78px);
-  background: #fafafa;
-  color: #111111;
+.cpsm-dashboard-page .brand-logo,
+.cpsm-dashboard-page .brand-logo-transparent,
+.cpsm-settings-page .brand-logo,
+.cpsm-settings-page .brand-logo-transparent {
+  height: 76px !important;
+  max-height: 76px !important;
+  max-width: 190px !important;
+  object-fit: contain !important;
 }
 
+.dashboard-main,
 .dashboard-workspace {
   min-height: calc(100vh - 78px);
   background: #fafafa;
+  color: #111111;
 }
 
 .dashboard-layout {
@@ -62,47 +68,29 @@
   background: #ffffff;
 }
 
-.dashboard-rail,
-.dashboard-rail-group {
+.dashboard-rail {
   display: grid;
-  gap: 0.14rem;
+  gap: 0.16rem;
 }
 
 .dashboard-rail a {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  min-height: 38px;
-  padding: 0.52rem 0.58rem;
+  gap: 0.68rem;
+  min-height: 40px;
+  padding: 0.54rem 0.6rem;
   border: 1px solid transparent;
-  border-radius: 0.48rem;
+  border-radius: 0.5rem;
   color: #2f2f2f;
-  font-size: 0.96rem;
+  font-size: 0.98rem;
   line-height: 1.3;
   text-decoration: none;
 }
 
 .dashboard-rail a::before {
-  content: "";
-  display: inline-grid;
-  place-items: center;
-  width: 17px;
-  height: 17px;
-  flex: 0 0 17px;
-  color: #555555;
-  font-size: 0.82rem;
-  line-height: 1;
+  display: none !important;
+  content: none !important;
 }
-
-.dashboard-rail a[href="client-portal.html"]::before { content: "□"; }
-.dashboard-rail a[href="project-management.html"]::before { content: "▦"; }
-.dashboard-rail a[href="financial-management.html"]::before { content: "$"; }
-.dashboard-rail a[href="client-onboarding.html"]::before { content: "◌"; }
-.dashboard-rail a[href="agreements.html"]::before { content: "↳"; }
-.dashboard-rail a[href="workflow-center.html"]::before { content: "⌁"; }
-.dashboard-rail a[href="etl-pipeline.html"]::before { content: "⇄"; }
-.dashboard-rail a[href="api-center.html"]::before { content: "{}"; font-size: 0.68rem; }
-.dashboard-rail a[href="notifications.html"]::before { content: "○"; }
 
 .dashboard-rail a:hover,
 .dashboard-rail a:focus,
@@ -114,29 +102,28 @@
 
 .dashboard-rail > a:first-child {
   margin-bottom: 0.75rem;
-  padding-bottom: 0.7rem;
   border-bottom-color: #eeeeee;
-  color: #111111;
 }
 
-.dashboard-rail-nested {
-  margin-left: 1.1rem;
-  color: #666666 !important;
-  font-size: 0.88rem !important;
+.rail-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  color: #444444;
 }
 
-.dashboard-rail a[href="financial-management.html"].dashboard-rail-nested {
-  margin-left: 0;
-  color: #2f2f2f !important;
-  font-size: 0.96rem !important;
-}
-
-.dashboard-rail a[href="financial-management.html"].dashboard-rail-nested::before {
-  color: #555555 !important;
-}
-
-.dashboard-rail-nested::before {
-  color: #a3a3a3 !important;
+.rail-icon svg {
+  display: block;
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .dashboard-content {
