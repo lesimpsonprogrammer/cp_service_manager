@@ -56,13 +56,13 @@
       <div class="container settings-hero-grid">
         <div>
           <p class="tile-kicker">Client Portfolio Service Manager</p>
-          <h1 id="settingsTitle">Settings Configuration</h1>
-          <p class="settings-intro">Configure the operating defaults for CPSM, including client setup, roles, agreements, notifications, integrations, and portal preferences.</p>
+          <h1 id="settingsTitle">Settings Command Center</h1>
+          <p class="settings-intro">Organize CPSM settings into system controls, client-company configuration, and the side panel navigation that powers the client workspace.</p>
         </div>
         <aside class="settings-status-card" aria-label="Settings status summary">
-          <span class="status-pill">Preview mode</span>
-          <h2>Settings v1 shell</h2>
-          <p>This page organizes the settings experience before CPSM is connected to a database backend. Preview changes are saved in browser storage only.</p>
+          <span class="status-pill">Database foundation online</span>
+          <h2>Settings v1 structure</h2>
+          <p>Core CPSM tables are now in Supabase. This page remains a controlled preview shell until roles, policies, and connected settings are approved.</p>
         </aside>
       </div>
     </section>
@@ -70,23 +70,39 @@
     <section class="settings-workspace" aria-label="CPSM settings workspace">
       <div class="container settings-layout">
         <aside class="settings-sidebar" aria-label="Settings sections">
-          <a href="#generalSettings">General</a>
-          <a href="#clientSettings">Clients</a>
-          <a href="#userRoleSettings">Users &amp; Roles</a>
-          <a href="#accessSettings">Access</a>
-          <a href="#agreementSettings">Agreements</a>
-          <a href="#projectDefaults">Project Defaults</a>
-          <a href="#notificationSettings">Notifications</a>
-          <a href="#integrationSettings">Integrations</a>
-          <a href="#auditSettings">Audit Log</a>
+          <div class="settings-sidebar-group">
+            <span>System Settings Level</span>
+            <a href="#systemSettings" class="is-active">System Settings</a>
+            <a href="#securitySettings">Security</a>
+            <a href="#roleSettings">User Roles</a>
+            <a href="#permissionSettings">User Access Permissions</a>
+            <a href="#onboardingSettings">Client Onboarding Settings</a>
+            <a href="#workflowCenterSettings">Workflow Center Settings</a>
+          </div>
+
+          <div class="settings-sidebar-group">
+            <span>Client Company Level</span>
+            <a href="#clientCompanySettings">Configure Client Company</a>
+            <a href="#projectManagementSettings">Project Management Settings</a>
+            <a href="#financialManagementSettings">Financial Management Settings</a>
+            <a href="#accountingSettings">Accounting</a>
+            <a href="#invoiceSetupSettings">Invoice Set-up</a>
+          </div>
+
+          <div class="settings-sidebar-group">
+            <span>Side Panel Navigation</span>
+            <a href="#sidePanelNavigation">Menu Visibility</a>
+            <a href="#auditSettings">Audit Log</a>
+          </div>
         </aside>
 
         <form class="settings-form" id="cpsmSettingsForm">
-          <section class="settings-panel" id="generalSettings">
+          <section class="settings-panel" id="systemSettings" data-settings-section>
             <div class="settings-panel-heading">
               <div>
-                <p class="tile-kicker">General</p>
-                <h2>App and organization settings</h2>
+                <p class="tile-kicker">System Settings Level</p>
+                <h2>System Settings</h2>
+                <p>Set the global identity, support channels, and platform-wide defaults for CPSM.</p>
               </div>
               <span class="settings-section-number">01</span>
             </div>
@@ -116,13 +132,202 @@
             </label>
           </section>
 
-          <section class="settings-panel" id="clientSettings">
+          <section class="settings-panel" id="securitySettings" data-settings-section>
             <div class="settings-panel-heading">
               <div>
-                <p class="tile-kicker">Clients</p>
-                <h2>Client workspace setup</h2>
+                <p class="tile-kicker">System Settings Level</p>
+                <h2>Security</h2>
+                <p>Control login behavior, session timing, audit logging, and the approved sudo access model.</p>
               </div>
               <span class="settings-section-number">02</span>
+            </div>
+
+            <div class="settings-field-grid">
+              <label for="sessionTimeout">
+                Session timeout
+                <select id="sessionTimeout" name="sessionTimeout">
+                  <option>15 minutes</option>
+                  <option>30 minutes</option>
+                  <option>60 minutes</option>
+                  <option>End of browser session</option>
+                </select>
+              </label>
+              <label for="loginMethod">
+                Login method direction
+                <select id="loginMethod" name="loginMethod">
+                  <option>Client ID, username, and password</option>
+                  <option>Username and password</option>
+                  <option>Future single sign-on</option>
+                </select>
+              </label>
+              <label for="sudoExpiration">
+                Sudo expiration
+                <select id="sudoExpiration" name="sudoExpiration">
+                  <option>1 hour from approval</option>
+                  <option>30 minutes from approval</option>
+                </select>
+              </label>
+              <label for="sudoApprover">
+                Sudo approver role
+                <select id="sudoApprover" name="sudoApprover">
+                  <option>Superuser only</option>
+                  <option>Superuser or Admin</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="settings-toggle-grid">
+              <label><input type="checkbox" name="requireClientId" /> Require Client ID at login</label>
+              <label><input type="checkbox" name="rememberUserOption" /> Show remember user option</label>
+              <label><input type="checkbox" name="requireMfa" /> Future MFA option</label>
+              <label><input type="checkbox" name="auditLogEnabled" /> Enable audit log tracking</label>
+              <label><input type="checkbox" name="sudoAccessEnabled" /> Enable approved sudo access model</label>
+              <label><input type="checkbox" name="sudoRequiresReason" /> Require reason for sudo request</label>
+            </div>
+          </section>
+
+          <section class="settings-panel" id="roleSettings" data-settings-section>
+            <div class="settings-panel-heading">
+              <div>
+                <p class="tile-kicker">System Settings Level</p>
+                <h2>User Roles</h2>
+                <p>Define the CPSM role hierarchy and keep technical access separate from business authority.</p>
+              </div>
+              <span class="settings-section-number">03</span>
+            </div>
+
+            <div class="settings-field-grid">
+              <label for="defaultRole">
+                Default role
+                <select id="defaultRole" name="defaultRole">
+                  <option>Client</option>
+                  <option>Superuser</option>
+                  <option>Admin</option>
+                  <option>Regional Director</option>
+                  <option>Manager</option>
+                  <option>Account Manager</option>
+                  <option>Project Manager</option>
+                  <option>Project Consultant</option>
+                  <option>Engineering Admin</option>
+                </select>
+              </label>
+              <label for="engineeringAdminAuthority">
+                Engineering Admin authority
+                <select id="engineeringAdminAuthority" name="engineeringAdminAuthority">
+                  <option>Technical setup only</option>
+                  <option>Technical setup plus approved sudo</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="role-map" aria-label="CPSM role map">
+              <div><strong>Superuser</strong><span>Full system configuration and sudo approval</span></div>
+              <div><strong>Admin</strong><span>Manage users, clients, and settings as assigned</span></div>
+              <div><strong>Regional Director</strong><span>Regional portfolio oversight</span></div>
+              <div><strong>Manager</strong><span>Team and project supervision</span></div>
+              <div><strong>Account Manager</strong><span>Client relationship visibility</span></div>
+              <div><strong>Project Manager</strong><span>Project delivery ownership</span></div>
+              <div><strong>Project Consultant</strong><span>Assigned delivery support</span></div>
+              <div><strong>Engineering Admin</strong><span>Technical support; sudo only when approved</span></div>
+              <div><strong>Client</strong><span>Client-facing project access</span></div>
+            </div>
+          </section>
+
+          <section class="settings-panel" id="permissionSettings" data-settings-section>
+            <div class="settings-panel-heading">
+              <div>
+                <p class="tile-kicker">System Settings Level</p>
+                <h2>User Access Permissions</h2>
+                <p>Set the default access scope for users and prepare permission groups for Supabase policies.</p>
+              </div>
+              <span class="settings-section-number">04</span>
+            </div>
+
+            <div class="settings-field-grid">
+              <label for="accessScope">
+                Access scope
+                <select id="accessScope" name="accessScope">
+                  <option>Assigned projects only</option>
+                  <option>Client portfolio</option>
+                  <option>Regional portfolio</option>
+                  <option>All active projects</option>
+                  <option>System-wide administration</option>
+                </select>
+              </label>
+              <label for="permissionReviewCycle">
+                Permission review cycle
+                <select id="permissionReviewCycle" name="permissionReviewCycle">
+                  <option>Monthly</option>
+                  <option>Quarterly</option>
+                  <option>Before client launch</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="settings-toggle-grid">
+              <label><input type="checkbox" name="limitClientToAssignedCompany" /> Limit clients to assigned company only</label>
+              <label><input type="checkbox" name="requireRoleReview" /> Require role review before launch</label>
+              <label><input type="checkbox" name="trackPermissionChanges" /> Track permission changes in audit log</label>
+              <label><input type="checkbox" name="hideFinancialsFromClients" /> Hide financial settings from standard client users</label>
+            </div>
+          </section>
+
+          <section class="settings-panel" id="onboardingSettings" data-settings-section>
+            <div class="settings-panel-heading">
+              <div>
+                <p class="tile-kicker">System Settings Level</p>
+                <h2>Client Onboarding Settings</h2>
+                <p>Control the default onboarding path before a client can fully access their workspace.</p>
+              </div>
+              <span class="settings-section-number">05</span>
+            </div>
+
+            <div class="settings-toggle-grid">
+              <label><input type="checkbox" name="requireConfidentiality" /> Require confidentiality agreement before portal access</label>
+              <label><input type="checkbox" name="requireEngagement" /> Require client engagement agreement before services begin</label>
+              <label><input type="checkbox" name="trackAgreementStatus" /> Track agreement status on client record</label>
+              <label><input type="checkbox" name="futureSignatureFlow" /> Future e-signature workflow</label>
+            </div>
+          </section>
+
+          <section class="settings-panel" id="workflowCenterSettings" data-settings-section>
+            <div class="settings-panel-heading">
+              <div>
+                <p class="tile-kicker">System Settings Level</p>
+                <h2>Workflow Center Settings</h2>
+                <p>Define how CPSM workflows should be organized, reviewed, and displayed.</p>
+              </div>
+              <span class="settings-section-number">06</span>
+            </div>
+
+            <div class="settings-field-grid">
+              <label for="defaultWorkflowStatus">
+                Default workflow status
+                <select id="defaultWorkflowStatus" name="defaultWorkflowStatus">
+                  <option>Draft</option>
+                  <option>Active</option>
+                  <option>Needs review</option>
+                </select>
+              </label>
+              <label for="workflowApprovalLevel">
+                Workflow approval level
+                <select id="workflowApprovalLevel" name="workflowApprovalLevel">
+                  <option>Project Manager review</option>
+                  <option>Admin review</option>
+                  <option>No approval required</option>
+                </select>
+              </label>
+            </div>
+          </section>
+
+          <section class="settings-panel" id="clientCompanySettings" data-settings-section>
+            <div class="settings-panel-heading">
+              <div>
+                <p class="tile-kicker">Client Company Level</p>
+                <h2>Configure Client Company</h2>
+                <p>Set the default client identity, status, manager display name, and visibility rules.</p>
+              </div>
+              <span class="settings-section-number">07</span>
             </div>
 
             <div class="settings-field-grid">
@@ -154,117 +359,14 @@
             </div>
           </section>
 
-          <section class="settings-panel" id="userRoleSettings">
+          <section class="settings-panel" id="projectManagementSettings" data-settings-section>
             <div class="settings-panel-heading">
               <div>
-                <p class="tile-kicker">Users &amp; Roles</p>
-                <h2>User role configuration</h2>
+                <p class="tile-kicker">Client Company Level</p>
+                <h2>Project Management Settings</h2>
+                <p>Set default project labels, statuses, delivery format, and date placeholder text.</p>
               </div>
-              <span class="settings-section-number">03</span>
-            </div>
-
-            <div class="settings-field-grid">
-              <label for="defaultRole">
-                Default role
-                <select id="defaultRole" name="defaultRole">
-                  <option>Client</option>
-                  <option>Superuser</option>
-                  <option>Admin</option>
-                  <option>Regional Director</option>
-                  <option>Manager</option>
-                  <option>Account Manager</option>
-                  <option>Project Manager</option>
-                  <option>Project Consultant</option>
-                  <option>Engineering Admin</option>
-                </select>
-              </label>
-
-              <label for="accessScope">
-                Access scope
-                <select id="accessScope" name="accessScope">
-                  <option>Assigned projects only</option>
-                  <option>Client portfolio</option>
-                  <option>Regional portfolio</option>
-                  <option>All active projects</option>
-                  <option>System-wide administration</option>
-                </select>
-              </label>
-            </div>
-
-            <div class="role-map" aria-label="CPSM role map">
-              <div><strong>Superuser</strong><span>Full system configuration</span></div>
-              <div><strong>Admin</strong><span>Manage users, clients, and settings</span></div>
-              <div><strong>Regional Director</strong><span>Regional portfolio oversight</span></div>
-              <div><strong>Manager</strong><span>Team and project supervision</span></div>
-              <div><strong>Account Manager</strong><span>Client relationship visibility</span></div>
-              <div><strong>Project Manager</strong><span>Project delivery ownership</span></div>
-              <div><strong>Project Consultant</strong><span>Assigned delivery support</span></div>
-              <div><strong>Engineering Admin</strong><span>Technical setup and support</span></div>
-              <div><strong>Client</strong><span>Client-facing project access</span></div>
-            </div>
-          </section>
-
-          <section class="settings-panel" id="accessSettings">
-            <div class="settings-panel-heading">
-              <div>
-                <p class="tile-kicker">Access</p>
-                <h2>Login and session options</h2>
-              </div>
-              <span class="settings-section-number">04</span>
-            </div>
-
-            <div class="settings-field-grid">
-              <label for="sessionTimeout">
-                Session timeout
-                <select id="sessionTimeout" name="sessionTimeout">
-                  <option>15 minutes</option>
-                  <option>30 minutes</option>
-                  <option>60 minutes</option>
-                  <option>End of browser session</option>
-                </select>
-              </label>
-              <label for="loginMethod">
-                Login method direction
-                <select id="loginMethod" name="loginMethod">
-                  <option>Client ID, username, and password</option>
-                  <option>Username and password</option>
-                  <option>Future single sign-on</option>
-                </select>
-              </label>
-            </div>
-
-            <div class="settings-toggle-grid">
-              <label><input type="checkbox" name="requireClientId" /> Require Client ID at login</label>
-              <label><input type="checkbox" name="rememberUserOption" /> Show remember user option</label>
-              <label><input type="checkbox" name="requireMfa" /> Future MFA option</label>
-              <label><input type="checkbox" name="auditLogEnabled" /> Enable audit log tracking</label>
-            </div>
-          </section>
-
-          <section class="settings-panel" id="agreementSettings">
-            <div class="settings-panel-heading">
-              <div>
-                <p class="tile-kicker">Agreements</p>
-                <h2>Client acknowledgments</h2>
-              </div>
-              <span class="settings-section-number">05</span>
-            </div>
-
-            <div class="settings-toggle-grid">
-              <label><input type="checkbox" name="requireConfidentiality" /> Require confidentiality agreement before portal access</label>
-              <label><input type="checkbox" name="requireEngagement" /> Require client engagement agreement before services begin</label>
-              <label><input type="checkbox" name="trackAgreementStatus" /> Track agreement status on client record</label>
-              <label><input type="checkbox" name="futureSignatureFlow" /> Future e-signature workflow</label>
-            </div>
-          </section>
-
-          <section class="settings-panel" id="projectDefaults">
-            <div class="settings-panel-heading">
-              <div>
-                <p class="tile-kicker">Projects</p>
-                <h2>Project defaults</h2>
-              </div>
-              <span class="settings-section-number">06</span>
+              <span class="settings-section-number">08</span>
             </div>
 
             <div class="settings-field-grid">
@@ -299,52 +401,130 @@
             </div>
           </section>
 
-          <section class="settings-panel" id="notificationSettings">
+          <section class="settings-panel" id="financialManagementSettings" data-settings-section>
             <div class="settings-panel-heading">
               <div>
-                <p class="tile-kicker">Notifications</p>
-                <h2>Communication preferences</h2>
-              </div>
-              <span class="settings-section-number">07</span>
-            </div>
-
-            <div class="settings-toggle-grid">
-              <label><input type="checkbox" name="notifyStatusUpdates" /> Status update notifications</label>
-              <label><input type="checkbox" name="notifyDeliverables" /> Deliverable notifications</label>
-              <label><input type="checkbox" name="notifyAgreements" /> Agreement reminder notifications</label>
-              <label><input type="checkbox" name="weeklySummary" /> Weekly portfolio summary</label>
-            </div>
-          </section>
-
-          <section class="settings-panel" id="integrationSettings">
-            <div class="settings-panel-heading">
-              <div>
-                <p class="tile-kicker">Integrations</p>
-                <h2>Connected services roadmap</h2>
-              </div>
-              <span class="settings-section-number">08</span>
-            </div>
-
-            <div class="integration-list" aria-label="CPSM integration roadmap">
-              <article><strong>Supabase</strong><span>Database, authentication, and file storage direction</span></article>
-              <article><strong>Adobe Acrobat Sign</strong><span>Future agreement signature option</span></article>
-              <article><strong>Dropbox Sign</strong><span>Alternative agreement signature option</span></article>
-              <article><strong>Google Drive</strong><span>Future document handoff and storage support</span></article>
-            </div>
-          </section>
-
-          <section class="settings-panel" id="auditSettings">
-            <div class="settings-panel-heading">
-              <div>
-                <p class="tile-kicker">Audit Log</p>
-                <h2>Recent settings activity</h2>
+                <p class="tile-kicker">Client Company Level</p>
+                <h2>Financial Management Settings</h2>
+                <p>Prepare the client-level financial tools that will later power invoices, sales tracking, and reporting.</p>
               </div>
               <span class="settings-section-number">09</span>
             </div>
 
+            <div class="settings-toggle-grid">
+              <label><input type="checkbox" name="showFinancialManagement" /> Show Financial Management in side panel</label>
+              <label><input type="checkbox" name="showSalesManagement" /> Show Sales Management in side panel</label>
+              <label><input type="checkbox" name="financialsRequireAdmin" /> Require Admin/Superuser for financial configuration</label>
+              <label><input type="checkbox" name="clientFinancialViewLimited" /> Limit client-facing financial view</label>
+            </div>
+          </section>
+
+          <section class="settings-panel" id="accountingSettings" data-settings-section>
+            <div class="settings-panel-heading">
+              <div>
+                <p class="tile-kicker">Client Company Level</p>
+                <h2>Accounting</h2>
+                <p>Set accounting visibility and future accounting workflow direction.</p>
+              </div>
+              <span class="settings-section-number">10</span>
+            </div>
+
+            <div class="settings-field-grid">
+              <label for="accountingMethod">
+                Accounting method direction
+                <select id="accountingMethod" name="accountingMethod">
+                  <option>Accrual-ready</option>
+                  <option>Cash basis-ready</option>
+                  <option>To be configured</option>
+                </select>
+              </label>
+              <label for="accountingReviewRole">
+                Accounting review role
+                <select id="accountingReviewRole" name="accountingReviewRole">
+                  <option>Admin</option>
+                  <option>Superuser</option>
+                  <option>Account Manager</option>
+                </select>
+              </label>
+            </div>
+          </section>
+
+          <section class="settings-panel" id="invoiceSetupSettings" data-settings-section>
+            <div class="settings-panel-heading">
+              <div>
+                <p class="tile-kicker">Client Company Level</p>
+                <h2>Invoice Set-up</h2>
+                <p>Control invoice defaults and what clients can see once billing features are enabled.</p>
+              </div>
+              <span class="settings-section-number">11</span>
+            </div>
+
+            <div class="settings-field-grid">
+              <label for="defaultInvoiceStatus">
+                Default invoice status
+                <select id="defaultInvoiceStatus" name="defaultInvoiceStatus">
+                  <option>Draft</option>
+                  <option>Ready for review</option>
+                  <option>Sent</option>
+                </select>
+              </label>
+              <label for="invoiceCurrency">
+                Default currency
+                <select id="invoiceCurrency" name="invoiceCurrency">
+                  <option>USD</option>
+                  <option>CAD</option>
+                  <option>EUR</option>
+                </select>
+              </label>
+            </div>
+          </section>
+
+          <section class="settings-panel" id="sidePanelNavigation" data-settings-section>
+            <div class="settings-panel-heading">
+              <div>
+                <p class="tile-kicker">Side Panel Navigation</p>
+                <h2>Menu Visibility</h2>
+                <p>Choose which workspace destinations appear in the hamburger side panel menu.</p>
+              </div>
+              <span class="settings-section-number">12</span>
+            </div>
+
+            <div class="side-menu-preview" aria-label="Side panel navigation preview">
+              <article>
+                <h3>Operations</h3>
+                <label><input type="checkbox" name="showWorkflows" /> Workflows</label>
+                <label><input type="checkbox" name="showProjectManagement" /> Project Management</label>
+                <label><input type="checkbox" name="showFinancialManagementMenu" /> Financial Management</label>
+              </article>
+              <article>
+                <h3>Client Records</h3>
+                <label><input type="checkbox" name="showAgreements" /> Agreements</label>
+                <label><input type="checkbox" name="showInvoices" /> Invoices</label>
+                <label><input type="checkbox" name="showSalesManagementMenu" /> Sales Management</label>
+              </article>
+              <article>
+                <h3>Client Setup</h3>
+                <label><input type="checkbox" name="showConfigureClient" /> Configure Client Company</label>
+                <label><input type="checkbox" name="showClientOnboarding" /> Client Onboarding</label>
+                <label><input type="checkbox" name="showClientDirectory" /> Client Directory</label>
+              </article>
+            </div>
+          </section>
+
+          <section class="settings-panel" id="auditSettings" data-settings-section>
+            <div class="settings-panel-heading">
+              <div>
+                <p class="tile-kicker">Audit Log</p>
+                <h2>Recent settings activity</h2>
+                <p>Preview the type of security and settings activity CPSM should track.</p>
+              </div>
+              <span class="settings-section-number">13</span>
+            </div>
+
             <div class="audit-list" aria-label="Sample settings activity">
-              <article><span>Today</span><strong>Settings v1 shell expanded.</strong><p>General, clients, users, access, agreements, projects, notifications, integrations, and audit areas organized for review.</p></article>
-              <article><span>Baseline</span><strong>CPSM Login Baseline v1 remains protected.</strong><p>Settings work is isolated from the login experience and protected baseline branch.</p></article>
+              <article><span>Today</span><strong>001 core schema applied.</strong><p>Core CPSM tables were created in Supabase with RLS enabled.</p></article>
+              <article><span>Security</span><strong>Sudo access model drafted.</strong><p>Engineering Admin can gain temporary elevated access only through Superuser approval.</p></article>
+              <article><span>Baseline</span><strong>CPSM Login Baseline v1 remains protected.</strong><p>Settings work is isolated from the approved login baseline.</p></article>
             </div>
           </section>
 
@@ -363,7 +543,8 @@
   <aside class="portal-panel-drawer" id="portalPanelMenu" aria-label="Client Portfolio hamburger menu" aria-hidden="true" hidden>
     <div class="portal-panel-drawer-header">
       <div>
-        <h2>Portal Menu</h2>
+        <span class="status-pill">Client Portfolio</span>
+        <h2>Side Panel Menu</h2>
       </div>
       <button class="portal-panel-close" id="portalPanelClose" type="button" aria-label="Close portal menu">×</button>
     </div>
@@ -374,18 +555,78 @@
         <div class="tool-link-list">
           <a href="client-portal.html">
             <strong>Dashboard</strong>
-            <span>Open workspace</span>
+            <span>Open client workspace</span>
           </a>
           <a href="cpsm-settings.html" aria-current="page">
             <strong>Settings</strong>
             <span>Configure CPSM</span>
           </a>
+        </div>
+      </section>
+
+      <section class="side-panel-card tools-card">
+        <h2>Operations</h2>
+        <div class="tool-link-list">
+          <a href="#workflowCenterSettings">
+            <strong>Workflows</strong>
+            <span>Manage workflow center</span>
+          </a>
+          <a href="#projectManagementSettings">
+            <strong>Project Management</strong>
+            <span>Projects, milestones, and status</span>
+          </a>
+          <a href="#financialManagementSettings">
+            <strong>Financial Management</strong>
+            <span>Financial settings and controls</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="side-panel-card tools-card">
+        <h2>Client Records</h2>
+        <div class="tool-link-list">
+          <a href="#onboardingSettings">
+            <strong>Agreements</strong>
+            <span>Client acknowledgments</span>
+          </a>
+          <a href="#invoiceSetupSettings">
+            <strong>Invoices</strong>
+            <span>Invoice setup and visibility</span>
+          </a>
+          <a href="#financialManagementSettings">
+            <strong>Sales Management</strong>
+            <span>Sales tracking direction</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="side-panel-card tools-card">
+        <h2>Client Setup</h2>
+        <div class="tool-link-list">
+          <a href="#clientCompanySettings">
+            <strong>Configure Client Company</strong>
+            <span>Client ID, status, and visibility</span>
+          </a>
+          <a href="#onboardingSettings">
+            <strong>Client Onboarding</strong>
+            <span>Launch requirements</span>
+          </a>
+          <a href="#permissionSettings">
+            <strong>Client Directory</strong>
+            <span>Users and access direction</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="side-panel-card tools-card">
+        <h2>Tools</h2>
+        <div class="tool-link-list">
           <a href="calculator.html" target="_blank" rel="noopener">
             <strong>Calculator</strong>
             <span>Open tool</span>
           </a>
           <a href="project-estimator.html" target="_blank" rel="noopener">
-            <strong>Project estimator</strong>
+            <strong>Project Estimator</strong>
             <span>Open tool</span>
           </a>
         </div>
@@ -393,7 +634,7 @@
 
       <section class="side-panel-card portal-contact-tile">
         <h2>Account access</h2>
-        <p>Replies within one business day.</p>
+        <p>Access remains in preview mode until Supabase roles and policies are connected.</p>
         <button class="btn secondary full" id="portalMenuLogout" type="button">Log out</button>
       </section>
     </div>
