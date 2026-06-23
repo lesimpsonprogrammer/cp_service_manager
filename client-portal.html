@@ -5,235 +5,150 @@
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <meta content="Client portal for Momentum Data Solutions projects." name="description" />
-  <title>Client Portal | Momentum Data Solutions</title>
-  <link href="https://fonts.googleapis.com" rel="preconnect" />
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap"
-    rel="stylesheet" />
+  <title>Client Dashboard | Client Portfolio Service Manager</title>
   <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
   <link href="styles.css" rel="stylesheet" />
   <link href="client-portal-overrides.css" rel="stylesheet" />
-  <link href="client-portfolio-menu.css" rel="stylesheet" />
   <link href="client-portfolio-greeting.css" rel="stylesheet" />
+  <link href="cpsm-dashboard.css" rel="stylesheet" />
 </head>
 
-<body>
+<body class="cpsm-dashboard-page">
   <header class="site-header client-portfolio-header" id="top">
-    <nav aria-label="Client portal navigation" class="nav container">
-      <button class="portal-panel-toggle header-panel-toggle" id="portalPanelToggle" type="button" aria-label="Open Client Portfolio menu" aria-controls="portalPanelMenu" aria-expanded="false">
-        <span class="portal-panel-toggle-icon" aria-hidden="true">
-          <span></span>
-          <span></span>
-          <span></span>
-        </span>
-        <span class="portal-panel-toggle-label">Portal Menu</span>
-      </button>
-
-      <a aria-label="Momentum Data home" class="brand brand-image-only" href="index.html#top">
+    <nav aria-label="Client dashboard navigation" class="nav container">
+      <a aria-label="Momentum Data home" class="brand brand-image-only" href="client-portal.html">
         <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data logo" class="brand-logo brand-logo-transparent" />
       </a>
-      <button aria-expanded="false" aria-label="Open menu" class="nav-toggle">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+
       <div class="nav-links">
-        <a href="index.html#top">Home</a>
-        <a href="index.html#services">Services</a>
-        <a href="index.html#process">What We Do</a>
-        <a href="index.html#about">About Us</a>
+        <a href="client-portal.html" aria-current="page">Dashboard</a>
         <a href="cpsm-settings.html">Settings</a>
-        <a class="mobile-contact" href="index.html#contact">Contact us</a>
-        <a class="mobile-client-login" href="login.html">Client Log-in</a>
+        <a class="mobile-client-login" href="login.html">Log out</a>
       </div>
+
       <div class="nav-actions nav-contact">
-        <a class="nav-cta" href="index.html#contact">Contact us</a>
         <a class="nav-cta" href="cpsm-settings.html">Settings</a>
-        <a class="nav-client-login" href="login.html">Client Log-in</a>
+        <a class="nav-client-login" href="login.html">Log out</a>
       </div>
     </nav>
   </header>
 
-  <main class="client-portal-main clean-card-portal">
-    <section class="client-portal-dashboard" aria-labelledby="clientWelcome">
-      <div class="container">
-        <div class="portal-heading-bar">
-          <h1 id="clientWelcome">Hi, Client, welcome to your project.</h1>
+  <main class="dashboard-main">
+    <section class="dashboard-workspace" aria-label="Client dashboard workspace">
+      <div class="dashboard-layout">
+        <aside class="dashboard-sidebar" aria-label="Client dashboard side panel">
+          <nav class="dashboard-rail" aria-label="Client dashboard sections">
+            <a href="#dashboardOverview" class="is-active">Dashboard</a>
+            <a href="#financialManagement">Financial Management</a>
+            <a href="#projectManagement">Project Management</a>
+            <a href="#agreements">Agreements</a>
+            <a href="#clientOnboarding">Client Onboarding</a>
+            <a href="#workflowCenter">Workflow Center</a>
+            <a href="#etlPipeline">ETL Pipeline</a>
+            <a href="#apiCenter">API</a>
+            <a href="#notifications">Notifications</a>
+          </nav>
+        </aside>
 
-          <form class="portal-google-search" action="https://www.google.com/search" method="get" target="_blank" rel="noopener" role="search">
-            <label class="sr-only" for="portalGoogleSearch">Search with Google</label>
-            <input id="portalGoogleSearch" name="q" type="search" placeholder="Search Google from your Client Portfolio" />
-            <button class="btn primary" type="submit">Search</button>
-            <span>Powered by Google</span>
-          </form>
-        </div>
+        <div class="dashboard-content">
+          <section class="dashboard-page-heading" id="dashboardOverview" aria-labelledby="clientWelcome">
+            <p>Client Portfolio Service Manager</p>
+            <h1 id="clientWelcome">Hi, Client, welcome to your project.</h1>
+          </section>
 
-        <div class="portal-workspace">
-          <div class="portal-main-content">
-            <div class="portal-card-grid" aria-label="Client project dashboard tiles">
-              <section class="portal-tile portal-tile-large status-delivery-card">
-                <div class="tile-heading-row">
-                  <div>
-                    <h2>Current status update</h2>
-                    <p class="status-summary">Project is on track.</p>
-                  </div>
-                  <span class="status-pill">On track</span>
-                </div>
-                <p id="portalProjectDetails">Data mapping is underway. The next client review is scheduled after validation notes are prepared.</p>
-                <div class="status-delivery-row">
-                  <div>
-                    <h3>Next delivery</h3>
-                    <strong id="portalDueDate">To be confirmed</strong>
-                  </div>
-                  <p>Your deliverable due date will appear here once the project schedule is finalized.</p>
-                </div>
-              </section>
-
-              <section class="portal-tile deliverables-card">
-                <h2>Deliverables</h2>
-                <div class="clean-list">
-                  <div><strong>Project brief</strong><span>Approved</span></div>
-                  <div><strong>Data mapping workbook</strong><span>In progress</span></div>
-                  <div><strong>Validation summary</strong><span>Due next</span></div>
-                </div>
-              </section>
-
-              <section class="portal-tile actions-card">
-                <h2>Next actions</h2>
-                <ul class="clean-action-list">
-                  <li>Review sample column labels</li>
-                  <li>Confirm preferred delivery format</li>
-                  <li>Send any additional source files</li>
-                </ul>
-              </section>
+          <section class="dashboard-panel dashboard-panel-large status-delivery-card" aria-labelledby="currentStatusTitle">
+            <div class="dashboard-panel-heading">
+              <div>
+                <p class="dashboard-kicker">Dashboard</p>
+                <h2 id="currentStatusTitle">Current status update</h2>
+                <p class="status-summary">Project is on track.</p>
+              </div>
+              <span class="dashboard-status-pill">On track</span>
             </div>
+            <p id="portalProjectDetails">Data mapping is underway. The next client review is scheduled after validation notes are prepared.</p>
+            <div class="dashboard-metric-row">
+              <div>
+                <span>Next delivery</span>
+                <strong id="portalDueDate">To be confirmed</strong>
+              </div>
+              <div>
+                <span>Project workspace</span>
+                <strong id="portalProjectName">Active project</strong>
+              </div>
+              <div>
+                <span>Client company</span>
+                <strong id="portalClientCompany">Momentum Data client</strong>
+              </div>
+            </div>
+          </section>
+
+          <div class="dashboard-grid">
+            <section class="dashboard-panel" id="financialManagement">
+              <p class="dashboard-kicker">Financial Management</p>
+              <h2>Financial Management</h2>
+              <p>Track financial visibility, invoice readiness, billing status, and client-facing financial controls.</p>
+              <div class="dashboard-list">
+                <div><span>Invoice #001</span><em>Pending</em></div>
+                <div><span>Invoice #002</span><em>Not issued</em></div>
+              </div>
+            </section>
+
+            <section class="dashboard-panel" id="projectManagement">
+              <p class="dashboard-kicker">Project Management</p>
+              <h2>Project Management</h2>
+              <p>Review project status, deliverables, milestones, open items, and next delivery details.</p>
+              <div class="dashboard-list">
+                <div><span>Project brief</span><em>Approved</em></div>
+                <div><span>Data mapping workbook</span><em>In progress</em></div>
+                <div><span>Validation summary</span><em>Due next</em></div>
+              </div>
+            </section>
+
+            <section class="dashboard-panel" id="agreements">
+              <p class="dashboard-kicker">Agreements</p>
+              <h2>Agreements</h2>
+              <p>Review client acknowledgments, engagement terms, confidentiality requirements, and signature status.</p>
+            </section>
+
+            <section class="dashboard-panel" id="clientOnboarding">
+              <p class="dashboard-kicker">Client Onboarding</p>
+              <h2>Client Onboarding</h2>
+              <p>Manage setup steps, required documents, launch readiness, and client access preparation.</p>
+            </section>
+
+            <section class="dashboard-panel" id="workflowCenter">
+              <p class="dashboard-kicker">Workflow Center</p>
+              <h2>Workflow Center</h2>
+              <p>Monitor workflow progress, approvals, assignments, and operational handoffs.</p>
+              <ul class="dashboard-action-list">
+                <li>Review sample column labels</li>
+                <li>Confirm preferred delivery format</li>
+                <li>Send any additional source files</li>
+              </ul>
+            </section>
+
+            <section class="dashboard-panel" id="etlPipeline">
+              <p class="dashboard-kicker">ETL Pipeline</p>
+              <h2>ETL Pipeline</h2>
+              <p>Track extraction, transformation, validation, and load progress for client data work.</p>
+            </section>
+
+            <section class="dashboard-panel" id="apiCenter">
+              <p class="dashboard-kicker">API</p>
+              <h2>API</h2>
+              <p>Prepare future API access, integrations, credential status, and system connection details.</p>
+            </section>
+
+            <section class="dashboard-panel" id="notifications">
+              <p class="dashboard-kicker">Notifications</p>
+              <h2>Notifications</h2>
+              <p>Centralize project updates, alerts, reminders, and client communication preferences.</p>
+            </section>
           </div>
-
-          <aside class="portal-side-panel" aria-label="Client Portfolio side panel">
-            <section class="side-panel-card tools-card">
-              <h2>Workspace</h2>
-              <div class="tool-link-list">
-                <a href="cpsm-settings.html">
-                  <strong>Settings</strong>
-                  <span>Configure CPSM</span>
-                </a>
-                <a href="calculator.html" target="_blank" rel="noopener">
-                  <strong>Calculator</strong>
-                  <span>Open tool</span>
-                </a>
-                <a href="project-estimator.html" target="_blank" rel="noopener">
-                  <strong>Project estimator</strong>
-                  <span>Open tool</span>
-                </a>
-              </div>
-            </section>
-
-            <section class="side-panel-card authorized-card">
-              <h2>Authorized representatives</h2>
-              <div class="representative-list">
-                <div class="representative-row">
-                  <strong>Authorized Representative 1</strong>
-                  <span>Job Title</span>
-                </div>
-                <div class="representative-row">
-                  <strong>Authorized Representative 2</strong>
-                  <span>Job Title</span>
-                </div>
-              </div>
-            </section>
-
-            <section class="side-panel-card invoices-card">
-              <h2>Invoices</h2>
-              <div class="invoice-list">
-                <div>
-                  <strong>Invoice #001</strong>
-                  <span>Pending</span>
-                </div>
-                <div>
-                  <strong>Invoice #002</strong>
-                  <span>Not issued</span>
-                </div>
-              </div>
-            </section>
-
-            <section class="side-panel-card portal-contact-tile">
-              <h2>Account access</h2>
-              <p>Replies within one business day.</p>
-              <button class="btn secondary full" id="portalLogout" type="button">Log out</button>
-            </section>
-          </aside>
         </div>
       </div>
     </section>
   </main>
-
-  <div class="portal-panel-backdrop" id="portalPanelBackdrop" hidden></div>
-  <aside class="portal-panel-drawer" id="portalPanelMenu" aria-label="Client Portfolio hamburger menu" aria-hidden="true" hidden>
-    <div class="portal-panel-drawer-header">
-      <div>
-        <h2>Portal Menu</h2>
-      </div>
-      <button class="portal-panel-close" id="portalPanelClose" type="button" aria-label="Close portal menu">×</button>
-    </div>
-
-    <div class="portal-panel-sections">
-      <section class="side-panel-card tools-card">
-        <h2>Workspace</h2>
-        <div class="tool-link-list">
-          <a href="client-portal.html">
-            <strong>Dashboard</strong>
-            <span>Open workspace</span>
-          </a>
-          <a href="cpsm-settings.html">
-            <strong>Settings</strong>
-            <span>Configure CPSM</span>
-          </a>
-          <a href="calculator.html" target="_blank" rel="noopener">
-            <strong>Calculator</strong>
-            <span>Open tool</span>
-          </a>
-          <a href="project-estimator.html" target="_blank" rel="noopener">
-            <strong>Project estimator</strong>
-            <span>Open tool</span>
-          </a>
-        </div>
-      </section>
-
-      <section class="side-panel-card authorized-card">
-        <h2>Authorized representatives</h2>
-        <div class="representative-list">
-          <div class="representative-row">
-            <strong>Authorized Representative 1</strong>
-            <span>Job Title</span>
-          </div>
-          <div class="representative-row">
-            <strong>Authorized Representative 2</strong>
-            <span>Job Title</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="side-panel-card invoices-card">
-        <h2>Invoices</h2>
-        <div class="invoice-list">
-          <div>
-            <strong>Invoice #001</strong>
-            <span>Pending</span>
-          </div>
-          <div>
-            <strong>Invoice #002</strong>
-            <span>Not issued</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="side-panel-card portal-contact-tile">
-        <h2>Account access</h2>
-        <p>Replies within one business day.</p>
-        <button class="btn secondary full" id="portalMenuLogout" type="button">Log out</button>
-      </section>
-    </div>
-  </aside>
 
   <div class="cookie-notice" id="cookieNotice" role="dialog" aria-live="polite" aria-label="Cookie notice" hidden>
     <div class="cookie-notice-content">
@@ -246,7 +161,6 @@
   </div>
 
   <script src="script.js"></script>
-  <script src="client-portfolio-menu.js"></script>
 </body>
 
 </html>
