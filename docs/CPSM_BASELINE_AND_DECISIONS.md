@@ -32,19 +32,35 @@ This document is the source of truth for important CPSM project decisions, appro
 
 **Settings v1 scope:**
 
-- General app and organization settings.
-- Client workspace setup.
-- Users and roles.
-- Access options.
-- Agreements and acknowledgments.
-- Project defaults.
-- Notifications.
-- Integrations roadmap.
+- System Settings Level.
+- Client Company Level.
+- Side Panel Navigation.
+- Security and approved sudo access direction.
+- User roles and access permissions.
+- Client onboarding settings.
+- Workflow center settings.
+- Configure client company.
+- Project management settings.
+- Financial management settings.
+- Accounting and invoice setup.
 - Audit log preview.
 
-The settings shell currently saves preview values in browser storage only. A future version should connect settings to a backend database.
+The settings shell currently saves preview values in browser storage only. A future version should connect settings to the Supabase database after seed data, RLS policies, and sudo access policies are approved.
 
 ## Active Change Notes
+
+### 2026-06-23 — Settings and side panel menu restructure
+
+Controlled adjustment completed on `feature/cpsm-settings-v1`:
+
+- Reworked `cpsm-settings.html` into a Settings Command Center organized around System Settings Level, Client Company Level, and Side Panel Navigation.
+- Rebuilt the settings sidebar into grouped navigation for system settings, client company settings, and menu visibility.
+- Expanded the hamburger side panel menu to include Workspace, Operations, Client Records, Client Setup, Tools, and Account Access groups.
+- Updated `cpsm-settings.css` to support grouped settings navigation, command-center panels, side-menu visibility cards, and active sidebar states.
+- Updated `cpsm-settings.js` with preview defaults for security, sudo access, role permissions, client company settings, financial/accounting/invoice options, and side panel menu visibility.
+- Kept settings/menu work separate from the protected login baseline and the login form branch.
+
+This settings page should be visually reviewed before it is merged into `main`.
 
 ### 2026-06-23 — Settings v1 shell expansion
 
