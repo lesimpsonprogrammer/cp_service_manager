@@ -19,6 +19,12 @@
   font-family: Arial, Helvetica, sans-serif !important;
 }
 
+.cpsm-dashboard-page .nav a:hover,
+.cpsm-dashboard-page .nav a:focus {
+  background: #f5f5f5 !important;
+  color: #111111 !important;
+}
+
 .cpsm-dashboard-page .nav-cta,
 .cpsm-dashboard-page .nav-client-login {
   border: 1px solid #111111 !important;
@@ -63,7 +69,10 @@
 }
 
 .dashboard-rail a {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 34px;
   padding: 0.48rem 0.52rem;
   border: 1px solid transparent;
   border-radius: 0.48rem;
@@ -72,6 +81,28 @@
   line-height: 1.3;
   text-decoration: none;
 }
+
+.dashboard-rail a::before {
+  content: "";
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  color: #555555;
+  font-size: 0.78rem;
+  line-height: 1;
+}
+
+.dashboard-rail a[href="client-portal.html"]::before { content: "□"; }
+.dashboard-rail a[href="project-management.html"]::before { content: "▦"; }
+.dashboard-rail a[href="financial-management.html"]::before { content: "$"; }
+.dashboard-rail a[href="client-onboarding.html"]::before { content: "◌"; }
+.dashboard-rail a[href="agreements.html"]::before { content: "↳"; }
+.dashboard-rail a[href="workflow-center.html"]::before { content: "⌁"; }
+.dashboard-rail a[href="etl-pipeline.html"]::before { content: "⇄"; }
+.dashboard-rail a[href="api-center.html"]::before { content: "{}"; font-size: 0.64rem; }
+.dashboard-rail a[href="notifications.html"]::before { content: "○"; }
 
 .dashboard-rail a:hover,
 .dashboard-rail a:focus,
@@ -89,15 +120,13 @@
 }
 
 .dashboard-rail-nested {
-  margin-left: 0.72rem;
-  padding-left: 0.76rem !important;
+  margin-left: 1.1rem;
   color: #666666 !important;
   font-size: 0.8rem !important;
 }
 
 .dashboard-rail-nested::before {
-  content: "↳ ";
-  color: #a3a3a3;
+  color: #a3a3a3 !important;
 }
 
 .dashboard-content {
