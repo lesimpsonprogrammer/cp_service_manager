@@ -35,6 +35,24 @@ The CPSM login page should maintain the following direction:
 - Login form should remain clean, readable, and controlled.
 - The visual quality of the page should improve over time, not decrease because of additional requests.
 
+## External Design Reference
+
+**Reference example:** `https://access.paylocity.com`
+
+The Paylocity access page is being used only as a high-level reference for enterprise login behavior and structure. CPSM should not copy Paylocity branding, assets, wording, layout, or proprietary design. It may use the reference to guide professional login-page expectations, including:
+
+- A clear welcome/login entry point.
+- Company/client ID style access logic.
+- Username and password fields.
+- Remember username option.
+- Login help or support access.
+- Single sign-on as a future option.
+- Register/new user flow as a future option.
+- Privacy/support links.
+- Clean, simple, enterprise-style presentation.
+
+CPSM should remain visually distinct and aligned to Momentum Data / Client Portfolio Service Manager branding.
+
 ## Protected Rules
 
 1. Do not redesign, overwrite, or substantially alter the CPSM login page without explicit approval.
@@ -43,6 +61,7 @@ The CPSM login page should maintain the following direction:
 4. Before major visual edits, compare the change against this baseline.
 5. If the site drifts again, return to the backup branch or approved commit before making new edits.
 6. Preserve this document as the source of truth for CPSM baseline decisions.
+7. Use external examples as inspiration only; do not copy another company's branding, proprietary layout, logo, or visual identity.
 
 ## Quality-Control Rules
 
@@ -83,6 +102,7 @@ This document must be updated whenever we make or approve major decisions relate
 - Vercel/local deployment differences.
 - Approved design direction.
 - Quality-control rules.
+- External design references and inspiration sources.
 - Major feature additions that affect the app structure.
 
 Last updated: 2026-06-23
