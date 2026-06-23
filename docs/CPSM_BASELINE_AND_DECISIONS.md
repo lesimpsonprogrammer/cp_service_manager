@@ -16,6 +16,47 @@ This document is the source of truth for important CPSM project decisions, appro
 
 **Primary branch:** `main`
 
+## Active Work Branches
+
+### Login form branch
+
+**Branch:** `feature/cpsm-form-v1`
+
+**Purpose:** Controlled login form experience updates from the approved baseline.
+
+### Settings branch
+
+**Branch:** `feature/cpsm-settings-v1`
+
+**Purpose:** Build the CPSM Settings v1 shell separately from the login form work and protected baseline.
+
+**Settings v1 scope:**
+
+- General app and organization settings.
+- Client workspace setup.
+- Users and roles.
+- Access options.
+- Agreements and acknowledgments.
+- Project defaults.
+- Notifications.
+- Integrations roadmap.
+- Audit log preview.
+
+The settings shell currently saves preview values in browser storage only. A future version should connect settings to a backend database.
+
+## Active Change Notes
+
+### 2026-06-23 — Settings v1 shell expansion
+
+Controlled adjustment completed on `feature/cpsm-settings-v1`:
+
+- Expanded `cpsm-settings.html` into a full settings shell.
+- Refined `cpsm-settings.css` for settings panels, sidebar navigation, integration cards, audit cards, textarea fields, and responsive behavior.
+- Updated `cpsm-settings.js` so preview settings can be saved and reset locally.
+- Kept settings work separate from the protected login baseline and the login form branch.
+
+This settings page should be visually reviewed before it is merged into `main`.
+
 ## Baseline Decision
 
 The CPSM login page was restored to commit `5f52e25` after later versions introduced visual drift, including a blurry left-side image, oversized login text, missing welcome messaging, and a layout that no longer matched the intended direction.
@@ -62,6 +103,7 @@ CPSM should remain visually distinct and aligned to Momentum Data / Client Portf
 5. If the site drifts again, return to the backup branch or approved commit before making new edits.
 6. Preserve this document as the source of truth for CPSM baseline decisions.
 7. Use external examples as inspiration only; do not copy another company's branding, proprietary layout, logo, or visual identity.
+8. Keep settings work isolated from login baseline work unless a merge is explicitly approved.
 
 ## Quality-Control Rules
 
