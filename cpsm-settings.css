@@ -134,7 +134,8 @@
 }
 
 .settings-field-grid label,
-.settings-toggle-grid label {
+.settings-toggle-grid label,
+.settings-full-field {
   display: grid;
   gap: 0.45rem;
   color: var(--text);
@@ -143,15 +144,28 @@
 }
 
 .settings-field-grid input,
-.settings-field-grid select {
+.settings-field-grid select,
+.settings-full-field textarea {
   min-height: 50px;
   width: 100%;
+  padding: 0 0.95rem;
   border: 1px solid #b0b8c4;
   border-radius: 0.85rem;
   background: #ffffff;
   color: var(--text);
   font: inherit;
   font-weight: 500;
+}
+
+.settings-full-field {
+  margin-top: 1rem;
+}
+
+.settings-full-field textarea {
+  min-height: 96px;
+  padding-top: 0.8rem;
+  line-height: 1.5;
+  resize: vertical;
 }
 
 .settings-toggle-grid {
@@ -176,14 +190,25 @@
   accent-color: var(--blue);
 }
 
-.role-map {
+.role-map,
+.integration-list,
+.audit-list {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.85rem;
   margin-top: 1.3rem;
 }
 
-.role-map div {
+.role-map {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.integration-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.role-map div,
+.integration-list article,
+.audit-list article {
   min-height: 92px;
   padding: 1rem;
   border: 1px solid #b0b8c4;
@@ -192,19 +217,41 @@
 }
 
 .role-map strong,
-.role-map span {
+.role-map span,
+.integration-list strong,
+.integration-list span,
+.audit-list span,
+.audit-list strong,
+.audit-list p {
   display: block;
 }
 
-.role-map strong {
+.role-map strong,
+.integration-list strong,
+.audit-list strong {
   margin-bottom: 0.35rem;
   color: var(--text);
 }
 
-.role-map span {
+.role-map span,
+.integration-list span,
+.audit-list p {
   color: var(--muted);
   font-size: 0.82rem;
   line-height: 1.45;
+}
+
+.audit-list span {
+  margin-bottom: 0.35rem;
+  color: var(--blue);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.audit-list p {
+  margin: 0;
 }
 
 .settings-actions-bar {
@@ -256,7 +303,8 @@
   .settings-sidebar,
   .settings-field-grid,
   .settings-toggle-grid,
-  .role-map {
+  .role-map,
+  .integration-list {
     grid-template-columns: 1fr;
   }
 
