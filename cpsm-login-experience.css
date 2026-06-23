@@ -25,10 +25,16 @@
 
 .login-form label {
   display: grid;
-  gap: 8px;
+  grid-template-columns: 152px 1fr;
+  align-items: center;
+  gap: 14px;
   width: 100%;
   color: var(--text);
   font-weight: 700;
+}
+
+.login-field-label {
+  white-space: nowrap;
 }
 
 .login-form input {
@@ -47,6 +53,10 @@
   border-color: rgba(31, 111, 235, 0.48);
 }
 
+.portfolio-update-note {
+  font-weight: 400;
+}
+
 @media (max-width: 860px) {
   .login-form-stack {
     width: min(100%, 520px);
@@ -54,5 +64,13 @@
 
   .login-form-panel .login-card {
     padding: 30px 26px;
+  }
+}
+
+@media (max-width: 560px) {
+  .login-form label {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 8px;
   }
 }
