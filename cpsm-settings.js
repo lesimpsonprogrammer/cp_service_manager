@@ -10,26 +10,34 @@
 
   const defaults = {
     organizationName: 'Momentum Data client',
-    clientId: 'CPSM-CLIENT-001',
+    portalName: 'Client Portfolio',
+    supportEmail: 'support@momentumdatasolutions.com',
     accountOwner: 'Larry Simpson',
+    scheduledNotice: 'Client Portfolio will undergo scheduled update on July 24.',
+    clientId: 'CPSM-CLIENT-001',
+    clientStatus: 'Active',
     projectManagerName: localStorage.getItem(projectManagerKey) || 'LSimpson',
+    clientVisibility: 'Visible after agreement acceptance',
     defaultRole: 'Client',
     accessScope: 'Assigned projects only',
+    sessionTimeout: '30 minutes',
+    loginMethod: 'Client ID, username, and password',
+    requireClientId: true,
+    rememberUserOption: false,
+    requireMfa: false,
+    auditLogEnabled: true,
+    requireConfidentiality: true,
+    requireEngagement: true,
+    trackAgreementStatus: true,
+    futureSignatureFlow: false,
     defaultProjectName: 'Active project',
     defaultStatus: 'On track',
     defaultDeliveryFormat: 'Google Sheet',
     defaultDueDateText: 'To be confirmed',
     notifyStatusUpdates: true,
     notifyDeliverables: true,
-    notifyInvoices: false,
-    weeklySummary: true,
-    landingPage: 'Dashboard',
-    dashboardDensity: 'Comfortable',
-    themePreference: 'Momentum light',
-    timeZonePreference: 'America/Chicago',
-    sessionTimeout: '30 minutes',
-    requireMfa: true,
-    auditLogEnabled: true
+    notifyAgreements: false,
+    weeklySummary: true
   };
 
   function readSaved() {
@@ -41,7 +49,7 @@
   }
 
   function applyToForm(settings) {
-    form.querySelectorAll('input, select').forEach((field) => {
+    form.querySelectorAll('input, select, textarea').forEach((field) => {
       if (!field.name || !(field.name in settings)) return;
       if (field.type === 'checkbox') {
         field.checked = Boolean(settings[field.name]);
@@ -53,7 +61,7 @@
 
   function collectFromForm() {
     const settings = { ...defaults };
-    form.querySelectorAll('input, select').forEach((field) => {
+    form.querySelectorAll('input, select, textarea').forEach((field) => {
       if (!field.name) return;
       settings[field.name] = field.type === 'checkbox' ? field.checked : String(field.value || '').trim();
     });
