@@ -3,9 +3,14 @@
   const resetButton = document.querySelector('#resetSettings');
   const saveMessage = document.querySelector('#settingsSaveMessage');
   const sidebarLinks = Array.from(document.querySelectorAll('.settings-sidebar a'));
+  const settingsTitle = document.querySelector('#settingsTitle');
   const storageKey = 'cpsmSettingsPreview';
   const portalSessionKey = 'momentumDataClientPortalPreview';
   const projectManagerKey = 'projectManagerName';
+
+  if (settingsTitle) {
+    settingsTitle.textContent = 'Settings & Configurations';
+  }
 
   if (!form) return;
 
