@@ -16,7 +16,7 @@
   <link href="cpsm-settings.css" rel="stylesheet" />
 </head>
 
-<body>
+<body class="cpsm-settings-page">
   <header class="site-header client-portfolio-header" id="top">
     <nav aria-label="CPSM settings navigation" class="nav container">
       <a aria-label="Momentum Data home" class="brand brand-image-only" href="client-portal.html">
@@ -43,30 +43,9 @@
   </header>
 
   <main class="settings-main">
-    <section class="settings-hero" aria-labelledby="settingsTitle">
-      <div class="container settings-hero-grid">
-        <div>
-          <p class="tile-kicker">Client Portfolio Service Manager</p>
-          <h1 id="settingsTitle">Settings Command Center</h1>
-          <p class="settings-intro">Organize CPSM settings into system controls, client-company configuration, and the side panel navigation that powers the client workspace.</p>
-        </div>
-        <aside class="settings-status-card" aria-label="Settings status summary">
-          <span class="status-pill">Database foundation online</span>
-          <h2>Settings v1 structure</h2>
-          <p>Core CPSM tables are now in Supabase. This page remains a controlled preview shell until roles, policies, and connected settings are approved.</p>
-        </aside>
-      </div>
-    </section>
-
     <section class="settings-workspace" aria-label="CPSM settings workspace">
       <div class="container settings-layout">
         <aside class="settings-sidebar" aria-label="Settings and configuration side panel">
-          <div class="settings-sidebar-header">
-            <span class="status-pill">Settings</span>
-            <h2>Settings &amp; Configuration</h2>
-            <p>Context-aware settings menu. Dashboard always remains available.</p>
-          </div>
-
           <div class="settings-sidebar-group settings-sidebar-dashboard">
             <span>Always Available</span>
             <a href="client-portal.html">Dashboard</a>
@@ -99,6 +78,12 @@
         </aside>
 
         <form class="settings-form" id="cpsmSettingsForm">
+          <section class="settings-page-heading" aria-labelledby="settingsTitle">
+            <p>Client Portfolio Service Manager</p>
+            <h1 id="settingsTitle">Settings</h1>
+            <span>Core CPSM tables are now in Supabase. This page remains a controlled preview until roles, policies, and connected settings are approved.</span>
+          </section>
+
           <section class="settings-panel" id="systemSettings" data-settings-section>
             <div class="settings-panel-heading">
               <div>
