@@ -114,15 +114,15 @@
 .portal-panel-drawer {
   position: fixed;
   top: 0;
-  right: 0;
+  left: 0;
   z-index: 90;
   width: min(400px, calc(100vw - 24px));
   height: 100vh;
   overflow-y: auto;
   padding: 1rem;
   background: #ffffff;
-  border-left: 1px solid #e5e5e5;
-  box-shadow: -16px 0 42px rgba(0, 0, 0, 0.12);
+  border-right: 1px solid #e5e5e5;
+  box-shadow: 16px 0 42px rgba(0, 0, 0, 0.12);
 }
 
 .portal-panel-drawer-header {
