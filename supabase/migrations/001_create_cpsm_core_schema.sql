@@ -166,38 +166,47 @@ create table if not exists public.audit_logs (
   created_at timestamptz not null default now()
 );
 
+drop trigger if exists set_client_companies_updated_at on public.client_companies;
 create trigger set_client_companies_updated_at
 before update on public.client_companies
 for each row execute function public.set_updated_at();
 
+drop trigger if exists set_user_profiles_updated_at on public.user_profiles;
 create trigger set_user_profiles_updated_at
 before update on public.user_profiles
 for each row execute function public.set_updated_at();
 
+drop trigger if exists set_client_user_access_updated_at on public.client_user_access;
 create trigger set_client_user_access_updated_at
 before update on public.client_user_access
 for each row execute function public.set_updated_at();
 
+drop trigger if exists set_system_settings_updated_at on public.system_settings;
 create trigger set_system_settings_updated_at
 before update on public.system_settings
 for each row execute function public.set_updated_at();
 
+drop trigger if exists set_client_company_settings_updated_at on public.client_company_settings;
 create trigger set_client_company_settings_updated_at
 before update on public.client_company_settings
 for each row execute function public.set_updated_at();
 
+drop trigger if exists set_projects_updated_at on public.projects;
 create trigger set_projects_updated_at
 before update on public.projects
 for each row execute function public.set_updated_at();
 
+drop trigger if exists set_workflows_updated_at on public.workflows;
 create trigger set_workflows_updated_at
 before update on public.workflows
 for each row execute function public.set_updated_at();
 
+drop trigger if exists set_agreements_updated_at on public.agreements;
 create trigger set_agreements_updated_at
 before update on public.agreements
 for each row execute function public.set_updated_at();
 
+drop trigger if exists set_invoices_updated_at on public.invoices;
 create trigger set_invoices_updated_at
 before update on public.invoices
 for each row execute function public.set_updated_at();
