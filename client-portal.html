@@ -38,15 +38,19 @@
       <div class="dashboard-layout">
         <aside class="dashboard-sidebar" aria-label="Client dashboard side panel">
           <nav class="dashboard-rail" aria-label="Client dashboard sections">
-            <a href="#dashboardOverview" class="is-active">Dashboard</a>
-            <a href="#financialManagement">Financial Management</a>
-            <a href="#projectManagement">Project Management</a>
-            <a href="#agreements">Agreements</a>
-            <a href="#clientOnboarding">Client Onboarding</a>
-            <a href="#workflowCenter">Workflow Center</a>
-            <a href="#etlPipeline">ETL Pipeline</a>
-            <a href="#apiCenter">API</a>
-            <a href="#notifications">Notifications</a>
+            <a href="client-portal.html" class="is-active">Dashboard</a>
+            <div class="dashboard-rail-group">
+              <a href="project-management.html">Project Management</a>
+              <a class="dashboard-rail-nested" href="financial-management.html">Financial Management</a>
+            </div>
+            <div class="dashboard-rail-group">
+              <a href="client-onboarding.html">Client Onboarding</a>
+              <a class="dashboard-rail-nested" href="agreements.html">Agreements</a>
+            </div>
+            <a href="workflow-center.html">Workflow Center</a>
+            <a href="etl-pipeline.html">ETL Pipeline</a>
+            <a href="api.html">API</a>
+            <a href="notifications.html">Notifications</a>
           </nav>
         </aside>
 
@@ -81,70 +85,6 @@
               </div>
             </div>
           </section>
-
-          <div class="dashboard-grid">
-            <section class="dashboard-panel" id="financialManagement">
-              <p class="dashboard-kicker">Financial Management</p>
-              <h2>Financial Management</h2>
-              <p>Track financial visibility, invoice readiness, billing status, and client-facing financial controls.</p>
-              <div class="dashboard-list">
-                <div><span>Invoice #001</span><em>Pending</em></div>
-                <div><span>Invoice #002</span><em>Not issued</em></div>
-              </div>
-            </section>
-
-            <section class="dashboard-panel" id="projectManagement">
-              <p class="dashboard-kicker">Project Management</p>
-              <h2>Project Management</h2>
-              <p>Review project status, deliverables, milestones, open items, and next delivery details.</p>
-              <div class="dashboard-list">
-                <div><span>Project brief</span><em>Approved</em></div>
-                <div><span>Data mapping workbook</span><em>In progress</em></div>
-                <div><span>Validation summary</span><em>Due next</em></div>
-              </div>
-            </section>
-
-            <section class="dashboard-panel" id="agreements">
-              <p class="dashboard-kicker">Agreements</p>
-              <h2>Agreements</h2>
-              <p>Review client acknowledgments, engagement terms, confidentiality requirements, and signature status.</p>
-            </section>
-
-            <section class="dashboard-panel" id="clientOnboarding">
-              <p class="dashboard-kicker">Client Onboarding</p>
-              <h2>Client Onboarding</h2>
-              <p>Manage setup steps, required documents, launch readiness, and client access preparation.</p>
-            </section>
-
-            <section class="dashboard-panel" id="workflowCenter">
-              <p class="dashboard-kicker">Workflow Center</p>
-              <h2>Workflow Center</h2>
-              <p>Monitor workflow progress, approvals, assignments, and operational handoffs.</p>
-              <ul class="dashboard-action-list">
-                <li>Review sample column labels</li>
-                <li>Confirm preferred delivery format</li>
-                <li>Send any additional source files</li>
-              </ul>
-            </section>
-
-            <section class="dashboard-panel" id="etlPipeline">
-              <p class="dashboard-kicker">ETL Pipeline</p>
-              <h2>ETL Pipeline</h2>
-              <p>Track extraction, transformation, validation, and load progress for client data work.</p>
-            </section>
-
-            <section class="dashboard-panel" id="apiCenter">
-              <p class="dashboard-kicker">API</p>
-              <h2>API</h2>
-              <p>Prepare future API access, integrations, credential status, and system connection details.</p>
-            </section>
-
-            <section class="dashboard-panel" id="notifications">
-              <p class="dashboard-kicker">Notifications</p>
-              <h2>Notifications</h2>
-              <p>Centralize project updates, alerts, reminders, and client communication preferences.</p>
-            </section>
-          </div>
         </div>
       </div>
     </section>
