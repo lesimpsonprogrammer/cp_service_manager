@@ -57,12 +57,12 @@
         <div>
           <p class="tile-kicker">Client Portfolio Service Manager</p>
           <h1 id="settingsTitle">Settings Configuration</h1>
-          <p class="settings-intro">Configure the operating defaults for CPSM, including organization profile, role access, project settings, notifications, and portal preferences.</p>
+          <p class="settings-intro">Configure the operating defaults for CPSM, including client setup, roles, agreements, notifications, integrations, and portal preferences.</p>
         </div>
         <aside class="settings-status-card" aria-label="Settings status summary">
           <span class="status-pill">Preview mode</span>
-          <h2>Configuration baseline</h2>
-          <p>Settings are currently saved in browser storage for the CPSM preview. A future version can connect this configuration to authentication and a database.</p>
+          <h2>Settings v1 shell</h2>
+          <p>This page organizes the settings experience before CPSM is connected to a database backend. Preview changes are saved in browser storage only.</p>
         </aside>
       </div>
     </section>
@@ -70,20 +70,23 @@
     <section class="settings-workspace" aria-label="CPSM settings workspace">
       <div class="container settings-layout">
         <aside class="settings-sidebar" aria-label="Settings sections">
-          <a href="#organizationSettings">Organization</a>
-          <a href="#userRoleSettings">Roles & Access</a>
+          <a href="#generalSettings">General</a>
+          <a href="#clientSettings">Clients</a>
+          <a href="#userRoleSettings">Users &amp; Roles</a>
+          <a href="#accessSettings">Access</a>
+          <a href="#agreementSettings">Agreements</a>
           <a href="#projectDefaults">Project Defaults</a>
           <a href="#notificationSettings">Notifications</a>
-          <a href="#portalPreferences">Portal Preferences</a>
-          <a href="#securitySettings">Security Preview</a>
+          <a href="#integrationSettings">Integrations</a>
+          <a href="#auditSettings">Audit Log</a>
         </aside>
 
         <form class="settings-form" id="cpsmSettingsForm">
-          <section class="settings-panel" id="organizationSettings">
+          <section class="settings-panel" id="generalSettings">
             <div class="settings-panel-heading">
               <div>
-                <p class="tile-kicker">Organization</p>
-                <h2>Company & account settings</h2>
+                <p class="tile-kicker">General</p>
+                <h2>App and organization settings</h2>
               </div>
               <span class="settings-section-number">01</span>
             </div>
@@ -93,17 +96,60 @@
                 Organization name
                 <input id="organizationName" name="organizationName" type="text" placeholder="Momentum Data client" />
               </label>
-              <label for="clientId">
-                Client ID
-                <input id="clientId" name="clientId" type="text" placeholder="CPSM-CLIENT-001" />
+              <label for="portalName">
+                Portal name
+                <input id="portalName" name="portalName" type="text" placeholder="Client Portfolio" />
+              </label>
+              <label for="supportEmail">
+                Support email
+                <input id="supportEmail" name="supportEmail" type="email" placeholder="support@momentumdatasolutions.com" />
               </label>
               <label for="accountOwner">
                 Account owner
                 <input id="accountOwner" name="accountOwner" type="text" placeholder="Larry Simpson" />
               </label>
+            </div>
+
+            <label class="settings-full-field" for="scheduledNotice">
+              Scheduled notice
+              <textarea id="scheduledNotice" name="scheduledNotice" rows="3" placeholder="Client Portfolio will undergo scheduled update on July 24."></textarea>
+            </label>
+          </section>
+
+          <section class="settings-panel" id="clientSettings">
+            <div class="settings-panel-heading">
+              <div>
+                <p class="tile-kicker">Clients</p>
+                <h2>Client workspace setup</h2>
+              </div>
+              <span class="settings-section-number">02</span>
+            </div>
+
+            <div class="settings-field-grid">
+              <label for="clientId">
+                Client ID
+                <input id="clientId" name="clientId" type="text" placeholder="CPSM-CLIENT-001" />
+              </label>
+              <label for="clientStatus">
+                Default client status
+                <select id="clientStatus" name="clientStatus">
+                  <option>Active</option>
+                  <option>Pending setup</option>
+                  <option>Agreement required</option>
+                  <option>Inactive</option>
+                </select>
+              </label>
               <label for="projectManagerNameSetting">
                 Project Manager display name
                 <input id="projectManagerNameSetting" name="projectManagerName" type="text" placeholder="LSimpson" />
+              </label>
+              <label for="clientVisibility">
+                Portal visibility
+                <select id="clientVisibility" name="clientVisibility">
+                  <option>Visible after agreement acceptance</option>
+                  <option>Visible after account approval</option>
+                  <option>Hidden until launch</option>
+                </select>
               </label>
             </div>
           </section>
@@ -111,10 +157,10 @@
           <section class="settings-panel" id="userRoleSettings">
             <div class="settings-panel-heading">
               <div>
-                <p class="tile-kicker">Roles & Access</p>
+                <p class="tile-kicker">Users &amp; Roles</p>
                 <h2>User role configuration</h2>
               </div>
-              <span class="settings-section-number">02</span>
+              <span class="settings-section-number">03</span>
             </div>
 
             <div class="settings-field-grid">
@@ -158,13 +204,67 @@
             </div>
           </section>
 
+          <section class="settings-panel" id="accessSettings">
+            <div class="settings-panel-heading">
+              <div>
+                <p class="tile-kicker">Access</p>
+                <h2>Login and session options</h2>
+              </div>
+              <span class="settings-section-number">04</span>
+            </div>
+
+            <div class="settings-field-grid">
+              <label for="sessionTimeout">
+                Session timeout
+                <select id="sessionTimeout" name="sessionTimeout">
+                  <option>15 minutes</option>
+                  <option>30 minutes</option>
+                  <option>60 minutes</option>
+                  <option>End of browser session</option>
+                </select>
+              </label>
+              <label for="loginMethod">
+                Login method direction
+                <select id="loginMethod" name="loginMethod">
+                  <option>Client ID, username, and password</option>
+                  <option>Username and password</option>
+                  <option>Future single sign-on</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="settings-toggle-grid">
+              <label><input type="checkbox" name="requireClientId" /> Require Client ID at login</label>
+              <label><input type="checkbox" name="rememberUserOption" /> Show remember user option</label>
+              <label><input type="checkbox" name="requireMfa" /> Future MFA option</label>
+              <label><input type="checkbox" name="auditLogEnabled" /> Enable audit log tracking</label>
+            </div>
+          </section>
+
+          <section class="settings-panel" id="agreementSettings">
+            <div class="settings-panel-heading">
+              <div>
+                <p class="tile-kicker">Agreements</p>
+                <h2>Client acknowledgments</h2>
+              </div>
+              <span class="settings-section-number">05</span>
+            </div>
+
+            <div class="settings-toggle-grid">
+              <label><input type="checkbox" name="requireConfidentiality" /> Require confidentiality agreement before portal access</label>
+              <label><input type="checkbox" name="requireEngagement" /> Require client engagement agreement before services begin</label>
+              <label><input type="checkbox" name="trackAgreementStatus" /> Track agreement status on client record</label>
+              <label><input type="checkbox" name="futureSignatureFlow" /> Future e-signature workflow</label>
+            </div>
+          </section>
+
           <section class="settings-panel" id="projectDefaults">
             <div class="settings-panel-heading">
               <div>
                 <p class="tile-kicker">Projects</p>
                 <h2>Project defaults</h2>
               </div>
-              <span class="settings-section-number">03</span>
+              <span class="settings-section-number">06</span>
             </div>
 
             <div class="settings-field-grid">
@@ -205,93 +305,46 @@
                 <p class="tile-kicker">Notifications</p>
                 <h2>Communication preferences</h2>
               </div>
-              <span class="settings-section-number">04</span>
+              <span class="settings-section-number">07</span>
             </div>
 
             <div class="settings-toggle-grid">
               <label><input type="checkbox" name="notifyStatusUpdates" /> Status update notifications</label>
               <label><input type="checkbox" name="notifyDeliverables" /> Deliverable notifications</label>
-              <label><input type="checkbox" name="notifyInvoices" /> Invoice notifications</label>
+              <label><input type="checkbox" name="notifyAgreements" /> Agreement reminder notifications</label>
               <label><input type="checkbox" name="weeklySummary" /> Weekly portfolio summary</label>
             </div>
           </section>
 
-          <section class="settings-panel" id="portalPreferences">
+          <section class="settings-panel" id="integrationSettings">
             <div class="settings-panel-heading">
               <div>
-                <p class="tile-kicker">Experience</p>
-                <h2>Portal preferences</h2>
+                <p class="tile-kicker">Integrations</p>
+                <h2>Connected services roadmap</h2>
               </div>
-              <span class="settings-section-number">05</span>
+              <span class="settings-section-number">08</span>
             </div>
 
-            <div class="settings-field-grid">
-              <label for="landingPage">
-                Default landing page
-                <select id="landingPage" name="landingPage">
-                  <option>Dashboard</option>
-                  <option>Project Portfolio</option>
-                  <option>Deliverables</option>
-                  <option>Messages</option>
-                  <option>Settings</option>
-                </select>
-              </label>
-              <label for="dashboardDensity">
-                Dashboard density
-                <select id="dashboardDensity" name="dashboardDensity">
-                  <option>Comfortable</option>
-                  <option>Compact</option>
-                  <option>Detailed</option>
-                </select>
-              </label>
-              <label for="themePreference">
-                Theme preference
-                <select id="themePreference" name="themePreference">
-                  <option>Momentum light</option>
-                  <option>High contrast</option>
-                  <option>System default</option>
-                </select>
-              </label>
-              <label for="timeZonePreference">
-                Time zone
-                <input id="timeZonePreference" name="timeZonePreference" type="text" placeholder="America/Chicago" />
-              </label>
+            <div class="integration-list" aria-label="CPSM integration roadmap">
+              <article><strong>Supabase</strong><span>Database, authentication, and file storage direction</span></article>
+              <article><strong>Adobe Acrobat Sign</strong><span>Future agreement signature option</span></article>
+              <article><strong>Dropbox Sign</strong><span>Alternative agreement signature option</span></article>
+              <article><strong>Google Drive</strong><span>Future document handoff and storage support</span></article>
             </div>
           </section>
 
-          <section class="settings-panel" id="securitySettings">
+          <section class="settings-panel" id="auditSettings">
             <div class="settings-panel-heading">
               <div>
-                <p class="tile-kicker">Security Preview</p>
-                <h2>Access controls for future build</h2>
+                <p class="tile-kicker">Audit Log</p>
+                <h2>Recent settings activity</h2>
               </div>
-              <span class="settings-section-number">06</span>
+              <span class="settings-section-number">09</span>
             </div>
 
-            <div class="settings-field-grid">
-              <label for="sessionTimeout">
-                Session timeout
-                <select id="sessionTimeout" name="sessionTimeout">
-                  <option>15 minutes</option>
-                  <option>30 minutes</option>
-                  <option>60 minutes</option>
-                  <option>End of browser session</option>
-                </select>
-              </label>
-              <label for="passwordResetCadence">
-                Password reset cadence
-                <select id="passwordResetCadence" name="passwordResetCadence">
-                  <option>Every 90 days</option>
-                  <option>Every 180 days</option>
-                  <option>Annual</option>
-                  <option>Only when requested</option>
-                </select>
-              </label>
-            </div>
-
-            <div class="settings-toggle-grid">
-              <label><input type="checkbox" name="requireMfa" /> Require MFA when available</label>
-              <label><input type="checkbox" name="auditLogEnabled" /> Enable audit log tracking</label>
+            <div class="audit-list" aria-label="Sample settings activity">
+              <article><span>Today</span><strong>Settings v1 shell expanded.</strong><p>General, clients, users, access, agreements, projects, notifications, integrations, and audit areas organized for review.</p></article>
+              <article><span>Baseline</span><strong>CPSM Login Baseline v1 remains protected.</strong><p>Settings work is isolated from the login experience and protected baseline branch.</p></article>
             </div>
           </section>
 
