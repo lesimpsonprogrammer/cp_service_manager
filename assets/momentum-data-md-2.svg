@@ -1,10 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="520" height="520" viewBox="0 0 520 520" role="img" aria-labelledby="title desc">
-  <title id="title">Momentum Data MD logo</title>
-  <desc id="desc">Trial Momentum Data logo using a blue MD mark with orange Momentum text and blue Data text.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="190" viewBox="0 0 760 190" role="img" aria-labelledby="title desc">
+  <title id="title">Momentum Data logo</title>
+  <desc id="desc">Clean horizontal Momentum Data logo with a blue MD monogram and orange and blue wordmark.</desc>
   <g fill="none" fill-rule="evenodd">
-    <path fill="#084bed" d="M78 64h54l125 134L380 64h62v248h-70V168L270 277c-8 9-18 14-30 14s-22-5-30-14L148 210v102H78V64Z"/>
-    <path fill="#084bed" d="M210 313h163c60 0 104-38 104-99 0-58-43-97-103-97h-51l54-53c100 6 166 69 166 151 0 90-71 155-168 155H210v-57Z" transform="scale(.86) translate(60 24)"/>
-    <text x="78" y="422" fill="#db5207" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="700">Momentum</text>
-    <text x="78" y="486" fill="#084bed" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="700">Data</text>
+    <g transform="translate(18 22)">
+      <rect x="0" y="0" width="146" height="146" rx="30" fill="#f7fbff"/>
+      <path d="M24 118V28h21l37 42 37-42h21v90h-25V67l-25 28c-5 6-12 9-19 9s-14-3-19-9L49 67v51H24Z" fill="#084BED"/>
+      <path d="M90 118V95h28c21 0 35-13 35-33s-14-33-35-33h-20l20-23h3c35 0 59 23 59 56s-24 56-59 56H90Z" fill="#084BED" opacity="0.95"/>
+    </g>
+    <g transform="translate(196 52)">
+      <text x="0" y="47" fill="#DB5207" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700" letter-spacing="-2">Momentum</text>
+      <text x="0" y="104" fill="#084BED" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="700" letter-spacing="-2">Data</text>
+    </g>
   </g>
 </svg>
