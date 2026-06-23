@@ -16,6 +16,22 @@ This document is the source of truth for important CPSM project decisions, appro
 
 **Primary branch:** `main`
 
+## Active Work Branch
+
+**Branch:** `feature/cpsm-form-v1`
+
+**Purpose:** Build CPSM form experience update v1 from the approved baseline without redesigning the page.
+
+**Scope:** Add enterprise-style access-form experience elements inspired by the Paylocity access flow while keeping CPSM visually distinct and preserving the approved baseline layout.
+
+**Do not change in this branch unless explicitly approved:**
+
+- Overall split-screen layout.
+- Left-side welcome-message direction.
+- Hero image treatment.
+- Core visual proportions.
+- Dashboard or client portal structure.
+
 ## Baseline Decision
 
 The CPSM login page was restored to commit `5f52e25` after later versions introduced visual drift, including a blurry left-side image, oversized login text, missing welcome messaging, and a layout that no longer matched the intended direction.
@@ -34,6 +50,12 @@ The CPSM login page should maintain the following direction:
 - No oversized or clipped headings.
 - Login form should remain clean, readable, and controlled.
 - The visual quality of the page should improve over time, not decrease because of additional requests.
+
+## CPSM Form Experience Update v1
+
+The first controlled form-experience update should add or refine only enterprise access-flow elements such as client/company identifier, user identifier, credential entry, remembered-identifier option, account recovery, new-user onboarding, future single sign-on, help, and privacy/confidentiality links.
+
+This update should focus on user experience and enterprise access flow, not broad visual redesign.
 
 ## External Design Reference
 
