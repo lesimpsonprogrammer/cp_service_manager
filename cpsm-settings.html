@@ -6,9 +6,6 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <meta content="Settings configuration for the Client Portfolio Service Manager." name="description" />
   <title>CPSM Settings | Client Portfolio Service Manager</title>
-  <link href="https://fonts.googleapis.com" rel="preconnect" />
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet" />
   <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
   <link href="styles.css" rel="stylesheet" />
   <link href="client-portal-overrides.css" rel="stylesheet" />
@@ -123,7 +120,7 @@
               <div>
                 <p class="tile-kicker">System Settings Level</p>
                 <h2>Security</h2>
-                <p>Control login behavior, session timing, audit logging, and the approved sudo access model.</p>
+                <p>Control login behavior, session timing, audit logging, and approved elevated access.</p>
               </div>
               <span class="settings-section-number">02</span>
             </div>
@@ -147,14 +144,14 @@
                 </select>
               </label>
               <label for="sudoExpiration">
-                Sudo expiration
+                Elevated access expiration
                 <select id="sudoExpiration" name="sudoExpiration">
                   <option>1 hour from approval</option>
                   <option>30 minutes from approval</option>
                 </select>
               </label>
               <label for="sudoApprover">
-                Sudo approver role
+                Elevated access approver role
                 <select id="sudoApprover" name="sudoApprover">
                   <option>Superuser only</option>
                   <option>Superuser or Admin</option>
@@ -167,8 +164,8 @@
               <label><input type="checkbox" name="rememberUserOption" /> Show remember user option</label>
               <label><input type="checkbox" name="requireMfa" /> Future MFA option</label>
               <label><input type="checkbox" name="auditLogEnabled" /> Enable audit log tracking</label>
-              <label><input type="checkbox" name="sudoAccessEnabled" /> Enable approved sudo access model</label>
-              <label><input type="checkbox" name="sudoRequiresReason" /> Require reason for sudo request</label>
+              <label><input type="checkbox" name="sudoAccessEnabled" /> Enable approved elevated access model</label>
+              <label><input type="checkbox" name="sudoRequiresReason" /> Require reason for elevated access request</label>
             </div>
           </section>
 
@@ -201,20 +198,20 @@
                 Engineering Admin authority
                 <select id="engineeringAdminAuthority" name="engineeringAdminAuthority">
                   <option>Technical setup only</option>
-                  <option>Technical setup plus approved sudo</option>
+                  <option>Technical setup plus approved elevated access</option>
                 </select>
               </label>
             </div>
 
             <div class="role-map" aria-label="CPSM role map">
-              <div><strong>Superuser</strong><span>Full system configuration and sudo approval</span></div>
+              <div><strong>Superuser</strong><span>Full system configuration and elevated access approval</span></div>
               <div><strong>Admin</strong><span>Manage users, clients, and settings as assigned</span></div>
               <div><strong>Regional Director</strong><span>Regional portfolio oversight</span></div>
               <div><strong>Manager</strong><span>Team and project supervision</span></div>
               <div><strong>Account Manager</strong><span>Client relationship visibility</span></div>
               <div><strong>Project Manager</strong><span>Project delivery ownership</span></div>
               <div><strong>Project Consultant</strong><span>Assigned delivery support</span></div>
-              <div><strong>Engineering Admin</strong><span>Technical support; sudo only when approved</span></div>
+              <div><strong>Engineering Admin</strong><span>Technical support; elevated access only when approved</span></div>
               <div><strong>Client</strong><span>Client-facing project access</span></div>
             </div>
           </section>
@@ -509,7 +506,7 @@
 
             <div class="audit-list" aria-label="Sample settings activity">
               <article><span>Today</span><strong>001 core schema applied.</strong><p>Core CPSM tables were created in Supabase with RLS enabled.</p></article>
-              <article><span>Security</span><strong>Sudo access model drafted.</strong><p>Engineering Admin can gain temporary elevated access only through Superuser approval.</p></article>
+              <article><span>Security</span><strong>Elevated access model drafted.</strong><p>Engineering Admin can gain temporary elevated access only through Superuser approval.</p></article>
               <article><span>Baseline</span><strong>CPSM Login Baseline v1 remains protected.</strong><p>Settings work is isolated from the approved login baseline.</p></article>
             </div>
           </section>
