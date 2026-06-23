@@ -19,18 +19,32 @@
   font-family: Arial, Helvetica, sans-serif !important;
 }
 
-.cpsm-dashboard-page .nav a:hover,
-.cpsm-dashboard-page .nav a:focus {
-  background: #f5f5f5 !important;
+.cpsm-dashboard-page .nav-actions .nav-cta,
+.cpsm-dashboard-page .nav-actions .nav-client-login,
+.cpsm-settings-page .nav-actions .nav-cta,
+.cpsm-settings-page .nav-actions .nav-client-login {
+  min-height: 36px !important;
+  padding: 0 0.78rem !important;
+  border: 1px solid transparent !important;
+  border-radius: 0.48rem !important;
+  background: #ffffff !important;
   color: #111111 !important;
+  box-shadow: none !important;
 }
 
-.cpsm-dashboard-page .nav-cta,
-.cpsm-dashboard-page .nav-client-login {
-  border: 1px solid #111111 !important;
-  background: #111111 !important;
-  color: #ffffff !important;
-  box-shadow: none !important;
+.cpsm-dashboard-page .nav a:hover,
+.cpsm-dashboard-page .nav a:focus,
+.cpsm-dashboard-page .nav-actions .nav-cta:hover,
+.cpsm-dashboard-page .nav-actions .nav-client-login:hover,
+.cpsm-dashboard-page .nav-actions .nav-cta:focus,
+.cpsm-dashboard-page .nav-actions .nav-client-login:focus,
+.cpsm-settings-page .nav-actions .nav-cta:hover,
+.cpsm-settings-page .nav-actions .nav-client-login:hover,
+.cpsm-settings-page .nav-actions .nav-cta:focus,
+.cpsm-settings-page .nav-actions .nav-client-login:focus {
+  border-color: #e5e5e5 !important;
+  background: #f5f5f5 !important;
+  color: #111111 !important;
 }
 
 .cpsm-dashboard-page .brand-logo,
@@ -189,6 +203,11 @@
   font-size: clamp(1.08rem, 1.6vw, 1.38rem);
   letter-spacing: -0.025em;
   line-height: 1.12;
+}
+
+.status-delivery-card .dashboard-panel-heading h2 {
+  font-size: clamp(1.45rem, 2.2vw, 2rem);
+  letter-spacing: -0.04em;
 }
 
 .dashboard-panel p {
