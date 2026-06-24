@@ -1,0 +1,27 @@
+/* Focused Kanban refinements */
+.kanban-board-header {
+  align-items: flex-start;
+  padding: 0.85rem clamp(1rem, 2vw, 1.25rem);
+}
+
+.kanban-board-header .dashboard-kicker,
+.kanban-board-header p:not(.dashboard-kicker) {
+  display: none !important;
+}
+
+.kanban-board-header h1.kanban-board-greeting {
+  margin: 0;
+  color: #444444 !important;
+  font-size: clamp(0.98rem, 1.25vw, 1.16rem) !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.01em !important;
+  line-height: 1.35 !important;
+}
+
+.kanban-board-greeting span {
+  display: inline-block;
+  color: #666666 !important;
+  font-size: inherit !important;
+  font-weight: 400 !important;
+  line-height: inherit !important;
+}
