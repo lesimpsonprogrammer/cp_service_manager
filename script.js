@@ -20,6 +20,41 @@ function applyMomentumDataLogo() {
 
 applyMomentumDataLogo();
 
+function initClientTopNavigation() {
+  if (!isCpsmWorkspacePage) return;
+
+  document.querySelectorAll('.nav-links').forEach((navLinks) => {
+    if (navLinks.querySelector('.client-resources-dropdown')) return;
+
+    const settingsLink = Array.from(navLinks.querySelectorAll('a')).find((link) => link.getAttribute('href') === 'cpsm-settings.html');
+
+    const resourcesDropdown = document.createElement('div');
+    resourcesDropdown.className = 'client-resources-dropdown';
+    resourcesDropdown.innerHTML = `
+      <button class="client-resources-trigger" type="button" aria-haspopup="true" aria-expanded="false">Client Resources</button>
+      <div class="client-resources-menu" role="menu" aria-label="Client Resources">
+        <a href="blog.html" role="menuitem">Blog</a>
+        <a href="free-tools.html" role="menuitem">Free Tools</a>
+      </div>
+    `;
+
+    const contactLink = document.createElement('a');
+    contactLink.href = 'contact.html';
+    contactLink.textContent = 'Contact Us';
+    contactLink.className = 'top-contact-link';
+
+    if (settingsLink) {
+      navLinks.insertBefore(resourcesDropdown, settingsLink);
+      navLinks.insertBefore(contactLink, settingsLink);
+    } else {
+      navLinks.appendChild(resourcesDropdown);
+      navLinks.appendChild(contactLink);
+    }
+  });
+}
+
+initClientTopNavigation();
+
 function dashboardIcon(name) {
   const icons = {
     dashboard: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>',
