@@ -22,17 +22,8 @@
       <a aria-label="Momentum Data home" class="brand brand-image-only" href="client-portal.html">
         <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data logo" class="brand-logo brand-logo-transparent" />
       </a>
-
-      <div class="nav-links">
-        <a href="client-portal.html" aria-current="page">Dashboard</a>
-        <a href="cpsm-settings.html">Settings</a>
-        <a class="mobile-client-login" href="login.html">Log out</a>
-      </div>
-
-      <div class="nav-actions nav-contact">
-        <a class="nav-cta" href="cpsm-settings.html">Settings</a>
-        <a class="nav-client-login" href="login.html">Log out</a>
-      </div>
+      <div class="nav-links"><a href="client-portal.html" aria-current="page">Dashboard</a><a href="cpsm-settings.html">Settings</a><a class="mobile-client-login" href="login.html">Log out</a></div>
+      <div class="nav-actions nav-contact"><a class="nav-cta" href="cpsm-settings.html">Settings</a><a class="nav-client-login" href="login.html">Log out</a></div>
     </nav>
   </header>
 
@@ -56,73 +47,22 @@
             <a href="notifications.html">Notifications</a>
           </nav>
         </aside>
-
         <div class="dashboard-content dashboard-content-board-first">
           <section class="dashboard-panel kanban-board-panel" aria-labelledby="clientWelcome">
-            <div class="kanban-board-header">
-              <div>
-                <p class="dashboard-kicker">Project Management</p>
-                <h1 id="clientWelcome" class="kanban-board-greeting">Hi, Client,<br><span>Welcome to Client Portfolio Service Manager.</span></h1>
-                <p>Track project work from intake through final client approval.</p>
-              </div>
-              <div class="kanban-board-meta" aria-label="Board summary">
-                <span>View: Kanban</span>
-                <span class="scope-pill">Client ID <strong data-scope-client-id>100100</strong></span>
-              </div>
-            </div>
-
+            <div class="kanban-board-header"><div><p class="dashboard-kicker">Project Management</p><h1 id="clientWelcome" class="kanban-board-greeting">Hi, Client,<br><span>Welcome to Client Portfolio Service Manager.</span></h1><p>Track project work from intake through final client approval.</p></div><div class="kanban-board-meta" aria-label="Board summary"><span>View: Kanban</span><span class="scope-pill">Client ID <strong data-scope-client-id>100100</strong></span></div></div>
             <div class="kanban-board" aria-label="Kanban project management board">
-              <section class="kanban-column" data-kanban-column="intake" aria-labelledby="intakeColumnTitle">
-                <div class="kanban-column-header">
-                  <h3 id="intakeColumnTitle">Intake</h3>
-                  <span data-kanban-count="intake">0</span>
-                </div>
-                <div class="kanban-card-list" data-kanban-list="intake"></div>
-              </section>
-
-              <section class="kanban-column" data-kanban-column="inProgress" aria-labelledby="progressColumnTitle">
-                <div class="kanban-column-header">
-                  <h3 id="progressColumnTitle">In Progress</h3>
-                  <span data-kanban-count="inProgress">0</span>
-                </div>
-                <div class="kanban-card-list" data-kanban-list="inProgress"></div>
-              </section>
-
-              <section class="kanban-column" data-kanban-column="clientReview" aria-labelledby="reviewColumnTitle">
-                <div class="kanban-column-header">
-                  <h3 id="reviewColumnTitle">Client Review</h3>
-                  <span data-kanban-count="clientReview">0</span>
-                </div>
-                <div class="kanban-card-list" data-kanban-list="clientReview"></div>
-              </section>
-
-              <section class="kanban-column" data-kanban-column="complete" aria-labelledby="completeColumnTitle">
-                <div class="kanban-column-header">
-                  <h3 id="completeColumnTitle">Complete</h3>
-                  <span data-kanban-count="complete">0</span>
-                </div>
-                <div class="kanban-card-list" data-kanban-list="complete"></div>
-              </section>
+              <section class="kanban-column" data-kanban-column="intake" aria-labelledby="intakeColumnTitle"><div class="kanban-column-header"><h3 id="intakeColumnTitle">Intake</h3><span data-kanban-count="intake">0</span></div><div class="kanban-card-list" data-kanban-list="intake"></div></section>
+              <section class="kanban-column" data-kanban-column="inProgress" aria-labelledby="progressColumnTitle"><div class="kanban-column-header"><h3 id="progressColumnTitle">In Progress</h3><span data-kanban-count="inProgress">0</span></div><div class="kanban-card-list" data-kanban-list="inProgress"></div></section>
+              <section class="kanban-column" data-kanban-column="clientReview" aria-labelledby="reviewColumnTitle"><div class="kanban-column-header"><h3 id="reviewColumnTitle">Client Review</h3><span data-kanban-count="clientReview">0</span></div><div class="kanban-card-list" data-kanban-list="clientReview"></div></section>
+              <section class="kanban-column" data-kanban-column="complete" aria-labelledby="completeColumnTitle"><div class="kanban-column-header"><h3 id="completeColumnTitle">Complete</h3><span data-kanban-count="complete">0</span></div><div class="kanban-card-list" data-kanban-list="complete"></div></section>
             </div>
           </section>
         </div>
       </div>
     </section>
   </main>
-
-  <div class="cookie-notice" id="cookieNotice" role="dialog" aria-live="polite" aria-label="Cookie notice" hidden>
-    <div class="cookie-notice-content">
-      <div>
-        <strong>Cookie Notice</strong>
-        <p>We use basic cookies and local storage to remember preferences and improve your browsing experience.</p>
-      </div>
-      <button class="cookie-btn" id="cookieAccept" type="button">Accept</button>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
-  <script src="cpsm-scope.js"></script>
-  <script src="cpsm-kanban.js"></script>
+  <div class="cookie-notice" id="cookieNotice" role="dialog" aria-live="polite" aria-label="Cookie notice" hidden><div class="cookie-notice-content"><div><strong>Cookie Notice</strong><p>We use basic cookies and local storage to remember preferences and improve your browsing experience.</p></div><button class="cookie-btn" id="cookieAccept" type="button">Accept</button></div></div>
+  <script src="script.js"></script><script src="cpsm-scope.js"></script><script src="cpsm-kanban.js"></script>
 </body>
 
 </html>
