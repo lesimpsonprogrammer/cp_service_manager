@@ -101,6 +101,23 @@
       .replace(/'/g, '&#039;');
   }
 
+  function formatClientWelcome() {
+    const greeting = document.querySelector('#clientWelcome');
+    if (!greeting) return;
+
+    const currentText = greeting.textContent || '';
+    const nameMatch = currentText.match(/Hi,\s*(.*?)(?:,\s*welcome|,?$)/i);
+    const clientName = nameMatch?.[1]?.trim() || 'Client';
+    const welcomeLine = document.createElement('span');
+
+    welcomeLine.textContent = 'Welcome to Client Portfolio Service Manager.';
+    greeting.replaceChildren(
+      document.createTextNode(`Hi, ${clientName},`),
+      document.createElement('br'),
+      welcomeLine
+    );
+  }
+
   function readBoard() {
     try {
       const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
@@ -399,6 +416,7 @@
   }
 
   let boardState = readBoard();
+  formatClientWelcome();
   createInternalToolbar();
   createEditorModal();
   renderBoard(boardState);
