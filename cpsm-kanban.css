@@ -1,0 +1,223 @@
+/* CPSM customer-facing Kanban board */
+.dashboard-content-board-first {
+  gap: 0.9rem;
+}
+
+.board-page-heading {
+  padding-bottom: 0;
+}
+
+.board-page-heading h1 {
+  font-size: clamp(1.55rem, 2.5vw, 2.2rem) !important;
+}
+
+.board-client-greeting {
+  max-width: 720px;
+  color: #666666 !important;
+  font-size: 0.9rem !important;
+  line-height: 1.5 !important;
+}
+
+.kanban-board-panel {
+  padding: 0;
+  overflow: hidden;
+}
+
+.kanban-board-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: clamp(1rem, 2vw, 1.25rem);
+  border-bottom: 1px solid #eeeeee;
+}
+
+.kanban-board-header h2 {
+  margin: 0 0 0.25rem;
+  color: #111111;
+  font-size: clamp(1.3rem, 2vw, 1.7rem);
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+
+.kanban-board-header p:not(.dashboard-kicker) {
+  margin: 0;
+  color: #666666;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.kanban-board-meta {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  min-width: 190px;
+}
+
+.kanban-board-meta span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 0.7rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 999px;
+  background: #fafafa;
+  color: #444444;
+  font-size: 0.74rem;
+  line-height: 1;
+}
+
+.kanban-board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(220px, 1fr));
+  gap: 0;
+  min-height: 520px;
+  overflow-x: auto;
+  background: #fafafa;
+}
+
+.kanban-column {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-width: 220px;
+  border-right: 1px solid #eeeeee;
+  background: #fafafa;
+}
+
+.kanban-column:last-child {
+  border-right: 0;
+}
+
+.kanban-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.82rem 0.85rem;
+  border-bottom: 1px solid #eeeeee;
+  background: #ffffff;
+}
+
+.kanban-column-header h3 {
+  margin: 0;
+  color: #111111;
+  font-size: 0.88rem;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.kanban-column-header span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  border: 1px solid #e5e5e5;
+  border-radius: 999px;
+  background: #fafafa;
+  color: #666666;
+  font-size: 0.72rem;
+}
+
+.kanban-card-list {
+  display: grid;
+  align-content: start;
+  gap: 0.72rem;
+  min-height: 420px;
+  padding: 0.85rem;
+  transition: background 160ms ease, outline-color 160ms ease;
+}
+
+.kanban-card-list.is-drop-target {
+  outline: 2px dashed #d9d9d9;
+  outline-offset: -8px;
+  background: #f5f5f5;
+}
+
+.kanban-card {
+  display: grid;
+  gap: 0.58rem;
+  padding: 0.88rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.72rem;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.035);
+  cursor: grab;
+}
+
+.kanban-card:active {
+  cursor: grabbing;
+}
+
+.kanban-card.is-dragging {
+  opacity: 0.55;
+}
+
+.kanban-card-topline,
+.kanban-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.kanban-card-topline span,
+.kanban-card-topline em,
+.kanban-card-meta span {
+  color: #666666;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  font-style: normal;
+}
+
+.kanban-card-topline span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 0 0.48rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 999px;
+  background: #fafafa;
+  color: #333333;
+}
+
+.kanban-card h4 {
+  margin: 0;
+  color: #111111;
+  font-size: 0.94rem;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.kanban-card p {
+  margin: 0;
+  color: #666666;
+  font-size: 0.8rem;
+  line-height: 1.48;
+}
+
+.kanban-card-meta {
+  padding-top: 0.2rem;
+  border-top: 1px solid #f1f1f1;
+}
+
+@media (max-width: 1180px) {
+  .kanban-board {
+    grid-template-columns: repeat(4, minmax(235px, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .kanban-board-header {
+    flex-direction: column;
+  }
+
+  .kanban-board-meta {
+    justify-content: flex-start;
+  }
+
+  .kanban-board {
+    grid-template-columns: repeat(4, minmax(245px, 1fr));
+  }
+}
