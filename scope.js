@@ -9,6 +9,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const table = document.getElementById("scopeTable");
   const count = document.getElementById("scopeCount");
 
+  const escapeHtml = (value) => String(value || "").replace(/[&<>'"]/g, (character) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "'": "&#39;",
+    '"': "&quot;"
+  })[character]);
+
   const updateRoleMode = () => {
     const isClient = userRole.value === "client";
     clientSelect.value = "Current Client Account";
@@ -71,12 +79,12 @@ document.addEventListener("DOMContentLoaded", () => {
     row.dataset.service = serviceType;
     row.dataset.status = status;
     row.innerHTML = `
-      <td><strong>${scopeName}</strong><span>${scopeCategory}</span></td>
-      <td>${client}</td>
-      <td>${serviceType}</td>
-      <td>${priority}</td>
-      <td><span class="table-pill ${pillClass(status)}">${status}</span></td>
-      <td>${target || "To be confirmed"}</td>
+      <td><strong>${escapeHtml(scopeName)}</strong><span>${escapeHtml(scopeCategory)}</span></td>
+      <td>${escapeHtml(client)}</td>
+      <td>${escapeHtml(serviceType)}</td>
+      <td>${escapeHtml(priority)}</td>
+      <td><span class="table-pill ${pillClass(status)}">${escapeHtml(status)}</span></td>
+      <td>${escapeHtml(target || "To be confirmed")}</td>
       <td><button class="table-action" type="button">View</button></td>
     `;
 
