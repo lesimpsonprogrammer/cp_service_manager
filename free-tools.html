@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Tools | CPSM</title>
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="styles.css" rel="stylesheet" />
+  <link href="client-portal-overrides.css" rel="stylesheet" />
+  <link href="cpsm-dashboard.css" rel="stylesheet" />
+  <link href="cpsm-client-resources.css" rel="stylesheet" />
+</head>
+
+<body class="cpsm-dashboard-page">
+  <header class="site-header client-portfolio-header" id="top">
+    <nav aria-label="Free Tools navigation" class="nav container">
+      <a aria-label="Momentum Data home" class="brand brand-image-only" href="client-portal.html">
+        <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data logo" class="brand-logo brand-logo-transparent" />
+      </a>
+      <div class="nav-links"><a href="client-portal.html">Dashboard</a><a href="cpsm-settings.html">Settings</a><a class="mobile-client-login" href="login.html">Log out</a></div>
+      <div class="nav-actions nav-contact"><a class="nav-cta" href="cpsm-settings.html">Settings</a><a class="nav-client-login" href="login.html">Log out</a></div>
+    </nav>
+  </header>
+
+  <main class="dashboard-main">
+    <section class="dashboard-workspace" aria-label="CPSM free tools workspace">
+      <div class="dashboard-layout">
+        <aside class="dashboard-sidebar" aria-label="Client dashboard side panel"><nav class="dashboard-rail" aria-label="Client dashboard sections"></nav></aside>
+        <div class="dashboard-content">
+          <section class="dashboard-page-heading" aria-labelledby="freeToolsTitle">
+            <p class="dashboard-kicker">Client Resources</p>
+            <h1 id="freeToolsTitle">Free Tools</h1>
+            <p>Quick calculators, templates, and resource utilities for clients.</p>
+          </section>
+
+          <section class="dashboard-panel">
+            <div class="dashboard-panel-heading"><div><p class="dashboard-kicker">Tool Library</p><h2>Available tools</h2><p>These cards can become direct launch points for CPSM utilities and client worksheets.</p></div><span class="dashboard-status-pill">Preview</span></div>
+            <div class="module-card-grid">
+              <article class="module-card"><span>Calculator</span><strong><a href="calculator.html">Open Calculator</a></strong></article>
+              <article class="module-card"><span>Estimator</span><strong><a href="project-estimator.html">Open Project Estimator</a></strong></article>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
