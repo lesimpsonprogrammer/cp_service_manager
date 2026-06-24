@@ -14,6 +14,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const table = document.getElementById("documentTable");
   const count = document.getElementById("documentCount");
 
+  const escapeHtml = (value) => String(value || "").replace(/[&<>'"]/g, (character) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "'": "&#39;",
+    '"': "&quot;"
+  })[character]);
+
   const updateRoleMode = () => {
     const isClient = userRole.value === "client";
     clientSelect.value = "Current Client Account";
@@ -129,13 +137,13 @@ document.addEventListener("DOMContentLoaded", () => {
     row.dataset.status = status;
     row.dataset.expiration = expiration;
     row.innerHTML = `
-      <td><strong>${documentName}</strong><span>${uploadedBy}</span></td>
-      <td>${client}</td>
-      <td>${category}</td>
-      <td>${type}</td>
-      <td><span class="table-pill ${pillClass(status)}">${status}</span></td>
-      <td>${expiration || "No expiration"}</td>
-      <td>${visibility}</td>
+      <td><strong>${escapeHtml(documentName)}</strong><span>${escapeHtml(uploadedBy)}</span></td>
+      <td>${escapeHtml(client)}</td>
+      <td>${escapeHtml(category)}</td>
+      <td>${escapeHtml(type)}</td>
+      <td><span class="table-pill ${pillClass(status)}">${escapeHtml(status)}</span></td>
+      <td>${escapeHtml(expiration || "No expiration")}</td>
+      <td>${escapeHtml(visibility)}</td>
       <td><button class="table-action" type="button">View</button></td>
     `;
 
