@@ -41,10 +41,10 @@
             <a href="client-portal.html" class="is-active">Dashboard</a>
             <a href="project-management.html">Project Management</a>
             <a href="financial-management.html">Financial Management</a>
-            <div class="dashboard-rail-group">
-              <a href="client-onboarding.html">Client Onboarding</a>
-              <a class="dashboard-rail-nested" href="agreements.html">Agreements</a>
-            </div>
+            <a href="client-onboarding.html">Client Onboarding</a>
+            <a href="agreements.html">Agreements</a>
+            <a href="client-directory.html">Client Directory</a>
+            <a href="staff-directory.html">Staff Directory</a>
             <a href="workflow-center.html">Workflow Center</a>
             <a href="etl-pipeline.html">ETL Pipeline</a>
             <a href="api-center.html">API</a>
@@ -52,10 +52,59 @@
           </nav>
         </aside>
 
-        <div class="dashboard-content">
-          <section class="dashboard-page-heading" id="dashboardOverview" aria-labelledby="clientWelcome">
+        <div class="dashboard-content dashboard-content-board-first">
+          <section class="dashboard-page-heading board-page-heading" id="dashboardOverview" aria-labelledby="projectBoardTitle">
             <p>Client Portfolio Service Manager</p>
-            <h1 id="clientWelcome">Hi, Client, welcome to your project.</h1>
+            <h1 id="projectBoardTitle">Project Board</h1>
+            <p class="board-client-greeting" id="clientWelcome">Hi, Client, welcome to your project.</p>
+          </section>
+
+          <section class="dashboard-panel kanban-board-panel" aria-labelledby="kanbanBoardTitle">
+            <div class="kanban-board-header">
+              <div>
+                <p class="dashboard-kicker">Project Management</p>
+                <h2 id="kanbanBoardTitle">Client Project Board</h2>
+                <p>Track project work from intake through final client approval.</p>
+              </div>
+              <div class="kanban-board-meta" aria-label="Board summary">
+                <span>View: Kanban</span>
+                <span>Updated today</span>
+              </div>
+            </div>
+
+            <div class="kanban-board" aria-label="Kanban project management board">
+              <section class="kanban-column" data-kanban-column="intake" aria-labelledby="intakeColumnTitle">
+                <div class="kanban-column-header">
+                  <h3 id="intakeColumnTitle">Intake</h3>
+                  <span data-kanban-count="intake">0</span>
+                </div>
+                <div class="kanban-card-list" data-kanban-list="intake"></div>
+              </section>
+
+              <section class="kanban-column" data-kanban-column="inProgress" aria-labelledby="progressColumnTitle">
+                <div class="kanban-column-header">
+                  <h3 id="progressColumnTitle">In Progress</h3>
+                  <span data-kanban-count="inProgress">0</span>
+                </div>
+                <div class="kanban-card-list" data-kanban-list="inProgress"></div>
+              </section>
+
+              <section class="kanban-column" data-kanban-column="clientReview" aria-labelledby="reviewColumnTitle">
+                <div class="kanban-column-header">
+                  <h3 id="reviewColumnTitle">Client Review</h3>
+                  <span data-kanban-count="clientReview">0</span>
+                </div>
+                <div class="kanban-card-list" data-kanban-list="clientReview"></div>
+              </section>
+
+              <section class="kanban-column" data-kanban-column="complete" aria-labelledby="completeColumnTitle">
+                <div class="kanban-column-header">
+                  <h3 id="completeColumnTitle">Complete</h3>
+                  <span data-kanban-count="complete">0</span>
+                </div>
+                <div class="kanban-card-list" data-kanban-list="complete"></div>
+              </section>
+            </div>
           </section>
 
           <section class="dashboard-panel dashboard-panel-large status-delivery-card" aria-labelledby="currentStatusTitle">
@@ -99,6 +148,7 @@
   </div>
 
   <script src="script.js"></script>
+  <script src="cpsm-kanban.js"></script>
 </body>
 
 </html>
