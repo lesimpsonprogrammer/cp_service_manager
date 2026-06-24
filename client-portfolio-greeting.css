@@ -1,14 +1,66 @@
 /* Client Portfolio greeting alignment */
 .client-portal-main .portal-heading-bar {
+  align-items: flex-start;
+  justify-content: space-between;
   text-align: left;
 }
 
+.client-portal-main .portal-welcome-stack {
+  flex: 0 1 560px;
+  display: grid;
+  gap: 0.95rem;
+}
+
 .client-portal-main .portal-heading-bar h1 {
+  display: grid;
+  gap: 0.22rem;
+  margin: 0;
   text-align: left;
+}
+
+.client-portal-main .portal-heading-bar h1 span {
+  display: block;
+}
+
+.client-portal-main .portal-edit-mode-note {
+  max-width: 620px;
+  margin: 0;
+  padding-top: 0.65rem;
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.client-portal-main .portal-view-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.15rem;
+}
+
+.client-portal-main .portal-mode-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 0.85rem;
+  border: 2px solid #8e99a8;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--text);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 @media (max-width: 1080px) {
   .client-portal-main .portal-heading-bar {
     align-items: flex-start;
+  }
+
+  .client-portal-main .portal-welcome-stack,
+  .client-portal-main .portal-google-search {
+    flex-basis: auto;
+    width: min(760px, 100%);
   }
 }
