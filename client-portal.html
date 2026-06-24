@@ -54,17 +54,11 @@
         </aside>
 
         <div class="dashboard-content dashboard-content-board-first">
-          <section class="dashboard-page-heading board-page-heading" id="dashboardOverview" aria-labelledby="projectBoardTitle">
-            <p>Client Portfolio Service Manager</p>
-            <h1 id="projectBoardTitle">Project Board</h1>
-            <p class="board-client-greeting" id="clientWelcome">Hi, Client, welcome to your project.</p>
-          </section>
-
-          <section class="dashboard-panel kanban-board-panel" aria-labelledby="kanbanBoardTitle">
+          <section class="dashboard-panel kanban-board-panel" aria-labelledby="clientWelcome">
             <div class="kanban-board-header">
               <div>
                 <p class="dashboard-kicker">Project Management</p>
-                <h2 id="kanbanBoardTitle">Client Project Board</h2>
+                <h1 id="clientWelcome" class="kanban-board-greeting">Hi, Client,<br><span>Welcome to Client Portfolio Service Manager.</span></h1>
                 <p>Track project work from intake through final client approval.</p>
               </div>
               <div class="kanban-board-meta" aria-label="Board summary">
@@ -104,32 +98,6 @@
                 </div>
                 <div class="kanban-card-list" data-kanban-list="complete"></div>
               </section>
-            </div>
-          </section>
-
-          <section class="dashboard-panel dashboard-panel-large status-delivery-card" aria-labelledby="currentStatusTitle">
-            <div class="dashboard-panel-heading">
-              <div>
-                <p class="dashboard-kicker">Dashboard</p>
-                <h2 id="currentStatusTitle">Current status update</h2>
-                <p class="status-summary">Project is on track.</p>
-              </div>
-              <span class="dashboard-status-pill">On track</span>
-            </div>
-            <p id="portalProjectDetails">Data mapping is underway. The next client review is scheduled after validation notes are prepared.</p>
-            <div class="dashboard-metric-row">
-              <div>
-                <span>Next delivery</span>
-                <strong id="portalDueDate">To be confirmed</strong>
-              </div>
-              <div>
-                <span>Project workspace</span>
-                <strong id="portalProjectName">Active project</strong>
-              </div>
-              <div>
-                <span>Client company</span>
-                <strong id="portalClientCompany">Momentum Data client</strong>
-              </div>
             </div>
           </section>
         </div>
