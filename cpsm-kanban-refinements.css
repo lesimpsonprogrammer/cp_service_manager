@@ -25,3 +25,13 @@
   font-weight: 400 !important;
   line-height: inherit !important;
 }
+
+.kanban-board-header + .kanban-internal-toolbar {
+  margin-top: 0.9rem !important;
+  border-top: 1px solid #eeeeee !important;
+}
+
+.kanban-internal-toolbar {
+  padding-top: 0.95rem !important;
+  padding-bottom: 0.95rem !important;
+}
