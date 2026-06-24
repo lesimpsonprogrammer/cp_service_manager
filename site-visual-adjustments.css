@@ -378,3 +378,37 @@ button.btn:hover,
     min-height: 330px !important;
   }
 }
+
+/* CPSM customer-facing workspace navigation */
+.cpsm-dashboard-page .site-header .nav a,
+.cpsm-settings-page .site-header .nav a,
+.cpsm-dashboard-page .nav-links a,
+.cpsm-settings-page .nav-links a,
+.cpsm-dashboard-page .nav-actions .nav-cta,
+.cpsm-dashboard-page .nav-actions .nav-client-login,
+.cpsm-settings-page .nav-actions .nav-cta,
+.cpsm-settings-page .nav-actions .nav-client-login {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: #111111 !important;
+  font-weight: 500 !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+.cpsm-dashboard-page .site-header .nav a:hover,
+.cpsm-dashboard-page .site-header .nav a:focus,
+.cpsm-settings-page .site-header .nav a:hover,
+.cpsm-settings-page .site-header .nav a:focus,
+.cpsm-dashboard-page .nav-actions .nav-cta:hover,
+.cpsm-dashboard-page .nav-actions .nav-client-login:hover,
+.cpsm-dashboard-page .nav-actions .nav-cta:focus,
+.cpsm-dashboard-page .nav-actions .nav-client-login:focus,
+.cpsm-settings-page .nav-actions .nav-cta:hover,
+.cpsm-settings-page .nav-actions .nav-client-login:hover,
+.cpsm-settings-page .nav-actions .nav-cta:focus,
+.cpsm-settings-page .nav-actions .nav-client-login:focus {
+  background: #f5f5f5 !important;
+  border-color: #e5e5e5 !important;
+  color: #111111 !important;
+}
