@@ -1,4 +1,44 @@
 /* Client Portfolio greeting alignment */
+.client-portfolio-header .nav-links a,
+.client-portfolio-header .nav-actions a,
+.client-portfolio-header .portal-panel-toggle-label {
+  color: var(--text) !important;
+  font-family: var(--font-body, inherit) !important;
+  font-size: 0.92rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+  line-height: 1.2 !important;
+  text-transform: uppercase !important;
+}
+
+.client-portfolio-header .nav-actions a,
+.client-portfolio-header .nav-cta,
+.client-portfolio-header .nav-client-login {
+  display: inline-flex;
+  align-items: center;
+  min-height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none;
+  text-decoration: none;
+}
+
+.client-portfolio-header .nav-links a:hover,
+.client-portfolio-header .nav-actions a:hover,
+.client-portfolio-header .portal-panel-toggle:hover .portal-panel-toggle-label {
+  color: var(--blue) !important;
+}
+
+.client-portfolio-header .brand-image-only .brand-logo {
+  display: block;
+  width: auto;
+  max-width: 186px;
+  max-height: 64px;
+  object-fit: contain;
+}
+
 .client-portal-main .portal-heading-bar {
   align-items: flex-start;
   justify-content: space-between;
@@ -9,6 +49,20 @@
   flex: 0 1 560px;
   display: grid;
   gap: 0.95rem;
+}
+
+.client-portal-main .portal-welcome-logo {
+  display: inline-flex;
+  width: fit-content;
+  margin-bottom: 0.35rem;
+  text-decoration: none;
+}
+
+.client-portal-main .portal-welcome-logo img {
+  display: block;
+  width: min(230px, 76vw);
+  height: auto;
+  object-fit: contain;
 }
 
 .client-portal-main .portal-heading-bar h1 {
