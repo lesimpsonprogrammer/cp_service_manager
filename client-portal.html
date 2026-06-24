@@ -58,7 +58,17 @@
     <section class="client-portal-dashboard" aria-labelledby="clientWelcome">
       <div class="container">
         <div class="portal-heading-bar">
-          <h1 id="clientWelcome">Hi, Client, welcome to your project.</h1>
+          <div class="portal-welcome-stack">
+            <h1 id="clientWelcome">
+              <span>Hi, Client,</span>
+              <span>Welcome to Client Portfolio Service Manager.</span>
+            </h1>
+            <p class="portal-edit-mode-note">Internal edit mode Team controls are hidden from the standard client view.</p>
+            <div class="portal-view-chip-row" aria-label="Dashboard view details">
+              <span class="portal-mode-chip">View: Kanban</span>
+              <span class="portal-mode-chip">Client ID 100100</span>
+            </div>
+          </div>
 
           <form class="portal-google-search" action="https://www.google.com/search" method="get" target="_blank" rel="noopener" role="search">
             <label class="sr-only" for="portalGoogleSearch">Search with Google</label>
