@@ -1,6 +1,6 @@
 (() => {
   const form = document.querySelector('#cpsmSettingsForm');
-  const resetButton = document.querySelector('#resetSettings');
+  const resetButton = document.querySelector('#resetSettingsPreview') || document.querySelector('#resetSettings');
   const saveMessage = document.querySelector('#settingsSaveMessage');
   const sidebarLinks = Array.from(document.querySelectorAll('.settings-sidebar a'));
   const settingsTitle = document.querySelector('#settingsTitle');
@@ -10,6 +10,59 @@
 
   if (settingsTitle) {
     settingsTitle.textContent = 'Settings & Configurations';
+  }
+
+  function applySidebarActionStyles() {
+    if (document.querySelector('#settingsSidebarActionStyles')) return;
+
+    const style = document.createElement('style');
+    style.id = 'settingsSidebarActionStyles';
+    style.textContent = `
+      .settings-sidebar {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.16rem !important;
+      }
+
+      .settings-sidebar-group {
+        gap: 0.1rem !important;
+      }
+
+      .settings-sidebar-actions {
+        position: static !important;
+        display: grid !important;
+        gap: 0.5rem !important;
+        margin-top: auto !important;
+        padding: 0.8rem 0 0 !important;
+        border-top: 1px solid #eeeeee !important;
+        background: transparent !important;
+        backdrop-filter: none !important;
+      }
+
+      .settings-sidebar-actions .btn {
+        width: 100% !important;
+        min-height: 38px !important;
+        justify-content: center !important;
+        border-radius: 0.52rem !important;
+        font-size: 0.78rem !important;
+      }
+    `;
+
+    document.head.appendChild(style);
+  }
+
+  function moveActionsToSidebar() {
+    const sidebar = document.querySelector('.settings-sidebar');
+    const actions = document.querySelector('.settings-actions');
+    if (!sidebar || !actions || sidebar.contains(actions)) return;
+
+    const saveButton = actions.querySelector('button[type="submit"]');
+    if (saveButton) saveButton.setAttribute('form', 'cpsmSettingsForm');
+    if (resetButton) resetButton.setAttribute('form', 'cpsmSettingsForm');
+
+    actions.classList.add('settings-sidebar-actions');
+    sidebar.appendChild(actions);
+    applySidebarActionStyles();
   }
 
   if (!form) return;
@@ -134,6 +187,7 @@
     });
   }
 
+  moveActionsToSidebar();
   applyToForm({ ...defaults, ...readSaved() });
 
   form.addEventListener('submit', (event) => {
