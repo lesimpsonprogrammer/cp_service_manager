@@ -1,0 +1,35 @@
+/* Local development reference note */
+.local-preview-note {
+  margin: 0.75rem 0.75rem 0;
+  padding: 0.72rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.62rem;
+  background: #fffdf5;
+  color: #444444;
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+.local-preview-note strong {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: #111111;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.local-preview-note span {
+  display: block;
+  color: #666666;
+  word-break: break-word;
+}
+
+.local-preview-note span + span {
+  margin-top: 0.28rem;
+}
+
+.local-preview-note code {
+  color: #111111;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.71rem;
+}
