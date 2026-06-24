@@ -269,6 +269,74 @@
   text-transform: uppercase;
 }
 
+.workflows-progress-card {
+  min-height: auto;
+}
+
+.workflow-trigger-list {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.4rem;
+}
+
+.workflow-trigger-group {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+  border: 1px solid #b0b8c4;
+  border-radius: 1rem;
+  background: rgba(243, 245, 248, 0.72);
+}
+
+.workflow-trigger-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.workflow-trigger-heading span,
+.workflow-row span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(31, 111, 235, 0.10);
+  color: var(--blue);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.workflow-trigger-heading h3 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.workflow-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid #b0b8c4;
+}
+
+.workflow-row strong {
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.workflow-row span {
+  background: rgba(255, 126, 32, 0.12);
+  color: #b65300;
+}
+
 .clean-action-list {
   display: grid;
   gap: 1rem;
@@ -409,9 +477,14 @@
   .representative-row,
   .invoice-list div,
   .tool-link-list a,
-  .status-delivery-row {
+  .status-delivery-row,
+  .workflow-row {
     grid-template-columns: 1fr;
     flex-direction: column;
+  }
+
+  .workflow-row {
+    align-items: flex-start;
   }
 
   .tool-inline-form {
