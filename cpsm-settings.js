@@ -1,12 +1,12 @@
 (() => {
   const form = document.querySelector('#cpsmSettingsForm');
-  const resetButton = document.querySelector('#resetSettingsPreview') || document.querySelector('#resetSettings');
   const saveMessage = document.querySelector('#settingsSaveMessage');
   const sidebarLinks = Array.from(document.querySelectorAll('.settings-sidebar a'));
   const settingsTitle = document.querySelector('#settingsTitle');
   const storageKey = 'cpsmSettingsPreview';
   const portalSessionKey = 'momentumDataClientPortalPreview';
   const projectManagerKey = 'projectManagerName';
+  let resetActionLink = null;
 
   if (settingsTitle) {
     settingsTitle.textContent = 'Settings & Configurations';
@@ -30,8 +30,11 @@
 
       .settings-sidebar-actions {
         position: static !important;
-        display: grid !important;
-        gap: 0.5rem !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 0.55rem !important;
         margin-top: auto !important;
         padding: 0.8rem 0 0 !important;
         border-top: 1px solid #eeeeee !important;
@@ -39,12 +42,27 @@
         backdrop-filter: none !important;
       }
 
-      .settings-sidebar-actions .btn {
-        width: 100% !important;
-        min-height: 38px !important;
+      .settings-sidebar-actions .settings-action-link {
+        display: inline-flex !important;
+        align-items: center !important;
         justify-content: center !important;
-        border-radius: 0.52rem !important;
+        flex: 1 1 0 !important;
+        min-height: 34px !important;
+        padding: 0 0.55rem !important;
+        border: 1px solid transparent !important;
+        border-radius: 0.48rem !important;
+        background: transparent !important;
+        color: #2f2f2f !important;
         font-size: 0.78rem !important;
+        line-height: 1.2 !important;
+        text-decoration: none !important;
+      }
+
+      .settings-sidebar-actions .settings-action-link:hover,
+      .settings-sidebar-actions .settings-action-link:focus {
+        border-color: #e5e5e5 !important;
+        background: #f5f5f5 !important;
+        color: #111111 !important;
       }
     `;
 
@@ -56,13 +74,21 @@
     const actions = document.querySelector('.settings-actions');
     if (!sidebar || !actions || sidebar.contains(actions)) return;
 
-    const saveButton = actions.querySelector('button[type="submit"]');
-    if (saveButton) saveButton.setAttribute('form', 'cpsmSettingsForm');
-    if (resetButton) resetButton.setAttribute('form', 'cpsmSettingsForm');
-
     actions.classList.add('settings-sidebar-actions');
+    actions.innerHTML = `
+      <a href="#" class="settings-action-link" id="settingsSavePreviewLink">Save Preview</a>
+      <a href="#" class="settings-action-link" id="settingsResetPreviewLink">Reset Preview</a>
+    `;
+
     sidebar.appendChild(actions);
     applySidebarActionStyles();
+
+    actions.querySelector('#settingsSavePreviewLink')?.addEventListener('click', (event) => {
+      event.preventDefault();
+      form?.requestSubmit();
+    });
+
+    resetActionLink = actions.querySelector('#settingsResetPreviewLink');
   }
 
   if (!form) return;
@@ -180,6 +206,13 @@
     }, 3500);
   }
 
+  function resetPreviewSettings() {
+    localStorage.removeItem(storageKey);
+    applyToForm(defaults);
+    syncDashboardPreview(defaults);
+    showMessage('Settings reset to the CPSM preview defaults.');
+  }
+
   function updateActiveSidebarLink(sectionId) {
     if (!sectionId) return;
     sidebarLinks.forEach((link) => {
@@ -198,11 +231,9 @@
     showMessage('Settings saved for this CPSM preview.');
   });
 
-  resetButton?.addEventListener('click', () => {
-    localStorage.removeItem(storageKey);
-    applyToForm(defaults);
-    syncDashboardPreview(defaults);
-    showMessage('Settings reset to the CPSM preview defaults.');
+  resetActionLink?.addEventListener('click', (event) => {
+    event.preventDefault();
+    resetPreviewSettings();
   });
 
   if ('IntersectionObserver' in window) {
