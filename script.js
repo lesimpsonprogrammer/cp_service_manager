@@ -45,6 +45,21 @@ function applyMomentumDataLogo() {
     logoImage.decoding = 'async';
     logoImage.loading = 'eager';
   });
+
+  const loginCard = document.querySelector('.login-card');
+  if (loginCard && !loginCard.querySelector('.login-card-logo')) {
+    const loginLogo = document.createElement('img');
+    loginLogo.src = momentumLogoSrc;
+    loginLogo.alt = 'Momentum Data logo';
+    loginLogo.className = 'login-card-logo';
+    loginLogo.decoding = 'async';
+    loginLogo.loading = 'eager';
+    loginLogo.style.display = 'block';
+    loginLogo.style.width = 'min(210px, 78%)';
+    loginLogo.style.height = 'auto';
+    loginLogo.style.margin = '0 auto 24px';
+    loginCard.insertBefore(loginLogo, loginCard.firstElementChild);
+  }
 }
 
 applyMomentumDataLogo();
@@ -98,3 +113,64 @@ function initCpsmDashboardRail() {
 }
 
 initCpsmDashboardRail();
+
+const navToggle = document.querySelector('.nav-toggle');
+const navLinks = document.querySelector('.nav-links');
+const year = document.querySelector('#year');
+
+if (year) year.textContent = new Date().getFullYear();
+
+if (navToggle && navLinks) {
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  navLinks.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
+
+const carouselLines = document.querySelectorAll('.carousel-line');
+if (carouselLines.length > 0) {
+  let currentLine = 0;
+  carouselLines.forEach((line, index) => line.classList.toggle('active', index === 0));
+  setInterval(() => {
+    carouselLines[currentLine].classList.remove('active');
+    currentLine = (currentLine + 1) % carouselLines.length;
+    carouselLines[currentLine].classList.add('active');
+  }, 3500);
+}
+
+const cookieNotice = document.querySelector('#cookieNotice');
+const cookieAccept = document.querySelector('#cookieAccept');
+const cookieNoticeKey = 'momentumDataCookieNoticeAccepted';
+
+if (cookieNotice && cookieAccept) {
+  const cookieAccepted = localStorage.getItem(cookieNoticeKey) === 'true';
+  if (!cookieAccepted) cookieNotice.hidden = false;
+  cookieAccept.addEventListener('click', () => {
+    localStorage.setItem(cookieNoticeKey, 'true');
+    cookieNotice.hidden = true;
+  });
+}
+
+const clientWelcome = document.querySelector('#clientWelcome');
+const clientSessionKey = 'momentumDataClientPortalPreview';
+const defaultPortalData = {
+  clientName: 'Client',
+  projectDetails: 'Data mapping is underway. The next client review is scheduled after validation notes are prepared.',
+  dueDate: 'To be confirmed'
+};
+
+if (clientWelcome) {
+  try {
+    const savedPortalData = JSON.parse(sessionStorage.getItem(clientSessionKey) || '{}');
+    clientWelcome.textContent = `Hi, ${savedPortalData.clientName || defaultPortalData.clientName}, welcome to your project.`;
+  } catch (error) {
+    clientWelcome.textContent = `Hi, ${defaultPortalData.clientName}, welcome to your project.`;
+  }
+}
