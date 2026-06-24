@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="Internal Billable Hours model for CPSM project time tracking." name="description" />
+  <title>Billable Hours | Client Portfolio Service Manager</title>
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="styles.css" rel="stylesheet" />
+  <link href="client-portal-overrides.css" rel="stylesheet" />
+  <link href="client-portfolio-greeting.css" rel="stylesheet" />
+  <link href="cpsm-dashboard.css" rel="stylesheet" />
+  <link href="cpsm-billable-hours.css" rel="stylesheet" />
+</head>
+<body class="cpsm-dashboard-page billable-hours-page">
+  <header class="site-header client-portfolio-header" id="top">
+    <nav aria-label="Billable Hours navigation" class="nav container">
+      <a aria-label="Momentum Data home" class="brand brand-image-only" href="client-portal.html">
+        <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data logo" class="brand-logo brand-logo-transparent" />
+      </a>
+      <div class="nav-links"><a href="client-portal.html">Dashboard</a><a href="cpsm-settings.html">Settings</a></div>
+    </nav>
+  </header>
+
+  <main class="dashboard-main">
+    <section class="dashboard-workspace" aria-label="Billable Hours workspace">
+      <div class="dashboard-layout">
+        <aside class="dashboard-sidebar" aria-label="CPSM side panel">
+          <nav class="dashboard-rail" aria-label="Client dashboard sections"></nav>
+        </aside>
+
+        <div class="dashboard-content dashboard-content-board-first">
+          <section class="dashboard-panel" aria-labelledby="billableHoursTitle">
+            <div class="kanban-board-header">
+              <div>
+                <p class="dashboard-kicker">Internal Model</p>
+                <h1 id="billableHoursTitle" class="kanban-board-greeting">Billable Hours<br><span>Track project work before client release.</span></h1>
+                <p>Project managers can clock time, enter manual time, flag exceptions, and submit weekly timecards for approval.</p>
+              </div>
+              <div class="kanban-board-meta" aria-label="Billable Hours status summary">
+                <span>Week: Current</span>
+                <span class="scope-pill">Internal Only</span>
+              </div>
+            </div>
+
+            <div class="billable-panel-grid">
+              <article class="billable-card billable-timer-card">
+                <p class="dashboard-kicker">Timer Function</p>
+                <h2>Project timer</h2>
+                <p>Start, pause, resume, and stop time against an assigned client project and work category.</p>
+                <div class="billable-timer-display" aria-label="Timer preview">00:00:00</div>
+                <div class="billable-action-row">
+                  <button class="btn primary" type="button">Start Timer</button>
+                  <button class="btn secondary" type="button">Manual Entry</button>
+                </div>
+              </article>
+
+              <article class="billable-card">
+                <p class="dashboard-kicker">Admin Controls</p>
+                <h2>Review and governance</h2>
+                <p>Admin users can recategorize, reclassify, revoke, approve, or hold hours before they become visible to the client.</p>
+                <div class="billable-meta-row">
+                  <span class="status-pill flagged">Manual entries flagged</span>
+                  <span class="status-pill locked">Client release locked</span>
+                </div>
+              </article>
+            </div>
+
+            <article class="billable-card" style="margin-top: 1.25rem;">
+              <p class="dashboard-kicker">Weekly Timecard Preview</p>
+              <h2>Project manager hours</h2>
+              <table class="billable-table" aria-label="Weekly billable hours preview">
+                <thead>
+                  <tr><th>Date</th><th>Project</th><th>Category</th><th>Hours</th><th>Source</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Mon</td><td>Data Mapping</td><td>Implementation</td><td>2.50</td><td>Timer</td><td><span class="status-pill approved">Ready</span></td></tr>
+                  <tr><td>Tue</td><td>Validation Review</td><td>QA</td><td>1.75</td><td>Manual</td><td><span class="status-pill flagged">Flagged</span></td></tr>
+                  <tr><td>Thu</td><td>Client Review Prep</td><td>Project Management</td><td>3.00</td><td>Timer</td><td><span class="status-pill locked">Pending approval</span></td></tr>
+                </tbody>
+              </table>
+            </article>
+
+            <article class="billable-card" style="margin-top: 1.25rem;">
+              <p class="dashboard-kicker">Release Logic</p>
+              <h2>Monthly release workflow</h2>
+              <div class="release-flow">
+                <div class="release-step"><strong>1. Client onboarding</strong><span>Client profile can be released to Billable Hours when onboarding is near completion.</span></div>
+                <div class="release-step"><strong>2. Timecard approval</strong><span>Project manager submits weekly hours; admin approves, holds, or revokes.</span></div>
+                <div class="release-step"><strong>3. 7-day release window</strong><span>Approved totals can be prepared seven days before month end.</span></div>
+                <div class="release-step"><strong>4. Client visibility</strong><span>Hours by Project stays locked until approved totals are released.</span></div>
+              </div>
+            </article>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="cookie-notice" id="cookieNotice" role="dialog" aria-live="polite" aria-label="Cookie notice" hidden><div class="cookie-notice-content"><div><strong>Cookie Notice</strong><p>We use basic cookies and local storage to remember preferences and improve your browsing experience.</p></div><button class="cookie-btn" id="cookieAccept" type="button">Accept</button></div></div>
+  <script src="script.js"></script>
+</body>
+</html>
