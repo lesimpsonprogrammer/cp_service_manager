@@ -2,7 +2,13 @@
 .cpsm-dashboard-page .nav,
 .cpsm-settings-page .nav {
   width: min(100% - 32px, 1480px) !important;
-  grid-template-columns: minmax(180px, 1fr) auto minmax(180px, 1fr) !important;
+  grid-template-columns: minmax(240px, 1fr) auto minmax(240px, 1fr) !important;
+}
+
+.cpsm-dashboard-page .brand,
+.cpsm-settings-page .brand {
+  justify-self: center !important;
+  margin-left: 0 !important;
 }
 
 .cpsm-dashboard-page .nav-links,
@@ -141,6 +147,11 @@
   .cpsm-settings-page .nav {
     width: min(100% - 32px, 1480px) !important;
     grid-template-columns: 1fr auto !important;
+  }
+
+  .cpsm-dashboard-page .brand,
+  .cpsm-settings-page .brand {
+    justify-self: start !important;
   }
 
   .cpsm-dashboard-page .nav-actions.nav-contact,
