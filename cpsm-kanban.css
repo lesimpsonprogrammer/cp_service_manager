@@ -68,6 +68,61 @@
   line-height: 1;
 }
 
+.kanban-internal-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem clamp(1rem, 2vw, 1.25rem);
+  border-bottom: 1px solid #eeeeee;
+  background: #ffffff;
+}
+
+.kanban-internal-toolbar span,
+.kanban-internal-toolbar strong {
+  display: block;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.kanban-internal-toolbar span {
+  color: #111111;
+}
+
+.kanban-internal-toolbar strong {
+  color: #666666;
+}
+
+.kanban-internal-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.kanban-internal-actions button,
+.kanban-card-edit,
+.kanban-editor-actions button {
+  min-height: 32px;
+  padding: 0 0.7rem;
+  border: 1px solid #d9d9d9;
+  border-radius: 0.48rem;
+  background: #ffffff;
+  color: #111111;
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.kanban-internal-actions button:hover,
+.kanban-internal-actions button:focus,
+.kanban-card-edit:hover,
+.kanban-card-edit:focus,
+.kanban-editor-actions button:hover,
+.kanban-editor-actions button:focus {
+  border-color: #111111;
+}
+
 .kanban-board {
   display: grid;
   grid-template-columns: repeat(4, minmax(220px, 1fr));
@@ -143,10 +198,14 @@
   border-radius: 0.72rem;
   background: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.035);
+  cursor: default;
+}
+
+.kanban-board.is-internal-mode .kanban-card {
   cursor: grab;
 }
 
-.kanban-card:active {
+.kanban-board.is-internal-mode .kanban-card:active {
   cursor: grabbing;
 }
 
@@ -202,6 +261,132 @@
   border-top: 1px solid #f1f1f1;
 }
 
+.kanban-card-edit {
+  justify-self: start;
+  margin-top: 0.1rem;
+}
+
+.kanban-editor-modal[hidden] {
+  display: none;
+}
+
+.kanban-editor-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.32);
+}
+
+.kanban-editor-card {
+  width: min(720px, 100%);
+  max-height: min(760px, calc(100vh - 2rem));
+  overflow-y: auto;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.9rem;
+  background: #ffffff;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.18);
+}
+
+.kanban-editor-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.kanban-editor-heading h2 {
+  margin: 0;
+  color: #111111;
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  letter-spacing: -0.03em;
+}
+
+.kanban-editor-close {
+  width: 34px;
+  height: 34px;
+  border: 1px solid #e5e5e5;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #111111;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.kanban-editor-form {
+  display: grid;
+  gap: 0.82rem;
+  padding: 1.1rem;
+}
+
+.kanban-editor-form label {
+  display: grid;
+  gap: 0.38rem;
+  color: #111111;
+  font-size: 0.78rem;
+}
+
+.kanban-editor-form input,
+.kanban-editor-form textarea,
+.kanban-editor-form select {
+  width: 100%;
+  min-height: 40px;
+  padding: 0 0.72rem;
+  border: 1px solid #d9d9d9;
+  border-radius: 0.52rem;
+  background: #ffffff;
+  color: #111111;
+  font: inherit;
+  font-size: 0.86rem;
+}
+
+.kanban-editor-form textarea {
+  min-height: 96px;
+  padding-top: 0.7rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.kanban-editor-form input:focus,
+.kanban-editor-form textarea:focus,
+.kanban-editor-form select:focus {
+  outline: 3px solid rgba(0, 0, 0, 0.08);
+  border-color: #111111;
+}
+
+.kanban-editor-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.82rem;
+}
+
+.kanban-editor-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding-top: 0.3rem;
+}
+
+.kanban-editor-actions div {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.kanban-save-card {
+  border-color: #111111 !important;
+  background: #111111 !important;
+  color: #ffffff !important;
+}
+
+.kanban-delete-card {
+  color: #9f1239 !important;
+}
+
 @media (max-width: 1180px) {
   .kanban-board {
     grid-template-columns: repeat(4, minmax(235px, 1fr));
@@ -209,15 +394,24 @@
 }
 
 @media (max-width: 760px) {
-  .kanban-board-header {
+  .kanban-board-header,
+  .kanban-internal-toolbar,
+  .kanban-editor-actions {
     flex-direction: column;
   }
 
-  .kanban-board-meta {
+  .kanban-board-meta,
+  .kanban-internal-actions,
+  .kanban-editor-actions div {
     justify-content: flex-start;
   }
 
-  .kanban-board {
+  .kanban-board,
+  .kanban-editor-grid {
     grid-template-columns: repeat(4, minmax(245px, 1fr));
+  }
+
+  .kanban-editor-grid {
+    grid-template-columns: 1fr;
   }
 }
