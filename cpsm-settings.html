@@ -76,8 +76,8 @@
 
         <form class="settings-form" id="cpsmSettingsForm">
           <section class="settings-page-heading" aria-labelledby="settingsTitle">
-            <p>Client Portfolio Service Manager</p>
-            <h1 id="settingsTitle">Settings</h1>
+            <p class="settings-page-kicker">Settings & Configurations</p>
+            <h1 id="settingsTitle" class="settings-welcome-heading">Hi, Client,<br><span>Welcome to Client Portfolio Service Manager.</span></h1>
           </section>
 
           <section class="settings-panel" id="systemSettings" data-settings-section>
@@ -221,37 +221,19 @@
               <div>
                 <p class="tile-kicker">System Settings Level</p>
                 <h2>User Access Permissions</h2>
-                <p>Set the default access scope for users and prepare permission groups for Supabase policies.</p>
+                <p>Preview which settings areas are available for each role before database enforcement is connected.</p>
               </div>
               <span class="settings-section-number">04</span>
             </div>
 
-            <div class="settings-field-grid">
-              <label for="accessScope">
-                Access scope
-                <select id="accessScope" name="accessScope">
-                  <option>Assigned projects only</option>
-                  <option>Client portfolio</option>
-                  <option>Regional portfolio</option>
-                  <option>All active projects</option>
-                  <option>System-wide administration</option>
-                </select>
-              </label>
-              <label for="permissionReviewCycle">
-                Permission review cycle
-                <select id="permissionReviewCycle" name="permissionReviewCycle">
-                  <option>Monthly</option>
-                  <option>Quarterly</option>
-                  <option>Before client launch</option>
-                </select>
-              </label>
-            </div>
-
-            <div class="settings-toggle-grid">
-              <label><input type="checkbox" name="limitClientToAssignedCompany" /> Limit clients to assigned company only</label>
-              <label><input type="checkbox" name="requireRoleReview" /> Require role review before launch</label>
-              <label><input type="checkbox" name="trackPermissionChanges" /> Track permission changes in audit log</label>
-              <label><input type="checkbox" name="hideFinancialsFromClients" /> Hide financial settings from standard client users</label>
+            <div class="permission-table" aria-label="Role permission preview">
+              <div class="permission-table-row permission-table-head">
+                <span>Role</span><span>Settings</span><span>Client Company</span><span>Projects</span><span>Financials</span>
+              </div>
+              <div class="permission-table-row"><span>Superuser</span><span>Full</span><span>Full</span><span>Full</span><span>Full</span></div>
+              <div class="permission-table-row"><span>Admin</span><span>Assigned</span><span>Full</span><span>Full</span><span>Assigned</span></div>
+              <div class="permission-table-row"><span>Project Manager</span><span>Limited</span><span>View</span><span>Full</span><span>View</span></div>
+              <div class="permission-table-row"><span>Client</span><span>None</span><span>Limited</span><span>View</span><span>Limited</span></div>
             </div>
           </section>
 
@@ -260,16 +242,16 @@
               <div>
                 <p class="tile-kicker">System Settings Level</p>
                 <h2>Client Onboarding Settings</h2>
-                <p>Control the default onboarding path before a client can fully access their workspace.</p>
+                <p>Define the client setup checklist, required approvals, and first-login expectations.</p>
               </div>
               <span class="settings-section-number">05</span>
             </div>
 
             <div class="settings-toggle-grid">
-              <label><input type="checkbox" name="requireConfidentiality" /> Require confidentiality agreement before portal access</label>
-              <label><input type="checkbox" name="requireEngagement" /> Require client engagement agreement before services begin</label>
-              <label><input type="checkbox" name="trackAgreementStatus" /> Track agreement status on client record</label>
-              <label><input type="checkbox" name="futureSignatureFlow" /> Future e-signature workflow</label>
+              <label><input type="checkbox" name="requireConfidentialityAgreement" /> Require confidentiality agreement</label>
+              <label><input type="checkbox" name="requireEngagementContract" /> Require engagement contract</label>
+              <label><input type="checkbox" name="createClientDirectoryRecord" /> Create client directory record</label>
+              <label><input type="checkbox" name="assignProjectManager" /> Require project manager assignment</label>
             </div>
           </section>
 
@@ -278,26 +260,27 @@
               <div>
                 <p class="tile-kicker">System Settings Level</p>
                 <h2>Workflow Center Settings</h2>
-                <p>Define how CPSM workflows should be organized, reviewed, and displayed.</p>
+                <p>Configure workflow stages, task routing, review gates, and completion visibility.</p>
               </div>
               <span class="settings-section-number">06</span>
             </div>
 
             <div class="settings-field-grid">
-              <label for="defaultWorkflowStatus">
-                Default workflow status
-                <select id="defaultWorkflowStatus" name="defaultWorkflowStatus">
-                  <option>Draft</option>
-                  <option>Active</option>
-                  <option>Needs review</option>
+              <label for="defaultWorkflowStage">
+                Default workflow stage
+                <select id="defaultWorkflowStage" name="defaultWorkflowStage">
+                  <option>Intake</option>
+                  <option>Data Mapping</option>
+                  <option>Validation</option>
+                  <option>Client Review</option>
+                  <option>Completed</option>
                 </select>
               </label>
-              <label for="workflowApprovalLevel">
-                Workflow approval level
-                <select id="workflowApprovalLevel" name="workflowApprovalLevel">
-                  <option>Project Manager review</option>
-                  <option>Admin review</option>
-                  <option>No approval required</option>
+              <label for="workflowApprovalGate">
+                Approval gate
+                <select id="workflowApprovalGate" name="workflowApprovalGate">
+                  <option>Client review required before completion</option>
+                  <option>Internal review required before client review</option>
                 </select>
               </label>
             </div>
@@ -308,35 +291,37 @@
               <div>
                 <p class="tile-kicker">Client Company Level</p>
                 <h2>Configure Client Company</h2>
-                <p>Set the default client identity, status, manager display name, and visibility rules.</p>
+                <p>Manage company-level identifiers, assigned contacts, account owner, and client status defaults.</p>
               </div>
               <span class="settings-section-number">07</span>
             </div>
 
             <div class="settings-field-grid">
-              <label for="clientId">
-                Client ID
-                <input id="clientId" name="clientId" type="text" placeholder="CPSM-CLIENT-001" />
+              <label for="clientCompanyName">
+                Default client company
+                <input id="clientCompanyName" name="clientCompanyName" type="text" placeholder="Client company name" />
               </label>
               <label for="clientStatus">
-                Default client status
+                Client status
                 <select id="clientStatus" name="clientStatus">
                   <option>Active</option>
-                  <option>Pending setup</option>
-                  <option>Agreement required</option>
-                  <option>Inactive</option>
+                  <option>Implementation</option>
+                  <option>On hold</option>
                 </select>
               </label>
-              <label for="projectManagerNameSetting">
-                Project Manager display name
-                <input id="projectManagerNameSetting" name="projectManagerName" type="text" placeholder="LSimpson" />
+              <label for="clientTier">
+                Client tier
+                <select id="clientTier" name="clientTier">
+                  <option>Standard</option>
+                  <option>Priority</option>
+                  <option>Strategic</option>
+                </select>
               </label>
-              <label for="clientVisibility">
-                Portal visibility
-                <select id="clientVisibility" name="clientVisibility">
-                  <option>Visible after agreement acceptance</option>
-                  <option>Visible after account approval</option>
-                  <option>Hidden until launch</option>
+              <label for="clientServiceModel">
+                Service model
+                <select id="clientServiceModel" name="clientServiceModel">
+                  <option>Project-based services</option>
+                  <option>Monthly managed service</option>
                 </select>
               </label>
             </div>
@@ -347,40 +332,16 @@
               <div>
                 <p class="tile-kicker">Client Company Level</p>
                 <h2>Project Management Settings</h2>
-                <p>Set default project labels, statuses, delivery format, and date placeholder text.</p>
+                <p>Set project numbering, project manager assignment, timeline visibility, and milestone defaults.</p>
               </div>
               <span class="settings-section-number">08</span>
             </div>
 
-            <div class="settings-field-grid">
-              <label for="defaultProjectName">
-                Default project name
-                <input id="defaultProjectName" name="defaultProjectName" type="text" placeholder="Active project" />
-              </label>
-              <label for="defaultStatus">
-                Default status
-                <select id="defaultStatus" name="defaultStatus">
-                  <option>On track</option>
-                  <option>Needs review</option>
-                  <option>At risk</option>
-                  <option>Paused</option>
-                  <option>Complete</option>
-                </select>
-              </label>
-              <label for="defaultDeliveryFormat">
-                Preferred delivery format
-                <select id="defaultDeliveryFormat" name="defaultDeliveryFormat">
-                  <option>Google Sheet</option>
-                  <option>Excel workbook</option>
-                  <option>CSV export</option>
-                  <option>Dashboard</option>
-                  <option>PDF summary</option>
-                </select>
-              </label>
-              <label for="defaultDueDateText">
-                Due date placeholder
-                <input id="defaultDueDateText" name="defaultDueDateText" type="text" placeholder="To be confirmed" />
-              </label>
+            <div class="settings-toggle-grid">
+              <label><input type="checkbox" name="autoCreateProject" /> Auto-create project after onboarding</label>
+              <label><input type="checkbox" name="showMilestonesToClient" /> Show milestones to client</label>
+              <label><input type="checkbox" name="requireProjectManager" /> Require assigned project manager</label>
+              <label><input type="checkbox" name="showDeliveryTimeline" /> Show delivery timeline to client</label>
             </div>
           </section>
 
@@ -389,16 +350,16 @@
               <div>
                 <p class="tile-kicker">Client Company Level</p>
                 <h2>Financial Management Settings</h2>
-                <p>Prepare the client-level financial tools that will later power invoices, sales tracking, and reporting.</p>
+                <p>Define payment tracking, financial visibility, billing status, and internal finance review defaults.</p>
               </div>
               <span class="settings-section-number">09</span>
             </div>
 
             <div class="settings-toggle-grid">
-              <label><input type="checkbox" name="showFinancialManagement" /> Show Financial Management in side panel</label>
-              <label><input type="checkbox" name="showSalesManagement" /> Show Sales Management in side panel</label>
-              <label><input type="checkbox" name="financialsRequireAdmin" /> Require Admin/Superuser for financial configuration</label>
-              <label><input type="checkbox" name="clientFinancialViewLimited" /> Limit client-facing financial view</label>
+              <label><input type="checkbox" name="showClientFinancials" /> Show selected financials to client</label>
+              <label><input type="checkbox" name="requireFinanceApproval" /> Require finance approval before invoice release</label>
+              <label><input type="checkbox" name="trackPaymentStatus" /> Track payment status</label>
+              <label><input type="checkbox" name="showBalanceDue" /> Show balance due to approved users</label>
             </div>
           </section>
 
@@ -407,26 +368,25 @@
               <div>
                 <p class="tile-kicker">Client Company Level</p>
                 <h2>Accounting</h2>
-                <p>Set accounting visibility and future accounting workflow direction.</p>
+                <p>Set accounting ownership, export preferences, and reconciliation requirements.</p>
               </div>
               <span class="settings-section-number">10</span>
             </div>
 
             <div class="settings-field-grid">
-              <label for="accountingMethod">
-                Accounting method direction
-                <select id="accountingMethod" name="accountingMethod">
-                  <option>Accrual-ready</option>
-                  <option>Cash basis-ready</option>
-                  <option>To be configured</option>
+              <label for="accountingSystem">
+                Accounting system
+                <select id="accountingSystem" name="accountingSystem">
+                  <option>QuickBooks</option>
+                  <option>Manual export</option>
+                  <option>Future integration</option>
                 </select>
               </label>
-              <label for="accountingReviewRole">
-                Accounting review role
-                <select id="accountingReviewRole" name="accountingReviewRole">
-                  <option>Admin</option>
-                  <option>Superuser</option>
-                  <option>Account Manager</option>
+              <label for="reconciliationCadence">
+                Reconciliation cadence
+                <select id="reconciliationCadence" name="reconciliationCadence">
+                  <option>Monthly</option>
+                  <option>Per project close</option>
                 </select>
               </label>
             </div>
@@ -437,26 +397,22 @@
               <div>
                 <p class="tile-kicker">Client Company Level</p>
                 <h2>Invoice Set-up</h2>
-                <p>Control invoice defaults and what clients can see once billing features are enabled.</p>
+                <p>Configure invoice numbering, payment terms, invoice visibility, and approval rules.</p>
               </div>
               <span class="settings-section-number">11</span>
             </div>
 
             <div class="settings-field-grid">
-              <label for="defaultInvoiceStatus">
-                Default invoice status
-                <select id="defaultInvoiceStatus" name="defaultInvoiceStatus">
-                  <option>Draft</option>
-                  <option>Ready for review</option>
-                  <option>Sent</option>
-                </select>
+              <label for="invoicePrefix">
+                Invoice prefix
+                <input id="invoicePrefix" name="invoicePrefix" type="text" placeholder="CPSM" />
               </label>
-              <label for="invoiceCurrency">
-                Default currency
-                <select id="invoiceCurrency" name="invoiceCurrency">
-                  <option>USD</option>
-                  <option>CAD</option>
-                  <option>EUR</option>
+              <label for="paymentTerms">
+                Payment terms
+                <select id="paymentTerms" name="paymentTerms">
+                  <option>Due on receipt</option>
+                  <option>Net 15</option>
+                  <option>Net 30</option>
                 </select>
               </label>
             </div>
@@ -467,60 +423,59 @@
               <div>
                 <p class="tile-kicker">Side Panel Navigation</p>
                 <h2>Menu Visibility</h2>
-                <p>Choose which workspace destinations appear in the persistent side panel menu.</p>
+                <p>Preview the side panel modules that can be enabled by role, client company, or implementation phase.</p>
               </div>
               <span class="settings-section-number">12</span>
             </div>
 
-            <div class="side-menu-preview" aria-label="Side panel navigation preview">
-              <article>
-                <h3>Operations</h3>
-                <label><input type="checkbox" name="showWorkflows" /> Workflows</label>
-                <label><input type="checkbox" name="showProjectManagement" /> Project Management</label>
-                <label><input type="checkbox" name="showFinancialManagementMenu" /> Financial Management</label>
-              </article>
-              <article>
-                <h3>Client Records</h3>
-                <label><input type="checkbox" name="showAgreements" /> Agreements</label>
-                <label><input type="checkbox" name="showInvoices" /> Invoices</label>
-                <label><input type="checkbox" name="showSalesManagementMenu" /> Sales Management</label>
-              </article>
-              <article>
-                <h3>Client Setup</h3>
-                <label><input type="checkbox" name="showConfigureClient" /> Configure Client Company</label>
-                <label><input type="checkbox" name="showClientOnboarding" /> Client Onboarding</label>
-                <label><input type="checkbox" name="showClientDirectory" /> Client Directory</label>
-              </article>
+            <div class="side-menu-settings-grid">
+              <label><input type="checkbox" name="showWorkflows" /> Workflows</label>
+              <label><input type="checkbox" name="showProjectManagement" /> Project Management</label>
+              <label><input type="checkbox" name="showFinancialManagement" /> Financial Management</label>
+              <label><input type="checkbox" name="showAgreements" /> Agreements</label>
+              <label><input type="checkbox" name="showInvoices" /> Invoices</label>
+              <label><input type="checkbox" name="showSalesManagement" /> Sales Management</label>
+              <label><input type="checkbox" name="showConfigureClientCompany" /> Configure Client Company</label>
+              <label><input type="checkbox" name="showClientOnboarding" /> Client Onboarding</label>
+              <label><input type="checkbox" name="showClientDirectory" /> Client Directory</label>
             </div>
           </section>
 
           <section class="settings-panel" id="auditSettings" data-settings-section>
             <div class="settings-panel-heading">
               <div>
-                <p class="tile-kicker">Audit Log</p>
-                <h2>Recent settings activity</h2>
-                <p>Preview the type of security and settings activity CPSM should track.</p>
+                <p class="tile-kicker">System Controls</p>
+                <h2>Audit Log Preview</h2>
+                <p>Use this section as the future home for settings change history and elevated access records.</p>
               </div>
               <span class="settings-section-number">13</span>
             </div>
 
-            <div class="audit-list" aria-label="Sample settings activity">
-              <article><span>Today</span><strong>001 core schema applied.</strong><p>Core CPSM tables were created in Supabase with RLS enabled.</p></article>
-              <article><span>Security</span><strong>Elevated access model drafted.</strong><p>Engineering Admin can gain temporary elevated access only through Superuser approval.</p></article>
-              <article><span>Baseline</span><strong>CPSM Login Baseline v1 remains protected.</strong><p>Settings work is isolated from the approved login baseline.</p></article>
+            <div class="audit-preview-list">
+              <div><span>Settings shell created</span><em>Preview</em></div>
+              <div><span>Core database schema created in Supabase</span><em>Ready for policy review</em></div>
+              <div><span>Role and sudo model pending approval</span><em>Next step</em></div>
             </div>
           </section>
 
-          <div class="settings-actions-bar">
-            <button class="btn secondary" id="resetSettings" type="button">Reset preview</button>
-            <button class="btn primary" type="submit">Save settings</button>
+          <div class="settings-actions">
+            <button class="btn primary" type="submit">Save Preview Settings</button>
+            <button class="btn secondary" type="button" id="resetSettingsPreview">Reset Preview</button>
           </div>
-
-          <p class="settings-save-message" id="settingsSaveMessage" role="status" aria-live="polite" hidden>Settings saved for this CPSM preview.</p>
         </form>
       </div>
     </section>
   </main>
+
+  <div class="cookie-notice" id="cookieNotice" role="dialog" aria-live="polite" aria-label="Cookie notice" hidden>
+    <div class="cookie-notice-content">
+      <div>
+        <strong>Cookie Notice</strong>
+        <p>We use basic cookies and local storage to remember preferences and improve your browsing experience.</p>
+      </div>
+      <button class="cookie-btn" id="cookieAccept" type="button">Accept</button>
+    </div>
+  </div>
 
   <script src="script.js"></script>
   <script src="cpsm-settings.js"></script>
