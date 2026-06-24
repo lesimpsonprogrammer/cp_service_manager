@@ -120,7 +120,7 @@
 
 .settings-page-heading {
   display: grid;
-  gap: 0.4rem;
+  gap: 0.25rem;
   padding: 0.15rem 0 0.2rem;
 }
 
@@ -148,14 +148,15 @@
 }
 
 .settings-welcome-heading {
-  font-size: clamp(1.45rem, 2.35vw, 2.15rem) !important;
-  letter-spacing: -0.04em !important;
-  line-height: 1.1 !important;
+  color: #444444 !important;
+  font-size: clamp(0.98rem, 1.25vw, 1.18rem) !important;
+  letter-spacing: -0.01em !important;
+  line-height: 1.35 !important;
 }
 
 .settings-welcome-heading span {
   display: inline-block;
-  color: #111111;
+  color: #666666;
   font-size: inherit;
   line-height: inherit;
 }
