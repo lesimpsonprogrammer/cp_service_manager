@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="CPSM client scoping page for defining project scope, services, deliverables, dates, and status directly against a client." name="description" />
+  <title>Scope Client | Client Portfolio</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet" />
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="styles.css" rel="stylesheet" />
+  <link href="client-portal-overrides.css" rel="stylesheet" />
+  <link href="document-library.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header class="site-header" id="top">
+    <nav aria-label="Scope navigation" class="nav container">
+      <a aria-label="Back to Client Portfolio" class="brand brand-image-only" href="client-portal.html">
+        <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data logo" class="brand-logo brand-logo-transparent" />
+      </a>
+      <div class="nav-links">
+        <a href="client-portal.html">Client Portfolio</a>
+        <a href="documents.html">Document Library</a>
+        <a aria-current="page" href="scope.html">Scope Client</a>
+        <a href="cpsm-settings.html">Settings</a>
+      </div>
+      <div class="nav-actions nav-contact">
+        <a class="nav-cta" href="client-portal.html">Back to Portfolio</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="tool-page-main module-page-main">
+    <div class="container">
+      <section class="module-hero" aria-labelledby="scopeTitle">
+        <p class="tile-kicker">CPSM Scope Module</p>
+        <div class="module-hero-row">
+          <div>
+            <h1 id="scopeTitle">Scope Client</h1>
+            <p>Create a scope record directly against the client, service, project timeline, deliverables, and approval status.</p>
+          </div>
+          <a class="btn secondary" href="client-portal.html">Return to Portal</a>
+        </div>
+      </section>
+
+      <div class="module-layout scope-layout">
+        <section class="module-card upload-card" aria-labelledby="scopeFormTitle">
+          <div class="module-card-heading">
+            <div>
+              <p class="tile-kicker">Client Scoping</p>
+              <h2 id="scopeFormTitle">Create scope record</h2>
+            </div>
+            <span class="status-pill">Client Required</span>
+          </div>
+
+          <form class="module-form" id="scopeClientForm">
+            <div class="role-toggle-row" aria-label="Scope access mode">
+              <label>
+                User role
+                <select id="scopeUserRole" name="scopeUserRole">
+                  <option value="client">Client user</option>
+                  <option value="internal">Internal user</option>
+                </select>
+              </label>
+              <p id="scopeRoleHelp">Client users can scope only against their own account. Internal users can select any client.</p>
+            </div>
+
+            <div class="module-form-grid">
+              <label>
+                Client
+                <select id="scopeClient" name="scopeClient" required>
+                  <option value="Current Client Account">Current Client Account</option>
+                  <option value="Acme Manufacturing">Acme Manufacturing</option>
+                  <option value="BrightPath Payroll">BrightPath Payroll</option>
+                  <option value="Northstar Benefits">Northstar Benefits</option>
+                </select>
+              </label>
+
+              <label>
+                Scope name
+                <input id="scopeName" name="scopeName" type="text" placeholder="Example: Payroll data migration" required />
+              </label>
+
+              <label>
+                Service type
+                <select id="scopeServiceType" name="scopeServiceType" required>
+                  <option value="Data Extraction">Data Extraction</option>
+                  <option value="Data Cleanup">Data Cleanup</option>
+                  <option value="Data Validation">Data Validation</option>
+                  <option value="ETL / Migration">ETL / Migration</option>
+                  <option value="Reporting / Dashboard">Reporting / Dashboard</option>
+                  <option value="Client Portal Setup">Client Portal Setup</option>
+                  <option value="HR / Payroll Support">HR / Payroll Support</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+
+              <label>
+                Scope category
+                <select id="scopeCategory" name="scopeCategory" required>
+                  <option value="New Implementation">New Implementation</option>
+                  <option value="Change Request">Change Request</option>
+                  <option value="Data Project">Data Project</option>
+                  <option value="Support Request">Support Request</option>
+                  <option value="Compliance / Agreement">Compliance / Agreement</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+
+              <label>
+                Start date
+                <input id="scopeStart" name="scopeStart" type="date" />
+              </label>
+
+              <label>
+                Target completion
+                <input id="scopeEnd" name="scopeEnd" type="date" />
+              </label>
+
+              <label>
+                Priority
+                <select id="scopePriority" name="scopePriority" required>
+                  <option value="Standard">Standard</option>
+                  <option value="High">High</option>
+                  <option value="Urgent">Urgent</option>
+                </select>
+              </label>
+
+              <label>
+                Status
+                <select id="scopeStatus" name="scopeStatus" required>
+                  <option value="Draft">Draft</option>
+                  <option value="Pending Review">Pending Review</option>
+                  <option value="Approved">Approved</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Completed">Completed</option>
+                </select>
+              </label>
+            </div>
+
+            <label>
+              Scope summary
+              <textarea id="scopeSummary" name="scopeSummary" rows="4" placeholder="Describe what needs to be completed for this client." required></textarea>
+            </label>
+
+            <label>
+              Deliverables
+              <textarea id="scopeDeliverables" name="scopeDeliverables" rows="4" placeholder="List expected deliverables, files, reports, dashboards, or setup items."></textarea>
+            </label>
+
+            <button class="btn primary full" type="submit">Add Scope Record</button>
+          </form>
+        </section>
+
+        <section class="module-card library-card" aria-labelledby="scopeTableTitle">
+          <div class="module-card-heading">
+            <div>
+              <p class="tile-kicker">Scope Control</p>
+              <h2 id="scopeTableTitle">Client scope records</h2>
+            </div>
+            <span class="status-pill" id="scopeCount">2 scopes</span>
+          </div>
+
+          <div class="module-filter-grid" aria-label="Scope filters">
+            <label>
+              Search
+              <input id="scopeSearch" type="search" placeholder="Search by client, service, or scope name" />
+            </label>
+            <label>
+              Service type
+              <select id="scopeServiceFilter">
+                <option value="all">All services</option>
+                <option value="ETL / Migration">ETL / Migration</option>
+                <option value="Data Validation">Data Validation</option>
+                <option value="Reporting / Dashboard">Reporting / Dashboard</option>
+                <option value="Client Portal Setup">Client Portal Setup</option>
+              </select>
+            </label>
+            <label>
+              Status
+              <select id="scopeStatusFilter">
+                <option value="all">All statuses</option>
+                <option value="Draft">Draft</option>
+                <option value="Pending Review">Pending Review</option>
+                <option value="Approved">Approved</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="module-table-wrap">
+            <table class="module-table" id="scopeTable">
+              <thead>
+                <tr>
+                  <th>Scope</th>
+                  <th>Client</th>
+                  <th>Service</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                  <th>Target</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-service="ETL / Migration" data-status="Approved">
+                  <td><strong>Payroll migration scope</strong><span>Data Project</span></td>
+                  <td>Current Client Account</td>
+                  <td>ETL / Migration</td>
+                  <td>High</td>
+                  <td><span class="table-pill approved">Approved</span></td>
+                  <td>2026-08-15</td>
+                  <td><button class="table-action" type="button">View</button></td>
+                </tr>
+                <tr data-service="Client Portal Setup" data-status="Pending Review">
+                  <td><strong>Portal onboarding scope</strong><span>New Implementation</span></td>
+                  <td>Acme Manufacturing</td>
+                  <td>Client Portal Setup</td>
+                  <td>Standard</td>
+                  <td><span class="table-pill review">Pending Review</span></td>
+                  <td>2026-07-31</td>
+                  <td><button class="table-action" type="button">View</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+  <script src="scope.js"></script>
+</body>
+
+</html>
