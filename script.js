@@ -1,5 +1,6 @@
 const visualAdjustmentsHref = 'site-visual-adjustments.css';
 const clientResourcesHref = 'cpsm-client-resources.css';
+const CPSM_PLATFORM_VERSION = 'Version 1.2 2026';
 
 function ensureStylesheet(href) {
   if (!document.querySelector(`link[href="${href}"]`)) {
@@ -65,6 +66,8 @@ function dashboardIcon(name) {
   const icons = {
     dashboard: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>',
     project: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5h16"/><path d="M7 4.5h10l3 3v12H4v-12l3-3Z"/><path d="M8 12h8"/><path d="M8 16h5"/></svg>',
+    billable: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 7.5v5l3.5 2"/><path d="M6 20l1.4-2.2"/><path d="M18 20l-1.4-2.2"/></svg>',
+    hoursByProject: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/><path d="M8 5v14"/><path d="M16 5v14"/><circle cx="8" cy="12" r="1.7"/><circle cx="16" cy="19" r="1.7"/></svg>',
     financial: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18"/><path d="M16.5 7.5c-.9-1.2-2.4-1.8-4.2-1.8-2.4 0-4.1 1.1-4.1 2.9 0 4.1 8.6 1.8 8.6 6.4 0 1.9-1.7 3.3-4.4 3.3-2.1 0-3.8-.8-4.9-2.2"/></svg>',
     onboarding: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3.8 19c.7-3.2 2.5-5 5.2-5 2.3 0 3.9 1.2 4.8 3.4"/><path d="M17 9v6"/><path d="M14 12h6"/></svg>',
     agreements: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h9l3 3V20H6V3.5Z"/><path d="M14.5 3.8V7h3.2"/><path d="M8.5 11h7"/><path d="M8.5 15h5"/></svg>',
@@ -88,6 +91,8 @@ function initCpsmDashboardRail() {
   const items = [
     { href: 'client-portal.html', label: 'Dashboard', icon: 'dashboard' },
     { href: 'project-management.html', label: 'Project Management', icon: 'project' },
+    { href: 'billable-hours.html', label: 'Billable Hours', icon: 'billable' },
+    { href: 'hours-by-project.html', label: 'Hours by Project', icon: 'hoursByProject' },
     { href: 'financial-management.html', label: 'Financial Management', icon: 'financial' },
     { href: 'client-onboarding.html', label: 'Client Onboarding', icon: 'onboarding' },
     { href: 'agreements.html', label: 'Agreements', icon: 'agreements' },
@@ -111,10 +116,28 @@ function initCpsmDashboardRail() {
 
 initCpsmDashboardRail();
 
+function initCpsmVersionBadge() {
+  const sidePanels = document.querySelectorAll('.dashboard-sidebar, .settings-sidebar, .cpsm-portal-side-nav, .portal-panel-drawer');
+  sidePanels.forEach((panel) => {
+    if (panel.querySelector('.cpsm-platform-version')) return;
+    const versionBadge = document.createElement('div');
+    versionBadge.className = 'cpsm-platform-version';
+    versionBadge.textContent = CPSM_PLATFORM_VERSION;
+    panel.appendChild(versionBadge);
+  });
+}
+
+initCpsmVersionBadge();
+
 const railIconStyleId = 'cpsm-rail-icon-style';
 if (!document.getElementById(railIconStyleId)) {
   const style = document.createElement('style');
   style.id = railIconStyleId;
-  style.textContent = '.dashboard-rail .rail-icon{width:22px;height:22px;flex:0 0 22px;display:inline-flex;align-items:center;justify-content:center}.dashboard-rail .rail-icon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}';
+  style.textContent = `
+    .dashboard-rail .rail-icon{width:22px;height:22px;flex:0 0 22px;display:inline-flex;align-items:center;justify-content:center}
+    .dashboard-rail .rail-icon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+    .dashboard-sidebar,.settings-sidebar,.cpsm-portal-side-nav,.portal-panel-drawer{display:flex;flex-direction:column}
+    .cpsm-platform-version{margin-top:auto;padding:1rem .85rem .35rem;color:#6b7280;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;border-top:1px solid rgba(217,222,231,.85)}
+  `;
   document.head.appendChild(style);
 }
