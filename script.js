@@ -45,21 +45,6 @@ function applyMomentumDataLogo() {
     logoImage.decoding = 'async';
     logoImage.loading = 'eager';
   });
-
-  const loginCard = document.querySelector('.login-card');
-  if (loginCard && !loginCard.querySelector('.login-card-logo')) {
-    const loginLogo = document.createElement('img');
-    loginLogo.src = momentumLogoSrc;
-    loginLogo.alt = 'Momentum Data logo';
-    loginLogo.className = 'login-card-logo';
-    loginLogo.decoding = 'async';
-    loginLogo.loading = 'eager';
-    loginLogo.style.display = 'block';
-    loginLogo.style.width = 'min(210px, 78%)';
-    loginLogo.style.height = 'auto';
-    loginLogo.style.margin = '0 auto 24px';
-    loginCard.insertBefore(loginLogo, loginCard.firstElementChild);
-  }
 }
 
 applyMomentumDataLogo();
@@ -76,7 +61,7 @@ function dashboardIcon(name) {
     workflow: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M8 6h8"/><path d="M7.4 7.7 11 16"/><path d="m16.6 7.7-3.6 8.3"/></svg>',
     etl: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h13"/><path d="m14 4 3 3-3 3"/><path d="M20 17H7"/><path d="m10 14-3 3 3 3"/></svg>',
     api: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 8-4 4 4 4"/><path d="m16 8 4 4-4 4"/><path d="m14 5-4 14"/></svg>',
-    scope: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2.8v3"/><path d="M12 18.2v3"/><path d="M2.8 12h3"/><path d="M18.2 12h3"/></svg>',
+    scope: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16"/><path d="M4 12h16"/><path d="M4 18.5h16"/><circle cx="8" cy="5.5" r="1.8"/><circle cx="15.5" cy="12" r="1.8"/><circle cx="10.5" cy="18.5" r="1.8"/></svg>',
     documents: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h8.5L18 7v13.5H6V3.5Z"/><path d="M14.5 3.8V7h3.2"/><path d="M8.5 11h7"/><path d="M8.5 14.5h7"/><path d="M8.5 18h4.8"/></svg>',
     notifications: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 10.5a6 6 0 1 0-12 0c0 4-2 5.5-2 5.5h16s-2-1.5-2-5.5Z"/><path d="M9.5 19a2.5 2.5 0 0 0 5 0"/></svg>'
   };
