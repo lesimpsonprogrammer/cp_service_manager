@@ -77,18 +77,20 @@ applyMomentumDataLogo();
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks = document.querySelector('.nav-links');
 const year = document.querySelector('#year');
+const isClientPortalPage = Boolean(document.querySelector('.client-portal-main'));
 
 if (year) {
   year.textContent = new Date().getFullYear();
 }
 
-// Keep the Client Log-in button on the homepage and positioned after Contact us.
+// Keep public site Client Log-in links, but show Log out on the CPSM portal dashboard.
 const desktopNavActions = document.querySelector('.nav-actions');
 const desktopContactLink = desktopNavActions?.querySelector('.nav-cta[href="#contact"], .nav-cta[href="index.html#contact"]');
 const desktopClientLoginLink = desktopNavActions?.querySelector('.nav-client-login[href="login.html"]');
 
 if (desktopContactLink && desktopClientLoginLink) {
-  desktopClientLoginLink.textContent = 'Client Log-in';
+  desktopClientLoginLink.textContent = isClientPortalPage ? 'Log out' : 'Client Log-in';
+  desktopClientLoginLink.toggleAttribute('data-portal-logout', isClientPortalPage);
   desktopContactLink.insertAdjacentElement('afterend', desktopClientLoginLink);
 }
 
@@ -96,12 +98,13 @@ const mobileContactLink = navLinks?.querySelector('.mobile-contact');
 const mobileClientLoginLink = navLinks?.querySelector('.mobile-client-login');
 
 if (mobileContactLink && mobileClientLoginLink) {
-  mobileClientLoginLink.textContent = 'Client Log-in';
+  mobileClientLoginLink.textContent = isClientPortalPage ? 'Log out' : 'Client Log-in';
+  mobileClientLoginLink.toggleAttribute('data-portal-logout', isClientPortalPage);
   mobileContactLink.insertAdjacentElement('afterend', mobileClientLoginLink);
 }
 
 const heroActions = document.querySelector('.hero-actions');
-if (heroActions && !heroActions.querySelector('.client-login-hero')) {
+if (!isClientPortalPage && heroActions && !heroActions.querySelector('.client-login-hero')) {
   const heroClientLogin = document.createElement('a');
   heroClientLogin.className = 'btn secondary client-login-hero';
   heroClientLogin.href = 'login.html';
@@ -182,12 +185,47 @@ const defaultPortalData = {
   dueDate: 'To be confirmed',
 };
 
+function renderClientWelcome(clientName = 'Client') {
+  if (!clientWelcome) return;
+
+  const firstLine = `Hi, ${clientName},`;
+  const secondLine = 'Welcome to Client Portfolio Service Manager.';
+  const welcomeLines = clientWelcome.querySelectorAll('span');
+
+  if (welcomeLines.length >= 2) {
+    welcomeLines[0].textContent = firstLine;
+    welcomeLines[1].textContent = secondLine;
+    return;
+  }
+
+  clientWelcome.innerHTML = `<span>${firstLine}</span><span>${secondLine}</span>`;
+}
+
+function restorePortalWelcomeLogo() {
+  const welcomeStack = document.querySelector('.portal-welcome-stack');
+  if (!welcomeStack || welcomeStack.querySelector('.portal-welcome-logo')) return;
+
+  const logoLink = document.createElement('a');
+  const logoImage = document.createElement('img');
+
+  logoLink.className = 'portal-welcome-logo';
+  logoLink.href = 'index.html#top';
+  logoLink.setAttribute('aria-label', 'Momentum Data home');
+
+  logoImage.src = momentumLogoSrc;
+  logoImage.alt = 'Momentum Data logo';
+  logoImage.decoding = 'async';
+  logoImage.loading = 'eager';
+
+  logoLink.appendChild(logoImage);
+  welcomeStack.insertBefore(logoLink, welcomeStack.firstElementChild);
+}
+
 function populateClientPortal(data = {}) {
   const portalData = { ...defaultPortalData, ...data };
 
-  if (clientWelcome) {
-    clientWelcome.textContent = `Hi, ${portalData.clientName}, welcome to your project.`;
-  }
+  renderClientWelcome(portalData.clientName);
+
   if (portalClientCompany) {
     portalClientCompany.textContent = portalData.companyName;
   }
@@ -212,6 +250,10 @@ function populateClientPortal(data = {}) {
   if (portalTableDueDate) {
     portalTableDueDate.textContent = portalData.dueDate;
   }
+}
+
+if (isClientPortalPage) {
+  restorePortalWelcomeLogo();
 }
 
 if (clientWelcome || portalTableCompany) {
@@ -239,12 +281,21 @@ if (clientLoginForm && clientLoginCard && clientDashboard) {
   });
 }
 
-if (portalLogout) {
-  portalLogout.addEventListener('click', () => {
-    sessionStorage.removeItem(clientSessionKey);
-    window.location.href = 'login.html';
-  });
+function clearClientSessionAndLogout() {
+  sessionStorage.removeItem(clientSessionKey);
+  window.location.href = 'login.html';
 }
+
+if (portalLogout) {
+  portalLogout.addEventListener('click', clearClientSessionAndLogout);
+}
+
+document.querySelectorAll('[data-portal-logout="true"]').forEach((logoutLink) => {
+  logoutLink.addEventListener('click', (event) => {
+    event.preventDefault();
+    clearClientSessionAndLogout();
+  });
+});
 
 if (portalMessageForm && messageConfirmation) {
   portalMessageForm.addEventListener('submit', (event) => {
