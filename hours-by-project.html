@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="Client-facing Hours by Project view for approved CPSM billable hours." name="description" />
+  <title>Hours by Project | Client Portfolio Service Manager</title>
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="styles.css" rel="stylesheet" />
+  <link href="client-portal-overrides.css" rel="stylesheet" />
+  <link href="client-portfolio-greeting.css" rel="stylesheet" />
+  <link href="cpsm-dashboard.css" rel="stylesheet" />
+  <link href="cpsm-billable-hours.css" rel="stylesheet" />
+</head>
+<body class="cpsm-dashboard-page hours-by-project-page">
+  <header class="site-header client-portfolio-header" id="top">
+    <nav aria-label="Hours by Project navigation" class="nav container">
+      <a aria-label="Momentum Data home" class="brand brand-image-only" href="client-portal.html">
+        <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data logo" class="brand-logo brand-logo-transparent" />
+      </a>
+      <div class="nav-links"><a href="client-portal.html">Dashboard</a><a href="cpsm-settings.html">Settings</a></div>
+    </nav>
+  </header>
+
+  <main class="dashboard-main">
+    <section class="dashboard-workspace" aria-label="Hours by Project workspace">
+      <div class="dashboard-layout">
+        <aside class="dashboard-sidebar" aria-label="CPSM side panel">
+          <nav class="dashboard-rail" aria-label="Client dashboard sections"></nav>
+        </aside>
+
+        <div class="dashboard-content dashboard-content-board-first">
+          <section class="dashboard-panel" aria-labelledby="hoursByProjectTitle">
+            <div class="kanban-board-header">
+              <div>
+                <p class="dashboard-kicker">Client View</p>
+                <h1 id="hoursByProjectTitle" class="kanban-board-greeting">Hours by Project<br><span>Approved project totals only.</span></h1>
+                <p>This page is designed to show client-facing hours only after internal Billable Hours approval and monthly release.</p>
+              </div>
+              <div class="kanban-board-meta" aria-label="Hours by Project status summary">
+                <span>Visibility: Controlled</span>
+                <span class="scope-pill">Release required</span>
+              </div>
+            </div>
+
+            <div class="hours-locked-state">
+              <strong>Client visibility is currently locked.</strong>
+              <span>Detailed hours will remain hidden until total hours are approved in Billable Hours and released to Hours by Project.</span>
+            </div>
+
+            <div class="billable-panel-grid">
+              <article class="billable-card">
+                <p class="dashboard-kicker">Approved Monthly Summary</p>
+                <h2>Pending release</h2>
+                <p>Once approved, this summary will show total hours by project, project category, and billing period.</p>
+                <table class="billable-table" aria-label="Approved hours by project preview">
+                  <thead><tr><th>Project</th><th>Billing Period</th><th>Total Hours</th><th>Release Status</th></tr></thead>
+                  <tbody>
+                    <tr><td>Data Mapping</td><td>Current Month</td><td>Pending</td><td><span class="status-pill locked">Locked</span></td></tr>
+                    <tr><td>Validation Review</td><td>Current Month</td><td>Pending</td><td><span class="status-pill locked">Locked</span></td></tr>
+                  </tbody>
+                </table>
+              </article>
+
+              <article class="billable-card">
+                <p class="dashboard-kicker">Integration Flow</p>
+                <h2>From hours to invoice</h2>
+                <div class="release-flow" style="grid-template-columns: 1fr;">
+                  <div class="release-step"><strong>Billable Hours</strong><span>Internal capture, timecard approval, admin reclassification, and manual entry flags.</span></div>
+                  <div class="release-step"><strong>Hours by Project</strong><span>Client-facing approved totals by project after release.</span></div>
+                  <div class="release-step"><strong>Financial Management</strong><span>Approved hours flow into financial review and billing readiness.</span></div>
+                  <div class="release-step"><strong>Invoices</strong><span>Invoice records use approved hours after finance review.</span></div>
+                </div>
+              </article>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="cookie-notice" id="cookieNotice" role="dialog" aria-live="polite" aria-label="Cookie notice" hidden><div class="cookie-notice-content"><div><strong>Cookie Notice</strong><p>We use basic cookies and local storage to remember preferences and improve your browsing experience.</p></div><button class="cookie-btn" id="cookieAccept" type="button">Accept</button></div></div>
+  <script src="script.js"></script>
+</body>
+</html>
