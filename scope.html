@@ -15,18 +15,9 @@
 <body class="cpsm-dashboard-page">
   <header class="site-header client-portfolio-header" id="top">
     <nav aria-label="Scope navigation" class="nav container">
-      <a aria-label="Momentum Data home" class="brand brand-image-only" href="client-portal.html">
-        <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data logo" class="brand-logo brand-logo-transparent" />
-      </a>
-      <div class="nav-links">
-        <a href="client-portal.html">Dashboard</a>
-        <a href="cpsm-settings.html">Settings</a>
-        <a class="mobile-client-login" href="login.html">Log out</a>
-      </div>
-      <div class="nav-actions nav-contact">
-        <a class="nav-cta" href="cpsm-settings.html">Settings</a>
-        <a class="nav-client-login" href="login.html">Log out</a>
-      </div>
+      <a aria-label="Momentum Data home" class="brand brand-image-only" href="client-portal.html"><img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data logo" class="brand-logo brand-logo-transparent" /></a>
+      <div class="nav-links"><a href="client-portal.html">Dashboard</a><a href="cpsm-settings.html">Settings</a><a class="mobile-client-login" href="login.html">Log out</a></div>
+      <div class="nav-actions nav-contact"><a class="nav-cta" href="cpsm-settings.html">Settings</a><a class="nav-client-login" href="login.html">Log out</a></div>
     </nav>
   </header>
 
@@ -50,72 +41,18 @@
             <a href="notifications.html">Notifications</a>
           </nav>
         </aside>
-
         <div class="dashboard-content">
-          <section class="scope-page-heading" aria-labelledby="scopeTitle">
-            <p>Internal Scope</p>
-            <h1 id="scopeTitle">Client scope</h1>
-            <span>Set the client visibility lens for internal support. This preview stores the active scope locally.</span>
-          </section>
-
+          <section class="scope-page-heading" aria-labelledby="scopeTitle"><p>Internal Scope</p><h1 id="scopeTitle">Client scope</h1><span>Set the client visibility lens for internal support. This preview stores the active scope locally.</span></section>
           <div class="scope-layout">
-            <section class="scope-card" aria-labelledby="activeScopeTitle">
-              <h2 id="activeScopeTitle">Current scope</h2>
-              <p>The active client scope controls which client context internal users are viewing.</p>
-
-              <div class="scope-summary-grid">
-                <div class="scope-summary-item">
-                  <span>Client ID</span>
-                  <strong data-scope-client-id>100100</strong>
-                </div>
-                <div class="scope-summary-item">
-                  <span>Client</span>
-                  <strong data-scope-client-name>Momentum Data Client</strong>
-                </div>
-                <div class="scope-summary-item">
-                  <span>Status</span>
-                  <strong data-scope-status>Active</strong>
-                </div>
-                <div class="scope-summary-item">
-                  <span>Access</span>
-                  <strong data-scope-access>Internal support scope</strong>
-                </div>
-              </div>
-            </section>
-
-            <section class="scope-client-list" aria-label="Available client scopes">
-              <article class="scope-client-card" data-scope-card data-scope-id="100100" data-scope-name="Momentum Data Client" data-scope-status="Active" data-scope-access="Internal support scope">
-                <div>
-                  <h3>Momentum Data Client</h3>
-                  <p>Default internal preview scope.</p>
-                </div>
-                <div class="scope-client-meta">
-                  <span>Client ID 100100</span>
-                  <span>Active</span>
-                </div>
-                <a href="#" class="scope-select-link" data-select-scope>Select scope</a>
-              </article>
-
-              <article class="scope-client-card" data-scope-card data-scope-id="100200" data-scope-name="Implementation Client" data-scope-status="Implementation" data-scope-access="Project support scope">
-                <div>
-                  <h3>Implementation Client</h3>
-                  <p>Sample client for implementation support.</p>
-                </div>
-                <div class="scope-client-meta">
-                  <span>Client ID 100200</span>
-                  <span>Implementation</span>
-                </div>
-                <a href="#" class="scope-select-link" data-select-scope>Select scope</a>
-              </article>
-            </section>
+            <section class="scope-card" aria-labelledby="activeScopeTitle"><h2 id="activeScopeTitle">Current scope</h2><p>The active client scope controls which client context internal users are viewing.</p><div class="scope-summary-grid"><div class="scope-summary-item"><span>Client ID</span><strong data-scope-client-id>100100</strong></div><div class="scope-summary-item"><span>Client</span><strong data-scope-client-name>Momentum Data Client</strong></div><div class="scope-summary-item"><span>Status</span><strong data-scope-status>Active</strong></div><div class="scope-summary-item"><span>Access</span><strong data-scope-access>Internal support scope</strong></div></div></section>
+            <section class="scope-client-list" aria-label="Available client scopes"><article class="scope-client-card" data-scope-card data-scope-id="100100" data-scope-name="Momentum Data Client" data-scope-status="Active" data-scope-access="Internal support scope"><div><h3>Momentum Data Client</h3><p>Default internal preview scope.</p></div><div class="scope-client-meta"><span>Client ID 100100</span><span>Active</span></div><a href="#" class="scope-select-link" data-select-scope>Select scope</a></article><article class="scope-client-card" data-scope-card data-scope-id="100200" data-scope-name="Implementation Client" data-scope-status="Implementation" data-scope-access="Project support scope"><div><h3>Implementation Client</h3><p>Sample client for implementation support.</p></div><div class="scope-client-meta"><span>Client ID 100200</span><span>Implementation</span></div><a href="#" class="scope-select-link" data-select-scope>Select scope</a></article></section>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <script src="script.js"></script>
-  <script src="cpsm-scope.js"></script>
+  <script src="script.js"></script><script src="cpsm-scope.js"></script>
 </body>
 
 </html>
