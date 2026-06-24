@@ -1,11 +1,17 @@
 const visualAdjustmentsHref = 'site-visual-adjustments.css';
+const clientResourcesHref = 'cpsm-client-resources.css';
 
-if (!document.querySelector(`link[href="${visualAdjustmentsHref}"]`)) {
-  const visualAdjustmentsLink = document.createElement('link');
-  visualAdjustmentsLink.rel = 'stylesheet';
-  visualAdjustmentsLink.href = visualAdjustmentsHref;
-  document.head.appendChild(visualAdjustmentsLink);
+function ensureStylesheet(href) {
+  if (!document.querySelector(`link[href="${href}"]`)) {
+    const stylesheetLink = document.createElement('link');
+    stylesheetLink.rel = 'stylesheet';
+    stylesheetLink.href = href;
+    document.head.appendChild(stylesheetLink);
+  }
 }
+
+ensureStylesheet(visualAdjustmentsHref);
+ensureStylesheet(clientResourcesHref);
 
 const isCpsmWorkspacePage = document.body?.classList.contains('cpsm-dashboard-page') || document.body?.classList.contains('cpsm-settings-page');
 const momentumLogoSrc = isCpsmWorkspacePage ? 'assets/momentum-data-md-2.svg' : 'assets/momentum-data-logo-transparent.svg';
