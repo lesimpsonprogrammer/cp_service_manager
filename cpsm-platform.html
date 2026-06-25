@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CPSM | Client Portfolio Service Manager</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="cpsm-platform.css" rel="stylesheet" />
+</head>
+<body class="cpsm-platform-page">
+  <aside class="cpsm-sidebar">
+    <a class="cpsm-brand" href="cpsm-platform.html">
+      <span class="cpsm-mark">C</span>
+      <span><strong>CPSM</strong><small>Client Portfolio Service Manager</small></span>
+    </a>
+    <nav class="cpsm-nav">
+      <a class="active" href="#dashboard">Dashboard</a>
+      <a href="#clients">Clients</a>
+      <a href="#projects">Projects</a>
+      <a href="#workflows">Workflows</a>
+      <a href="#documents">Document Library</a>
+      <a href="#billable-hours">Billable Hours</a>
+      <a href="#implementation">Implementation Tracker</a>
+      <a href="#integration-lab">Integration Lab</a>
+      <a href="#reports">Reports</a>
+      <a href="#admin">Admin Settings</a>
+    </nav>
+    <div class="sidebar-note"><strong>Product Reset</strong><span>Standalone CPSM platform direction</span></div>
+  </aside>
+
+  <main class="cpsm-main" id="dashboard">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Product Platform Reset</p>
+        <h1>Client Portfolio Service Manager</h1>
+      </div>
+      <div class="role-chip"><span>Role</span><strong>Super Admin</strong></div>
+    </header>
+
+    <section class="hero-card">
+      <div>
+        <p class="eyebrow">CPSM is the product</p>
+        <h2>Implementation operations, client service delivery, documents, workflows, and billable activity in one command center.</h2>
+        <p>CPSM should operate as a standalone product platform. Momentum Data can own or use CPSM, but the app experience should be built around CPSM modules, roles, data, workflows, and service outcomes.</p>
+      </div>
+      <div class="status-card"><span>Foundation Status</span><strong>Resetting</strong><small>Correcting product identity before deeper feature buildout.</small></div>
+    </section>
+
+    <section class="metrics">
+      <article><span>Active Clients</span><strong>12</strong><small>Portfolio accounts</small></article>
+      <article><span>Open Projects</span><strong>18</strong><small>Across implementation and services</small></article>
+      <article><span>Workflows In Progress</span><strong>27</strong><small>Grouped by trigger</small></article>
+      <article><span>Billable Readiness</span><strong>91%</strong><small>Estimate accuracy target</small></article>
+    </section>
+
+    <section class="grid two-col" id="clients">
+      <article class="panel span-large">
+        <div class="panel-header"><div><p class="eyebrow">Portfolio Command Center</p><h2>Client + Project Overview</h2></div><button type="button">New Project</button></div>
+        <div class="portfolio-list">
+          <article><div><h3>Atlas Manufacturing Group</h3><p>Implementation project · Data readiness and document collection</p></div><span class="pill review">In Review</span></article>
+          <article><div><h3>Brightline Services</h3><p>Service workflow · Configuration review</p></div><span class="pill correction">Needs Correction</span></article>
+          <article><div><h3>Northstar Logistics</h3><p>Readiness project · Pre-launch validation</p></div><span class="pill approved">Approved</span></article>
+        </div>
+      </article>
+
+      <article class="panel" id="projects">
+        <p class="eyebrow">Roles</p><h2>Access Model</h2>
+        <ul class="role-stack">
+          <li><strong>Super Admin</strong><span>Full platform control</span></li>
+          <li><strong>Engineering Admin</strong><span>Integrations and environment setup</span></li>
+          <li><strong>Project Manager</strong><span>Projects, milestones, billable activity</span></li>
+          <li><strong>Client User</strong><span>Uploads, assigned tasks, visibility</span></li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="grid three-col" id="workflows">
+      <article class="panel"><p class="eyebrow">Workflows In Progress</p><h2>Listed by Trigger</h2><div class="trigger-list"><span>Document Uploaded</span><strong>Review submitted file</strong><span>Status Changed</span><strong>Notify client of correction request</strong><span>Due Date Approaching</span><strong>Escalate approval</strong></div></article>
+      <article class="panel" id="documents"><p class="eyebrow">Document Library</p><h2>Standalone Module</h2><p>Uploader, category, type, expiration date, status, visibility, notes, client, project, and service assignment.</p></article>
+      <article class="panel" id="billable-hours"><p class="eyebrow">Billable Hours</p><h2>Project Time Entry</h2><p>Manual time entries live here. Historical task averages should improve future estimated billable hours.</p></article>
+    </section>
+
+    <section class="grid two-col" id="implementation">
+      <article class="panel span-large"><p class="eyebrow">Implementation Tracker</p><h2>Project Readiness Flow</h2><div class="readiness-flow"><span>Client Setup</span><span>Document Collection</span><span>Data Validation</span><span>Workflow Review</span><span>Go-Live Handoff</span></div></article>
+      <article class="panel" id="integration-lab"><p class="eyebrow">Integration Lab</p><h2>Mock First</h2><p>Start with mock providers before real API credentials. Future connectors can support HCM, payroll, ERP, and service platforms.</p></article>
+    </section>
+
+    <section class="grid two-col" id="reports">
+      <article class="panel"><p class="eyebrow">Reports</p><h2>Operational Visibility</h2><p>Client status, project velocity, document gaps, workflow aging, estimate vs actual hours, and readiness.</p></article>
+      <article class="panel" id="admin"><p class="eyebrow">Admin Settings</p><h2>Platform Control</h2><p>Roles, permissions, client configuration, workflow triggers, document categories, service types, integrations, and environment controls.</p></article>
+    </section>
+  </main>
+</body>
+</html>
