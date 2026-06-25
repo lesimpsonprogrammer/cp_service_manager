@@ -53,6 +53,10 @@
                 <span class="status-pill approved">Default Billable Hours View</span>
               </div>
 
+              <div class="backend-sync-status" id="backendSyncStatus" role="status" aria-live="polite">
+                <strong>Backend:</strong> Checking Supabase connection…
+              </div>
+
               <div class="project-time-entry-grid">
                 <div class="time-entry-form" aria-label="Project time entry form">
                   <label for="projectSearch">Project ID Search / Entry</label>
@@ -191,6 +195,8 @@
   </main>
 
   <div class="cookie-notice" id="cookieNotice" role="dialog" aria-live="polite" aria-label="Cookie notice" hidden><div class="cookie-notice-content"><div><strong>Cookie Notice</strong><p>We use basic cookies and local storage to remember preferences and improve your browsing experience.</p></div><button class="cookie-btn" id="cookieAccept" type="button">Accept</button></div></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="cpsm-supabase-client.js"></script>
   <script src="script.js"></script>
   <script src="cpsm-billable-hours.js"></script>
 </body>
