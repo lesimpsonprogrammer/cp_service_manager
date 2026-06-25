@@ -1,0 +1,307 @@
+/* CPSM animated login preview */
+.animated-login-page {
+  --cpsm-night: #02070d;
+  --cpsm-panel: #07111d;
+  --cpsm-border: rgba(126, 193, 255, 0.2);
+  --cpsm-green: #20ff76;
+  --cpsm-cyan: #15d8ff;
+  --cpsm-gold: #ffb94a;
+  --cpsm-blue: #1f6feb;
+  background: var(--cpsm-night);
+}
+
+.animated-login-page .animated-login-shell {
+  background: var(--cpsm-night);
+}
+
+.animated-login-page .cpsm-flow-panel {
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(31, 111, 235, 0.18), transparent 35%),
+    radial-gradient(circle at 18% 18%, rgba(32, 255, 118, 0.12), transparent 28%),
+    radial-gradient(circle at 82% 70%, rgba(255, 185, 74, 0.09), transparent 26%),
+    linear-gradient(135deg, #000203 0%, #03111a 42%, #000000 100%);
+}
+
+.animated-login-page .cpsm-flow-panel::before,
+.animated-login-page .cpsm-flow-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.animated-login-page .cpsm-flow-panel::before {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 72px 72px;
+  opacity: 0.18;
+  mask-image: radial-gradient(circle at center, black, transparent 75%);
+}
+
+.animated-login-page .cpsm-flow-panel::after {
+  background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.32) 54%, rgba(0, 0, 0, 0.84) 100%);
+}
+
+.animated-login-page .cpsm-flow-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.92;
+}
+
+.animated-login-page .cpsm-flow-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.58), transparent 30%, rgba(0, 0, 0, 0.2)),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.64));
+  pointer-events: none;
+}
+
+.animated-login-page .cpsm-compass-mark {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  width: min(48vw, 460px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(21, 216, 255, 0.22);
+  border-radius: 50%;
+  color: rgba(21, 216, 255, 0.28);
+  box-shadow:
+    inset 0 0 42px rgba(21, 216, 255, 0.08),
+    0 0 80px rgba(31, 111, 235, 0.14);
+}
+
+.animated-login-page .cpsm-compass-mark::before,
+.animated-login-page .cpsm-compass-mark::after {
+  content: "";
+  position: absolute;
+  inset: 13%;
+  border: 1px solid rgba(32, 255, 118, 0.14);
+  border-radius: 50%;
+}
+
+.animated-login-page .cpsm-compass-mark::after {
+  inset: 27%;
+  border-color: rgba(255, 185, 74, 0.18);
+}
+
+.animated-login-page .cpsm-compass-mark span {
+  position: absolute;
+  width: 30%;
+  height: 30%;
+  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+  background: linear-gradient(135deg, rgba(31, 111, 235, 0.22), rgba(21, 216, 255, 0.1));
+  filter: drop-shadow(0 0 18px rgba(21, 216, 255, 0.25));
+}
+
+.animated-login-page .cpsm-compass-mark strong {
+  position: relative;
+  z-index: 1;
+  color: rgba(21, 216, 255, 0.42);
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  letter-spacing: 0.12em;
+  text-shadow: 0 0 32px rgba(21, 216, 255, 0.38);
+}
+
+.animated-login-page .cpsm-flow-copy {
+  position: relative;
+  z-index: 2;
+  align-self: flex-end;
+  width: min(100%, 640px);
+  margin-right: auto;
+  padding: 28px;
+  border: 1px solid rgba(126, 193, 255, 0.18);
+  border-radius: 28px;
+  background: linear-gradient(135deg, rgba(2, 7, 13, 0.44), rgba(2, 7, 13, 0.1));
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(10px);
+}
+
+.animated-login-page .cpsm-kicker {
+  margin: 0 0 14px;
+  color: var(--cpsm-cyan);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-shadow: 0 0 18px rgba(21, 216, 255, 0.55);
+}
+
+.animated-login-page .cpsm-flow-copy h1 {
+  max-width: 540px;
+  margin-bottom: 18px;
+  font-size: clamp(3.1rem, 5.2vw, 5.4rem);
+  line-height: 0.92;
+  color: #ffffff;
+}
+
+.animated-login-page .cpsm-flow-copy p:not(.cpsm-kicker) {
+  max-width: 530px;
+  color: rgba(231, 244, 255, 0.88);
+}
+
+.animated-login-page .cpsm-stream-legend {
+  position: absolute;
+  z-index: 2;
+  left: 48px;
+  right: 48px;
+  bottom: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.animated-login-page .cpsm-stream-legend span {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  border: 1px solid rgba(126, 193, 255, 0.22);
+  border-radius: 999px;
+  padding: 0 13px;
+  color: rgba(231, 244, 255, 0.86);
+  background: rgba(2, 7, 13, 0.45);
+  font-size: 0.78rem;
+  font-weight: 800;
+  backdrop-filter: blur(8px);
+}
+
+.animated-login-page .cpsm-login-panel {
+  background:
+    radial-gradient(circle at top right, rgba(31, 111, 235, 0.1), transparent 35%),
+    linear-gradient(180deg, #f8fbff 0%, #eef5ff 100%);
+}
+
+.animated-login-page .cpsm-login-card {
+  border: 1px solid rgba(11, 31, 58, 0.1);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 30px 90px rgba(11, 31, 58, 0.16);
+}
+
+.animated-login-page .login-card-logo {
+  display: none !important;
+}
+
+.animated-login-page .cpsm-login-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.animated-login-page .cpsm-login-mark {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  color: #ffffff;
+  background: radial-gradient(circle at 30% 20%, #8ec5ff, var(--cpsm-blue));
+  box-shadow: 0 18px 36px rgba(31, 111, 235, 0.28);
+}
+
+.animated-login-page .cpsm-login-brand strong {
+  display: block;
+  color: var(--blue-dark);
+  font-size: 2rem;
+  line-height: 1;
+  letter-spacing: 0.08em;
+}
+
+.animated-login-page .cpsm-login-brand small,
+.animated-login-page .cpsm-login-subtitle {
+  color: var(--muted);
+}
+
+.animated-login-page .cpsm-login-brand small {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.animated-login-page .cpsm-login-card h2 {
+  margin-bottom: 8px;
+  font-family: var(--font-body);
+  font-size: clamp(2rem, 3vw, 2.65rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.animated-login-page .cpsm-login-subtitle {
+  margin-bottom: 0;
+}
+
+.animated-login-page .cpsm-login-form input {
+  min-height: 52px;
+  border-radius: 16px;
+  background: #f9fbff;
+}
+
+.animated-login-page .cpsm-login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.animated-login-page .cpsm-login-options a {
+  color: var(--cpsm-blue);
+  font-weight: 800;
+}
+
+.animated-login-page .cpsm-remember-option {
+  display: inline-flex;
+  grid-template-columns: none;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.animated-login-page .cpsm-remember-option input {
+  width: 16px;
+  min-height: 16px;
+  accent-color: var(--cpsm-blue);
+}
+
+.animated-login-page .cpsm-sso-button {
+  margin-top: 2px;
+  border-color: rgba(11, 31, 58, 0.18);
+}
+
+@media (max-width: 860px) {
+  .animated-login-page .cpsm-flow-panel {
+    min-height: 56vh;
+  }
+
+  .animated-login-page .cpsm-flow-copy {
+    padding: 22px;
+  }
+
+  .animated-login-page .cpsm-stream-legend {
+    left: 24px;
+    right: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animated-login-page .cpsm-flow-canvas {
+    opacity: 0.55;
+  }
+}
