@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <meta content="Internal Billable Hours model for CPSM project time tracking." name="description" />
+  <meta content="Internal Billable Hours model for CPSM project time tracking and smart task estimates." name="description" />
   <title>Billable Hours | Client Portfolio Service Manager</title>
   <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
   <link href="styles.css" rel="stylesheet" />
@@ -34,8 +34,8 @@
             <div class="kanban-board-header">
               <div>
                 <p class="dashboard-kicker">Internal Model</p>
-                <h1 id="billableHoursTitle" class="kanban-board-greeting">Billable Hours<br><span>Track project work before client release.</span></h1>
-                <p>Project managers can clock time, enter manual time, flag exceptions, and submit weekly timecards for approval.</p>
+                <h1 id="billableHoursTitle" class="kanban-board-greeting">Billable Hours<br><span>Project Time Entry and smart estimates.</span></h1>
+                <p>Project managers log project timecards, compare actual hours to estimated week-to-date hours, and let CPSM learn the average completion time for recurring tasks.</p>
               </div>
               <div class="kanban-board-meta" aria-label="Billable Hours status summary">
                 <span>Week: Current</span>
@@ -43,52 +43,145 @@
               </div>
             </div>
 
-            <div class="billable-panel-grid">
-              <article class="billable-card billable-timer-card">
-                <p class="dashboard-kicker">Timer Function</p>
-                <h2>Project timer</h2>
-                <p>Start, pause, resume, and stop time against an assigned client project and work category.</p>
-                <div class="billable-timer-display" aria-label="Timer preview">00:00:00</div>
-                <div class="billable-action-row">
-                  <button class="btn primary" type="button">Start Timer</button>
-                  <button class="btn secondary" type="button">Manual Entry</button>
+            <article class="billable-card billable-time-entry-card" aria-labelledby="projectTimeEntryTitle">
+              <div class="billable-section-heading">
+                <div>
+                  <p class="dashboard-kicker">Project Time Entry</p>
+                  <h2 id="projectTimeEntryTitle">Manual timecard entry</h2>
+                  <p>Search or enter the Project ID first. CPSM auto-populates project context, suggests the task estimate, and updates the week-to-date comparison as time is logged.</p>
                 </div>
-              </article>
+                <span class="status-pill approved">Default Billable Hours View</span>
+              </div>
 
-              <article class="billable-card">
-                <p class="dashboard-kicker">Admin Controls</p>
-                <h2>Review and governance</h2>
-                <p>Admin users can recategorize, reclassify, revoke, approve, or hold hours before they become visible to the client.</p>
-                <div class="billable-meta-row">
-                  <span class="status-pill flagged">Manual entries flagged</span>
-                  <span class="status-pill locked">Client release locked</span>
+              <div class="project-time-entry-grid">
+                <div class="time-entry-form" aria-label="Project time entry form">
+                  <label for="projectSearch">Project ID Search / Entry</label>
+                  <input id="projectSearch" type="search" value="CPSM-100245" aria-describedby="projectSearchHelp" />
+                  <small id="projectSearchHelp">Search by Project ID, client, deliverable, or service line.</small>
+
+                  <label for="clientName">Client Name</label>
+                  <input id="clientName" type="text" value="McKinley Dupree Talent Co." readonly />
+
+                  <label for="projectDescription">Project Description</label>
+                  <textarea id="projectDescription" rows="4">Client onboarding workflow setup, document library configuration, and billable-hours model implementation.</textarea>
+
+                  <div class="form-row two-columns">
+                    <div>
+                      <label for="taskSelect">Task / Deliverable</label>
+                      <select id="taskSelect">
+                        <option value="payroll-file-review">Payroll File Review</option>
+                        <option value="benefits-audit-review" selected>Benefits Audit Review</option>
+                        <option value="client-review-prep">Client Review Prep</option>
+                        <option value="workflow-configuration">Workflow Configuration</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label for="expectedUnits">Expected Tasks This Week</label>
+                      <input id="expectedUnits" type="number" min="1" step="1" value="3" />
+                    </div>
+                  </div>
+
+                  <div class="form-row four-columns time-row">
+                    <div>
+                      <label for="timeIn">Time In</label>
+                      <input id="timeIn" type="time" value="09:00" />
+                    </div>
+                    <div>
+                      <label for="timeInPeriod">AM/PM</label>
+                      <select id="timeInPeriod"><option selected>AM</option><option>PM</option></select>
+                    </div>
+                    <div>
+                      <label for="timeOut">Time Out</label>
+                      <input id="timeOut" type="time" value="11:30" />
+                    </div>
+                    <div>
+                      <label for="timeOutPeriod">AM/PM</label>
+                      <select id="timeOutPeriod"><option selected>AM</option><option>PM</option></select>
+                    </div>
+                  </div>
+
+                  <div class="billable-action-row">
+                    <button class="btn primary" id="saveDraftEntry" type="button">Save Draft Entry</button>
+                    <button class="btn secondary" id="recalculateEstimate" type="button">Recalculate Estimate</button>
+                  </div>
                 </div>
-              </article>
-            </div>
+
+                <aside class="smart-estimate-panel" aria-label="Smart task estimate panel">
+                  <p class="dashboard-kicker">Smart Estimate</p>
+                  <h3>Average completion time</h3>
+                  <div class="estimate-metric-stack">
+                    <div class="estimate-metric"><span>Historical Avg.</span><strong id="historicalAverage">2.50 hrs</strong></div>
+                    <div class="estimate-metric"><span>System Estimate</span><strong id="systemEstimate">7.50 hrs</strong></div>
+                    <div class="estimate-metric"><span>Actual Entry</span><strong id="actualEntryHours">2.50 hrs</strong></div>
+                    <div class="estimate-metric"><span>Actual WTD</span><strong id="actualWtdHours">6.25 hrs</strong></div>
+                    <div class="estimate-metric variance"><span>Variance</span><strong id="estimateVariance">-1.25 hrs</strong></div>
+                  </div>
+                  <div class="estimate-source-box">
+                    <span>Estimate Source</span>
+                    <strong id="estimateSource">Weighted Historical Average</strong>
+                    <small>50% same task type · 25% same client · 15% same project category · 10% same PM/user</small>
+                  </div>
+                </aside>
+              </div>
+            </article>
+
+            <article class="billable-card" style="margin-top: 1.25rem;">
+              <div class="billable-section-heading">
+                <div>
+                  <p class="dashboard-kicker">Project Hierarchy</p>
+                  <h2>Stacked timecard entries</h2>
+                  <p>Manual entries stack under the same Project ID so project managers and admins can review the full timecard history in context.</p>
+                </div>
+                <span class="status-pill flagged">Manual Source Tracked</span>
+              </div>
+
+              <div class="project-entry-stack" aria-label="Nested project timecard entries">
+                <div class="project-entry-parent">
+                  <div>
+                    <strong>Project ID: CPSM-100245</strong>
+                    <span>McKinley Dupree Talent Co. · Benefits Audit Review</span>
+                  </div>
+                  <div class="project-entry-summary">
+                    <span>Estimated WTD: <strong id="stackEstimatedWtd">7.50 hrs</strong></span>
+                    <span>Actual WTD: <strong id="stackActualWtd">6.25 hrs</strong></span>
+                  </div>
+                </div>
+
+                <div class="nested-time-entry">
+                  <span>Mon</span><strong>Benefits Audit Review</strong><span>9:00 AM – 11:00 AM</span><span>2.00 hrs</span><span class="status-pill approved">Ready</span>
+                </div>
+                <div class="nested-time-entry">
+                  <span>Tue</span><strong>Benefits Audit Review</strong><span>1:00 PM – 2:45 PM</span><span>1.75 hrs</span><span class="status-pill flagged">Manual</span>
+                </div>
+                <div class="nested-time-entry nested-time-entry-current">
+                  <span>Thu</span><strong id="stackCurrentTask">Benefits Audit Review</strong><span id="stackCurrentTime">9:00 AM – 11:30 AM</span><span id="stackCurrentHours">2.50 hrs</span><span class="status-pill locked">Draft</span>
+                </div>
+              </div>
+            </article>
 
             <article class="billable-card" style="margin-top: 1.25rem;">
               <p class="dashboard-kicker">Weekly Timecard Preview</p>
               <h2>Project manager hours</h2>
               <table class="billable-table" aria-label="Weekly billable hours preview">
                 <thead>
-                  <tr><th>Date</th><th>Project</th><th>Category</th><th>Hours</th><th>Source</th><th>Status</th></tr>
+                  <tr><th>Date</th><th>Project</th><th>Task</th><th>Hours</th><th>Estimate Source</th><th>Status</th></tr>
                 </thead>
                 <tbody>
-                  <tr><td>Mon</td><td>Data Mapping</td><td>Implementation</td><td>2.50</td><td>Timer</td><td><span class="status-pill approved">Ready</span></td></tr>
-                  <tr><td>Tue</td><td>Validation Review</td><td>QA</td><td>1.75</td><td>Manual</td><td><span class="status-pill flagged">Flagged</span></td></tr>
-                  <tr><td>Thu</td><td>Client Review Prep</td><td>Project Management</td><td>3.00</td><td>Timer</td><td><span class="status-pill locked">Pending approval</span></td></tr>
+                  <tr><td>Mon</td><td>CPSM-100245</td><td>Benefits Audit Review</td><td>2.00</td><td>Historical Avg.</td><td><span class="status-pill approved">Ready</span></td></tr>
+                  <tr><td>Tue</td><td>CPSM-100245</td><td>Benefits Audit Review</td><td>1.75</td><td>Manual Override</td><td><span class="status-pill flagged">Manual</span></td></tr>
+                  <tr><td>Thu</td><td>CPSM-100245</td><td id="tableCurrentTask">Benefits Audit Review</td><td id="tableCurrentHours">2.50</td><td id="tableEstimateSource">Weighted Historical Avg.</td><td><span class="status-pill locked">Draft</span></td></tr>
                 </tbody>
               </table>
             </article>
 
             <article class="billable-card" style="margin-top: 1.25rem;">
-              <p class="dashboard-kicker">Release Logic</p>
-              <h2>Monthly release workflow</h2>
-              <div class="release-flow">
-                <div class="release-step"><strong>1. Client onboarding</strong><span>Client profile can be released to Billable Hours when onboarding is near completion.</span></div>
-                <div class="release-step"><strong>2. Timecard approval</strong><span>Project manager submits weekly hours; admin approves, holds, or revokes.</span></div>
-                <div class="release-step"><strong>3. 7-day release window</strong><span>Approved totals can be prepared seven days before month end.</span></div>
-                <div class="release-step"><strong>4. Client visibility</strong><span>Hours by Project stays locked until approved totals are released.</span></div>
+              <p class="dashboard-kicker">Learning Logic</p>
+              <h2>How CPSM improves future estimates</h2>
+              <div class="release-flow smart-estimate-flow">
+                <div class="release-step"><strong>1. Capture actuals</strong><span>Every saved timecard stores actual hours by task, client, project category, and PM/user.</span></div>
+                <div class="release-step"><strong>2. Calculate averages</strong><span>CPSM recalculates average completion time after completed entries are saved.</span></div>
+                <div class="release-step"><strong>3. Suggest estimate</strong><span>Future entries use historical averages to suggest estimated hours before the PM submits.</span></div>
+                <div class="release-step"><strong>4. Compare variance</strong><span>Estimated WTD, Actual WTD, and variance show whether project time is pacing correctly.</span></div>
               </div>
             </article>
           </section>
@@ -99,5 +192,6 @@
 
   <div class="cookie-notice" id="cookieNotice" role="dialog" aria-live="polite" aria-label="Cookie notice" hidden><div class="cookie-notice-content"><div><strong>Cookie Notice</strong><p>We use basic cookies and local storage to remember preferences and improve your browsing experience.</p></div><button class="cookie-btn" id="cookieAccept" type="button">Accept</button></div></div>
   <script src="script.js"></script>
+  <script src="cpsm-billable-hours.js"></script>
 </body>
 </html>
