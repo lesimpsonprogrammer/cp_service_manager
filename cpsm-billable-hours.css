@@ -56,6 +56,37 @@
   letter-spacing: -0.03em;
 }
 
+.backend-sync-status {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid rgba(107, 114, 128, 0.22);
+  border-radius: 0.9rem;
+  background: #ffffff;
+  color: #4b5563;
+  font-size: 0.86rem;
+}
+
+.backend-sync-status.connected {
+  border-color: rgba(23, 135, 84, 0.28);
+  background: rgba(230, 250, 239, 0.95);
+  color: #12633d;
+}
+
+.backend-sync-status.protected {
+  border-color: rgba(31, 111, 235, 0.26);
+  background: #f3f8ff;
+  color: var(--blue-dark);
+}
+
+.backend-sync-status.offline {
+  border-color: rgba(196, 90, 18, 0.28);
+  background: rgba(255, 245, 235, 0.95);
+  color: #9a410d;
+}
+
 .project-time-entry-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.85fr);
