@@ -11,47 +11,81 @@
     rel="stylesheet" />
   <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
   <link href="styles.css" rel="stylesheet" />
-  <link href="animated-login.css" rel="stylesheet" />
+  <link href="approved-login.css" rel="stylesheet" />
 </head>
 
-<body class="login-page animated-login-page">
-  <main class="login-split-screen animated-login-shell">
-    <section class="login-visual-panel cpsm-flow-panel" aria-label="Animated data-flow preview">
-      <canvas id="cpsmFlowCanvas" class="cpsm-flow-canvas" aria-hidden="true"></canvas>
-      <div class="cpsm-flow-vignette" aria-hidden="true"></div>
+<body class="login-page approved-login-page">
+  <main class="approved-login-shell">
+    <section class="approved-login-visual" aria-label="Client portal preview">
+      <div class="approved-login-visual-overlay">
+        <h1>Welcome to Client Portfolio</h1>
+        <p>Stay connected to every project update. Access status updates, deliverables, and Project Manager messages from one secure hub.</p>
+      </div>
     </section>
 
-    <section class="login-form-panel" aria-labelledby="login-title">
-      <div class="login-form-stack">
-        <div class="login-card">
-          <h2 id="login-title">Log into Client Portfolio</h2>
+    <section class="approved-login-panel" aria-labelledby="login-title">
+      <div class="approved-login-stack">
+        <div class="approved-cpsm-logo" aria-label="CPSM Client Portfolio Service Manager">
+          <span class="approved-cpsm-dots" aria-hidden="true">
+            <i></i><i></i><i></i>
+            <i></i><i></i><i></i>
+            <i></i><i></i><i></i>
+          </span>
+          <div>
+            <strong>CPSM</strong>
+            <small>Client Portfolio Service Manager</small>
+          </div>
+        </div>
 
-          <form id="loginPageForm" class="login-form">
+        <div class="approved-login-card">
+          <h2 id="login-title">Log into Client Portfolio</h2>
+          <p class="approved-login-subtitle">Manage your client's programs and projects in one space.</p>
+
+          <form id="loginPageForm" class="approved-login-form">
+            <label for="businessRelationship">
+              Business Relationship with CPSM
+              <select id="businessRelationship" name="businessRelationship" required>
+                <option value="Client Company">Client Company</option>
+                <option value="Client Contact">Client Contact</option>
+                <option value="Product Developer">Product Developer</option>
+                <option value="Internal Contributor">Internal Contributor</option>
+                <option value="Demo">Demo</option>
+                <option value="Demo 2">Demo 2</option>
+              </select>
+            </label>
+
             <label for="clientId">
-              Client ID:
-              <input id="clientId" name="clientId" type="text" placeholder="Client ID" required />
+              <span id="cpsmIdLabel">Client ID</span>
+              <input id="clientId" name="clientId" type="text" placeholder="Enter your Client ID" required />
+              <small id="cpsmIdNote" class="approved-field-note" hidden>Requested once per day for non-client access.</small>
             </label>
 
             <label for="userName">
-              User Name:
-              <input id="userName" name="userName" type="text" placeholder="User Name" required />
+              User Name
+              <input id="userName" name="userName" type="text" placeholder="Enter your user name" required />
             </label>
 
             <label for="password">
-              Password:
-              <input id="password" name="password" type="password" placeholder="Password" required />
+              Password
+              <input id="password" name="password" type="password" placeholder="Enter your password" required />
             </label>
 
             <button class="btn primary full" type="submit">Log In</button>
+            <div class="approved-login-divider"><span>or</span></div>
+            <a class="approved-forgot-link" href="#">Forgot your password?</a>
           </form>
         </div>
-        <p class="portfolio-update-note">Client Portfolio will undergo scheduled update on July 24.</p>
+
+        <footer class="approved-login-footer">
+          <p>© 2025 CPSM. All rights reserved. <span>|</span> Privacy Policy <span>|</span> Terms of Service</p>
+          <p>Client Portfolio Service Manager by Momentum Data Solutions</p>
+        </footer>
       </div>
     </section>
   </main>
 
   <script src="script.js"></script>
-  <script src="animated-login.js"></script>
+  <script src="approved-login.js"></script>
 </body>
 
 </html>
