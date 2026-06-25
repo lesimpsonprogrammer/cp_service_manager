@@ -78,6 +78,42 @@
   order: 4 !important;
 }
 
+.client-portfolio-header .nav-links a,
+.client-portfolio-header .client-resources-nav-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #ffffff !important;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.client-portfolio-header .nav-links a:hover,
+.client-portfolio-header .client-resources-nav-link:hover {
+  color: var(--light-blue) !important;
+}
+
+.client-portfolio-header .client-resources-nav-link::after,
+.client-portfolio-header .client-resources-nav-link .dropdown-arrow,
+.client-portfolio-header .client-resources-nav-link .caret {
+  display: none !important;
+  content: none !important;
+}
+
+.client-portfolio-header .client-resources-dropdown,
+.client-portfolio-header .client-resources-menu,
+.client-portfolio-header [data-client-resources-dropdown] {
+  display: none !important;
+}
+
 .portal-panel-toggle-icon {
   display: inline-grid;
   gap: 4px;
