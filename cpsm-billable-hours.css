@@ -34,6 +34,15 @@
   margin-top: 1rem;
 }
 
+.billable-section-heading {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+
+.billable-time-entry-card,
 .billable-timer-card {
   border-color: rgba(31, 111, 235, 0.32);
   background: linear-gradient(180deg, #ffffff 0%, #f3f8ff 100%);
@@ -45,6 +54,193 @@
   font-size: clamp(2.1rem, 5vw, 3.4rem);
   font-weight: 700;
   letter-spacing: -0.03em;
+}
+
+.project-time-entry-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.85fr);
+  gap: 1.25rem;
+  align-items: stretch;
+}
+
+.time-entry-form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.time-entry-form label {
+  display: block;
+  color: var(--blue-dark);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.time-entry-form small,
+.estimate-source-box small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.time-entry-form input,
+.time-entry-form select,
+.time-entry-form textarea {
+  width: 100%;
+  padding: 0.78rem 0.85rem;
+  border: 1px solid #d9dee7;
+  border-radius: 0.78rem;
+  background: #ffffff;
+  color: var(--blue-dark);
+  font: inherit;
+}
+
+.time-entry-form input[readonly] {
+  background: #f7f8fb;
+  color: #4b5563;
+}
+
+.form-row {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.two-columns {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.four-columns {
+  grid-template-columns: minmax(120px, 1fr) minmax(90px, 0.6fr) minmax(120px, 1fr) minmax(90px, 0.6fr);
+}
+
+.smart-estimate-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(31, 111, 235, 0.18);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.estimate-metric-stack {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.estimate-metric {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.82rem;
+  border: 1px solid #edf0f5;
+  border-radius: 0.85rem;
+  background: #ffffff;
+}
+
+.estimate-metric span,
+.estimate-source-box span {
+  color: #6b7280;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.estimate-metric strong {
+  color: var(--blue-dark);
+  font-size: 1rem;
+}
+
+.estimate-metric.variance strong.positive {
+  color: #9a410d;
+}
+
+.estimate-metric.variance strong.negative,
+.estimate-metric.variance strong.on-track {
+  color: #12633d;
+}
+
+.estimate-source-box {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.95rem;
+  border: 1px solid rgba(196, 90, 18, 0.22);
+  border-radius: 0.9rem;
+  background: rgba(255, 245, 235, 0.95);
+}
+
+.estimate-source-box strong {
+  color: #9a410d;
+}
+
+.project-entry-stack {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.project-entry-parent {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1rem;
+  border: 1px solid rgba(31, 111, 235, 0.22);
+  border-radius: 1rem;
+  background: #f3f8ff;
+}
+
+.project-entry-parent strong,
+.project-entry-parent span {
+  display: block;
+}
+
+.project-entry-parent strong {
+  color: var(--blue-dark);
+}
+
+.project-entry-parent span,
+.project-entry-summary span {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.project-entry-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.nested-time-entry {
+  display: grid;
+  grid-template-columns: 56px minmax(170px, 1fr) minmax(160px, 1fr) 90px minmax(90px, auto);
+  gap: 0.75rem;
+  align-items: center;
+  margin-left: 1.1rem;
+  padding: 0.85rem;
+  border: 1px solid #edf0f5;
+  border-radius: 0.85rem;
+  background: #ffffff;
+}
+
+.nested-time-entry-current {
+  border-color: rgba(196, 90, 18, 0.28);
+  background: rgba(255, 245, 235, 0.45);
+}
+
+.nested-time-entry span {
+  color: #4b5563;
+  font-size: 0.86rem;
+}
+
+.nested-time-entry strong {
+  color: var(--blue-dark);
 }
 
 .billable-table {
@@ -102,6 +298,10 @@
   margin-top: 1rem;
 }
 
+.smart-estimate-flow .release-step {
+  background: #ffffff;
+}
+
 .release-step {
   padding: 1rem;
   border: 1px solid #d9dee7;
@@ -136,7 +336,30 @@
 
 @media (max-width: 980px) {
   .billable-panel-grid,
+  .project-time-entry-grid,
   .release-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .billable-section-heading,
+  .project-entry-parent {
+    flex-direction: column;
+  }
+
+  .project-entry-summary {
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .nested-time-entry {
+    grid-template-columns: 1fr;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .two-columns,
+  .four-columns {
     grid-template-columns: 1fr;
   }
 }
