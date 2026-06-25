@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CPSM Sandbox | Client Portfolio Service Manager</title>
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="styles.css" rel="stylesheet" />
+  <link href="client-portal-overrides.css" rel="stylesheet" />
+  <link href="cpsm-dashboard.css" rel="stylesheet" />
+  <link href="cpsm-connected-workflows.css" rel="stylesheet" />
+  <link href="cpsm-billable-hours.css" rel="stylesheet" />
+</head>
+<body class="cpsm-dashboard-page">
+  <header class="site-header client-portfolio-header" id="top">
+    <nav aria-label="CPSM Sandbox Navigation" class="nav container">
+      <a aria-label="Momentum Data Home" class="brand brand-image-only" href="client-portal.html">
+        <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data Logo" class="brand-logo brand-logo-transparent" />
+      </a>
+      <div class="nav-links"><a href="client-portal.html">Dashboard</a><a href="cpsm-settings.html">Settings</a><a href="cpsm-sandbox.html" aria-current="page">Sandbox</a></div>
+      <div class="nav-actions nav-contact"><a class="nav-cta" href="client-portal.html">Dashboard</a><a class="nav-client-login" href="login.html">Log Out</a></div>
+    </nav>
+  </header>
+
+  <main class="dashboard-main">
+    <section class="dashboard-workspace" aria-label="CPSM Sandbox Workspace">
+      <div class="dashboard-layout">
+        <aside class="dashboard-sidebar" aria-label="CPSM Sandbox Side Panel">
+          <nav class="dashboard-rail" aria-label="CPSM Modules"></nav>
+        </aside>
+
+        <div class="dashboard-content">
+          <section class="dashboard-page-heading">
+            <p>Client Portfolio Service Manager</p>
+            <h1>CPSM Sandbox</h1>
+            <span>One preview workspace for the Version 1.2 connected workflow, Billable Hours, Hours By Project, and Dashboard updates.</span>
+          </section>
+
+          <section class="dashboard-panel connected-flow-panel">
+            <div class="kanban-board-header">
+              <div>
+                <p class="dashboard-kicker">Sandbox Preview Map</p>
+                <h2>Start Here</h2>
+                <p>Use this page as the single testing center for the current CPSM branch. Each card opens the exact page tied to the workflow.</p>
+              </div>
+              <span class="status-pill active">Version 1.2 2026</span>
+            </div>
+
+            <div class="connected-flow-grid">
+              <article class="connected-flow-card">
+                <span>Dashboard</span>
+                <strong>Kanban Cards + Active Workflows</strong>
+                <p>Preview the main command center with the Active Workflows Widget beneath the Kanban Cards.</p>
+                <a class="workflow-link" href="client-portal.html">Open Dashboard</a>
+              </article>
+              <article class="connected-flow-card">
+                <span>Client Onboarding</span>
+                <strong>Client ID + Project ID</strong>
+                <p>Preview Pull Data From Client Onboarding, Client ID generation, Project ID generation, and Client Directory release.</p>
+                <a class="workflow-link" href="client-onboarding.html">Open Client Onboarding</a>
+              </article>
+              <article class="connected-flow-card">
+                <span>Project Management</span>
+                <strong>Initiate Project</strong>
+                <p>Preview the Initiate Project button, Welcome Email Preview, and workflow-to-Kanban trigger.</p>
+                <a class="workflow-link" href="project-management.html">Open Project Management</a>
+              </article>
+              <article class="connected-flow-card">
+                <span>Workflow Center</span>
+                <strong>Detailed Workflow List</strong>
+                <p>Preview full workflow records, missed incident links, next actions, trigger source, and current status.</p>
+                <a class="workflow-link" href="workflow-center.html">Open Workflow Center</a>
+              </article>
+              <article class="connected-flow-card">
+                <span>Billable Hours</span>
+                <strong>Internal Time Model</strong>
+                <p>Preview internal time tracking, manual entry flags, timer concept, admin review, and release readiness.</p>
+                <a class="workflow-link" href="billable-hours.html">Open Billable Hours</a>
+              </article>
+              <article class="connected-flow-card">
+                <span>Hours By Project</span>
+                <strong>Client-Facing Hours View</strong>
+                <p>Preview the client-side locked state and release flow from Billable Hours to Financial Management and Invoices.</p>
+                <a class="workflow-link" href="hours-by-project.html">Open Hours By Project</a>
+              </article>
+            </div>
+          </section>
+
+          <section class="dashboard-panel workflow-widget-panel" aria-labelledby="sandboxWorkflowWidgetTitle">
+            <div class="kanban-board-header">
+              <div>
+                <p class="dashboard-kicker">Workflow Widget</p>
+                <h2 id="sandboxWorkflowWidgetTitle">Active Workflows</h2>
+                <p>This mirrors the Dashboard Workflow Widget so the sandbox can verify workflow rows, statuses, and inline actions in one place.</p>
+              </div>
+              <a class="workflow-link" href="workflow-center.html">View Workflow Center</a>
+            </div>
+            <div class="workflow-table-wrap" data-workflow-widget-list>
+              <table class="workflow-table" aria-label="Sandbox Active Workflows">
+                <thead><tr><th>Workflow Name</th><th>Client</th><th>Project ID</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody><tr><td colspan="5">Loading Active Workflows...</td></tr></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="dashboard-panel connected-flow-panel">
+            <div class="kanban-board-header">
+              <div>
+                <p class="dashboard-kicker">Recommended Test Path</p>
+                <h2>Workflow Walkthrough</h2>
+                <p>Follow this order when previewing the connected workflow.</p>
+              </div>
+            </div>
+            <div class="release-flow">
+              <div class="release-step"><span>01</span><strong>Open Client Onboarding</strong><p>Confirm Client ID, Project ID, and deliverable count.</p></div>
+              <div class="release-step"><span>02</span><strong>Open Project Management</strong><p>Click Initiate Project and confirm the status message updates.</p></div>
+              <div class="release-step"><span>03</span><strong>Open Dashboard</strong><p>Confirm Active Workflows and the initial Kanban Card preview.</p></div>
+              <div class="release-step"><span>04</span><strong>Open Workflow Center</strong><p>Review detailed workflow records and missed incident links.</p></div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script><script src="cpsm-connected-workflows.js"></script>
+</body>
+</html>
