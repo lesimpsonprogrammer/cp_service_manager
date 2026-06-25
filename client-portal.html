@@ -37,19 +37,15 @@
         <span></span>
         <span></span>
       </button>
-      <div class="nav-links">
-        <a href="index.html#top">Home</a>
-        <a href="index.html#services">Services</a>
-        <a href="index.html#process">What We Do</a>
-        <a href="index.html#about">About Us</a>
+      <div class="nav-links client-portal-top-nav">
+        <a href="client-portal.html" aria-current="page">Dashboard</a>
+        <a class="client-resources-nav-link" href="#clientResources">Client Resources</a>
+        <a href="index.html#contact">Contact Us</a>
         <a href="cpsm-settings.html">Settings</a>
-        <a class="mobile-contact" href="index.html#contact">Contact us</a>
-        <a class="mobile-client-login" href="login.html">Client Log-in</a>
+        <a class="mobile-client-login" href="login.html" data-portal-logout="true">Log out</a>
       </div>
       <div class="nav-actions nav-contact">
-        <a class="nav-cta" href="index.html#contact">Contact us</a>
-        <a class="nav-cta" href="cpsm-settings.html">Settings</a>
-        <a class="nav-client-login" href="login.html">Client Log-in</a>
+        <a class="nav-client-login" href="login.html" data-portal-logout="true">Log out</a>
       </div>
     </nav>
   </header>
@@ -188,7 +184,7 @@
           </div>
 
           <aside class="portal-side-panel" aria-label="Client Portfolio side panel">
-            <section class="side-panel-card tools-card">
+            <section class="side-panel-card tools-card" id="clientResources">
               <h2>Workspace</h2>
               <div class="tool-link-list">
                 <a href="cpsm-settings.html">
@@ -261,6 +257,10 @@
           <a href="client-portal.html">
             <strong>Dashboard</strong>
             <span>Open workspace</span>
+          </a>
+          <a href="#clientResources">
+            <strong>Client Resources</strong>
+            <span>Open workspace resources</span>
           </a>
           <a href="cpsm-settings.html">
             <strong>Settings</strong>
