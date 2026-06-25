@@ -52,6 +52,50 @@ function getWeightedAverage(task) {
   );
 }
 
+function setBackendStatus(message, state = 'neutral') {
+  const status = document.getElementById('backendSyncStatus');
+  if (!status) return;
+
+  status.classList.remove('connected', 'protected', 'offline');
+  if (state) status.classList.add(state);
+  status.innerHTML = `<strong>Backend:</strong> ${message}`;
+}
+
+async function checkSupabaseConnection() {
+  const getClient = window.getCpsmSupabaseClient;
+  const client = typeof getClient === 'function' ? getClient() : null;
+
+  if (!client) {
+    setBackendStatus('Supabase client not loaded yet. Running in local prototype mode.', 'offline');
+    return;
+  }
+
+  try {
+    const { data: sessionData } = await client.auth.getSession();
+    const hasSession = Boolean(sessionData?.session);
+    const { error } = await client.from('timecard_entries').select('id').limit(1);
+
+    if (!error) {
+      setBackendStatus('Connected to Supabase. Timecard table is reachable.', 'connected');
+      return;
+    }
+
+    if (error.code === '42501' || error.message?.toLowerCase().includes('permission')) {
+      setBackendStatus(
+        hasSession
+          ? 'Connected to Supabase. Timecard access is protected by security policies.'
+          : 'Connected to Supabase. Sign-in and RLS policies are needed before live timecard reads/writes.',
+        'protected'
+      );
+      return;
+    }
+
+    setBackendStatus(`Supabase responded, but timecard data is not available yet: ${error.message}`, 'protected');
+  } catch (error) {
+    setBackendStatus(`Unable to reach Supabase from this page: ${error.message}`, 'offline');
+  }
+}
+
 function toTwelveHourLabel(timeValue, period) {
   const [hourValue, minute] = timeValue.split(':').map(Number);
   let displayHour = hourValue % 12;
@@ -150,6 +194,7 @@ function initializeBillableHours() {
   }
 
   updateSmartEstimate();
+  checkSupabaseConnection();
 }
 
 document.addEventListener('DOMContentLoaded', initializeBillableHours);
