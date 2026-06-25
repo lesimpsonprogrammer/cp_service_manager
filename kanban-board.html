@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kanban Board | CPSM</title>
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="styles.css" rel="stylesheet" />
+  <link href="client-portal-overrides.css" rel="stylesheet" />
+  <link href="cpsm-dashboard.css" rel="stylesheet" />
+  <link href="kanban-board.css" rel="stylesheet" />
+</head>
+<body class="cpsm-dashboard-page">
+  <header class="site-header client-portfolio-header" id="top">
+    <nav aria-label="Kanban Board navigation" class="nav container">
+      <a aria-label="Momentum Data home" class="brand brand-image-only" href="client-portal.html"><img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data logo" class="brand-logo brand-logo-transparent" /></a>
+      <div class="nav-links"><a href="client-portal.html">Dashboard</a><a href="cpsm-settings.html">Settings</a><a class="mobile-client-login" href="login.html">Log out</a></div>
+      <div class="nav-actions nav-contact"><a class="nav-cta" href="cpsm-settings.html">Settings</a><a class="nav-client-login" href="login.html">Log out</a></div>
+    </nav>
+  </header>
+  <main class="dashboard-main">
+    <section class="dashboard-workspace">
+      <div class="dashboard-layout">
+        <aside class="dashboard-sidebar">
+          <nav class="dashboard-rail" aria-label="CPSM modules">
+            <a href="client-portal.html">Dashboard</a>
+            <div class="dashboard-rail-group">
+              <a href="project-management.html">Project Management</a>
+              <a class="dashboard-rail-nested is-active" href="kanban-board.html">Kanban Board</a>
+              <a class="dashboard-rail-nested" href="financial-management.html">Financial Management</a>
+            </div>
+            <div class="dashboard-rail-group"><a href="client-onboarding.html">Client Onboarding</a><a class="dashboard-rail-nested" href="agreements.html">Agreements</a></div>
+            <a href="workflow-center.html">Workflow Center</a>
+            <a href="etl-pipeline.html">ETL Pipeline</a>
+            <a href="api-center.html">API</a>
+            <a href="notifications.html">Notifications</a>
+          </nav>
+        </aside>
+        <div class="dashboard-content">
+          <section class="dashboard-page-heading">
+            <p>Client Portfolio Service Manager</p>
+            <h1>Kanban Board</h1>
+          </section>
+
+          <section class="dashboard-panel kanban-summary-panel" aria-labelledby="kanbanSummaryTitle">
+            <div class="dashboard-panel-heading">
+              <div>
+                <p class="dashboard-kicker">Project Movement</p>
+                <h2 id="kanbanSummaryTitle">Implementation work by status</h2>
+                <p>Track client-facing tasks, internal project work, document review, and implementation readiness across the delivery pipeline.</p>
+              </div>
+              <span class="dashboard-status-pill">Board View</span>
+            </div>
+            <div class="module-card-grid">
+              <div class="module-card"><span>Open cards</span><strong>12</strong></div>
+              <div class="module-card"><span>Blocked items</span><strong>2</strong></div>
+            </div>
+          </section>
+
+          <section class="kanban-board" aria-label="Kanban board columns">
+            <article class="kanban-column">
+              <header><span>To Do</span><strong>4</strong></header>
+              <div class="kanban-card"><span>Atlas Manufacturing</span><strong>Collect payroll calendar</strong><p>Client upload needed before configuration review.</p><em>Trigger: Missing document</em></div>
+              <div class="kanban-card"><span>Brightline Services</span><strong>Confirm benefits deduction codes</strong><p>Waiting on client validation file.</p><em>Priority: High</em></div>
+              <div class="kanban-card"><span>Internal</span><strong>Prepare PM status notes</strong><p>Summarize open risks before next client review.</p><em>Owner: Project Manager</em></div>
+            </article>
+
+            <article class="kanban-column">
+              <header><span>In Progress</span><strong>3</strong></header>
+              <div class="kanban-card"><span>Northstar Logistics</span><strong>Map employee census fields</strong><p>Standardizing department, location, and pay group values.</p><em>Due: This week</em></div>
+              <div class="kanban-card"><span>Atlas Manufacturing</span><strong>Review earnings matrix</strong><p>Checking earning code naming and import-readiness.</p><em>Owner: Consultant</em></div>
+            </article>
+
+            <article class="kanban-column">
+              <header><span>Review</span><strong>3</strong></header>
+              <div class="kanban-card"><span>Cedar HR Partners</span><strong>Document visibility rules</strong><p>Confirm internal-only versus client-visible document categories.</p><em>Status: PM review</em></div>
+              <div class="kanban-card"><span>Brightline Services</span><strong>Validate benefit plan documents</strong><p>Uploaded file needs expiration and category assignment.</p><em>Trigger: Document uploaded</em></div>
+            </article>
+
+            <article class="kanban-column">
+              <header><span>Complete</span><strong>2</strong></header>
+              <div class="kanban-card complete"><span>Northstar Logistics</span><strong>Initial project workspace created</strong><p>Client, project, and project manager records are ready.</p><em>Completed</em></div>
+              <div class="kanban-card complete"><span>Atlas Manufacturing</span><strong>NDA received</strong><p>Agreement uploaded and marked approved.</p><em>Completed</em></div>
+            </article>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
