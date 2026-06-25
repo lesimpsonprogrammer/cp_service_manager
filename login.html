@@ -7,8 +7,7 @@
   <title>Client Log-in | Momentum Data Solutions</title>
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap" rel="stylesheet" />
   <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
   <link href="styles.css" rel="stylesheet" />
   <link href="approved-login.css" rel="stylesheet" />
@@ -42,46 +41,40 @@
           <p class="approved-login-subtitle">Manage your client's programs and projects in one space.</p>
 
           <form id="loginPageForm" class="approved-login-form">
-            <div class="approved-relation-field">
-              <span class="approved-field-label">Business Relationship with CPSM</span>
-              <input id="businessRelationship" name="businessRelationship" type="hidden" value="Product Developer" />
-              <button id="relationshipTrigger" class="approved-select-trigger" type="button" aria-haspopup="listbox" aria-expanded="true" aria-controls="relationshipMenu">
-                <span id="relationshipValue">Product Developer</span>
-                <span class="approved-select-chevron" aria-hidden="true"></span>
-              </button>
-              <div id="relationshipMenu" class="approved-select-menu is-open" role="listbox" aria-label="Business Relationship with CPSM">
-                <button type="button" role="option" data-value="Client Company" aria-selected="false">Client Company</button>
-                <button type="button" role="option" data-value="Client Contact" aria-selected="false">Client Contact</button>
-                <button type="button" role="option" data-value="Product Developer" aria-selected="true">Product Developer</button>
-                <button type="button" role="option" data-value="Internal Contributor" aria-selected="false">Internal Contributor</button>
-                <button type="button" role="option" data-value="Demo" aria-selected="false">Demo</button>
-                <button type="button" role="option" data-value="Demo 2" aria-selected="false">Demo 2</button>
-              </div>
-            </div>
-
-            <label class="approved-form-field" for="clientId">
-              <span id="cpsmIdLabel" class="approved-field-label">CPSM ID</span>
-              <span class="approved-input-wrap">
-                <span class="approved-input-icon" aria-hidden="true">▦</span>
-                <input id="clientId" name="clientId" type="text" placeholder="Enter your CPSM ID" required />
-              </span>
-              <small id="cpsmIdNote" class="approved-field-note">Requested once per day for non-client access.</small>
+            <label for="businessRelationship">
+              Business Relationship with CPSM
+              <select id="businessRelationship" name="businessRelationship" required>
+                <option value="Client Company" selected>Client Company</option>
+                <option value="Client Contact">Client Contact</option>
+                <option value="Product Developer">Product Developer</option>
+                <option value="Internal Contributor">Internal Contributor</option>
+                <option value="Demo">Demo</option>
+                <option value="Demo 2">Demo 2</option>
+              </select>
             </label>
 
-            <label class="approved-form-field" for="userName">
-              <span class="approved-field-label">User Name</span>
+            <label for="clientId">
+              <span id="cpsmIdLabel">Client ID</span>
               <span class="approved-input-wrap">
-                <span class="approved-input-icon" aria-hidden="true">○</span>
+                <span class="approved-input-icon" aria-hidden="true">ID</span>
+                <input id="clientId" name="clientId" type="text" placeholder="Enter your Client ID" required />
+              </span>
+              <small id="cpsmIdNote" class="approved-field-note" hidden>Requested once per day for non-client access.</small>
+            </label>
+
+            <label for="userName">
+              User Name
+              <span class="approved-input-wrap">
+                <span class="approved-input-icon" aria-hidden="true">@</span>
                 <input id="userName" name="userName" type="text" placeholder="Enter your user name" required />
               </span>
             </label>
 
-            <label class="approved-form-field" for="password">
-              <span class="approved-field-label">Password</span>
+            <label for="password">
+              Password
               <span class="approved-input-wrap">
-                <span class="approved-input-icon" aria-hidden="true">▣</span>
+                <span class="approved-input-icon" aria-hidden="true">*</span>
                 <input id="password" name="password" type="password" placeholder="Enter your password" required />
-                <button class="approved-password-toggle" type="button" aria-label="Show password">⌁</button>
               </span>
             </label>
 
