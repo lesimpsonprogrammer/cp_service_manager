@@ -1,11 +1,14 @@
 const visualAdjustmentsHref = 'site-visual-adjustments.css';
+const kanbanEmbedHref = 'cpsm-kanban-embed.css';
 
-if (!document.querySelector(`link[href="${visualAdjustmentsHref}"]`)) {
-  const visualAdjustmentsLink = document.createElement('link');
-  visualAdjustmentsLink.rel = 'stylesheet';
-  visualAdjustmentsLink.href = visualAdjustmentsHref;
-  document.head.appendChild(visualAdjustmentsLink);
-}
+[visualAdjustmentsHref, kanbanEmbedHref].forEach((href) => {
+  if (!document.querySelector(`link[href="${href}"]`)) {
+    const stylesheetLink = document.createElement('link');
+    stylesheetLink.rel = 'stylesheet';
+    stylesheetLink.href = href;
+    document.head.appendChild(stylesheetLink);
+  }
+});
 
 const isCpsmWorkspacePage = document.body?.classList.contains('cpsm-dashboard-page') || document.body?.classList.contains('cpsm-settings-page');
 const momentumLogoSrc = isCpsmWorkspacePage ? 'assets/momentum-data-md-2.svg' : 'assets/momentum-data-logo-transparent.svg';
@@ -85,7 +88,6 @@ function dashboardIcon(name) {
   const icons = {
     dashboard: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>',
     project: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5h16"/><path d="M7 4.5h10l3 3v12H4v-12l3-3Z"/><path d="M8 12h8"/><path d="M8 16h5"/></svg>',
-    kanban: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="4.5" height="14" rx="1.2"/><rect x="9.75" y="5" width="4.5" height="10" rx="1.2"/><rect x="15.5" y="5" width="4.5" height="7" rx="1.2"/></svg>',
     financial: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18"/><path d="M16.5 7.5c-.9-1.2-2.4-1.8-4.2-1.8-2.4 0-4.1 1.1-4.1 2.9 0 4.1 8.6 1.8 8.6 6.4 0 1.9-1.7 3.3-4.4 3.3-2.1 0-3.8-.8-4.9-2.2"/></svg>',
     onboarding: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3.8 19c.7-3.2 2.5-5 5.2-5 2.3 0 3.9 1.2 4.8 3.4"/><path d="M17 9v6"/><path d="M14 12h6"/></svg>',
     agreements: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h9l3 3V20H6V3.5Z"/><path d="M14.5 3.8V7h3.2"/><path d="M8.5 11h7"/><path d="M8.5 15h5"/></svg>',
@@ -107,7 +109,6 @@ function initCpsmDashboardRail() {
   const items = [
     { href: 'client-portal.html', label: 'Dashboard', icon: 'dashboard' },
     { href: 'project-management.html', label: 'Project Management', icon: 'project' },
-    { href: 'kanban-board.html', label: 'Kanban Board', icon: 'kanban' },
     { href: 'financial-management.html', label: 'Financial Management', icon: 'financial' },
     { href: 'client-onboarding.html', label: 'Client Onboarding', icon: 'onboarding' },
     { href: 'agreements.html', label: 'Agreements', icon: 'agreements' },
@@ -128,6 +129,66 @@ function initCpsmDashboardRail() {
 }
 
 initCpsmDashboardRail();
+
+function dashboardKanbanMarkup() {
+  return `<section class="dashboard-panel dashboard-kanban-panel" aria-labelledby="dashboardKanbanTitle">
+    <div class="dashboard-panel-heading">
+      <div>
+        <p class="dashboard-kicker">Project Board</p>
+        <h2 id="dashboardKanbanTitle">Current work in motion</h2>
+        <p>This is the first client-facing workspace after login. It shows the most important project work, blockers, uploads, and review items.</p>
+      </div>
+      <span class="dashboard-status-pill">6 active cards</span>
+    </div>
+    <div class="kanban-board dashboard-kanban-board" aria-label="Client dashboard Kanban board">
+      <article class="kanban-column"><header><span>Intake</span><strong>1</strong></header><div class="kanban-card"><span>Atlas Manufacturing</span><strong>Payroll calendar requested</strong><p>Client needs to upload payroll dates before configuration review.</p><em>Missing document</em></div></article>
+      <article class="kanban-column"><header><span>In Progress</span><strong>2</strong></header><div class="kanban-card"><span>Northstar Logistics</span><strong>Employee census mapping</strong><p>Department, location, and pay group fields are being standardized.</p><em>Owner: PM</em></div><div class="kanban-card"><span>Atlas Manufacturing</span><strong>Earnings code matrix review</strong><p>Checking code labels and import readiness before client signoff.</p><em>Due this week</em></div></article>
+      <article class="kanban-column"><header><span>Waiting on Client</span><strong>1</strong></header><div class="kanban-card"><span>Brightline Services</span><strong>Benefits deduction file</strong><p>Client validation file is needed before deduction setup can move forward.</p><em>Client action</em></div></article>
+      <article class="kanban-column"><header><span>Review</span><strong>1</strong></header><div class="kanban-card"><span>Cedar HR Partners</span><strong>Document visibility rules</strong><p>Confirm internal-only versus client-visible document categories.</p><em>PM review</em></div></article>
+      <article class="kanban-column"><header><span>Complete</span><strong>1</strong></header><div class="kanban-card complete"><span>Atlas Manufacturing</span><strong>NDA received</strong><p>Agreement uploaded and marked approved.</p><em>Completed</em></div></article>
+    </div>
+  </section>`;
+}
+
+function projectKanbanMarkup() {
+  return `<section class="dashboard-panel project-kanban-panel" aria-labelledby="projectKanbanTitle">
+    <div class="dashboard-panel-heading">
+      <div>
+        <p class="dashboard-kicker">Detailed Project Board</p>
+        <h2 id="projectKanbanTitle">Project Management Kanban</h2>
+        <p>Use this detailed board to manage project tasks, owners, triggers, due dates, priorities, and client dependencies.</p>
+      </div>
+      <span class="dashboard-status-pill">Detailed View</span>
+    </div>
+    <div class="kanban-toolbar"><div class="kanban-filter-row"><span class="kanban-filter-chip">Client: All</span><span class="kanban-filter-chip">Owner: All</span><span class="kanban-filter-chip">Priority: Open</span></div><a class="kanban-action-btn" href="#">Add card</a></div>
+    <div class="kanban-board project-kanban-board" aria-label="Detailed Project Management Kanban board">
+      <article class="kanban-column"><header><span>Intake</span><strong>2</strong></header><div class="kanban-card project-kanban-card"><span>Atlas Manufacturing</span><strong>Payroll calendar requested</strong><p>Collect payroll schedule and cut-off dates before payroll setup validation.</p><div class="kanban-card-meta"><em>Owner: Client</em><em>Trigger: Missing document</em><em>Priority: High</em></div></div><div class="kanban-card project-kanban-card"><span>Cedar HR Partners</span><strong>Confirm project contacts</strong><p>Collect main sponsor, backup approver, and data owner assignments.</p><div class="kanban-card-meta"><em>Owner: PM</em><em>Due: Open</em></div></div></article>
+      <article class="kanban-column"><header><span>In Progress</span><strong>3</strong></header><div class="kanban-card project-kanban-card"><span>Northstar Logistics</span><strong>Employee census mapping</strong><p>Standardizing department, location, pay group, and employee type fields.</p><div class="kanban-card-meta"><em>Owner: Consultant</em><em>Due: This week</em></div></div><div class="kanban-card project-kanban-card"><span>Atlas Manufacturing</span><strong>Earnings code matrix review</strong><p>Validate earning code labels, active flags, and import-readiness.</p><div class="kanban-card-meta"><em>Owner: PM</em><em>Priority: Medium</em></div></div><div class="kanban-card project-kanban-card"><span>Brightline Services</span><strong>Benefits deduction setup</strong><p>Prepare deduction mapping once client validation file is returned.</p><div class="kanban-card-meta"><em>Owner: Consultant</em><em>Blocked by client file</em></div></div></article>
+      <article class="kanban-column"><header><span>Waiting on Client</span><strong>2</strong></header><div class="kanban-card project-kanban-card"><span>Brightline Services</span><strong>Benefits deduction file</strong><p>Client validation file is needed before deduction setup can move forward.</p><div class="kanban-card-meta"><em>Owner: Client</em><em>Priority: High</em></div></div><div class="kanban-card project-kanban-card"><span>Northstar Logistics</span><strong>GL account confirmation</strong><p>Finance contact needs to confirm GL account mapping before export testing.</p><div class="kanban-card-meta"><em>Owner: Client</em><em>Trigger: Review request</em></div></div></article>
+      <article class="kanban-column"><header><span>Review</span><strong>2</strong></header><div class="kanban-card project-kanban-card"><span>Cedar HR Partners</span><strong>Document visibility rules</strong><p>Confirm internal-only versus client-visible document categories.</p><div class="kanban-card-meta"><em>Owner: PM</em><em>Status: Review</em></div></div><div class="kanban-card project-kanban-card"><span>Atlas Manufacturing</span><strong>Payroll setup checklist</strong><p>Review current setup against readiness checklist before client review.</p><div class="kanban-card-meta"><em>Owner: PM</em><em>Due: Friday</em></div></div></article>
+      <article class="kanban-column"><header><span>Complete</span><strong>2</strong></header><div class="kanban-card project-kanban-card complete"><span>Atlas Manufacturing</span><strong>NDA received</strong><p>Agreement uploaded, categorized, and marked approved.</p><div class="kanban-card-meta"><em>Completed</em></div></div><div class="kanban-card project-kanban-card complete"><span>Northstar Logistics</span><strong>Initial workspace created</strong><p>Client, project, and project manager records are ready.</p><div class="kanban-card-meta"><em>Completed</em></div></div></article>
+    </div>
+  </section>`;
+}
+
+function initEmbeddedKanban() {
+  const currentPage = window.location.pathname.split('/').pop() || 'client-portal.html';
+  const dashboardContent = document.querySelector('.dashboard-content');
+  if (!dashboardContent) return;
+
+  if (currentPage === 'client-portal.html' && !dashboardContent.querySelector('.dashboard-kanban-panel')) {
+    const heading = dashboardContent.querySelector('.dashboard-page-heading');
+    if (heading) {
+      heading.insertAdjacentHTML('afterend', dashboardKanbanMarkup());
+    }
+  }
+
+  if (currentPage === 'project-management.html' && !dashboardContent.querySelector('.project-kanban-panel')) {
+    dashboardContent.insertAdjacentHTML('beforeend', projectKanbanMarkup());
+  }
+}
+
+initEmbeddedKanban();
 
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks = document.querySelector('.nav-links');
