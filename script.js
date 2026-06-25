@@ -92,7 +92,7 @@ function initCpsmDashboardRail() {
     { href: 'client-portal.html', label: 'Dashboard', icon: 'dashboard' },
     { href: 'project-management.html', label: 'Project Management', icon: 'project' },
     { href: 'billable-hours.html', label: 'Billable Hours', icon: 'billable' },
-    { href: 'hours-by-project.html', label: 'Hours by Project', icon: 'hoursByProject' },
+    { href: 'hours-by-project.html', label: 'Hours By Project', icon: 'hoursByProject' },
     { href: 'financial-management.html', label: 'Financial Management', icon: 'financial' },
     { href: 'client-onboarding.html', label: 'Client Onboarding', icon: 'onboarding' },
     { href: 'agreements.html', label: 'Agreements', icon: 'agreements' },
