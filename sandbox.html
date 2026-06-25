@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CPSM Sandbox | Client Portfolio Service Manager</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="styles.css" rel="stylesheet" />
+  <link href="sandbox.css" rel="stylesheet" />
+</head>
+
+<body class="cpsm-sandbox-page">
+  <aside class="sandbox-sidebar" aria-label="CPSM sandbox navigation">
+    <a class="sandbox-brand" href="sandbox.html" aria-label="CPSM Sandbox home">
+      <span class="sandbox-brand-mark">C</span>
+      <span>
+        <strong>CPSM</strong>
+        <small>Sandbox Environment</small>
+      </span>
+    </a>
+
+    <nav class="sandbox-nav" aria-label="Sandbox modules">
+      <a class="active" href="#overview">Dashboard</a>
+      <a href="#clients">Mock Clients</a>
+      <a href="#documents">Document Workflow</a>
+      <a href="#integration-lab">Integration Lab</a>
+      <a href="#activity-log">Activity Log</a>
+      <a href="login.html">Login Preview</a>
+    </nav>
+
+    <div class="sandbox-sidebar-note">
+      <span class="status-dot"></span>
+      <p><strong>Safe Mode:</strong> mock data only. No real client, employee, payroll, or Paylocity data should be used here.</p>
+    </div>
+  </aside>
+
+  <main class="sandbox-main">
+    <section class="sandbox-hero" id="overview">
+      <div>
+        <p class="sandbox-kicker">Client Portfolio Service Manager</p>
+        <h1>CPSM Sandbox Command Center</h1>
+        <p class="sandbox-hero-copy">A protected testing environment for implementation workflows, document collection, data readiness, billable hours, and future HCM/payroll API integrations.</p>
+      </div>
+      <div class="environment-card" aria-label="Environment status">
+        <span class="environment-badge">Sandbox</span>
+        <h2>Environment Health</h2>
+        <p class="environment-score">98%</p>
+        <small>Mock API services online</small>
+      </div>
+    </section>
+
+    <section class="sandbox-metrics" aria-label="Sandbox metrics">
+      <article>
+        <span>Mock Clients</span>
+        <strong id="mockClientCount">4</strong>
+        <small>Implementation test accounts</small>
+      </article>
+      <article>
+        <span>Open Workflow Items</span>
+        <strong id="openWorkflowCount">9</strong>
+        <small>Across document + data readiness</small>
+      </article>
+      <article>
+        <span>Integration Jobs</span>
+        <strong id="integrationJobCount">6</strong>
+        <small>Simulated import/export runs</small>
+      </article>
+      <article>
+        <span>Data Quality</span>
+        <strong id="dataQualityScore">92%</strong>
+        <small>Mock validation score</small>
+      </article>
+    </section>
+
+    <section class="sandbox-grid" id="clients">
+      <article class="sandbox-panel span-2">
+        <div class="panel-heading">
+          <div>
+            <p class="sandbox-kicker">Mock Client Portfolio</p>
+            <h2>Implementation Projects</h2>
+          </div>
+          <button class="sandbox-button secondary" id="resetSandboxData" type="button">Reset Sandbox Data</button>
+        </div>
+
+        <div class="project-list" id="sandboxProjectList"></div>
+      </article>
+
+      <article class="sandbox-panel">
+        <div class="panel-heading compact">
+          <div>
+            <p class="sandbox-kicker">Roles</p>
+            <h2>Test Access</h2>
+          </div>
+        </div>
+        <ul class="role-list">
+          <li><span>Superuser</span><strong>Full sandbox control</strong></li>
+          <li><span>Admin</span><strong>Client + project setup</strong></li>
+          <li><span>Project Manager</span><strong>Workflow ownership</strong></li>
+          <li><span>Client</span><strong>Upload + review portal</strong></li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="sandbox-grid" id="documents">
+      <article class="sandbox-panel span-2">
+        <div class="panel-heading">
+          <div>
+            <p class="sandbox-kicker">Document Workflow</p>
+            <h2>Implementation Document Tracker</h2>
+          </div>
+          <button class="sandbox-button" id="addCorrectionItem" type="button">Simulate Correction Request</button>
+        </div>
+
+        <div class="document-table-wrap">
+          <table class="document-table">
+            <thead>
+              <tr>
+                <th>Document</th>
+                <th>Client</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Owner</th>
+              </tr>
+            </thead>
+            <tbody id="documentWorkflowRows"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="sandbox-panel">
+        <p class="sandbox-kicker">Readiness</p>
+        <h2>Data Validation</h2>
+        <div class="validation-stack" id="validationStack"></div>
+      </article>
+    </section>
+
+    <section class="sandbox-grid" id="integration-lab">
+      <article class="sandbox-panel span-2 integration-lab-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="sandbox-kicker">Integration Lab</p>
+            <h2>Mock Paylocity-Style Connector</h2>
+          </div>
+          <button class="sandbox-button" id="runMockImport" type="button">Run Mock Import</button>
+        </div>
+
+        <div class="connector-layout">
+          <div class="connector-card">
+            <span class="connector-label">Provider</span>
+            <strong>Paylocity-style HCM</strong>
+            <small>Mock provider for CPSM testing</small>
+          </div>
+          <div class="connector-card">
+            <span class="connector-label">Connection</span>
+            <strong id="mockConnectionStatus">Ready</strong>
+            <small>Sandbox credentials simulated</small>
+          </div>
+          <div class="connector-card">
+            <span class="connector-label">Last Job</span>
+            <strong id="lastMockJob">Not run yet</strong>
+            <small>Import employee + payroll setup fields</small>
+          </div>
+        </div>
+
+        <div class="field-map">
+          <h3>Field Mapping Preview</h3>
+          <div class="field-map-grid">
+            <span>CPSM Client ID</span><strong>Company ID</strong>
+            <span>Employee Full Name</span><strong>firstName + lastName</strong>
+            <span>Department</span><strong>orgUnit / departmentCode</strong>
+            <span>Pay Group</span><strong>payFrequencyGroup</strong>
+            <span>Document Status</span><strong>implementationChecklistStatus</strong>
+          </div>
+        </div>
+      </article>
+
+      <article class="sandbox-panel">
+        <p class="sandbox-kicker">API Guardrails</p>
+        <h2>Sandbox Rules</h2>
+        <ul class="sandbox-rule-list">
+          <li>No real employee data.</li>
+          <li>No real Paylocity credentials.</li>
+          <li>Use mock tokens only.</li>
+          <li>All jobs write to activity log.</li>
+          <li>Production deploys only from approved branches.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="sandbox-panel" id="activity-log">
+      <div class="panel-heading">
+        <div>
+          <p class="sandbox-kicker">Audit Trail</p>
+          <h2>Sandbox Activity Log</h2>
+        </div>
+        <button class="sandbox-button secondary" id="clearActivityLog" type="button">Clear Log</button>
+      </div>
+      <div class="activity-log" id="activityLog" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script src="sandbox.js"></script>
+</body>
+
+</html>
