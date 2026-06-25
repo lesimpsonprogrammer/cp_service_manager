@@ -85,6 +85,7 @@ function dashboardIcon(name) {
   const icons = {
     dashboard: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>',
     project: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5h16"/><path d="M7 4.5h10l3 3v12H4v-12l3-3Z"/><path d="M8 12h8"/><path d="M8 16h5"/></svg>',
+    kanban: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="4.5" height="14" rx="1.2"/><rect x="9.75" y="5" width="4.5" height="10" rx="1.2"/><rect x="15.5" y="5" width="4.5" height="7" rx="1.2"/></svg>',
     financial: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18"/><path d="M16.5 7.5c-.9-1.2-2.4-1.8-4.2-1.8-2.4 0-4.1 1.1-4.1 2.9 0 4.1 8.6 1.8 8.6 6.4 0 1.9-1.7 3.3-4.4 3.3-2.1 0-3.8-.8-4.9-2.2"/></svg>',
     onboarding: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3.8 19c.7-3.2 2.5-5 5.2-5 2.3 0 3.9 1.2 4.8 3.4"/><path d="M17 9v6"/><path d="M14 12h6"/></svg>',
     agreements: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h9l3 3V20H6V3.5Z"/><path d="M14.5 3.8V7h3.2"/><path d="M8.5 11h7"/><path d="M8.5 15h5"/></svg>',
@@ -106,6 +107,7 @@ function initCpsmDashboardRail() {
   const items = [
     { href: 'client-portal.html', label: 'Dashboard', icon: 'dashboard' },
     { href: 'project-management.html', label: 'Project Management', icon: 'project' },
+    { href: 'kanban-board.html', label: 'Kanban Board', icon: 'kanban' },
     { href: 'financial-management.html', label: 'Financial Management', icon: 'financial' },
     { href: 'client-onboarding.html', label: 'Client Onboarding', icon: 'onboarding' },
     { href: 'agreements.html', label: 'Agreements', icon: 'agreements' },
