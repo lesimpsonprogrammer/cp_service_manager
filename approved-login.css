@@ -1,0 +1,265 @@
+/* Approved CPSM login page */
+.approved-login-page {
+  min-height: 100vh;
+  background: #f7f9fd;
+  color: #0b1f3a;
+}
+
+.approved-login-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(480px, 0.85fr);
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.approved-login-visual {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background-image:
+    linear-gradient(90deg, rgba(4, 13, 24, 0.64) 0%, rgba(4, 13, 24, 0.34) 52%, rgba(255, 255, 255, 0.92) 100%),
+    linear-gradient(180deg, rgba(4, 13, 24, 0.12), rgba(4, 13, 24, 0.38)),
+    url("assets/client-portal-bg.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.approved-login-visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 78% 50%, rgba(255, 255, 255, 0.74), transparent 32%),
+    linear-gradient(90deg, transparent 0%, transparent 56%, rgba(255, 255, 255, 0.92) 100%);
+  pointer-events: none;
+}
+
+.approved-login-visual-overlay {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+  margin: 0;
+  padding: 8vh 5vw;
+  color: #ffffff;
+}
+
+.approved-login-visual-overlay h1,
+.approved-login-visual-overlay p {
+  color: #ffffff;
+  text-shadow: 0 12px 30px rgba(0, 0, 0, 0.52);
+}
+
+.approved-login-panel {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 44px 54px;
+  background:
+    radial-gradient(circle at 12% 50%, rgba(255, 255, 255, 0.9), transparent 34%),
+    linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+}
+
+.approved-login-stack {
+  width: min(100%, 520px);
+  display: grid;
+  justify-items: center;
+  gap: 26px;
+}
+
+.approved-cpsm-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #0a172a;
+}
+
+.approved-cpsm-dots {
+  width: 38px;
+  display: grid;
+  grid-template-columns: repeat(3, 8px);
+  gap: 5px;
+}
+
+.approved-cpsm-dots i {
+  width: 8px;
+  height: 8px;
+  display: block;
+  border-radius: 50%;
+  background: #1f6feb;
+  box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.08);
+}
+
+.approved-cpsm-logo strong {
+  display: block;
+  font-size: clamp(2rem, 3vw, 2.75rem);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+}
+
+.approved-cpsm-logo small {
+  display: block;
+  margin-top: 7px;
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.approved-login-card {
+  width: 100%;
+  padding: 34px 36px;
+  border: 1px solid rgba(216, 230, 247, 0.9);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 22px 70px rgba(11, 31, 58, 0.12);
+}
+
+.approved-login-card h2 {
+  margin: 0 0 8px;
+  color: #0a172a;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(2rem, 3vw, 2.65rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+  text-align: center;
+}
+
+.approved-login-subtitle {
+  margin: 0 auto 28px;
+  max-width: 360px;
+  color: #68758a;
+  font-size: 0.96rem;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.approved-login-form {
+  display: grid;
+  gap: 16px;
+}
+
+.approved-login-form label {
+  display: grid;
+  gap: 7px;
+  color: #0a172a;
+  font-size: 0.84rem;
+  font-weight: 900;
+}
+
+.approved-login-form input,
+.approved-login-form select {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid #d8e1ef;
+  border-radius: 10px;
+  padding: 0 14px;
+  color: #0b1f3a;
+  background: #ffffff;
+  font: inherit;
+  font-size: 0.98rem;
+  font-weight: 500;
+  box-shadow: 0 8px 18px rgba(11, 31, 58, 0.04);
+}
+
+.approved-login-form input:focus,
+.approved-login-form select:focus {
+  outline: 3px solid rgba(31, 111, 235, 0.16);
+  border-color: #1f6feb;
+}
+
+.approved-field-note {
+  margin-top: -2px;
+  color: #68758a;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.approved-login-form .btn.primary {
+  min-height: 54px;
+  margin-top: 4px;
+  border-radius: 10px;
+  background: #113f83;
+  box-shadow: 0 14px 26px rgba(17, 63, 131, 0.22);
+}
+
+.approved-login-form .btn.primary:hover {
+  background: #0b2f66;
+}
+
+.approved-login-divider {
+  position: relative;
+  display: grid;
+  place-items: center;
+  margin: 3px 0;
+  color: #79869a;
+  font-size: 0.92rem;
+}
+
+.approved-login-divider::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: #e1e8f2;
+}
+
+.approved-login-divider span {
+  position: relative;
+  padding: 0 16px;
+  background: #ffffff;
+}
+
+.approved-forgot-link {
+  color: #1f6feb;
+  font-size: 0.96rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.approved-login-footer {
+  color: #8995a7;
+  font-size: 0.76rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.approved-login-footer p {
+  margin: 0;
+}
+
+.approved-login-footer span {
+  margin: 0 14px;
+  color: #c2ccd9;
+}
+
+@media (max-width: 980px) {
+  .approved-login-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .approved-login-visual {
+    min-height: 36vh;
+  }
+
+  .approved-login-panel {
+    min-height: auto;
+    padding: 36px 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  .approved-login-card {
+    padding: 28px 22px;
+  }
+
+  .approved-login-footer span {
+    margin: 0 6px;
+  }
+}
