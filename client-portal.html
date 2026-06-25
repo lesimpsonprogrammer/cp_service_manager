@@ -15,23 +15,24 @@
   <link href="cpsm-kanban-refinements.css" rel="stylesheet" />
   <link href="cpsm-client-resources.css" rel="stylesheet" />
   <link href="cpsm-scope.css" rel="stylesheet" />
+  <link href="cpsm-connected-workflows.css" rel="stylesheet" />
   <link href="cpsm-local-preview-note.css" rel="stylesheet" />
 </head>
 
 <body class="cpsm-dashboard-page">
   <header class="site-header client-portfolio-header" id="top">
-    <nav aria-label="Client dashboard navigation" class="nav container">
-      <a aria-label="Momentum Data home" class="brand brand-image-only" href="client-portal.html">
-        <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data logo" class="brand-logo brand-logo-transparent" />
+    <nav aria-label="Client Dashboard Navigation" class="nav container">
+      <a aria-label="Momentum Data Home" class="brand brand-image-only" href="client-portal.html">
+        <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data Logo" class="brand-logo brand-logo-transparent" />
       </a>
       <div class="nav-links"><a href="client-portal.html" aria-current="page">Dashboard</a><a href="cpsm-settings.html">Settings</a></div>
     </nav>
   </header>
   <main class="dashboard-main">
-    <section class="dashboard-workspace" aria-label="Client dashboard workspace">
+    <section class="dashboard-workspace" aria-label="Client Dashboard Workspace">
       <div class="dashboard-layout">
-        <aside class="dashboard-sidebar" aria-label="Client dashboard side panel">
-          <nav class="dashboard-rail" aria-label="Client dashboard sections">
+        <aside class="dashboard-sidebar" aria-label="Client Dashboard Side Panel">
+          <nav class="dashboard-rail" aria-label="Client Dashboard Sections">
             <a href="client-portal.html" class="is-active">Dashboard</a>
             <a href="project-management.html">Project Management</a>
             <a href="financial-management.html">Financial Management</a>
@@ -45,10 +46,10 @@
             <a href="scope.html">Scope</a>
             <a href="documents.html">Document Library</a>
             <a href="notifications.html">Notifications</a>
-            <a href="login.html">Log out</a>
+            <a href="login.html">Log Out</a>
           </nav>
-          <div class="local-preview-note" aria-label="Local preview links">
-            <strong>Local preview</strong>
+          <div class="local-preview-note" aria-label="Local Preview Links">
+            <strong>Local Preview</strong>
             <span>Dashboard: <code>client-portal.html</code></span>
             <span>Internal: <code>client-portal.html?internal=1</code></span>
             <span>Scope: <code>scope.html</code></span>
@@ -56,15 +57,32 @@
         </aside>
         <div class="dashboard-content dashboard-content-board-first">
           <section class="dashboard-panel kanban-board-panel" aria-labelledby="clientWelcome">
-            <div class="kanban-board-header"><div><p class="dashboard-kicker">Project Management</p><h1 id="clientWelcome" class="kanban-board-greeting">Hi, Client,<br><span>Welcome to Client Portfolio Service Manager.</span></h1><p>Track project work from intake through final client approval.</p></div><div class="kanban-board-meta" aria-label="Board summary"><span>View: Kanban Cards</span><span class="scope-pill">Client ID <strong data-scope-client-id>100100</strong></span></div></div>
-            <div class="kanban-board" aria-label="Kanban project management board"><section class="kanban-column" data-kanban-column="intake" aria-labelledby="intakeColumnTitle"><div class="kanban-column-header"><h3 id="intakeColumnTitle">Intake</h3><span data-kanban-count="intake">0</span></div><div class="kanban-card-list" data-kanban-list="intake"></div></section><section class="kanban-column" data-kanban-column="inProgress" aria-labelledby="progressColumnTitle"><div class="kanban-column-header"><h3 id="progressColumnTitle">In Progress</h3><span data-kanban-count="inProgress">0</span></div><div class="kanban-card-list" data-kanban-list="inProgress"></div></section><section class="kanban-column" data-kanban-column="clientReview" aria-labelledby="reviewColumnTitle"><div class="kanban-column-header"><h3 id="reviewColumnTitle">Client Review</h3><span data-kanban-count="clientReview">0</span></div><div class="kanban-card-list" data-kanban-list="clientReview"></div></section><section class="kanban-column" data-kanban-column="complete" aria-labelledby="completeColumnTitle"><div class="kanban-column-header"><h3 id="completeColumnTitle">Complete</h3><span data-kanban-count="complete">0</span></div><div class="kanban-card-list" data-kanban-list="complete"></div></section></div>
+            <div class="kanban-board-header"><div><p class="dashboard-kicker">Project Management</p><h1 id="clientWelcome" class="kanban-board-greeting">Hi, Client,<br><span>Welcome To Client Portfolio Service Manager.</span></h1><p>Track project work from intake through final client approval.</p></div><div class="kanban-board-meta" aria-label="Board Summary"><span>View: Kanban Cards</span><span class="scope-pill">Client ID <strong data-scope-client-id>100100</strong></span></div></div>
+            <div class="kanban-board" aria-label="Kanban Project Management Board"><section class="kanban-column" data-kanban-column="intake" aria-labelledby="intakeColumnTitle"><div class="kanban-column-header"><h3 id="intakeColumnTitle">Intake</h3><span data-kanban-count="intake">0</span></div><div class="kanban-card-list" data-kanban-list="intake"></div></section><section class="kanban-column" data-kanban-column="inProgress" aria-labelledby="progressColumnTitle"><div class="kanban-column-header"><h3 id="progressColumnTitle">In Progress</h3><span data-kanban-count="inProgress">0</span></div><div class="kanban-card-list" data-kanban-list="inProgress"></div></section><section class="kanban-column" data-kanban-column="clientReview" aria-labelledby="reviewColumnTitle"><div class="kanban-column-header"><h3 id="reviewColumnTitle">Client Review</h3><span data-kanban-count="clientReview">0</span></div><div class="kanban-card-list" data-kanban-list="clientReview"></div></section><section class="kanban-column" data-kanban-column="complete" aria-labelledby="completeColumnTitle"><div class="kanban-column-header"><h3 id="completeColumnTitle">Complete</h3><span data-kanban-count="complete">0</span></div><div class="kanban-card-list" data-kanban-list="complete"></div></section></div>
+          </section>
+
+          <section class="dashboard-panel workflow-widget-panel" id="dashboardWorkflowWidget" aria-labelledby="activeWorkflowsTitle">
+            <div class="kanban-board-header">
+              <div>
+                <p class="dashboard-kicker">Workflow Widget</p>
+                <h2 id="activeWorkflowsTitle">Active Workflows</h2>
+                <p>Current workflow activity connected to Client Onboarding, Project Initiation, Billable Hours, Financial Management, And Invoices.</p>
+              </div>
+              <a class="workflow-link" href="workflow-center.html">View Workflow Center</a>
+            </div>
+            <div class="workflow-table-wrap" data-workflow-widget-list>
+              <table class="workflow-table" aria-label="Active Workflows">
+                <thead><tr><th>Workflow Name</th><th>Client</th><th>Project ID</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody><tr><td colspan="5">Loading Active Workflows...</td></tr></tbody>
+              </table>
+            </div>
           </section>
         </div>
       </div>
     </section>
   </main>
-  <div class="cookie-notice" id="cookieNotice" role="dialog" aria-live="polite" aria-label="Cookie notice" hidden><div class="cookie-notice-content"><div><strong>Cookie Notice</strong><p>We use basic cookies and local storage to remember preferences and improve your browsing experience.</p></div><button class="cookie-btn" id="cookieAccept" type="button">Accept</button></div></div>
-  <script src="script.js"></script><script src="cpsm-scope.js"></script><script src="cpsm-kanban.js"></script>
+  <div class="cookie-notice" id="cookieNotice" role="dialog" aria-live="polite" aria-label="Cookie Notice" hidden><div class="cookie-notice-content"><div><strong>Cookie Notice</strong><p>We use basic cookies and local storage to remember preferences and improve your browsing experience.</p></div><button class="cookie-btn" id="cookieAccept" type="button">Accept</button></div></div>
+  <script src="script.js"></script><script src="cpsm-scope.js"></script><script src="cpsm-connected-workflows.js"></script><script src="cpsm-kanban.js"></script>
 </body>
 
 </html>
