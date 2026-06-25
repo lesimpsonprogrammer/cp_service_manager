@@ -4,47 +4,77 @@
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <title>Client Log-in | Momentum Data Solutions</title>
+  <title>CPSM Login | Client Portfolio Service Manager</title>
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap"
     rel="stylesheet" />
   <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
   <link href="styles.css" rel="stylesheet" />
+  <link href="animated-login.css" rel="stylesheet" />
 </head>
 
-<body class="login-page">
-  <main class="login-split-screen">
-    <section class="login-visual-panel" aria-label="Client portal preview">
-      <div class="login-visual-overlay">
-        <h1>Welcome to Client Portfolio</h1>
-        <p>Stay connected to every project update. Access status updates, deliverables, and Project Manager messages
-          from one secure hub.</p>
+<body class="login-page animated-login-page">
+  <main class="login-split-screen animated-login-shell">
+    <section class="login-visual-panel cpsm-flow-panel" aria-label="CPSM animated data-flow preview">
+      <canvas id="cpsmFlowCanvas" class="cpsm-flow-canvas" aria-hidden="true"></canvas>
+      <div class="cpsm-flow-vignette" aria-hidden="true"></div>
+      <div class="cpsm-compass-mark" aria-hidden="true">
+        <span></span>
+        <strong>CPSM</strong>
+      </div>
+      <div class="login-visual-overlay cpsm-flow-copy">
+        <p class="cpsm-kicker">Client Portfolio Service Manager</p>
+        <h1>Command Center Intelligence</h1>
+        <p>Live project, workflow, document, and billable-hour activity organized into one secure client portfolio flow.</p>
+      </div>
+      <div class="cpsm-stream-legend" aria-hidden="true">
+        <span>Workflow</span>
+        <span>Projects</span>
+        <span>Approvals</span>
+        <span>Billable Hours</span>
       </div>
     </section>
 
-    <section class="login-form-panel" aria-labelledby="login-title">
+    <section class="login-form-panel cpsm-login-panel" aria-labelledby="login-title">
       <div class="login-form-stack">
-        <div class="login-card">
-          <h2 id="login-title">Log into Client Portfolio</h2>
+        <div class="login-card cpsm-login-card">
+          <div class="cpsm-login-brand" aria-label="CPSM Client Portfolio Service Manager">
+            <span class="cpsm-login-mark">✦</span>
+            <div>
+              <strong>CPSM</strong>
+              <small>Client Portfolio Service Manager</small>
+            </div>
+          </div>
+          <h2 id="login-title">Sign in to CPSM</h2>
+          <p class="cpsm-login-subtitle">Access your client portfolio command center.</p>
 
-          <form id="loginPageForm" class="login-form">
+          <form id="loginPageForm" class="login-form cpsm-login-form">
             <label for="clientId">
-              Client ID:
+              Client ID
               <input id="clientId" name="clientId" type="text" placeholder="Client ID" required />
             </label>
 
             <label for="userName">
-              User Name:
+              User Name
               <input id="userName" name="userName" type="text" placeholder="User Name" required />
             </label>
 
             <label for="password">
-              Password:
+              Password
               <input id="password" name="password" type="password" placeholder="Password" required />
             </label>
 
-            <button class="btn primary full" type="submit">Log In</button>
+            <div class="cpsm-login-options">
+              <label class="cpsm-remember-option" for="rememberCpsm">
+                <input id="rememberCpsm" name="rememberCpsm" type="checkbox" />
+                Remember me
+              </label>
+              <a href="#">Forgot password?</a>
+            </div>
+
+            <button class="btn primary full" type="submit">Sign In</button>
+            <button class="btn secondary full cpsm-sso-button" type="button">Sign in with SSO</button>
           </form>
         </div>
         <p class="portfolio-update-note">Client Portfolio will undergo scheduled update on July 24.</p>
@@ -53,6 +83,7 @@
   </main>
 
   <script src="script.js"></script>
+  <script src="animated-login.js"></script>
 </body>
 
 </html>
