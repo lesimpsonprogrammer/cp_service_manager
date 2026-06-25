@@ -8,26 +8,63 @@
   <link href="styles.css" rel="stylesheet" />
   <link href="client-portal-overrides.css" rel="stylesheet" />
   <link href="cpsm-dashboard.css" rel="stylesheet" />
+  <link href="cpsm-connected-workflows.css" rel="stylesheet" />
 </head>
 <body class="cpsm-dashboard-page">
   <header class="site-header client-portfolio-header" id="top">
-    <nav aria-label="Project Management navigation" class="nav container">
-      <a aria-label="Momentum Data home" class="brand brand-image-only" href="client-portal.html"><img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data logo" class="brand-logo brand-logo-transparent" /></a>
-      <div class="nav-links"><a href="client-portal.html">Dashboard</a><a href="cpsm-settings.html">Settings</a><a class="mobile-client-login" href="login.html">Log out</a></div>
-      <div class="nav-actions nav-contact"><a class="nav-cta" href="cpsm-settings.html">Settings</a><a class="nav-client-login" href="login.html">Log out</a></div>
+    <nav aria-label="Project Management Navigation" class="nav container">
+      <a aria-label="Momentum Data Home" class="brand brand-image-only" href="client-portal.html"><img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data Logo" class="brand-logo brand-logo-transparent" /></a>
+      <div class="nav-links"><a href="client-portal.html">Dashboard</a><a href="cpsm-settings.html">Settings</a><a class="mobile-client-login" href="login.html">Log Out</a></div>
+      <div class="nav-actions nav-contact"><a class="nav-cta" href="cpsm-settings.html">Settings</a><a class="nav-client-login" href="login.html">Log Out</a></div>
     </nav>
   </header>
   <main class="dashboard-main">
     <section class="dashboard-workspace">
       <div class="dashboard-layout">
-        <aside class="dashboard-sidebar"><nav class="dashboard-rail" aria-label="CPSM modules"><a href="client-portal.html">Dashboard</a><div class="dashboard-rail-group"><a href="project-management.html" class="is-active">Project Management</a><a class="dashboard-rail-nested" href="financial-management.html">Financial Management</a></div><div class="dashboard-rail-group"><a href="client-onboarding.html">Client Onboarding</a><a class="dashboard-rail-nested" href="agreements.html">Agreements</a></div><a href="workflow-center.html">Workflow Center</a><a href="etl-pipeline.html">ETL Pipeline</a><a href="api-center.html">API</a><a href="notifications.html">Notifications</a></nav></aside>
+        <aside class="dashboard-sidebar"><nav class="dashboard-rail" aria-label="CPSM Modules"><a href="client-portal.html">Dashboard</a><div class="dashboard-rail-group"><a href="project-management.html" class="is-active">Project Management</a><a class="dashboard-rail-nested" href="financial-management.html">Financial Management</a></div><div class="dashboard-rail-group"><a href="client-onboarding.html">Client Onboarding</a><a class="dashboard-rail-nested" href="agreements.html">Agreements</a></div><a href="workflow-center.html">Workflow Center</a><a href="etl-pipeline.html">ETL Pipeline</a><a href="api-center.html">API</a><a href="notifications.html">Notifications</a></nav></aside>
         <div class="dashboard-content">
           <section class="dashboard-page-heading"><p>Client Portfolio Service Manager</p><h1>Project Management</h1></section>
-          <section class="dashboard-panel"><p class="dashboard-kicker">Project Management</p><h2>Project workspace</h2><p>Manage project status, milestones, deliverables, next actions, risks, issues, and change requests.</p><div class="module-card-grid"><div class="module-card"><span>Status</span><strong>On track</strong></div><div class="module-card"><span>Next delivery</span><strong>To be confirmed</strong></div></div></section>
+          <section class="dashboard-panel">
+            <p class="dashboard-kicker">Project Management</p>
+            <h2>Project Workspace</h2>
+            <p>Manage project status, milestones, deliverables, next actions, risks, issues, and change requests.</p>
+            <div class="module-card-grid"><div class="module-card"><span>Status</span><strong>Ready To Initiate</strong></div><div class="module-card"><span>Next Delivery</span><strong>To Be Confirmed</strong></div></div>
+          </section>
+          <section class="dashboard-panel connected-flow-panel">
+            <div class="initiate-project-layout">
+              <article class="initiate-project-card">
+                <p class="dashboard-kicker">Initiate Project</p>
+                <h2>Kompan: Paylocity Implementation</h2>
+                <p>Pull the saved Client Onboarding profile, confirm the generated Client ID and Project ID, send the Welcome Email, and create the first Dashboard Board card.</p>
+                <div class="connected-id-grid">
+                  <div class="connected-id-tile"><span>Client ID</span><strong>CLI-KOM-100100</strong></div>
+                  <div class="connected-id-tile"><span>Project ID</span><strong>PRJ-KOM-005-100100</strong></div>
+                  <div class="connected-id-tile"><span>Deliverables</span><strong>5</strong></div>
+                  <div class="connected-id-tile"><span>Source</span><strong>Client Onboarding</strong></div>
+                </div>
+                <div class="billable-action-row">
+                  <button class="btn primary" type="button" data-initiate-project>Initiate Project</button>
+                  <a class="btn secondary" href="workflow-center.html">View Workflow</a>
+                </div>
+                <div class="workflow-execution-message" data-project-initiation-status>Project Is Ready For Initiation.</div>
+              </article>
+              <article class="initiate-project-card">
+                <p class="dashboard-kicker">Welcome Email Preview</p>
+                <h2>Client Notification</h2>
+                <div class="welcome-email-preview">
+                  <strong>Subject: Your Project Has Been Initiated</strong><br><br>
+                  Hello Kompan,<br><br>
+                  Your project, Paylocity Implementation, has been initiated in Client Portfolio Service Manager. Your Momentum Data project team will use the portal to manage project updates, key milestones, requests, documents, and communication.<br><br>
+                  Thank you,<br>
+                  Momentum Data Solutions
+                </div>
+              </article>
+            </div>
+          </section>
         </div>
       </div>
     </section>
   </main>
-  <script src="script.js"></script>
+  <script src="script.js"></script><script src="cpsm-connected-workflows.js"></script>
 </body>
 </html>
