@@ -1,0 +1,269 @@
+/* Billable Hours crisp enterprise SaaS refinements
+   Goal: light, crisp, neat, informative. Less oval, less blue wash, stronger structure. */
+
+.billable-hours-page {
+  --cpsm-crisp-line: #d6dce8;
+  --cpsm-crisp-line-strong: #b8c2d4;
+  --cpsm-crisp-soft: #f8fafc;
+  --cpsm-crisp-panel: #ffffff;
+  --cpsm-crisp-text: #0b1f3a;
+  --cpsm-crisp-muted: #526174;
+  --cpsm-crisp-blue: #1f6feb;
+  --cpsm-crisp-blue-soft: #edf4ff;
+  --cpsm-crisp-orange-soft: #fff6ee;
+  background: #f7f9fc;
+}
+
+.billable-hours-page .dashboard-workspace {
+  background:
+    linear-gradient(180deg, #ffffff 0%, #f7f9fc 42%, #f5f7fb 100%);
+}
+
+.billable-hours-page .dashboard-panel {
+  border: 1px solid var(--cpsm-crisp-line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 18px 42px rgba(11, 31, 58, 0.06);
+}
+
+.billable-hours-page .kanban-board-header {
+  padding-bottom: 1.45rem;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid var(--cpsm-crisp-line);
+}
+
+.billable-hours-page .kanban-board-greeting {
+  margin-bottom: 1.1rem;
+  color: var(--cpsm-crisp-text);
+  letter-spacing: -0.035em;
+}
+
+.billable-hours-page .kanban-board-greeting span {
+  display: block;
+  margin-top: 0.72rem;
+  color: #111827;
+  font-size: clamp(1.55rem, 2.4vw, 2.25rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+.billable-hours-page .kanban-board-header p,
+.billable-hours-page .billable-section-heading p,
+.billable-hours-page .billable-card > p {
+  color: var(--cpsm-crisp-muted);
+  line-height: 1.62;
+}
+
+.billable-hours-page .dashboard-kicker {
+  margin-bottom: 0.62rem;
+  color: #2457ff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.billable-hours-page .billable-card {
+  border: 1px solid var(--cpsm-crisp-line);
+  border-radius: 12px;
+  background: var(--cpsm-crisp-panel);
+  box-shadow: 0 12px 28px rgba(11, 31, 58, 0.045);
+}
+
+.billable-hours-page .billable-time-entry-card,
+.billable-hours-page .billable-timer-card {
+  border-color: var(--cpsm-crisp-line-strong);
+  background: #ffffff;
+}
+
+.billable-hours-page .billable-section-heading {
+  align-items: flex-start;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #e6eaf1;
+}
+
+.billable-hours-page .billable-card h2,
+.billable-hours-page .billable-card h3 {
+  margin: 0 0 0.72rem;
+  color: #111827;
+  font-weight: 650;
+  letter-spacing: -0.022em;
+}
+
+.billable-hours-page .backend-sync-status {
+  border: 1px solid var(--cpsm-crisp-line-strong);
+  border-radius: 10px;
+  background: #f8fafc;
+  color: #334155;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.billable-hours-page .backend-sync-status.protected {
+  border-color: #c5d3e8;
+  background: #f8fafc;
+  color: #22324a;
+}
+
+.billable-hours-page .project-time-entry-grid {
+  gap: 1rem;
+}
+
+.billable-hours-page .time-entry-form {
+  gap: 0.85rem;
+}
+
+.billable-hours-page .time-entry-form label {
+  margin-bottom: 0.38rem;
+  color: #1f2d44;
+  font-size: 0.72rem;
+  letter-spacing: 0.075em;
+}
+
+.billable-hours-page .time-entry-form input,
+.billable-hours-page .time-entry-form select,
+.billable-hours-page .time-entry-form textarea {
+  border: 1px solid #cfd7e6;
+  border-radius: 9px;
+  background: #ffffff;
+  box-shadow: inset 0 1px 0 rgba(11, 31, 58, 0.025);
+}
+
+.billable-hours-page .time-entry-form input:focus,
+.billable-hours-page .time-entry-form select:focus,
+.billable-hours-page .time-entry-form textarea:focus {
+  border-color: #8db2ff;
+  outline: 3px solid rgba(31, 111, 235, 0.12);
+}
+
+.billable-hours-page .time-entry-form input[readonly] {
+  border-color: #d8dee8;
+  background: #f4f6f9;
+}
+
+.billable-hours-page .smart-estimate-panel {
+  border: 1px solid var(--cpsm-crisp-line);
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(11, 31, 58, 0.035);
+}
+
+.billable-hours-page .estimate-metric {
+  border-color: #e1e6ef;
+  border-radius: 9px;
+  background: #ffffff;
+}
+
+.billable-hours-page .estimate-metric span,
+.billable-hours-page .estimate-source-box span {
+  color: #64748b;
+  letter-spacing: 0.09em;
+}
+
+.billable-hours-page .estimate-source-box {
+  border-radius: 10px;
+  border-color: #efd4bc;
+  background: #fff8f1;
+}
+
+.billable-hours-page .project-entry-parent {
+  border-color: #cfd7e6;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.billable-hours-page .nested-time-entry {
+  border-color: #e0e6ef;
+  border-radius: 9px;
+  background: #ffffff;
+}
+
+.billable-hours-page .nested-time-entry-current {
+  border-color: #ebcaa8;
+  background: #fffaf4;
+}
+
+.billable-hours-page .billable-table {
+  border-color: var(--cpsm-crisp-line);
+  border-radius: 10px;
+  box-shadow: 0 10px 24px rgba(11, 31, 58, 0.035);
+}
+
+.billable-hours-page .billable-table th {
+  background: #f8fafc;
+  color: #526174;
+}
+
+.billable-hours-page .billable-table td {
+  color: #1f2d44;
+}
+
+.billable-hours-page .release-step {
+  border-color: #dce2ec;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.billable-hours-page .scope-pill,
+.billable-hours-page .status-pill,
+.billable-hours-page .btn {
+  border-radius: 8px !important;
+}
+
+.billable-hours-page .status-pill {
+  padding: 0.38rem 0.62rem;
+  border: 1px solid #d5dce8;
+  background: #f8fafc;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+}
+
+.billable-hours-page .status-pill.approved {
+  border-color: #b8d9c4;
+  background: #f3fbf6;
+}
+
+.billable-hours-page .status-pill.flagged {
+  border-color: #eccaa8;
+  background: #fff8f1;
+}
+
+.billable-hours-page .status-pill.locked {
+  border-color: #cfd7e6;
+  background: #f4f6f9;
+}
+
+.billable-hours-page .btn {
+  min-height: 42px;
+  box-shadow: none;
+}
+
+.billable-hours-page .btn.primary {
+  background: #1f5fd6;
+  border-color: #1f5fd6;
+}
+
+.billable-hours-page .btn.secondary {
+  border-color: #cfd7e6;
+  background: #ffffff;
+}
+
+.billable-hours-page .dashboard-sidebar,
+.billable-hours-page .dashboard-rail a {
+  border-radius: 10px;
+}
+
+.billable-hours-page .dashboard-rail a.active,
+.billable-hours-page .dashboard-rail a[aria-current="page"] {
+  border: 1px solid #d6dce8;
+  background: #f6f8fb;
+  box-shadow: inset 3px 0 0 #1f6feb;
+}
+
+@media (max-width: 980px) {
+  .billable-hours-page .kanban-board-header,
+  .billable-hours-page .billable-section-heading {
+    gap: 1rem;
+  }
+}
