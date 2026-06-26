@@ -379,10 +379,10 @@ button.btn:hover,
   }
 }
 
-/* Persistent CPSM version label */
+/* Persistent CPSM branch and version label */
 .client-portal-main .portal-side-panel::after,
 .portal-panel-drawer .portal-panel-sections::after {
-  content: "Version 1.0 · 2026";
+  content: "Branch: main · Version 1.0 · 2026";
   display: flex;
   align-items: center;
   justify-content: center;
