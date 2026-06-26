@@ -10,6 +10,7 @@
   <link href="cpsm-dashboard.css" rel="stylesheet" />
   <link href="cpsm-connected-workflows.css" rel="stylesheet" />
   <link href="cpsm-billable-hours.css" rel="stylesheet" />
+  <link href="cpsm-sandbox-notepad.css" rel="stylesheet" />
 </head>
 <body class="cpsm-dashboard-page">
   <header class="site-header client-portfolio-header" id="top">
@@ -17,7 +18,7 @@
       <a aria-label="Momentum Data Home" class="brand brand-image-only" href="client-portal.html">
         <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data Logo" class="brand-logo brand-logo-transparent" />
       </a>
-      <div class="nav-links"><a href="client-portal.html">Dashboard</a><a href="cpsm-settings.html">Settings</a><a href="cpsm-sandbox.html" aria-current="page">Sandbox</a></div>
+      <div class="nav-links"><a href="client-portal.html">Dashboard</a><a href="cpsm-settings.html">Settings</a><a href="cpsm-sandbox.html" aria-current="page">Sandbox</a><a href="#sandbox-notes">Notes</a></div>
       <div class="nav-actions nav-contact"><a class="nav-cta" href="client-portal.html">Dashboard</a><a class="nav-client-login" href="login.html">Log Out</a></div>
     </nav>
   </header>
@@ -34,6 +35,40 @@
             <p>Client Portfolio Service Manager</p>
             <h1>CPSM Sandbox</h1>
             <span>One preview workspace for the Version 1.2 connected workflow, Billable Hours, Hours By Project, and Dashboard updates.</span>
+          </section>
+
+          <section class="dashboard-panel sandbox-notes-panel" id="sandbox-notes" aria-labelledby="sandboxNotesTitle">
+            <div class="kanban-board-header">
+              <div>
+                <p class="dashboard-kicker">Sandbox Notepad</p>
+                <h2 id="sandboxNotesTitle">Design Notes and Decision Record</h2>
+                <p>Keep the working notes directly in the sandbox so layout decisions, missing features, and merge rules stay visible while testing.</p>
+              </div>
+              <span class="status-pill locked">Local Notes</span>
+            </div>
+
+            <div class="sandbox-notes-layout">
+              <div class="sandbox-notes-editor">
+                <label for="sandboxNotesText">Working Notes</label>
+                <textarea id="sandboxNotesText" aria-label="CPSM sandbox working notes"></textarea>
+                <div class="sandbox-notes-actions">
+                  <button class="btn primary" id="saveSandboxNotes" type="button">Save Notes</button>
+                  <button class="btn secondary" id="resetSandboxNotes" type="button">Reset Notes</button>
+                  <span class="sandbox-notes-status" id="sandboxNotesStatus" aria-live="polite">Notes load from this browser.</span>
+                </div>
+              </div>
+
+              <aside class="sandbox-notes-summary" aria-label="Sandbox notes summary">
+                <h3>Do Not Lose</h3>
+                <ul>
+                  <li>Sandbox is the visual reference, not a full dashboard replacement.</li>
+                  <li>Add Card and Edit Card must be preserved from the working dashboard.</li>
+                  <li>Authenticated CPSM pages should not show a Log-in button.</li>
+                  <li>Kanban headers need more spacing from their subheaders.</li>
+                  <li>Use a light, crisp, structured enterprise SaaS style.</li>
+                </ul>
+              </aside>
+            </div>
           </section>
 
           <section class="dashboard-panel connected-flow-panel">
@@ -123,6 +158,6 @@
     </section>
   </main>
 
-  <script src="script.js"></script><script src="cpsm-connected-workflows.js"></script>
+  <script src="script.js"></script><script src="cpsm-connected-workflows.js"></script><script src="cpsm-sandbox-notes.js"></script>
 </body>
 </html>
