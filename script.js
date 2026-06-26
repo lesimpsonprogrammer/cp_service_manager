@@ -360,3 +360,154 @@ if (loginPageForm) {
 
   loadPM();
 })();
+
+// Persistent Sandbox Notes area for documenting page-level testing notes.
+(() => {
+  const sandboxNotesStyleId = 'sandbox-notes-style';
+  const existingNotes = document.querySelector('[data-sandbox-notes="true"]');
+  const hasCpsmSurface = Boolean(
+    document.querySelector('.client-portfolio-header, .client-portal-main, .tool-page-main, .portal-panel-drawer')
+  );
+  const cpsmPathPattern = /(client-portal|cpsm|calculator|project-estimator|documents|billable|timecard|sandbox)/i;
+  const isCpsmSurface = hasCpsmSurface || cpsmPathPattern.test(window.location.pathname);
+
+  if (!isCpsmSurface || existingNotes) return;
+
+  if (!document.getElementById(sandboxNotesStyleId)) {
+    const style = document.createElement('style');
+    style.id = sandboxNotesStyleId;
+    style.textContent = `
+      .sandbox-notes-card {
+        min-height: auto !important;
+      }
+
+      .sandbox-notes-card h2 {
+        margin-bottom: 0.5rem !important;
+      }
+
+      .sandbox-notes-help {
+        margin: 0 0 1rem !important;
+        color: var(--muted, #5f6b7a) !important;
+        font-size: 0.82rem !important;
+        line-height: 1.45 !important;
+      }
+
+      .sandbox-notes-textarea {
+        width: 100%;
+        min-height: 170px;
+        resize: vertical;
+        padding: 0.95rem 1rem;
+        border: 1.5px solid #8e99a8;
+        border-radius: 0.95rem;
+        background: rgba(255, 255, 255, 0.96);
+        color: var(--text, #0b1f3a);
+        font: inherit;
+        font-size: 0.92rem;
+        line-height: 1.5;
+      }
+
+      .sandbox-notes-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.7rem;
+        margin-top: 0.85rem;
+      }
+
+      .sandbox-notes-save,
+      .sandbox-notes-clear {
+        min-height: 38px;
+        padding: 0 0.95rem;
+        border: 1px solid #1f6feb;
+        border-radius: 999px;
+        background: #1f6feb;
+        color: #ffffff;
+        font-size: 0.78rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .sandbox-notes-clear {
+        border-color: #b0b8c4;
+        background: #ffffff;
+        color: #5f6b7a;
+      }
+
+      .sandbox-notes-status {
+        color: var(--muted, #5f6b7a);
+        font-size: 0.74rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .tool-page-main .sandbox-notes-card {
+        width: min(760px, 100%);
+        margin: 1.5rem auto 0;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  const pageKey = window.location.pathname.split('/').pop() || 'dashboard';
+  const storageKey = `cpsmSandboxNotes:${pageKey}`;
+  const notesCard = document.createElement('section');
+  const heading = document.createElement('h2');
+  const helpText = document.createElement('p');
+  const textarea = document.createElement('textarea');
+  const actions = document.createElement('div');
+  const saveButton = document.createElement('button');
+  const clearButton = document.createElement('button');
+  const status = document.createElement('span');
+
+  notesCard.className = 'side-panel-card sandbox-notes-card';
+  notesCard.dataset.sandboxNotes = 'true';
+  notesCard.setAttribute('aria-label', 'Sandbox page notes');
+
+  heading.textContent = 'Sandbox Page Notes';
+  helpText.className = 'sandbox-notes-help';
+  helpText.textContent = 'Document page notes, test results, open questions, and changes needed for this sandbox page.';
+
+  textarea.className = 'sandbox-notes-textarea';
+  textarea.value = localStorage.getItem(storageKey) || '';
+  textarea.placeholder = 'Example: Validate workflow trigger, check layout on mobile, confirm Supabase field mapping...';
+  textarea.setAttribute('aria-label', 'Sandbox page notes');
+
+  actions.className = 'sandbox-notes-actions';
+  saveButton.className = 'sandbox-notes-save';
+  saveButton.type = 'button';
+  saveButton.textContent = 'Save Notes';
+  clearButton.className = 'sandbox-notes-clear';
+  clearButton.type = 'button';
+  clearButton.textContent = 'Clear';
+  status.className = 'sandbox-notes-status';
+  status.textContent = textarea.value ? 'Saved locally' : 'Ready';
+
+  function saveNotes(message = 'Saved locally') {
+    localStorage.setItem(storageKey, textarea.value);
+    status.textContent = message;
+  }
+
+  saveButton.addEventListener('click', () => saveNotes());
+  textarea.addEventListener('input', () => saveNotes('Autosaved'));
+  clearButton.addEventListener('click', () => {
+    textarea.value = '';
+    localStorage.removeItem(storageKey);
+    status.textContent = 'Cleared';
+  });
+
+  actions.append(saveButton, clearButton, status);
+  notesCard.append(heading, helpText, textarea, actions);
+
+  const sidePanel = document.querySelector('.client-portal-main .portal-side-panel');
+  const toolPageCard = document.querySelector('.tool-page-main .tool-page-card');
+  const mainSurface = document.querySelector('.client-portal-main .container, .tool-page-main .container, main');
+
+  if (sidePanel) {
+    sidePanel.appendChild(notesCard);
+  } else if (toolPageCard) {
+    toolPageCard.insertAdjacentElement('afterend', notesCard);
+  } else if (mainSurface) {
+    mainSurface.appendChild(notesCard);
+  }
+})();
