@@ -5,326 +5,84 @@
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <meta content="Client portal for Momentum Data Solutions projects." name="description" />
-  <title>Client Portal | Momentum Data Solutions</title>
-  <link href="https://fonts.googleapis.com" rel="preconnect" />
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap"
-    rel="stylesheet" />
+  <title>Client Dashboard | Client Portfolio Service Manager</title>
   <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
   <link href="styles.css" rel="stylesheet" />
   <link href="client-portal-overrides.css" rel="stylesheet" />
-  <link href="client-portfolio-menu.css" rel="stylesheet" />
   <link href="client-portfolio-greeting.css" rel="stylesheet" />
+  <link href="cpsm-dashboard.css" rel="stylesheet" />
+  <link href="cpsm-kanban.css" rel="stylesheet" />
+  <link href="cpsm-kanban-refinements.css" rel="stylesheet" />
+  <link href="cpsm-client-resources.css" rel="stylesheet" />
+  <link href="cpsm-scope.css" rel="stylesheet" />
+  <link href="cpsm-connected-workflows.css" rel="stylesheet" />
+  <link href="cpsm-local-preview-note.css" rel="stylesheet" />
 </head>
 
-<body>
+<body class="cpsm-dashboard-page">
   <header class="site-header client-portfolio-header" id="top">
-    <nav aria-label="Client portal navigation" class="nav container">
-      <button class="portal-panel-toggle header-panel-toggle" id="portalPanelToggle" type="button" aria-label="Open Client Portfolio menu" aria-controls="portalPanelMenu" aria-expanded="false">
-        <span class="portal-panel-toggle-icon" aria-hidden="true">
-          <span></span>
-          <span></span>
-          <span></span>
-        </span>
-        <span class="portal-panel-toggle-label">Portal Menu</span>
-      </button>
-
-      <a aria-label="Momentum Data home" class="brand brand-image-only" href="index.html#top">
-        <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data logo" class="brand-logo brand-logo-transparent" />
+    <nav aria-label="Client Dashboard Navigation" class="nav container">
+      <a aria-label="Momentum Data Home" class="brand brand-image-only" href="client-portal.html">
+        <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data Logo" class="brand-logo brand-logo-transparent" />
       </a>
-      <button aria-expanded="false" aria-label="Open menu" class="nav-toggle">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-      <div class="nav-links client-portal-top-nav">
-        <a href="client-portal.html" aria-current="page">Dashboard</a>
-        <a class="client-resources-nav-link" href="#clientResources">Client Resources</a>
-        <a href="index.html#contact">Contact Us</a>
-        <a href="cpsm-settings.html">Settings</a>
-        <a class="mobile-client-login" href="login.html" data-portal-logout="true">Log out</a>
-      </div>
-      <div class="nav-actions nav-contact">
-        <a class="nav-client-login" href="login.html" data-portal-logout="true">Log out</a>
-      </div>
+      <div class="nav-links"><a href="client-portal.html" aria-current="page">Dashboard</a><a href="cpsm-settings.html">Settings</a></div>
     </nav>
   </header>
-
-  <main class="client-portal-main clean-card-portal">
-    <section class="client-portal-dashboard" aria-labelledby="clientWelcome">
-      <div class="container">
-        <div class="portal-heading-bar">
-          <div class="portal-welcome-stack">
-            <h1 id="clientWelcome">
-              <span>Hi, Client,</span>
-              <span>Welcome to Client Portfolio Service Manager.</span>
-            </h1>
-            <p class="portal-edit-mode-note">Internal edit mode Team controls are hidden from the standard client view.</p>
-            <div class="portal-view-chip-row" aria-label="Dashboard view details">
-              <span class="portal-mode-chip">View: Kanban</span>
-              <span class="portal-mode-chip">Client ID 100100</span>
-            </div>
+  <main class="dashboard-main">
+    <section class="dashboard-workspace" aria-label="Client Dashboard Workspace">
+      <div class="dashboard-layout">
+        <aside class="dashboard-sidebar" aria-label="Client Dashboard Side Panel">
+          <nav class="dashboard-rail" aria-label="Client Dashboard Sections">
+            <a href="client-portal.html" class="is-active">Dashboard</a>
+            <a href="project-management.html">Project Management</a>
+            <a href="financial-management.html">Financial Management</a>
+            <a href="client-onboarding.html">Client Onboarding</a>
+            <a href="agreements.html">Agreements</a>
+            <a href="client-directory.html">Client Directory</a>
+            <a href="staff-directory.html">Staff Directory</a>
+            <a href="workflow-center.html">Workflow Center</a>
+            <a href="etl-pipeline.html">ETL Pipeline</a>
+            <a href="api-center.html">API</a>
+            <a href="scope.html">Scope</a>
+            <a href="documents.html">Document Library</a>
+            <a href="notifications.html">Notifications</a>
+            <a href="login.html">Log Out</a>
+          </nav>
+          <div class="local-preview-note" aria-label="Local Preview Links">
+            <strong>Local Preview</strong>
+            <span>Dashboard: <code>client-portal.html</code></span>
+            <span>Internal: <code>client-portal.html?internal=1</code></span>
+            <span>Scope: <code>scope.html</code></span>
           </div>
+        </aside>
+        <div class="dashboard-content dashboard-content-board-first">
+          <section class="dashboard-panel kanban-board-panel" aria-labelledby="clientWelcome">
+            <div class="kanban-board-header"><div><p class="dashboard-kicker">Project Management</p><h1 id="clientWelcome" class="kanban-board-greeting">Hi, Client,<br><span>Welcome To Client Portfolio Service Manager.</span></h1><p>Track project work from intake through final client approval.</p></div><div class="kanban-board-meta" aria-label="Board Summary"><span>View: Kanban Cards</span><span class="scope-pill">Client ID <strong data-scope-client-id>100100</strong></span></div></div>
+            <div class="kanban-board" aria-label="Kanban Project Management Board"><section class="kanban-column" data-kanban-column="intake" aria-labelledby="intakeColumnTitle"><div class="kanban-column-header"><h3 id="intakeColumnTitle">Intake</h3><span data-kanban-count="intake">0</span></div><div class="kanban-card-list" data-kanban-list="intake"></div></section><section class="kanban-column" data-kanban-column="inProgress" aria-labelledby="progressColumnTitle"><div class="kanban-column-header"><h3 id="progressColumnTitle">In Progress</h3><span data-kanban-count="inProgress">0</span></div><div class="kanban-card-list" data-kanban-list="inProgress"></div></section><section class="kanban-column" data-kanban-column="clientReview" aria-labelledby="reviewColumnTitle"><div class="kanban-column-header"><h3 id="reviewColumnTitle">Client Review</h3><span data-kanban-count="clientReview">0</span></div><div class="kanban-card-list" data-kanban-list="clientReview"></div></section><section class="kanban-column" data-kanban-column="complete" aria-labelledby="completeColumnTitle"><div class="kanban-column-header"><h3 id="completeColumnTitle">Complete</h3><span data-kanban-count="complete">0</span></div><div class="kanban-card-list" data-kanban-list="complete"></div></section></div>
+          </section>
 
-          <form class="portal-google-search" action="https://www.google.com/search" method="get" target="_blank" rel="noopener" role="search">
-            <label class="sr-only" for="portalGoogleSearch">Search with Google</label>
-            <input id="portalGoogleSearch" name="q" type="search" placeholder="Search Google from your Client Portfolio" />
-            <button class="btn primary" type="submit">Search</button>
-            <span>Powered by Google</span>
-          </form>
-        </div>
-
-        <div class="portal-workspace">
-          <div class="portal-main-content">
-            <div class="portal-card-grid" aria-label="Client project dashboard tiles">
-              <section class="portal-tile portal-tile-large status-delivery-card">
-                <div class="tile-heading-row">
-                  <div>
-                    <h2>Current status update</h2>
-                    <p class="status-summary">Project is on track.</p>
-                  </div>
-                  <span class="status-pill">On track</span>
-                </div>
-                <p id="portalProjectDetails">Data mapping is underway. The next client review is scheduled after validation notes are prepared.</p>
-                <div class="status-delivery-row">
-                  <div>
-                    <h3>Next delivery</h3>
-                    <strong id="portalDueDate">To be confirmed</strong>
-                  </div>
-                  <p>Your deliverable due date will appear here once the project schedule is finalized.</p>
-                </div>
-              </section>
-
-              <section class="portal-tile deliverables-card">
-                <h2>Deliverables</h2>
-                <div class="clean-list">
-                  <div><strong>Project brief</strong><span>Approved</span></div>
-                  <div><strong>Data mapping workbook</strong><span>In progress</span></div>
-                  <div><strong>Validation summary</strong><span>Due next</span></div>
-                </div>
-              </section>
-
-              <section class="portal-tile actions-card">
-                <h2>Next actions</h2>
-                <ul class="clean-action-list">
-                  <li>Review sample column labels</li>
-                  <li>Confirm preferred delivery format</li>
-                  <li>Send any additional source files</li>
-                </ul>
-              </section>
-
-              <section class="portal-tile portal-tile-wide workflows-progress-card" aria-labelledby="workflowsInProgressTitle">
-                <div class="tile-heading-row">
-                  <div>
-                    <p class="tile-kicker">Workflow Center</p>
-                    <h2 id="workflowsInProgressTitle">Workflows In Progress</h2>
-                    <p>Active CPSM workflows organized by trigger.</p>
-                  </div>
-                  <span class="status-pill">5 Active</span>
-                </div>
-
-                <div class="workflow-trigger-list">
-                  <section class="workflow-trigger-group" aria-labelledby="workflowTriggerClientCreated">
-                    <div class="workflow-trigger-heading">
-                      <span>Trigger</span>
-                      <h3 id="workflowTriggerClientCreated">New Client Created</h3>
-                    </div>
-                    <div class="workflow-row">
-                      <strong>Client Onboarding Workflow</strong>
-                      <span>In progress</span>
-                    </div>
-                  </section>
-
-                  <section class="workflow-trigger-group" aria-labelledby="workflowTriggerDocumentUploaded">
-                    <div class="workflow-trigger-heading">
-                      <span>Trigger</span>
-                      <h3 id="workflowTriggerDocumentUploaded">Document Uploaded</h3>
-                    </div>
-                    <div class="workflow-row">
-                      <strong>Document Review Workflow</strong>
-                      <span>In progress</span>
-                    </div>
-                  </section>
-
-                  <section class="workflow-trigger-group" aria-labelledby="workflowTriggerServiceAssigned">
-                    <div class="workflow-trigger-heading">
-                      <span>Trigger</span>
-                      <h3 id="workflowTriggerServiceAssigned">Service Assigned</h3>
-                    </div>
-                    <div class="workflow-row">
-                      <strong>Service Engagement Workflow</strong>
-                      <span>In progress</span>
-                    </div>
-                  </section>
-
-                  <section class="workflow-trigger-group" aria-labelledby="workflowTriggerExpiration">
-                    <div class="workflow-trigger-heading">
-                      <span>Trigger</span>
-                      <h3 id="workflowTriggerExpiration">Document Expiration Approaching</h3>
-                    </div>
-                    <div class="workflow-row">
-                      <strong>Expiration Follow-Up Workflow</strong>
-                      <span>In progress</span>
-                    </div>
-                  </section>
-
-                  <section class="workflow-trigger-group" aria-labelledby="workflowTriggerClientSubmission">
-                    <div class="workflow-trigger-heading">
-                      <span>Trigger</span>
-                      <h3 id="workflowTriggerClientSubmission">Client Submission Received</h3>
-                    </div>
-                    <div class="workflow-row">
-                      <strong>Client Approval Workflow</strong>
-                      <span>In progress</span>
-                    </div>
-                  </section>
-                </div>
-              </section>
+          <section class="dashboard-panel workflow-widget-panel" id="dashboardWorkflowWidget" aria-labelledby="activeWorkflowsTitle">
+            <div class="kanban-board-header">
+              <div>
+                <p class="dashboard-kicker">Workflow Widget</p>
+                <h2 id="activeWorkflowsTitle">Active Workflows</h2>
+                <p>Current workflow activity connected to Client Onboarding, Project Initiation, Billable Hours, Financial Management, And Invoices.</p>
+              </div>
+              <a class="workflow-link" href="workflow-center.html">View Workflow Center</a>
             </div>
-          </div>
-
-          <aside class="portal-side-panel" aria-label="Client Portfolio side panel">
-            <section class="side-panel-card tools-card" id="clientResources">
-              <h2>Workspace</h2>
-              <div class="tool-link-list">
-                <a href="cpsm-settings.html">
-                  <strong>Settings</strong>
-                  <span>Configure CPSM</span>
-                </a>
-                <a href="calculator.html" target="_blank" rel="noopener">
-                  <strong>Calculator</strong>
-                  <span>Open tool</span>
-                </a>
-                <a href="project-estimator.html" target="_blank" rel="noopener">
-                  <strong>Project estimator</strong>
-                  <span>Open tool</span>
-                </a>
-              </div>
-            </section>
-
-            <section class="side-panel-card authorized-card">
-              <h2>Authorized representatives</h2>
-              <div class="representative-list">
-                <div class="representative-row">
-                  <strong>Authorized Representative 1</strong>
-                  <span>Job Title</span>
-                </div>
-                <div class="representative-row">
-                  <strong>Authorized Representative 2</strong>
-                  <span>Job Title</span>
-                </div>
-              </div>
-            </section>
-
-            <section class="side-panel-card invoices-card">
-              <h2>Invoices</h2>
-              <div class="invoice-list">
-                <div>
-                  <strong>Invoice #001</strong>
-                  <span>Pending</span>
-                </div>
-                <div>
-                  <strong>Invoice #002</strong>
-                  <span>Not issued</span>
-                </div>
-              </div>
-            </section>
-
-            <section class="side-panel-card portal-contact-tile">
-              <h2>Account access</h2>
-              <p>Replies within one business day.</p>
-              <button class="btn secondary full" id="portalLogout" type="button">Log out</button>
-            </section>
-          </aside>
+            <div class="workflow-table-wrap" data-workflow-widget-list>
+              <table class="workflow-table" aria-label="Active Workflows">
+                <thead><tr><th>Workflow Name</th><th>Client</th><th>Project ID</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody><tr><td colspan="5">Loading Active Workflows...</td></tr></tbody>
+              </table>
+            </div>
+          </section>
         </div>
       </div>
     </section>
   </main>
-
-  <div class="portal-panel-backdrop" id="portalPanelBackdrop" hidden></div>
-  <aside class="portal-panel-drawer" id="portalPanelMenu" aria-label="Client Portfolio hamburger menu" aria-hidden="true" hidden>
-    <div class="portal-panel-drawer-header">
-      <div>
-        <h2>Portal Menu</h2>
-      </div>
-      <button class="portal-panel-close" id="portalPanelClose" type="button" aria-label="Close portal menu">×</button>
-    </div>
-
-    <div class="portal-panel-sections">
-      <section class="side-panel-card tools-card">
-        <h2>Workspace</h2>
-        <div class="tool-link-list">
-          <a href="client-portal.html">
-            <strong>Dashboard</strong>
-            <span>Open workspace</span>
-          </a>
-          <a href="#clientResources">
-            <strong>Client Resources</strong>
-            <span>Open workspace resources</span>
-          </a>
-          <a href="cpsm-settings.html">
-            <strong>Settings</strong>
-            <span>Configure CPSM</span>
-          </a>
-          <a href="calculator.html" target="_blank" rel="noopener">
-            <strong>Calculator</strong>
-            <span>Open tool</span>
-          </a>
-          <a href="project-estimator.html" target="_blank" rel="noopener">
-            <strong>Project estimator</strong>
-            <span>Open tool</span>
-          </a>
-        </div>
-      </section>
-
-      <section class="side-panel-card authorized-card">
-        <h2>Authorized representatives</h2>
-        <div class="representative-list">
-          <div class="representative-row">
-            <strong>Authorized Representative 1</strong>
-            <span>Job Title</span>
-          </div>
-          <div class="representative-row">
-            <strong>Authorized Representative 2</strong>
-            <span>Job Title</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="side-panel-card invoices-card">
-        <h2>Invoices</h2>
-        <div class="invoice-list">
-          <div>
-            <strong>Invoice #001</strong>
-            <span>Pending</span>
-          </div>
-          <div>
-            <strong>Invoice #002</strong>
-            <span>Not issued</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="side-panel-card portal-contact-tile">
-        <h2>Account access</h2>
-        <p>Replies within one business day.</p>
-        <button class="btn secondary full" id="portalMenuLogout" type="button">Log out</button>
-      </section>
-    </div>
-  </aside>
-
-  <div class="cookie-notice" id="cookieNotice" role="dialog" aria-live="polite" aria-label="Cookie notice" hidden>
-    <div class="cookie-notice-content">
-      <div>
-        <strong>Cookie Notice</strong>
-        <p>We use basic cookies and local storage to remember preferences and improve your browsing experience.</p>
-      </div>
-      <button class="cookie-btn" id="cookieAccept" type="button">Accept</button>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
-  <script src="client-portfolio-menu.js"></script>
+  <div class="cookie-notice" id="cookieNotice" role="dialog" aria-live="polite" aria-label="Cookie Notice" hidden><div class="cookie-notice-content"><div><strong>Cookie Notice</strong><p>We use basic cookies and local storage to remember preferences and improve your browsing experience.</p></div><button class="cookie-btn" id="cookieAccept" type="button">Accept</button></div></div>
+  <script src="script.js"></script><script src="cpsm-scope.js"></script><script src="cpsm-connected-workflows.js"></script><script src="cpsm-kanban.js"></script>
 </body>
 
 </html>
