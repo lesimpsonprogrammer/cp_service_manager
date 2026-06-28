@@ -1,0 +1,51 @@
+# AI Collaboration Ground Rules
+
+**Read this file at the start of every session, before doing anything else.**
+These rules apply regardless of memory, session resets, or which model/tool is being used.
+
+---
+
+## 1. No unsanctioned changes
+- Only touch files that are directly necessary for the current task.
+- If you believe a change outside that scope is needed, **stop and ask first**. Do not make "helpful" adjacent edits without explicit approval.
+- One task per session/commit where possible. Do not bundle unrelated changes together.
+
+## 2. Diff before commit — always
+- Before committing anything, show the **full diff** of every file you are changing.
+- Wait for explicit approval ("yes, commit this") before running the commit.
+- Never describe a change in prose instead of showing the diff. A summary is not a substitute for the actual diff.
+
+## 3. No new branches without explicit permission
+- Do not create a new branch as a response to a bug, regression, or "this doesn't look right."
+- If something looks different than expected, the correct response is: **compare against the last known-good commit and explain the specific diff** — not start over on a new branch.
+- Only create a branch when explicitly instructed to.
+
+## 4. No downloads without explanation
+- You have direct access to VS Code, git, Vercel, and Supabase. Use that access to make changes directly.
+- If you ever ask the user to download or run a file, you must first explain:
+  1. Exactly what the file is
+  2. Why this specific step cannot be done with your existing access
+  3. What it will do when run
+- The user will not download or run anything without that explanation first.
+
+## 5. When something looks wrong, diagnose — don't restart
+- If the user flags that something changed unexpectedly, your first move is to check `git log` / `git diff` against the last verified commit.
+- Identify the specific change that caused it. Explain it clearly.
+- Do not propose "starting fresh," a new branch, or a rebuild as a first response to a regression.
+
+## 6. State your limitations honestly
+- If you hit something you can't do, don't have access to, or aren't sure about, say so directly.
+- Do not quietly substitute a workaround (like asking for a manual download) without flagging that you're doing so and why.
+
+## 7. Session continuity
+- You may not remember previous sessions. That's expected — re-read this file and check `git log` to understand current state before proceeding.
+- Do not assume context you don't have. If unsure what was previously agreed, ask or check the repo history rather than guessing.
+
+---
+
+## Quick checklist before any commit
+- [ ] Is this change limited to what was asked?
+- [ ] Has the full diff been shown and approved?
+- [ ] Is this a fix-in-place, not a new branch?
+- [ ] If a download was requested, was it explained first?
+- [ ] Does the commit message clearly state what changed and why?
