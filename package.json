@@ -1,0 +1,38 @@
+{
+  "name": "cp_service_manager",
+  "version": "1.0.0",
+  "description": "This is a one-page responsive website for Momentum Data, a small business focused on data extraction, spreadsheet cleanup, reporting, workflow automation, and HCM/payroll data support.",
+  "main": "client-portfolio-menu.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lesimpsonprogrammer/cp_service_manager.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/lesimpsonprogrammer/cp_service_manager/issues"
+  },
+  "homepage": "https://github.com/lesimpsonprogrammer/cp_service_manager#readme",
+  "dependencies": {
+    "next": "^16.2.9",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@types/node": "26.0.1",
+    "@types/react": "19.2.17",
+    "typescript": "6.0.3"
+  },
+  "private": true
+}
