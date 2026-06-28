@@ -1,5 +1,6 @@
 :root {
   --white: #ffffff;
+  --light-blue: #eaf4ff;
   --blue: #1f6feb;
   --blue-dark: #0b1f3a;
   --dark-orange: #c45a12;
@@ -32,3 +33,16 @@ input { width: 100%; border: 1px solid var(--line); border-radius: 14px; padding
 .portal-panel-toggle-label { position: absolute; width: 1px; height: 1px; overflow: hidden; }
 .portal-panel-toggle-icon { display: inline-grid; gap: 4px; }
 .portal-panel-toggle-icon span { display: block; width: 20px; height: 2px; background: currentColor; }
+.client-portal-main { min-height: calc(100vh - 78px); background: #ffffff; }
+.client-portal-dashboard { padding: 72px 0 96px; background: radial-gradient(circle at top left, rgba(31, 111, 235, 0.10), transparent 34%), linear-gradient(135deg, #eaf4ff 0%, #fff0df 48%, #eaf4ff 100%); }
+.portal-heading-bar { display: flex; align-items: flex-start; justify-content: space-between; gap: 1.6rem; max-width: 1100px; margin: 0 auto 2.25rem; text-align: left; }
+.portal-welcome-stack { flex: 0 1 560px; display: grid; gap: 0.95rem; }
+.portal-heading-bar h1 { display: grid; gap: 0.22rem; margin: 0; text-align: left; font-size: clamp(2rem, 3.2vw, 3rem); line-height: 1.04; letter-spacing: -0.02em; }
+.portal-heading-bar h1 span { display: block; }
+.portal-edit-mode-note { max-width: 620px; margin: 0; padding-top: 0.65rem; color: var(--muted); font-size: 0.98rem; }
+.portal-view-chip-row { display: flex; flex-wrap: wrap; gap: 0.65rem; }
+.portal-mode-chip { display: inline-flex; align-items: center; min-height: 34px; padding: 0 0.85rem; border: 2px solid #8e99a8; border-radius: 2px; background: rgba(255, 255, 255, 0.94); font-size: 0.74rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.portal-google-search { flex: 0 1 520px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.75rem; margin: 0; }
+.portal-google-search input { flex: 1 1 260px; min-height: 50px; border: 2px solid #8e99a8; border-radius: 1rem; }
+.portal-google-search span { flex-basis: 100%; color: var(--muted); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; }
