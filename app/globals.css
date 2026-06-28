@@ -10,7 +10,25 @@
   --font-body: Arial, Helvetica, sans-serif;
 }
 * { box-sizing: border-box; }
-body { margin: 0; font-family: var(--font-body); color: var(--text); background: #ffffff; }
+body { margin: 0; font-family: var(--font-body); color: var(--text); background: #ffffff; line-height: 1.6; }
 a { color: inherit; text-decoration: none; }
 h1, h2, h3 { font-family: var(--font-heading); color: var(--text); }
 .container { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 50px; border-radius: 999px; padding: 0 22px; font-weight: 700; border: 1px solid transparent; }
+.btn.primary { background: var(--blue); color: #ffffff; }
+.btn.secondary { background: #ffffff; border-color: var(--line); color: var(--text); }
+.full { width: 100%; }
+input { width: 100%; border: 1px solid var(--line); border-radius: 14px; padding: 13px 14px; font: inherit; }
+.site-header { position: sticky; top: 0; z-index: 20; background: linear-gradient(135deg, var(--dark-orange) 0%, #d46b1d 42%, var(--blue) 100%); border-bottom: 1px solid rgba(255, 255, 255, 0.18); }
+.nav { min-height: 78px; display: flex; align-items: center; justify-content: flex-start; gap: 1.4rem; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; margin-right: auto; }
+.brand-logo { display: block; width: auto; max-width: 186px; max-height: 64px; object-fit: contain; }
+.nav-links { display: flex; align-items: center; justify-content: flex-end; gap: 1.6rem; font-weight: 800; font-size: 0.92rem; letter-spacing: 0.04em; text-transform: uppercase; }
+.nav-actions { display: inline-flex; align-items: center; gap: 12px; }
+.nav-links a, .nav-actions a { color: var(--text) !important; }
+.nav-cta, .nav-client-login { background: transparent !important; box-shadow: none !important; border: 0 !important; padding: 0 !important; }
+.nav-toggle { display: none; }
+.portal-panel-toggle { display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; border: 2px solid #1f6feb; border-radius: 0.95rem; background: #1f6feb; color: #ffffff; }
+.portal-panel-toggle-label { position: absolute; width: 1px; height: 1px; overflow: hidden; }
+.portal-panel-toggle-icon { display: inline-grid; gap: 4px; }
+.portal-panel-toggle-icon span { display: block; width: 20px; height: 2px; background: currentColor; }
