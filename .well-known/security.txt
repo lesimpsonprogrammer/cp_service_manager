@@ -1,0 +1,4 @@
+Contact: mailto: is@momentumdatasolutions.com
+Preferred-Languages: en
+Canonical: https://momentumdatasolutions.com/.well-known/security.txt
+Policy: https://momentumdatasolutions.com/informationsecurity
