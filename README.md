@@ -2,6 +2,13 @@
 
 This is a one-page responsive website for Momentum Data, a small business focused on data extraction, spreadsheet cleanup, reporting, workflow automation, and HCM/payroll data support.
 
+## CP Service Manager platform (app.cpservicemanager.com)
+
+The connector / ETL / webhook / API platform lives in [`app/`](app/) as a
+separate Next.js + Supabase application, deployed independently from this
+marketing site. See [`app/README.md`](app/README.md) for setup and
+architecture.
+
 ## Files included
 
 - `index.html` — main website page
