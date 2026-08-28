@@ -1,0 +1,175 @@
+import type { ConnectorDefinition } from "./types";
+
+export const CONNECTOR_DEFINITIONS: ConnectorDefinition[] = [
+  {
+    type: "spreadsheet",
+    category: "Spreadsheet",
+    label: "CSV / Spreadsheet",
+    description: "Paste or upload CSV data — the fastest way to bring in a one-off export.",
+    icon: "▤",
+    fields: [
+      {
+        key: "raw_csv",
+        label: "CSV content",
+        type: "textarea",
+        required: true,
+        placeholder: "employee_id,first_name,last_name,email\n1001,Jordan,Smith,jordan@acme.com",
+        helpText: "Paste CSV content directly. First row is treated as the header.",
+      },
+      {
+        key: "delimiter",
+        label: "Delimiter",
+        type: "select",
+        options: [
+          { label: "Comma (,)", value: "," },
+          { label: "Semicolon (;)", value: ";" },
+          { label: "Tab", value: "\t" },
+        ],
+        defaultValue: ",",
+      },
+    ],
+  },
+  {
+    type: "google_sheets",
+    category: "Spreadsheet",
+    label: "Google Sheets",
+    description: "Read from a Google Sheet that is shared as \"Anyone with the link can view\".",
+    icon: "▦",
+    fields: [
+      {
+        key: "spreadsheet_id",
+        label: "Spreadsheet ID",
+        type: "text",
+        required: true,
+        placeholder: "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms",
+        helpText: "The long ID segment from the sheet's URL.",
+      },
+      {
+        key: "sheet_name",
+        label: "Sheet / tab name",
+        type: "text",
+        placeholder: "Sheet1",
+        defaultValue: "Sheet1",
+      },
+    ],
+  },
+  {
+    type: "rest_api",
+    category: "API",
+    label: "REST API",
+    description: "Pull records from any JSON REST endpoint.",
+    icon: "◨",
+    fields: [
+      { key: "base_url", label: "Base URL", type: "url", required: true, placeholder: "https://api.example.com" },
+      { key: "endpoint", label: "Endpoint path", type: "text", placeholder: "/v1/records" },
+      {
+        key: "auth_type",
+        label: "Authentication",
+        type: "select",
+        options: [
+          { label: "None", value: "none" },
+          { label: "Bearer token", value: "bearer" },
+          { label: "API key header", value: "api_key" },
+          { label: "Basic auth", value: "basic" },
+        ],
+        defaultValue: "none",
+      },
+      { key: "auth_header", label: "API key header name", type: "text", placeholder: "X-API-Key" },
+      { key: "api_key", label: "API key / token", type: "password", secret: true },
+      { key: "basic_username", label: "Username", type: "text" },
+      { key: "basic_password", label: "Password", type: "password", secret: true },
+      { key: "records_path", label: "Records path in response", type: "text", placeholder: "data (leave blank if the response is a top-level array)" },
+    ],
+  },
+  {
+    type: "sql_database",
+    category: "Database",
+    label: "SQL Database",
+    description: "Run a read query against a Postgres database.",
+    icon: "▥",
+    fields: [
+      {
+        key: "engine",
+        label: "Engine",
+        type: "select",
+        options: [
+          { label: "PostgreSQL", value: "postgres" },
+          { label: "MySQL (coming soon)", value: "mysql" },
+          { label: "SQL Server (coming soon)", value: "sqlserver" },
+        ],
+        defaultValue: "postgres",
+      },
+      { key: "host", label: "Host", type: "text", required: true, placeholder: "db.example.com" },
+      { key: "port", label: "Port", type: "number", defaultValue: "5432" },
+      { key: "database", label: "Database", type: "text", required: true },
+      { key: "username", label: "Username", type: "text", required: true },
+      { key: "password", label: "Password", type: "password", secret: true },
+      { key: "ssl", label: "Use SSL", type: "select", options: [{ label: "Yes", value: "true" }, { label: "No", value: "false" }], defaultValue: "true" },
+      { key: "query", label: "Query (used when this is a pipeline source)", type: "textarea", placeholder: "select * from employees limit 1000" },
+      {
+        key: "load_table",
+        label: "Destination table (used when this is a pipeline destination)",
+        type: "text",
+        placeholder: "public.employees",
+        helpText: "Columns are inferred from the pipeline's output fields on each run.",
+      },
+    ],
+  },
+  {
+    type: "hcm",
+    category: "HCM",
+    label: "HCM System",
+    description: "Connect an HCM platform (BambooHR, Workday, ADP, Paylocity, Gusto) via its REST API.",
+    icon: "◫",
+    fields: [
+      {
+        key: "system",
+        label: "HCM system",
+        type: "select",
+        required: true,
+        options: [
+          { label: "BambooHR", value: "bamboohr" },
+          { label: "Workday", value: "workday" },
+          { label: "ADP", value: "adp" },
+          { label: "Paylocity", value: "paylocity" },
+          { label: "Gusto", value: "gusto" },
+          { label: "Other / custom", value: "other" },
+        ],
+      },
+      { key: "base_url", label: "API base URL", type: "url", required: true, placeholder: "https://api.bamboohr.com/api/gateway.php/acme" },
+      { key: "endpoint", label: "Endpoint path", type: "text", placeholder: "/v1/employees/directory" },
+      { key: "api_key", label: "API key / token", type: "password", secret: true, required: true },
+      { key: "records_path", label: "Records path in response", type: "text", placeholder: "employees" },
+    ],
+  },
+  {
+    type: "erp",
+    category: "ERP",
+    label: "ERP System",
+    description: "Connect an ERP platform (NetSuite, SAP, Dynamics 365, QuickBooks) via its REST API.",
+    icon: "◧",
+    fields: [
+      {
+        key: "system",
+        label: "ERP system",
+        type: "select",
+        required: true,
+        options: [
+          { label: "NetSuite", value: "netsuite" },
+          { label: "SAP", value: "sap" },
+          { label: "Microsoft Dynamics 365", value: "dynamics365" },
+          { label: "QuickBooks", value: "quickbooks" },
+          { label: "Other / custom", value: "other" },
+        ],
+      },
+      { key: "base_url", label: "API base URL", type: "url", required: true },
+      { key: "endpoint", label: "Endpoint path", type: "text" },
+      { key: "api_key", label: "API key / token", type: "password", secret: true, required: true },
+      { key: "records_path", label: "Records path in response", type: "text" },
+    ],
+  },
+];
+
+export function getConnectorDefinition(type: string) {
+  return CONNECTOR_DEFINITIONS.find((c) => c.type === type);
+}

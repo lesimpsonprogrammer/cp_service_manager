@@ -1,0 +1,165 @@
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database, PipelineRunStatus } from "@/types/database";
+import { getConnectorAdapter } from "@/lib/connectors";
+import { dispatchEvent } from "@/lib/webhooks/dispatch";
+import { applyMapping, applyTransforms, type FieldMapping, type TransformStep } from "./transforms";
+
+interface PipelineRow {
+  id: string;
+  org_id: string;
+  source_id: string;
+  destination_id: string | null;
+  // Typed loosely here to match the jsonb columns as Supabase returns them —
+  // callers pass the row straight from a `.select()`. Cast to FieldMapping[] /
+  // TransformStep[] happens below, right before use.
+  mapping: unknown;
+  transform_steps: unknown;
+}
+
+export interface PipelineRunResult {
+  runId: string;
+  status: PipelineRunStatus;
+  recordsExtracted: number;
+  recordsLoaded: number;
+  recordsFailed: number;
+  error: string | null;
+}
+
+/**
+ * Runs one pipeline end-to-end: extract from its source connector, apply
+ * field mapping + transform steps, then load into its destination connector
+ * (when one is configured — otherwise this behaves as a dry-run/preview and
+ * every transformed record counts as "loaded"). Every run is recorded in
+ * `pipeline_runs` regardless of outcome.
+ */
+export async function runPipeline(
+  supabase: SupabaseClient<Database>,
+  pipeline: PipelineRow,
+  triggeredBy: "manual" | "schedule" | "webhook" | "api" = "manual"
+): Promise<PipelineRunResult> {
+  const startedAt = new Date().toISOString();
+  const { data: run, error: runInsertError } = await supabase
+    .from("pipeline_runs")
+    .insert({
+      pipeline_id: pipeline.id,
+      org_id: pipeline.org_id,
+      status: "running",
+      triggered_by: triggeredBy,
+      started_at: startedAt,
+    })
+    .select("id")
+    .single();
+
+  if (runInsertError || !run) {
+    throw new Error(runInsertError?.message ?? "Failed to create pipeline run.");
+  }
+
+  const finish = async (result: Omit<PipelineRunResult, "runId">) => {
+    await supabase
+      .from("pipeline_runs")
+      .update({
+        status: result.status,
+        records_extracted: result.recordsExtracted,
+        records_loaded: result.recordsLoaded,
+        records_failed: result.recordsFailed,
+        error: result.error,
+        finished_at: new Date().toISOString(),
+      })
+      .eq("id", run.id);
+
+    await dispatchEvent(supabase, pipeline.org_id, "pipeline.run.completed", {
+      pipeline_id: pipeline.id,
+      run_id: run.id,
+      ...result,
+    });
+
+    return { runId: run.id, ...result };
+  };
+
+  const { data: source } = await supabase
+    .from("data_sources")
+    .select("type, config")
+    .eq("id", pipeline.source_id)
+    .single();
+
+  if (!source) {
+    return finish({ status: "failed", recordsExtracted: 0, recordsLoaded: 0, recordsFailed: 0, error: "Source data source not found." });
+  }
+
+  const sourceAdapter = getConnectorAdapter(source.type);
+  if (!sourceAdapter) {
+    return finish({ status: "failed", recordsExtracted: 0, recordsLoaded: 0, recordsFailed: 0, error: `No connector adapter for source type "${source.type}".` });
+  }
+
+  let extracted;
+  try {
+    extracted = await sourceAdapter.extract(source.config ?? {});
+  } catch (err) {
+    return finish({
+      status: "failed",
+      recordsExtracted: 0,
+      recordsLoaded: 0,
+      recordsFailed: 0,
+      error: err instanceof Error ? err.message : "Extraction failed.",
+    });
+  }
+
+  const mapped = applyMapping(extracted.records, (pipeline.mapping as FieldMapping[]) ?? []);
+  const transformed = applyTransforms(mapped, (pipeline.transform_steps as TransformStep[]) ?? []);
+
+  if (!pipeline.destination_id) {
+    return finish({
+      status: "succeeded",
+      recordsExtracted: extracted.records.length,
+      recordsLoaded: transformed.length,
+      recordsFailed: 0,
+      error: null,
+    });
+  }
+
+  const { data: destination } = await supabase
+    .from("data_sources")
+    .select("type, config")
+    .eq("id", pipeline.destination_id)
+    .single();
+
+  if (!destination) {
+    return finish({
+      status: "failed",
+      recordsExtracted: extracted.records.length,
+      recordsLoaded: 0,
+      recordsFailed: transformed.length,
+      error: "Destination data source not found.",
+    });
+  }
+
+  const destinationAdapter = getConnectorAdapter(destination.type);
+  if (!destinationAdapter?.load) {
+    return finish({
+      status: "partial",
+      recordsExtracted: extracted.records.length,
+      recordsLoaded: 0,
+      recordsFailed: transformed.length,
+      error: `"${destination.type}" can't be used as a pipeline destination yet.`,
+    });
+  }
+
+  try {
+    const loadResult = await destinationAdapter.load(destination.config ?? {}, transformed);
+    return finish({
+      status: loadResult.failed > 0 ? "partial" : "succeeded",
+      recordsExtracted: extracted.records.length,
+      recordsLoaded: loadResult.loaded,
+      recordsFailed: loadResult.failed,
+      error: loadResult.error ?? null,
+    });
+  } catch (err) {
+    return finish({
+      status: "failed",
+      recordsExtracted: extracted.records.length,
+      recordsLoaded: 0,
+      recordsFailed: transformed.length,
+      error: err instanceof Error ? err.message : "Load failed.",
+    });
+  }
+}

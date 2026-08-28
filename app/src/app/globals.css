@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --canvas: 0 0% 100%;
+  --surface: 0 0% 100%;
+  --surface-2: 240 5% 97%;
+  --border: 240 6% 90%;
+  --border-strong: 240 6% 80%;
+  --foreground: 240 10% 6%;
+  --muted: 240 4% 40%;
+  --brand: 158 64% 40%;
+  --brand-foreground: 0 0% 100%;
+  --accent: 158 64% 40%;
+  --danger: 0 72% 46%;
+  --warning: 38 92% 42%;
+  --success: 158 64% 38%;
+}
+
+.dark {
+  --canvas: 0 0% 5%;
+  --surface: 0 0% 7%;
+  --surface-2: 0 0% 10%;
+  --border: 0 0% 17%;
+  --border-strong: 0 0% 26%;
+  --foreground: 0 0% 96%;
+  --muted: 0 0% 62%;
+  --brand: 158 64% 52%;
+  --brand-foreground: 0 0% 6%;
+  --accent: 158 64% 52%;
+  --danger: 0 72% 60%;
+  --warning: 38 92% 58%;
+  --success: 158 64% 52%;
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background-color: hsl(var(--canvas));
+  color: hsl(var(--foreground));
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+::selection {
+  background-color: hsl(var(--brand) / 0.35);
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--border-strong));
+  border-radius: 8px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dotted-grid {
+  background-image: radial-gradient(hsl(var(--border-strong)) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
