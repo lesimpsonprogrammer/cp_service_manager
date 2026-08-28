@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useActionState } from "react";
@@ -33,6 +33,7 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") ?? "/dashboard";
   const checkEmail = searchParams.get("checkEmail");
+  const [email, setEmail] = useState("");
 
   return (
     <div className="animate-slide-up">
@@ -49,7 +50,16 @@ function LoginForm() {
         <input type="hidden" name="redirectTo" value={redirectTo} />
         <div>
           <Label htmlFor="email">Work email</Label>
-          <Input id="email" name="email" type="email" autoComplete="email" required placeholder="you@company.com" />
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            placeholder="you@company.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
         <div>
           <div className="flex items-center justify-between">
