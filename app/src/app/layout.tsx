@@ -6,7 +6,7 @@ const sans = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "CP Service Manager",
+  title: "Cloud Performance Service Manager",
   description:
     "Connect spreadsheets, HCM, and ERP systems. Build ETL pipelines, connectors, and webhooks in one platform.",
 };

@@ -13,7 +13,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-brand text-brand-foreground">
               <LogoMark className="h-4 w-4" />
             </span>
-            CP Service Manager
+            Cloud Performance Service Manager
           </Link>
         </div>
 
@@ -29,7 +29,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         </div>
 
         <div className="relative z-10 border-t border-border p-10 text-xs text-muted">
-          &copy; {new Date().getFullYear()} CP Service Manager. All rights reserved.
+          &copy; {new Date().getFullYear()} Cloud Performance Service Manager. All rights reserved.
         </div>
       </div>
 
