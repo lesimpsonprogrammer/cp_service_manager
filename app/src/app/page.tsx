@@ -23,7 +23,7 @@ export default async function RootPage() {
           <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-brand text-brand-foreground">
             <LogoMark className="h-4 w-4" />
           </span>
-          CP Service Manager
+          Cloud Performance Service Manager
         </div>
         <nav className="flex items-center gap-3">
           <Link href="/login" className="text-sm text-muted hover:text-foreground">
@@ -46,7 +46,7 @@ export default async function RootPage() {
           <span className="mt-2 block text-muted">Ship clean data everywhere else.</span>
         </h1>
         <p className="mt-5 max-w-xl text-balance text-base text-muted">
-          CP Service Manager is the connector, ETL, and webhook platform behind
+          Cloud Performance Service Manager is the connector, ETL, and webhook platform behind
           your data extraction and payroll operations — one dashboard, one
           API, every system your clients run.
         </p>
@@ -63,7 +63,7 @@ export default async function RootPage() {
       </section>
 
       <footer className="relative z-10 px-6 py-6 text-center text-xs text-muted">
-        &copy; {new Date().getFullYear()} CP Service Manager · a Momentum Data platform
+        &copy; {new Date().getFullYear()} Cloud Performance Service Manager · a Momentum Data platform
       </footer>
     </main>
   );

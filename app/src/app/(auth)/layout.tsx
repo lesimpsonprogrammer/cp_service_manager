@@ -29,7 +29,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         </div>
 
         <div className="relative z-10 border-t border-border p-10 text-xs text-muted">
-          &copy; {new Date().getFullYear()} CP Service Manager. All rights reserved.
+          &copy; {new Date().getFullYear()} Cloud Performance Service Manager. All rights reserved.
         </div>
       </div>
 

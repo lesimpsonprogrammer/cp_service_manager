@@ -38,7 +38,7 @@ function LoginForm() {
   return (
     <div className="animate-slide-up">
       <h2 className="text-2xl font-semibold tracking-tight text-foreground">Welcome back</h2>
-      <p className="mt-1.5 text-sm text-muted">Sign in to your CP Service Manager workspace.</p>
+      <p className="mt-1.5 text-sm text-muted">Sign in to your Cloud Performance Service Manager workspace.</p>
 
       {checkEmail && (
         <div className="mt-4 rounded-md border border-brand/30 bg-brand/10 px-3 py-2 text-sm text-foreground">
