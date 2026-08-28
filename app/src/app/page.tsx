@@ -37,7 +37,7 @@ export default async function RootPage() {
 
       <section className="relative z-10 mx-auto flex max-w-5xl flex-1 flex-col items-center justify-center px-6 text-center">
         <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs text-muted">
-          Data extraction · HR consulting · Managed payroll
+          Data Extraction | HR Consulting · Managed Payroll Services
         </span>
         <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl lg:text-4xl xl:text-5xl">
           <span className="block text-balance">

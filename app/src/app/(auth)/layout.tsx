@@ -13,7 +13,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-brand text-brand-foreground">
               <LogoMark className="h-4 w-4" />
             </span>
-            CP Service Manager
+            Cloud Performance Service Manager
           </Link>
         </div>
 
