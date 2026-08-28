@@ -49,12 +49,12 @@ export function Sidebar({ orgName }: { orgName: string }) {
 
       <div className="border-t border-border p-3 text-xs text-muted">
         <a
-          href="https://cpservicemanager.com"
+          href="https://momentumdatasolutions.com"
           className="hover:text-foreground"
           target="_blank"
           rel="noreferrer"
         >
-          cpservicemanager.com ↗
+          momentumdatasolutions.com ↗
         </a>
       </div>
     </aside>
