@@ -75,3 +75,14 @@ This package includes:
 - Services section background image scoped only to `#services`.
 
 Note: The client portal is a static front-end preview and does not provide secure authentication until connected to a backend or member portal service.
+
+
+## Homepage restore
+
+`index.html` had been accidentally overwritten with the login page markup,
+duplicated twice in the same file (two full `<!DOCTYPE html>` documents back
+to back), so the login page rendered with two forms. Restored the marketing
+homepage content to `index.html` (matching the current `styles.css` and
+`script.js` conventions — cookie notice IDs, hero carousel, nav). `login.html`
+remains the single source of truth for the CPSM login page per
+`docs/CPSM_BASELINE_AND_DECISIONS.md`.
