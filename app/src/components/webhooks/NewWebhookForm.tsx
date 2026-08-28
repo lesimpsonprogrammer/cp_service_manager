@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import { createWebhook, EVENT_OPTIONS, type WebhookFormState } from "@/app/(dashboard)/webhooks/actions";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -20,7 +21,7 @@ function SubmitButton() {
 
 export function NewWebhookForm({ dataSources }: { dataSources: { id: string; name: string }[] }) {
   const [direction, setDirection] = useState<"inbound" | "outbound">("outbound");
-  const [state, formAction] = useFormState(createWebhook, initialState);
+  const [state, formAction] = useActionState(createWebhook, initialState);
 
   return (
     <Card className="max-w-xl p-6">

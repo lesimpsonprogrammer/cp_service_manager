@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import { cn } from "@/lib/utils/cn";
 import { CONNECTOR_DEFINITIONS } from "@/lib/connectors/registry";
 import { createDataSource, type DataSourceFormState } from "@/app/(dashboard)/data-sources/actions";
@@ -23,7 +24,7 @@ function SubmitButton() {
 
 export function NewDataSourceForm() {
   const [selectedType, setSelectedType] = useState<string | null>(null);
-  const [state, formAction] = useFormState(createDataSource, initialState);
+  const [state, formAction] = useActionState(createDataSource, initialState);
 
   const definition = CONNECTOR_DEFINITIONS.find((c) => c.type === selectedType);
 

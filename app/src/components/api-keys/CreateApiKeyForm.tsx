@@ -1,6 +1,7 @@
 "use client";
 
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import { createApiKey, type ApiKeyFormState } from "@/app/(dashboard)/api-keys/actions";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -18,7 +19,7 @@ function SubmitButton() {
 }
 
 export function CreateApiKeyForm() {
-  const [state, formAction] = useFormState(createApiKey, initialState);
+  const [state, formAction] = useActionState(createApiKey, initialState);
 
   return (
     <div className="space-y-3">

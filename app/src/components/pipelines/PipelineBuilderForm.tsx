@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import { createPipeline, type PipelineFormState } from "@/app/(dashboard)/pipelines/actions";
 import type { FieldMapping, TransformStep, TransformOp } from "@/lib/etl/transforms";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
@@ -33,7 +34,7 @@ export function PipelineBuilderForm({
 }: {
   dataSources: { id: string; name: string; type: string }[];
 }) {
-  const [state, formAction] = useFormState(createPipeline, initialState);
+  const [state, formAction] = useActionState(createPipeline, initialState);
   const [mapping, setMapping] = useState<FieldMapping[]>([{ source: "", target: "" }]);
   const [steps, setSteps] = useState<TransformStep[]>([]);
 
