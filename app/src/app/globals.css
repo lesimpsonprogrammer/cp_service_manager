@@ -10,9 +10,9 @@
   --border-strong: 240 6% 80%;
   --foreground: 240 10% 6%;
   --muted: 240 4% 40%;
-  --brand: 158 64% 40%;
+  --brand: 220 85% 33%;
   --brand-foreground: 0 0% 100%;
-  --accent: 158 64% 40%;
+  --accent: 220 85% 33%;
   --danger: 0 72% 46%;
   --warning: 38 92% 42%;
   --success: 158 64% 38%;
@@ -26,9 +26,9 @@
   --border-strong: 0 0% 26%;
   --foreground: 0 0% 96%;
   --muted: 0 0% 62%;
-  --brand: 158 64% 52%;
-  --brand-foreground: 0 0% 6%;
-  --accent: 158 64% 52%;
+  --brand: 220 85% 52%;
+  --brand-foreground: 0 0% 100%;
+  --accent: 220 85% 52%;
   --danger: 0 72% 60%;
   --warning: 38 92% 58%;
   --success: 158 64% 52%;

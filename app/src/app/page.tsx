@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/Button";
+import { LogoMark } from "@/components/ui/Logo";
 
 export default async function RootPage() {
   const supabase = await createClient();
@@ -19,8 +20,8 @@ export default async function RootPage() {
 
       <header className="relative z-10 flex items-center justify-between px-6 py-6 lg:px-12">
         <div className="flex items-center gap-2 text-sm font-semibold tracking-tight">
-          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-brand text-brand-foreground">
-            C
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-brand text-brand-foreground">
+            <LogoMark className="h-4 w-4" />
           </span>
           CP Service Manager
         </div>
@@ -34,14 +35,15 @@ export default async function RootPage() {
         </nav>
       </header>
 
-      <section className="relative z-10 mx-auto flex max-w-3xl flex-1 flex-col items-center justify-center px-6 text-center">
+      <section className="relative z-10 mx-auto flex max-w-5xl flex-1 flex-col items-center justify-center px-6 text-center">
         <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs text-muted">
           Data extraction · HR consulting · Managed payroll
         </span>
-        <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
-          Connect any spreadsheet, HCM, or ERP.
-          <br />
-          Ship clean data everywhere else.
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl lg:text-4xl xl:text-5xl">
+          <span className="block text-balance">
+            Connect any spreadsheet, HCM, HRIS, Benefits Admin Portal, or ERP.
+          </span>
+          <span className="mt-2 block text-muted">Ship clean data everywhere else.</span>
         </h1>
         <p className="mt-5 max-w-xl text-balance text-base text-muted">
           CP Service Manager is the connector, ETL, and webhook platform behind
