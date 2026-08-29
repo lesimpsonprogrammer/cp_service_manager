@@ -22,11 +22,13 @@ function SubmitButton({ label, pendingLabel }: { label: string; pendingLabel: st
 export function DocForm({
   action,
   doc,
+  categories = [],
   submitLabel = "Create doc",
   submitPendingLabel = "Creating…",
 }: {
   action: (state: DocFormState, formData: FormData) => Promise<DocFormState>;
   doc?: DocRow;
+  categories?: string[];
   submitLabel?: string;
   submitPendingLabel?: string;
 }) {
@@ -34,9 +36,26 @@ export function DocForm({
 
   return (
     <form action={formAction} className="max-w-3xl space-y-4">
-      <div>
-        <Label htmlFor="title">Title</Label>
-        <Input id="title" name="title" required defaultValue={doc?.title} placeholder="Deploying a new connector" />
+      <div className="grid gap-4 sm:grid-cols-[1fr_200px]">
+        <div>
+          <Label htmlFor="title">Title</Label>
+          <Input id="title" name="title" required defaultValue={doc?.title} placeholder="Deploying a new connector" />
+        </div>
+        <div>
+          <Label htmlFor="category">Category</Label>
+          <Input
+            id="category"
+            name="category"
+            list="doc-categories"
+            defaultValue={doc?.category ?? "General"}
+            placeholder="General"
+          />
+          <datalist id="doc-categories">
+            {categories.map((category) => (
+              <option key={category} value={category} />
+            ))}
+          </datalist>
+        </div>
       </div>
 
       <div>

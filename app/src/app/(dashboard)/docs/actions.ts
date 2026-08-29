@@ -32,6 +32,7 @@ export async function createDoc(_prev: DocFormState, formData: FormData): Promis
 
   const title = String(formData.get("title") ?? "").trim();
   const body = String(formData.get("body") ?? "");
+  const category = String(formData.get("category") ?? "").trim() || "General";
   if (!title) return { error: "Give this doc a title." };
 
   const slug = await uniqueSlug(org.orgId, title);
@@ -39,7 +40,7 @@ export async function createDoc(_prev: DocFormState, formData: FormData): Promis
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("docs")
-    .insert({ org_id: org.orgId, title, slug, body, created_by: org.userId })
+    .insert({ org_id: org.orgId, title, slug, body, category, created_by: org.userId })
     .select("id")
     .single();
 
@@ -55,6 +56,7 @@ export async function updateDoc(docId: string, _prev: DocFormState, formData: Fo
 
   const title = String(formData.get("title") ?? "").trim();
   const body = String(formData.get("body") ?? "");
+  const category = String(formData.get("category") ?? "").trim() || "General";
   if (!title) return { error: "Give this doc a title." };
 
   const slug = await uniqueSlug(org.orgId, title, docId);
@@ -62,7 +64,7 @@ export async function updateDoc(docId: string, _prev: DocFormState, formData: Fo
   const supabase = await createClient();
   const { error } = await supabase
     .from("docs")
-    .update({ title, slug, body, updated_at: new Date().toISOString() })
+    .update({ title, slug, body, category, updated_at: new Date().toISOString() })
     .eq("id", docId);
 
   if (error) return { error: error.message };

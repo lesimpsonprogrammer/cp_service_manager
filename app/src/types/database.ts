@@ -461,6 +461,7 @@ export interface Database {
           title: string;
           slug: string;
           body: string;
+          category: string;
           created_by: string | null;
           created_at: string;
           updated_at: string;

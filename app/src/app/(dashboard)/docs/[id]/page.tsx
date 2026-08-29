@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { Badge } from "@/components/ui/Badge";
 import { DeleteDocButton } from "@/components/docs/DeleteDocButton";
 import { renderDocBody } from "@/lib/docs/markdown";
 
@@ -17,7 +18,12 @@ export default async function DocPage({ params }: { params: Promise<{ id: string
   return (
     <div>
       <PageHeader
-        title={doc.title}
+        title={
+          <span className="flex items-center gap-2">
+            {doc.title}
+            <Badge tone="brand">{doc.category}</Badge>
+          </span>
+        }
         description={`Last updated ${new Date(doc.updated_at).toLocaleString()}`}
         action={
           <div className="flex items-center gap-2">

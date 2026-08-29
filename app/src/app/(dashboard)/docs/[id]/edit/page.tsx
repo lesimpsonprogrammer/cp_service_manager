@@ -11,10 +11,19 @@ export default async function EditDocPage({ params }: { params: Promise<{ id: st
 
   if (!doc) notFound();
 
+  const { data: docs } = await supabase.from("docs").select("category");
+  const categories = [...new Set((docs ?? []).map((d) => d.category))].sort();
+
   return (
     <div>
       <PageHeader title={`Edit ${doc.title}`} />
-      <DocForm action={updateDoc.bind(null, doc.id)} doc={doc} submitLabel="Save changes" submitPendingLabel="Saving…" />
+      <DocForm
+        action={updateDoc.bind(null, doc.id)}
+        doc={doc}
+        categories={categories}
+        submitLabel="Save changes"
+        submitPendingLabel="Saving…"
+      />
     </div>
   );
 }
