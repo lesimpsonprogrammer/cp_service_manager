@@ -69,6 +69,42 @@ body {
   background-size: 22px 22px;
 }
 
+@keyframes heartbeat-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  5% {
+    opacity: 1;
+  }
+  10% {
+    opacity: 0.45;
+  }
+  16% {
+    opacity: 0.75;
+  }
+  22% {
+    opacity: 0.45;
+  }
+}
+
+.dotted-grid-pulse {
+  animation: heartbeat-pulse 4s ease-in-out infinite;
+}
+
+.dotted-grid-pulse-delayed {
+  animation: heartbeat-pulse 4s ease-in-out infinite;
+  animation-delay: 1.4s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dotted-grid-pulse,
+  .dotted-grid-pulse-delayed {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+
 .doc-content h1 {
   font-size: 1.5rem;
   font-weight: 600;
