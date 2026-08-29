@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { LogoMark } from "@/components/ui/Logo";
-import { DataWaveBackground } from "@/components/ui/DataWaveBackground";
+import { FloatingGlyphsBackground } from "@/components/ui/FloatingGlyphsBackground";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
       <div className="relative hidden overflow-hidden border-r border-border bg-canvas lg:flex lg:flex-col lg:justify-between">
-        <DataWaveBackground />
+        <FloatingGlyphsBackground />
         <div className="absolute inset-0 bg-gradient-to-br from-brand/10 via-transparent to-transparent" />
 
         <div className="relative z-10 p-10">
