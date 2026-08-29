@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { LogoMark } from "@/components/ui/Logo";
-import { BracketMarquee } from "@/components/ui/BracketMarquee";
+import { DataWaveBackground } from "@/components/ui/DataWaveBackground";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
-      <div className="relative hidden overflow-hidden border-r border-border bg-surface lg:flex lg:flex-col lg:justify-between">
-        <div className="dotted-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_top_left,black,transparent_75%)]" />
+      <div className="relative hidden overflow-hidden border-r border-border bg-canvas lg:flex lg:flex-col lg:justify-between">
+        <DataWaveBackground />
         <div className="absolute inset-0 bg-gradient-to-br from-brand/10 via-transparent to-transparent" />
 
         <div className="relative z-10 p-10">
@@ -18,7 +18,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           </Link>
         </div>
 
-        <div className="relative z-10 p-10">
+        <div className="relative z-10 mx-10 rounded-xl bg-canvas/60 p-6 backdrop-blur-sm">
           <h1 className="max-w-md text-3xl font-semibold leading-tight tracking-tight text-foreground">
             One platform for every spreadsheet, HCM, and ERP connection.
           </h1>
@@ -29,9 +29,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           </p>
         </div>
 
-        <BracketMarquee className="relative z-10 px-10" />
-
-        <div className="relative z-10 border-t border-border p-10 text-xs text-muted">
+        <div className="relative z-10 border-t border-border bg-canvas/60 p-10 text-xs text-muted backdrop-blur-sm">
           &copy; {new Date().getFullYear()} Cloud Performance Service Manager. All rights reserved.
         </div>
       </div>

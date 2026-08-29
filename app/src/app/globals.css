@@ -69,21 +69,6 @@ body {
   background-size: 22px 22px;
 }
 
-@keyframes bracket-marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.bracket-marquee-track {
-  display: flex;
-  width: max-content;
-  animation: bracket-marquee 22s linear infinite;
-}
-
 .doc-content h1 {
   font-size: 1.5rem;
   font-weight: 600;
