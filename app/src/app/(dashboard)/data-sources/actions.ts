@@ -22,6 +22,7 @@ export async function createDataSource(
 
   const type = String(formData.get("type") ?? "") as DataSourceType;
   const name = String(formData.get("name") ?? "").trim();
+  const clientId = String(formData.get("client_id") ?? "").trim() || null;
   const definition = getConnectorDefinition(type);
 
   if (!definition) return { error: "Unknown connector type." };
@@ -44,6 +45,7 @@ export async function createDataSource(
       name,
       type,
       config,
+      client_id: clientId,
       status: "pending",
       created_by: org.userId,
     })
@@ -88,6 +90,17 @@ export async function testDataSourceConnection(dataSourceId: string): Promise<Co
   revalidatePath("/data-sources");
 
   return result;
+}
+
+export async function assignDataSourceClient(dataSourceId: string, clientId: string | null) {
+  const supabase = await createClient();
+  await supabase
+    .from("data_sources")
+    .update({ client_id: clientId, updated_at: new Date().toISOString() })
+    .eq("id", dataSourceId);
+
+  revalidatePath(`/data-sources/${dataSourceId}`);
+  if (clientId) revalidatePath(`/clients/${clientId}`);
 }
 
 export async function deleteDataSource(dataSourceId: string) {

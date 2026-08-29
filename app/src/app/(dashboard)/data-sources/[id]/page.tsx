@@ -7,6 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { StatusBadge } from "@/components/ui/Badge";
 import { TestConnectionButton } from "@/components/connectors/TestConnectionButton";
 import { DeleteDataSourceButton } from "@/components/connectors/DeleteDataSourceButton";
+import { AssignClientSelect } from "@/components/connectors/AssignClientSelect";
+import { Label } from "@/components/ui/Input";
 
 export default async function DataSourceDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -23,6 +25,11 @@ export default async function DataSourceDetailPage({ params }: { params: Promise
     .from("pipelines")
     .select("id, name, is_active")
     .or(`source_id.eq.${source.id},destination_id.eq.${source.id}`);
+
+  const { data: clients } = await supabase
+    .from("clients")
+    .select("id, name")
+    .order("name", { ascending: true });
 
   const definition = getConnectorDefinition(source.type);
 
@@ -66,6 +73,14 @@ export default async function DataSourceDetailPage({ params }: { params: Promise
               {source.last_synced_at ? new Date(source.last_synced_at).toLocaleString() : "Never"}
             </p>
             <TestConnectionButton dataSourceId={source.id} />
+            <div>
+              <Label htmlFor="client_id">Client</Label>
+              <AssignClientSelect
+                dataSourceId={source.id}
+                clients={clients ?? []}
+                currentClientId={source.client_id}
+              />
+            </div>
           </CardContent>
         </Card>
       </div>

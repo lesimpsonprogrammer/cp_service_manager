@@ -19,6 +19,17 @@ export type PipelineRunStatus = "queued" | "running" | "succeeded" | "failed" | 
 
 export type WebhookDirection = "inbound" | "outbound";
 
+export type ClientStatus = "active" | "prospect" | "inactive";
+
+export type OnboardingStage =
+  | "not_started"
+  | "contract_sent"
+  | "contract_signed"
+  | "in_progress"
+  | "completed";
+
+export type ContractStatus = "draft" | "sent" | "signed" | "active" | "expired" | "terminated";
+
 export interface Database {
   public: {
     Tables: {
@@ -78,6 +89,7 @@ export interface Database {
           status: DataSourceStatus;
           config: Record<string, unknown>;
           secret_ref: string | null;
+          client_id: string | null;
           last_synced_at: string | null;
           created_by: string | null;
           created_at: string;
@@ -89,7 +101,68 @@ export interface Database {
           type: DataSourceType;
         };
         Update: Partial<Database["public"]["Tables"]["data_sources"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "data_sources_client_id_fkey";
+            columns: ["client_id"];
+            isOneToOne: false;
+            referencedRelation: "clients";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      clients: {
+        Row: {
+          id: string;
+          org_id: string;
+          name: string;
+          status: ClientStatus;
+          onboarding_stage: OnboardingStage;
+          primary_contact_name: string | null;
+          primary_contact_email: string | null;
+          primary_contact_phone: string | null;
+          notes: string | null;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["clients"]["Row"]> & {
+          org_id: string;
+          name: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["clients"]["Row"]>;
         Relationships: [];
+      };
+      client_contracts: {
+        Row: {
+          id: string;
+          org_id: string;
+          client_id: string;
+          name: string;
+          status: ContractStatus;
+          start_date: string | null;
+          end_date: string | null;
+          value: number | null;
+          notes: string | null;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["client_contracts"]["Row"]> & {
+          org_id: string;
+          client_id: string;
+          name: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["client_contracts"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "client_contracts_client_id_fkey";
+            columns: ["client_id"];
+            isOneToOne: false;
+            referencedRelation: "clients";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       pipelines: {
         Row: {
