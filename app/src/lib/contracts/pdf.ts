@@ -11,6 +11,7 @@ type ClientRow = Pick<
 
 const MARGIN_X = 56;
 const PAGE_SIZE: [number, number] = [612, 792];
+const PAGE_WIDTH = PAGE_SIZE[0];
 
 function wrapText(text: string, maxChars: number): string[] {
   const words = text.split(/\s+/);
@@ -68,9 +69,24 @@ export async function generateContractPdf({
     for (const line of wrapText(text, 92)) draw(line, opts);
   };
 
+  const drawCentered = (text: string, opts: { size?: number; font?: PDFFont; gap?: number } = {}) => {
+    ensureRoom();
+    const size = opts.size ?? 11;
+    const textFont = opts.font ?? font;
+    const textWidth = textFont.widthOfTextAtSize(text, size);
+    page.drawText(text, {
+      x: (PAGE_WIDTH - textWidth) / 2,
+      y,
+      size,
+      font: textFont,
+      color: rgb(0.1, 0.1, 0.1),
+    });
+    y -= opts.gap ?? size + 8;
+  };
+
   draw(orgName, { size: 10 });
   y -= 8;
-  draw(contract.name, { size: 18, font: bold, gap: 26 });
+  drawCentered(contract.name, { size: 18, font: bold, gap: 26 });
   draw(`Prepared for: ${client.name}`, { size: 12 });
   if (contract.start_date) draw(`Start date: ${contract.start_date}`);
   if (contract.end_date) draw(`End date: ${contract.end_date}`);
