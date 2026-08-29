@@ -11,6 +11,7 @@ export type DataSourceType =
   | "sql_database"
   | "hcm"
   | "erp"
+  | "tax_filing"
   | "webhook";
 
 export type DataSourceStatus = "connected" | "disconnected" | "error" | "pending";

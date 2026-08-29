@@ -168,6 +168,41 @@ export const CONNECTOR_DEFINITIONS: ConnectorDefinition[] = [
       { key: "records_path", label: "Records path in response", type: "text" },
     ],
   },
+  {
+    type: "tax_filing",
+    category: "Tax Filing",
+    label: "TaxBandits",
+    description: "Pull filed 1099/W-2 form records from your TaxBandits account via its REST API.",
+    icon: "◩",
+    fields: [
+      {
+        key: "environment",
+        label: "Environment",
+        type: "select",
+        required: true,
+        options: [
+          { label: "Sandbox", value: "sandbox" },
+          { label: "Production", value: "production" },
+        ],
+        defaultValue: "sandbox",
+        helpText: "Get credentials from your TaxBandits API Credentials page (sandbox.taxbandits.com/User/APICredentials for testing).",
+      },
+      { key: "client_id", label: "Client ID", type: "text", required: true },
+      { key: "client_secret", label: "Client Secret", type: "password", secret: true, required: true },
+      { key: "user_token", label: "User Token", type: "password", secret: true, required: true },
+      {
+        key: "form_type",
+        label: "Form type to sync",
+        type: "select",
+        options: [
+          { label: "1099-NEC", value: "1099nec" },
+          { label: "1099-MISC", value: "1099misc" },
+          { label: "W-2", value: "w2" },
+        ],
+        defaultValue: "1099nec",
+      },
+    ],
+  },
 ];
 
 export function getConnectorDefinition(type: string) {

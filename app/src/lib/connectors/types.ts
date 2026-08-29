@@ -22,7 +22,7 @@ export interface ConnectorField {
   defaultValue?: string;
 }
 
-export type ConnectorCategory = "Spreadsheet" | "HCM" | "ERP" | "Database" | "API";
+export type ConnectorCategory = "Spreadsheet" | "HCM" | "ERP" | "Database" | "API" | "Tax Filing";
 
 export interface ConnectorDefinition {
   type: DataSourceType;
