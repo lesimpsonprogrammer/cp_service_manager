@@ -34,6 +34,15 @@ deployment.
     (`src/lib/compliance/frameworks.ts`), shown to the team and printed on
     the contract PDF as a disclosure. These are flags for visibility, not an
     enforcement engine — verify actual obligations with counsel.
+  - **Invoices** — itemized bills issued to the client, either created
+    manually (`src/components/invoices/InvoiceForm.tsx`, dynamic line items)
+    or generated from an approved timecard's billable hours in one click.
+    Tracked through `draft -> sent -> paid`/`overdue`/`void`
+    (`src/app/(dashboard)/invoices/actions.ts`), each with a PDF
+    (`src/lib/invoices/pdf.ts`, built with `pdf-lib`, same pattern as
+    contracts) and a "Send to client" action that emails the billing
+    contact via Resend with a link to the PDF. A cross-client `/invoices`
+    view lists every invoice in the workspace with outstanding/paid totals.
   - **Data Sources** — data sources linked to that client.
 
   The e-signature itself (`/sign/[token]`, public, no login) is a
@@ -58,7 +67,7 @@ deployment.
 
 1. Create a Supabase project.
 2. Run the migrations in `supabase/migrations/` against it, in order
-   (`0001_init.sql` through `0005_agreement_templates.sql`) — via the
+   (`0001_init.sql` through `0010_invoices.sql`) — via the
    Supabase SQL editor, or `supabase db push` if you're using the CLI.
 3. Copy `.env.example` to `.env.local` and fill in your project's URL and
    keys (Project Settings → API), plus a [Resend](https://resend.com) API

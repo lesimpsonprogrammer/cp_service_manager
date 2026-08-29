@@ -32,6 +32,8 @@ export type ContractStatus = "draft" | "sent" | "signed" | "active" | "expired" 
 
 export type TimecardStatus = "draft" | "internally_approved" | "sent" | "client_approved" | "client_rejected";
 
+export type InvoiceStatus = "draft" | "sent" | "paid" | "overdue" | "void";
+
 export interface Database {
   public: {
     Tables: {
@@ -484,6 +486,88 @@ export interface Database {
         };
         Update: Partial<Database["public"]["Tables"]["agreement_templates"]["Row"]>;
         Relationships: [];
+      };
+      invoices: {
+        Row: {
+          id: string;
+          org_id: string;
+          client_id: string;
+          contract_id: string | null;
+          timecard_id: string | null;
+          invoice_number: string;
+          status: InvoiceStatus;
+          issue_date: string;
+          due_date: string | null;
+          subtotal: number;
+          tax_rate: number;
+          tax_amount: number;
+          total: number;
+          notes: string | null;
+          billing_contact_name: string | null;
+          billing_contact_email: string | null;
+          sent_at: string | null;
+          paid_at: string | null;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["invoices"]["Row"]> & {
+          org_id: string;
+          client_id: string;
+          invoice_number: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["invoices"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "invoices_client_id_fkey";
+            columns: ["client_id"];
+            isOneToOne: false;
+            referencedRelation: "clients";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "invoices_contract_id_fkey";
+            columns: ["contract_id"];
+            isOneToOne: false;
+            referencedRelation: "client_contracts";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "invoices_timecard_id_fkey";
+            columns: ["timecard_id"];
+            isOneToOne: false;
+            referencedRelation: "timecards";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      invoice_line_items: {
+        Row: {
+          id: string;
+          invoice_id: string;
+          org_id: string;
+          description: string;
+          quantity: number;
+          unit_price: number;
+          amount: number;
+          sort_order: number;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["invoice_line_items"]["Row"]> & {
+          invoice_id: string;
+          org_id: string;
+          description: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["invoice_line_items"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "invoice_line_items_invoice_id_fkey";
+            columns: ["invoice_id"];
+            isOneToOne: false;
+            referencedRelation: "invoices";
+            referencedColumns: ["id"];
+          }
+        ];
       };
     };
     Views: Record<string, never>;

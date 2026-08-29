@@ -163,3 +163,42 @@ export async function sendContractSignedNotification({
     html: `<p>${signedByName} just signed <strong>${contractName}</strong> for ${clientName}.</p>`,
   });
 }
+
+export async function sendInvoiceEmail({
+  to,
+  contactName,
+  clientName,
+  invoiceNumber,
+  total,
+  dueDate,
+  invoiceUrl,
+}: {
+  to: string;
+  contactName: string;
+  clientName: string;
+  invoiceNumber: string;
+  total: number;
+  dueDate: string | null;
+  invoiceUrl: string;
+}) {
+  const resend = getClient();
+  if (!resend) {
+    console.warn("RESEND_API_KEY not set — skipping invoice email.");
+    return;
+  }
+
+  const amount = `$${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+  await resend.emails.send({
+    from: FROM,
+    to,
+    subject: `Invoice ${invoiceNumber} from ${clientName}'s service provider — ${amount} due`,
+    html: `
+      <p>Hi ${contactName},</p>
+      <p>A new invoice is ready for ${clientName}: <strong>${invoiceNumber}</strong>, ${amount}${
+        dueDate ? ` due ${dueDate}` : ""
+      }.</p>
+      <p><a href="${invoiceUrl}">View and download the invoice (PDF)</a></p>
+    `,
+  });
+}
