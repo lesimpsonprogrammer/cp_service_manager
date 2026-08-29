@@ -189,6 +189,9 @@ export async function createContract(
   const endDate = String(formData.get("end_date") ?? "").trim() || null;
   const valueRaw = String(formData.get("value") ?? "").trim();
   const notes = String(formData.get("notes") ?? "").trim() || null;
+  const clientAddress = String(formData.get("client_address") ?? "").trim() || null;
+  const servicesDescription = String(formData.get("services_description") ?? "").trim() || null;
+  const hourlyRateRaw = String(formData.get("hourly_rate") ?? "").trim();
 
   const supabase = await createClient();
   const { error } = await supabase.from("client_contracts").insert({
@@ -199,7 +202,10 @@ export async function createContract(
     start_date: startDate,
     end_date: endDate,
     value: valueRaw ? Number(valueRaw) : null,
+    hourly_rate: hourlyRateRaw ? Number(hourlyRateRaw) : null,
     notes,
+    client_address: clientAddress,
+    services_description: servicesDescription,
     created_by: org.userId,
   });
 
@@ -223,6 +229,9 @@ export async function updateContract(
   const endDate = String(formData.get("end_date") ?? "").trim() || null;
   const valueRaw = String(formData.get("value") ?? "").trim();
   const notes = String(formData.get("notes") ?? "").trim() || null;
+  const clientAddress = String(formData.get("client_address") ?? "").trim() || null;
+  const servicesDescription = String(formData.get("services_description") ?? "").trim() || null;
+  const hourlyRateRaw = String(formData.get("hourly_rate") ?? "").trim();
 
   const supabase = await createClient();
   const { error } = await supabase
@@ -232,7 +241,10 @@ export async function updateContract(
       start_date: startDate,
       end_date: endDate,
       value: valueRaw ? Number(valueRaw) : null,
+      hourly_rate: hourlyRateRaw ? Number(hourlyRateRaw) : null,
       notes,
+      client_address: clientAddress,
+      services_description: servicesDescription,
       updated_at: new Date().toISOString(),
     })
     .eq("id", contractId);

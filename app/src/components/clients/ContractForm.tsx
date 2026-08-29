@@ -59,7 +59,7 @@ export function ContractForm({
           <Input id="end_date" name="end_date" type="date" defaultValue={contract?.end_date ?? ""} />
         </div>
         <div>
-          <Label htmlFor="value">Annual value ($)</Label>
+          <Label htmlFor="value">Fixed/annual value ($)</Label>
           <Input
             id="value"
             name="value"
@@ -67,9 +67,43 @@ export function ContractForm({
             step="0.01"
             min="0"
             defaultValue={contract?.value ?? ""}
-            placeholder="12000"
+            placeholder="Leave blank if billed hourly"
           />
         </div>
+      </div>
+
+      <div>
+        <Label htmlFor="hourly_rate">Hourly rate ($)</Label>
+        <Input
+          id="hourly_rate"
+          name="hourly_rate"
+          type="number"
+          step="0.01"
+          min="0"
+          defaultValue={contract?.hourly_rate ?? ""}
+          placeholder="150"
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="client_address">Client address</Label>
+        <Input
+          id="client_address"
+          name="client_address"
+          defaultValue={contract?.client_address ?? ""}
+          placeholder="123 Main St, Houston, TX 77002"
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="services_description">Description of services</Label>
+        <Textarea
+          id="services_description"
+          name="services_description"
+          rows={2}
+          defaultValue={contract?.services_description ?? ""}
+          placeholder="What the Service Provider will do for the Client…"
+        />
       </div>
 
       {templates.length > 0 && !contract && (

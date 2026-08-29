@@ -11,7 +11,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ tok
 
   const { data: client } = await admin
     .from("clients")
-    .select("name, compliance_frameworks, hipaa_covered_entity, compliance_notes")
+    .select("name, compliance_frameworks, hipaa_covered_entity, compliance_notes, payment_terms, payment_method")
     .eq("id", contract.client_id)
     .single();
   const { data: org } = await admin.from("organizations").select("name").eq("id", contract.org_id).single();
@@ -23,6 +23,8 @@ export async function GET(_request: Request, { params }: { params: Promise<{ tok
       compliance_frameworks: [],
       hipaa_covered_entity: false,
       compliance_notes: null,
+      payment_terms: null,
+      payment_method: null,
     },
     orgName: org?.name ?? "Momentum Data Solutions",
   });

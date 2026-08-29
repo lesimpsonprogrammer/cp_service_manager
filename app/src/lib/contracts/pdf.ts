@@ -6,7 +6,7 @@ import type { Database } from "@/types/database";
 type Contract = Database["public"]["Tables"]["client_contracts"]["Row"];
 type ClientRow = Pick<
   Database["public"]["Tables"]["clients"]["Row"],
-  "name" | "compliance_frameworks" | "hipaa_covered_entity" | "compliance_notes"
+  "name" | "compliance_frameworks" | "hipaa_covered_entity" | "compliance_notes" | "payment_terms" | "payment_method"
 >;
 
 const MARGIN_X = 56;
@@ -74,18 +74,23 @@ export async function generateContractPdf({
   draw(`Prepared for: ${client.name}`, { size: 12 });
   if (contract.start_date) draw(`Start date: ${contract.start_date}`);
   if (contract.end_date) draw(`End date: ${contract.end_date}`);
-  if (contract.value != null) draw(`Annual value: $${Number(contract.value).toLocaleString()}`);
+  if (contract.value != null) draw(`Fixed/annual value: $${Number(contract.value).toLocaleString()}`);
+  if (contract.hourly_rate != null) draw(`Hourly rate: $${Number(contract.hourly_rate).toLocaleString()}/hr`);
 
   if (contract.notes) {
     y -= 8;
-    draw("Scope & terms", { size: 12, font: bold });
     const resolvedBody = renderAgreementBody(contract.notes, {
       clientName: client.name,
+      clientAddress: contract.client_address,
       orgName,
       contractName: contract.name,
       startDate: contract.start_date,
       endDate: contract.end_date,
       value: contract.value,
+      hourlyRate: contract.hourly_rate,
+      servicesDescription: contract.services_description,
+      paymentTerms: client.payment_terms,
+      paymentMethod: client.payment_method,
     });
     for (const paragraph of resolvedBody.split(/\n+/)) {
       if (paragraph.trim()) drawParagraph(paragraph);
