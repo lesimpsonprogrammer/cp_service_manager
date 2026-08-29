@@ -11,6 +11,10 @@ export default async function ClientOverviewPage({ params }: { params: Promise<{
 
   if (!client) notFound();
 
+  const { data: projectManager } = client.project_manager_id
+    ? await supabase.from("profiles").select("full_name").eq("id", client.project_manager_id).maybeSingle()
+    : { data: null };
+
   return (
     <div className="grid gap-4 lg:grid-cols-3">
       <Card className="lg:col-span-2">
@@ -46,6 +50,10 @@ export default async function ClientOverviewPage({ params }: { params: Promise<{
         <CardContent className="space-y-4">
           <StatusBadge status={client.status} />
           <ClientStatusActions clientId={client.id} status={client.status} />
+          <div className="flex items-center justify-between border-t border-border pt-3 text-sm">
+            <span className="text-muted">Project Manager</span>
+            <span className="text-foreground">{projectManager?.full_name || "Unassigned"}</span>
+          </div>
           <p className="text-xs text-muted">Added {new Date(client.created_at).toLocaleDateString()}</p>
         </CardContent>
       </Card>

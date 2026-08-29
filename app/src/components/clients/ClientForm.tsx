@@ -25,11 +25,13 @@ function SubmitButton({ label, pendingLabel }: { label: string; pendingLabel: st
 export function ClientForm({
   action,
   client,
+  orgMembers = [],
   submitLabel = "Create client",
   submitPendingLabel = "Creating…",
 }: {
   action: (state: ClientFormState, formData: FormData) => Promise<ClientFormState>;
   client?: ClientRow;
+  orgMembers?: { userId: string; fullName: string }[];
   submitLabel?: string;
   submitPendingLabel?: string;
 }) {
@@ -82,6 +84,18 @@ export function ClientForm({
             defaultValue={client?.primary_contact_phone ?? ""}
             placeholder="(555) 123-4567"
           />
+        </div>
+
+        <div>
+          <Label htmlFor="project_manager_id">Project Manager</Label>
+          <Select id="project_manager_id" name="project_manager_id" defaultValue={client?.project_manager_id ?? ""}>
+            <option value="">Unassigned</option>
+            {orgMembers.map((member) => (
+              <option key={member.userId} value={member.userId}>
+                {member.fullName}
+              </option>
+            ))}
+          </Select>
         </div>
 
         <div>

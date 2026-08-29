@@ -142,6 +142,7 @@ export interface Database {
           compliance_frameworks: string[];
           hipaa_covered_entity: boolean;
           compliance_notes: string | null;
+          project_manager_id: string | null;
           created_by: string | null;
           created_at: string;
           updated_at: string;
