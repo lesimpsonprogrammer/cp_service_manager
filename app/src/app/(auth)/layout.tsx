@@ -19,10 +19,10 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         </div>
 
         <div className="relative z-10 p-10">
-          <h1 className="max-w-md text-3xl font-semibold leading-tight tracking-tight text-foreground">
+          <h1 className="max-w-xl text-3xl font-semibold leading-tight tracking-tight text-foreground">
             One platform for every spreadsheet, HCM, and ERP connection.
           </h1>
-          <p className="mt-4 max-w-sm text-sm text-muted">
+          <p className="mt-4 max-w-lg text-sm text-muted">
             Connectors, ETL pipelines, webhooks, and a REST API — built for data
             extraction, HR consulting, and managed payroll teams who move data
             for a living.
