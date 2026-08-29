@@ -319,6 +319,23 @@ export interface Database {
         Update: Partial<Database["public"]["Tables"]["api_keys"]["Row"]>;
         Relationships: [];
       };
+      agreement_templates: {
+        Row: {
+          id: string;
+          org_id: string;
+          name: string;
+          body: string;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["agreement_templates"]["Row"]> & {
+          org_id: string;
+          name: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["agreement_templates"]["Row"]>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;

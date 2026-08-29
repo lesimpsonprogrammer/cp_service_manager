@@ -1,5 +1,6 @@
 import { PDFDocument, StandardFonts, rgb, type PDFFont } from "pdf-lib";
 import { frameworkLabel } from "@/lib/compliance/frameworks";
+import { renderAgreementBody } from "@/lib/contracts/template";
 import type { Database } from "@/types/database";
 
 type Contract = Database["public"]["Tables"]["client_contracts"]["Row"];
@@ -78,7 +79,18 @@ export async function generateContractPdf({
   if (contract.notes) {
     y -= 8;
     draw("Scope & terms", { size: 12, font: bold });
-    drawParagraph(contract.notes);
+    const resolvedBody = renderAgreementBody(contract.notes, {
+      clientName: client.name,
+      orgName,
+      contractName: contract.name,
+      startDate: contract.start_date,
+      endDate: contract.end_date,
+      value: contract.value,
+    });
+    for (const paragraph of resolvedBody.split(/\n+/)) {
+      if (paragraph.trim()) drawParagraph(paragraph);
+      y -= 4;
+    }
   }
 
   const hasCompliance =

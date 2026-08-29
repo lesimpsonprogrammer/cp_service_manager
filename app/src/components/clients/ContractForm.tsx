@@ -1,14 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
-import { Input, Label } from "@/components/ui/Input";
+import { Input, Label, Select, Textarea } from "@/components/ui/Input";
 import type { ContractFormState } from "@/app/(dashboard)/clients/actions";
 import type { Database } from "@/types/database";
 
 type ContractRow = Database["public"]["Tables"]["client_contracts"]["Row"];
+type TemplateOption = Pick<Database["public"]["Tables"]["agreement_templates"]["Row"], "id" | "name" | "body">;
 
 function SubmitButton({ label, pendingLabel }: { label: string; pendingLabel: string }) {
   const { pending } = useFormStatus();
@@ -22,15 +24,18 @@ function SubmitButton({ label, pendingLabel }: { label: string; pendingLabel: st
 export function ContractForm({
   action,
   contract,
+  templates = [],
   submitLabel = "Add contract",
   submitPendingLabel = "Adding…",
 }: {
   action: (state: ContractFormState, formData: FormData) => Promise<ContractFormState>;
   contract?: ContractRow;
+  templates?: TemplateOption[];
   submitLabel?: string;
   submitPendingLabel?: string;
 }) {
   const [state, formAction] = useActionState(action, { error: null });
+  const [notes, setNotes] = useState(contract?.notes ?? "");
 
   return (
     <form action={formAction} className="space-y-3">
@@ -66,12 +71,36 @@ export function ContractForm({
           />
         </div>
       </div>
+
+      {templates.length > 0 && !contract && (
+        <div>
+          <Label htmlFor="start_from_template">Start from template</Label>
+          <Select
+            id="start_from_template"
+            defaultValue=""
+            onChange={(e) => {
+              const template = templates.find((t) => t.id === e.target.value);
+              if (template) setNotes(template.body);
+            }}
+          >
+            <option value="">Blank</option>
+            {templates.map((template) => (
+              <option key={template.id} value={template.id}>
+                {template.name}
+              </option>
+            ))}
+          </Select>
+        </div>
+      )}
+
       <div>
-        <Label htmlFor="contract_notes">Notes</Label>
-        <Input
+        <Label htmlFor="contract_notes">Agreement text / notes</Label>
+        <Textarea
           id="contract_notes"
           name="notes"
-          defaultValue={contract?.notes ?? ""}
+          rows={templates.length > 0 ? 12 : 3}
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
           placeholder="Scope, renewal terms…"
         />
       </div>
