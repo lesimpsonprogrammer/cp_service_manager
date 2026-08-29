@@ -13,6 +13,11 @@ export default async function ClientContractsPage({ params }: { params: Promise<
     .eq("client_id", id)
     .order("created_at", { ascending: false });
 
+  const { data: templates } = await supabase
+    .from("agreement_templates")
+    .select("id, name, body")
+    .order("name", { ascending: true });
+
   return (
     <div className="space-y-4">
       <Card>
@@ -29,7 +34,7 @@ export default async function ClientContractsPage({ params }: { params: Promise<
           <CardTitle>Add a contract</CardTitle>
         </CardHeader>
         <CardContent>
-          <ContractForm action={createContract.bind(null, id)} />
+          <ContractForm action={createContract.bind(null, id)} templates={templates ?? []} />
         </CardContent>
       </Card>
     </div>

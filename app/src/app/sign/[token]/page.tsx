@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { SignatureForm } from "@/components/sign/SignatureForm";
+import { renderAgreementBody } from "@/lib/contracts/template";
 
 export default async function SignContractPage({ params }: { params: Promise<{ token: string }> }) {
   const { token } = await params;
@@ -9,13 +10,16 @@ export default async function SignContractPage({ params }: { params: Promise<{ t
 
   const { data: contract } = await admin
     .from("client_contracts")
-    .select("id, name, status, start_date, end_date, value, notes, signer_name, signed_at, signed_by_name, client_id")
+    .select(
+      "id, name, status, start_date, end_date, value, notes, signer_name, signed_at, signed_by_name, client_id, org_id"
+    )
     .eq("signing_token", token)
     .single();
 
   if (!contract) notFound();
 
   const { data: client } = await admin.from("clients").select("name").eq("id", contract.client_id).single();
+  const { data: org } = await admin.from("organizations").select("name").eq("id", contract.org_id).single();
 
   if (contract.status === "signed" || contract.status === "active") {
     return (
@@ -61,7 +65,18 @@ export default async function SignContractPage({ params }: { params: Promise<{ t
           {contract.start_date && <p>Start date: {contract.start_date}</p>}
           {contract.end_date && <p>End date: {contract.end_date}</p>}
           {contract.value != null && <p>Annual value: ${Number(contract.value).toLocaleString()}</p>}
-          {contract.notes && <p className="whitespace-pre-wrap text-foreground">{contract.notes}</p>}
+          {contract.notes && (
+            <p className="whitespace-pre-wrap text-foreground">
+              {renderAgreementBody(contract.notes, {
+                clientName: client?.name ?? "Client",
+                orgName: org?.name ?? "Momentum Data Solutions",
+                contractName: contract.name,
+                startDate: contract.start_date,
+                endDate: contract.end_date,
+                value: contract.value,
+              })}
+            </p>
+          )}
           <a href={`/sign/${token}/pdf`} target="_blank" className="inline-block text-brand hover:underline">
             View full contract PDF ↗
           </a>

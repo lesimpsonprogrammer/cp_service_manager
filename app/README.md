@@ -21,7 +21,13 @@ deployment.
     via Resend), and an Actions menu to edit, manually override the status,
     purge (reset) the signing progress, or delete the contract.
   - **Contracts** — the full contract record list and a PDF for each
-    (`src/lib/contracts/pdf.ts`, built with `pdf-lib`).
+    (`src/lib/contracts/pdf.ts`, built with `pdf-lib`). New contracts can
+    start from a saved **Agreement Template** (its own top-level section,
+    `src/app/(dashboard)/templates`) — reusable text with `{{client_name}}`,
+    `{{org_name}}`, `{{contract_name}}`, `{{start_date}}`, `{{end_date}}`,
+    and `{{value}}` placeholders, resolved at PDF/signing-page render time
+    (`src/lib/contracts/template.ts`) so it's always correct even if those
+    fields are filled in after the template is applied.
   - **Accounting** — billing contacts (client-side and Momentum-side) and
     payment terms/method.
   - **Compliance** — HIPAA and applicable-state-privacy-law flags
@@ -52,7 +58,7 @@ deployment.
 
 1. Create a Supabase project.
 2. Run the migrations in `supabase/migrations/` against it, in order
-   (`0001_init.sql` through `0004_contract_esignature.sql`) — via the
+   (`0001_init.sql` through `0005_agreement_templates.sql`) — via the
    Supabase SQL editor, or `supabase db push` if you're using the CLI.
 3. Copy `.env.example` to `.env.local` and fill in your project's URL and
    keys (Project Settings → API), plus a [Resend](https://resend.com) API

@@ -27,6 +27,11 @@ export default async function ClientOnboardingPage({ params }: { params: Promise
     .limit(1)
     .maybeSingle();
 
+  const { data: templates } = await supabase
+    .from("agreement_templates")
+    .select("id, name, body")
+    .order("name", { ascending: true });
+
   return (
     <div className="space-y-4">
       <Card>
@@ -65,7 +70,7 @@ export default async function ClientOnboardingPage({ params }: { params: Promise
               Add this client&apos;s contract here to kick off approval and e-signature — no need to leave this
               tab. (Additional contracts, once this one exists, can be managed from the Contracts tab.)
             </p>
-            <ContractForm action={createContract.bind(null, id)} />
+            <ContractForm action={createContract.bind(null, id)} templates={templates ?? []} />
           </CardContent>
         </Card>
       )}
