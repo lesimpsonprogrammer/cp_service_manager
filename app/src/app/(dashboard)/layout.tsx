@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
+import { createClient } from "@/lib/supabase/server";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Topbar } from "@/components/layout/Topbar";
 
@@ -7,7 +8,13 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const org = await getCurrentOrg();
 
   if (!org) {
-    redirect("/login");
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    // Signed in but no org membership yet: either awaiting admin approval
+    // (see `signup_requests`) or declined — either way, not "logged out".
+    redirect(user ? "/pending-approval" : "/login");
   }
 
   return (

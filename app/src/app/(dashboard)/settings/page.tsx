@@ -1,20 +1,42 @@
 import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
 import { createClient } from "@/lib/supabase/server";
 import { PageHeader } from "@/components/ui/PageHeader";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { BrandColorPicker } from "@/components/ui/BrandColorPicker";
 import { BackgroundPicker } from "@/components/ui/BackgroundPicker";
+import { InvitesPanel } from "@/components/settings/InvitesPanel";
+import { SignupRequestsPanel } from "@/components/settings/SignupRequestsPanel";
+
+const ADMIN_ROLES = new Set(["owner", "admin"]);
 
 export default async function SettingsPage() {
   const org = await getCurrentOrg();
   const supabase = await createClient();
+  const isAdmin = !!org && ADMIN_ROLES.has(org.role);
 
   const { data: members } = await supabase
     .from("org_members")
     .select("user_id, role, created_at")
     .eq("org_id", org?.orgId ?? "");
+
+  const { data: invites } = isAdmin
+    ? await supabase
+        .from("org_invites")
+        .select("id, email, role, token, expires_at")
+        .eq("org_id", org!.orgId)
+        .is("accepted_at", null)
+        .order("created_at", { ascending: false })
+    : { data: [] };
+
+  const { data: signupRequests } = isAdmin
+    ? await supabase
+        .from("signup_requests")
+        .select("id, email, full_name, company_name, created_at")
+        .eq("status", "pending")
+        .order("created_at", { ascending: false })
+    : { data: [] };
 
   return (
     <div className="max-w-2xl space-y-4">
@@ -86,6 +108,35 @@ export default async function SettingsPage() {
           </div>
         </CardContent>
       </Card>
+
+      {isAdmin && (
+        <>
+          <Card>
+            <CardHeader>
+              <CardTitle>Invite people</CardTitle>
+              <CardDescription>
+                Send someone a direct invite link — they join this workspace immediately, no approval needed.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
+              <InvitesPanel invites={invites ?? []} appUrl={process.env.NEXT_PUBLIC_APP_URL ?? ""} />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Pending signup requests</CardTitle>
+              <CardDescription>
+                Anyone who signs up without an invite link lands here — approve them into this workspace, or
+                reject the request.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
+              <SignupRequestsPanel requests={signupRequests ?? []} />
+            </CardContent>
+          </Card>
+        </>
+      )}
     </div>
   );
 }

@@ -35,6 +35,8 @@ export type TimecardStatus = "draft" | "internally_approved" | "sent" | "client_
 
 export type InvoiceStatus = "draft" | "sent" | "paid" | "overdue" | "void";
 
+export type SignupRequestStatus = "pending" | "approved" | "rejected";
+
 export interface Database {
   public: {
     Tables: {
@@ -541,6 +543,54 @@ export interface Database {
             referencedColumns: ["id"];
           }
         ];
+      };
+      org_invites: {
+        Row: {
+          id: string;
+          org_id: string;
+          email: string;
+          role: OrgRole;
+          token: string;
+          invited_by: string | null;
+          expires_at: string;
+          accepted_at: string | null;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["org_invites"]["Row"]> & {
+          org_id: string;
+          email: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["org_invites"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "org_invites_org_id_fkey";
+            columns: ["org_id"];
+            isOneToOne: false;
+            referencedRelation: "organizations";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      signup_requests: {
+        Row: {
+          id: string;
+          user_id: string;
+          email: string;
+          full_name: string | null;
+          company_name: string | null;
+          status: SignupRequestStatus;
+          decided_at: string | null;
+          decided_by: string | null;
+          decision_org_id: string | null;
+          decision_role: OrgRole | null;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["signup_requests"]["Row"]> & {
+          user_id: string;
+          email: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["signup_requests"]["Row"]>;
+        Relationships: [];
       };
       invoice_line_items: {
         Row: {
