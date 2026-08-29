@@ -3,6 +3,9 @@ import { createClient } from "@/lib/supabase/server";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { BrandColorPicker } from "@/components/ui/BrandColorPicker";
+import { BackgroundPicker } from "@/components/ui/BackgroundPicker";
 
 export default async function SettingsPage() {
   const org = await getCurrentOrg();
@@ -54,6 +57,33 @@ export default async function SettingsPage() {
               </li>
             ))}
           </ul>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Appearance</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-5 text-sm">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-foreground">Theme</p>
+              <p className="text-xs text-muted">Switch between light and dark mode.</p>
+            </div>
+            <ThemeToggle />
+          </div>
+
+          <div>
+            <p className="text-foreground">Accent color</p>
+            <p className="mb-2 text-xs text-muted">Choose the color used for buttons, links, and highlights.</p>
+            <BrandColorPicker />
+          </div>
+
+          <div>
+            <p className="text-foreground">Background</p>
+            <p className="mb-2 text-xs text-muted">Choose the base tone for the app background.</p>
+            <BackgroundPicker />
+          </div>
         </CardContent>
       </Card>
     </div>
