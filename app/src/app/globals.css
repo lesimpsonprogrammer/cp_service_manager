@@ -92,14 +92,8 @@ body {
   animation: heartbeat-pulse 4s ease-in-out infinite;
 }
 
-.dotted-grid-pulse-delayed {
-  animation: heartbeat-pulse 4s ease-in-out infinite;
-  animation-delay: 1.4s;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .dotted-grid-pulse,
-  .dotted-grid-pulse-delayed {
+  .dotted-grid-pulse {
     animation: none;
     opacity: 0.6;
   }
