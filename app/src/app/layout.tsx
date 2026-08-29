@@ -13,7 +13,32 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`dark ${sans.variable} ${mono.variable}`}>
+    <html lang="en" className={`${sans.variable} ${mono.variable}`} suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{
+  var isDark = localStorage.getItem("theme") !== "light";
+  document.documentElement.classList.toggle("dark", isDark);
+  var brand = JSON.parse(localStorage.getItem("brandColor"));
+  if (brand) {
+    var brandHsl = isDark ? brand.dark : brand.light;
+    document.documentElement.style.setProperty("--brand", brandHsl);
+    document.documentElement.style.setProperty("--accent", brandHsl);
+  }
+  var bg = JSON.parse(localStorage.getItem("background"));
+  if (bg) {
+    var bgTokens = isDark ? bg.dark : bg.light;
+    document.documentElement.style.setProperty("--canvas", bgTokens.canvas);
+    document.documentElement.style.setProperty("--surface", bgTokens.surface);
+    document.documentElement.style.setProperty("--surface-2", bgTokens.surface2);
+    document.documentElement.style.setProperty("--border", bgTokens.border);
+    document.documentElement.style.setProperty("--border-strong", bgTokens.borderStrong);
+  }
+}catch(e){document.documentElement.classList.add("dark")}`,
+          }}
+        />
+      </head>
       <body className="min-h-screen font-sans antialiased">{children}</body>
     </html>
   );
