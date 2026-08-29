@@ -139,6 +139,109 @@ export async function sendTimecardDecisionNotification({
   });
 }
 
+export async function sendClientPortalInviteEmail({
+  to,
+  clientName,
+  invitedByName,
+  acceptUrl,
+}: {
+  to: string;
+  clientName: string;
+  invitedByName: string;
+  acceptUrl: string;
+}) {
+  const resend = getClient();
+  if (!resend) {
+    console.warn("RESEND_API_KEY not set — skipping client portal invite email.");
+    return;
+  }
+
+  await resend.emails.send({
+    from: FROM,
+    to,
+    subject: `You're invited to ${clientName}'s client portal`,
+    html: `
+      <p>Hi,</p>
+      <p>${invitedByName} invited you to ${clientName}'s client portal — a live view of your projects, data syncs, contracts, and invoices.</p>
+      <p><a href="${acceptUrl}">Set your password and sign in</a></p>
+      <p>This link is unique to you — please don't forward it.</p>
+    `,
+  });
+}
+
+export async function sendProjectStageChangeEmail({
+  to,
+  clientName,
+  projectName,
+  projectCode,
+  stageLabel,
+  portalUrl,
+}: {
+  to: string;
+  clientName: string;
+  projectName: string;
+  projectCode: string;
+  stageLabel: string;
+  portalUrl: string;
+}) {
+  const resend = getClient();
+  if (!resend) {
+    console.warn("RESEND_API_KEY not set — skipping project stage change email.");
+    return;
+  }
+
+  await resend.emails.send({
+    from: FROM,
+    to,
+    subject: `${projectName} moved to "${stageLabel}"`,
+    html: `
+      <p>Hi,</p>
+      <p>${clientName}'s project <strong>${projectName}</strong> (${projectCode}) just moved to <strong>${stageLabel}</strong>.</p>
+      <p><a href="${portalUrl}">View it in your client portal</a></p>
+    `,
+  });
+}
+
+export async function sendPipelineRunClientEmail({
+  to,
+  clientName,
+  dataSourceName,
+  runNumber,
+  status,
+  recordsLoaded,
+  error,
+  portalUrl,
+}: {
+  to: string;
+  clientName: string;
+  dataSourceName: string;
+  runNumber: string;
+  status: string;
+  recordsLoaded: number;
+  error: string | null;
+  portalUrl: string;
+}) {
+  const resend = getClient();
+  if (!resend) {
+    console.warn("RESEND_API_KEY not set — skipping pipeline run client email.");
+    return;
+  }
+
+  const succeeded = status === "succeeded";
+
+  await resend.emails.send({
+    from: FROM,
+    to,
+    subject: `${succeeded ? "Sync complete" : "Sync issue"}: ${dataSourceName} (${runNumber})`,
+    html: `
+      <p>Hi,</p>
+      <p>A data sync for ${clientName}'s <strong>${dataSourceName}</strong> connection just ${succeeded ? "finished" : `ended with status "${status}"`} (${runNumber}), loading ${recordsLoaded} record${recordsLoaded === 1 ? "" : "s"}.</p>
+      ${error ? `<p>Error: ${error}</p>` : ""}
+      <p><a href="${portalUrl}">View sync history in your client portal</a></p>
+    `,
+  });
+}
+
 export async function sendContractSignedNotification({
   to,
   clientName,

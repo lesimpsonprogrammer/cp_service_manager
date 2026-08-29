@@ -4,14 +4,23 @@ import { useActionState, useTransition } from "react";
 import { useFormStatus } from "react-dom";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
-import { Input, Label } from "@/components/ui/Input";
-import { createProject, deleteProject, type ProjectFormState } from "@/app/(dashboard)/time/actions";
+import { Input, Label, Select } from "@/components/ui/Input";
+import { createProject, deleteProject, updateProjectStatus, type ProjectFormState } from "@/app/(dashboard)/time/actions";
+import type { ProjectStatus } from "@/types/database";
 
 export interface ProjectRow {
   id: string;
   name: string;
   project_code: string;
+  status: ProjectStatus;
 }
+
+const STAGE_OPTIONS: { value: ProjectStatus; label: string }[] = [
+  { value: "intake", label: "Intake" },
+  { value: "in_progress", label: "In Progress" },
+  { value: "client_review", label: "Client Review" },
+  { value: "complete", label: "Complete" },
+];
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -36,18 +45,35 @@ export function ProjectsPanel({ clientId, projects }: { clientId: string; projec
                 <span className="font-medium text-foreground">{project.name}</span>
                 <span className="ml-2 font-mono text-xs text-muted">{project.project_code}</span>
               </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                disabled={pending}
-                onClick={() => {
-                  if (!confirm(`Delete project "${project.name}"? Time entries logged against it will block this.`))
-                    return;
-                  startTransition(() => deleteProject(clientId, project.id));
-                }}
-              >
-                Delete
-              </Button>
+              <div className="flex items-center gap-2">
+                <Select
+                  aria-label={`Kanban stage for ${project.name}`}
+                  defaultValue={project.status}
+                  disabled={pending}
+                  onChange={(e) =>
+                    startTransition(() => updateProjectStatus(clientId, project.id, e.target.value as ProjectStatus))
+                  }
+                  className="h-8 w-auto py-1 text-xs"
+                >
+                  {STAGE_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </Select>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  disabled={pending}
+                  onClick={() => {
+                    if (!confirm(`Delete project "${project.name}"? Time entries logged against it will block this.`))
+                      return;
+                    startTransition(() => deleteProject(clientId, project.id));
+                  }}
+                >
+                  Delete
+                </Button>
+              </div>
             </li>
           ))}
         </ul>
