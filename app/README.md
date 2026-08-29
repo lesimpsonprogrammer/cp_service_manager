@@ -19,6 +19,11 @@ deployment.
   their email sees `/pending-approval` instead of the dashboard. Owners/admins
   can also send direct invite links (Settings → Invite people, `org_invites`)
   that join their org immediately, skipping the approval queue.
+- **Docs** — an internal wiki (`src/app/(dashboard)/docs`), GitHub-docs-style:
+  a category-grouped sidebar (`src/components/docs/DocsSidebar.tsx`, with a
+  quick filter) alongside every doc, each written in Markdown with GitHub
+  Flavored Markdown tables and `> [!NOTE]`/`[!TIP]`/`[!IMPORTANT]`/
+  `[!WARNING]`/`[!CAUTION]` alert callouts (`src/lib/docs/markdown.ts`).
 - **Clients** — a CRM section for the companies each workspace runs data
   extraction, HR consulting, or managed payroll work for (`src/app/(dashboard)/clients`),
   organized into tabs per client:
@@ -74,7 +79,7 @@ deployment.
 
 1. Create a Supabase project.
 2. Run the migrations in `supabase/migrations/` against it, in order
-   (`0001_init.sql` through `0011_signup_approval.sql`) — via the
+   (`0001_init.sql` through `0012_docs_categories.sql`) — via the
    Supabase SQL editor, or `supabase db push` if you're using the CLI.
 3. Copy `.env.example` to `.env.local` and fill in your project's URL and
    keys (Project Settings → API), plus a [Resend](https://resend.com) API
