@@ -3,7 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
-import { sendTimecardApprovalEmail } from "@/lib/email/resend";
+import { sendTimecardApprovalEmail, sendProjectStageChangeEmail } from "@/lib/email/resend";
+import type { ProjectStatus } from "@/types/database";
 
 export interface TimeEntryFormState {
   error: string | null;
@@ -51,6 +52,46 @@ export async function deleteProject(clientId: string, projectId: string) {
   const supabase = await createClient();
   await supabase.from("projects").delete().eq("id", projectId);
   revalidatePath(`/clients/${clientId}/time`);
+}
+
+const STAGE_LABELS: Record<ProjectStatus, string> = {
+  intake: "Intake",
+  in_progress: "In Progress",
+  client_review: "Client Review",
+  complete: "Complete",
+};
+
+export async function updateProjectStatus(clientId: string, projectId: string, status: ProjectStatus) {
+  const supabase = await createClient();
+
+  const { data: project, error } = await supabase
+    .from("projects")
+    .update({ status, updated_at: new Date().toISOString() })
+    .eq("id", projectId)
+    .select("name, project_code")
+    .single();
+
+  if (error || !project) return;
+
+  revalidatePath(`/clients/${clientId}/time`);
+  revalidatePath("/time");
+
+  const { data: client } = await supabase
+    .from("clients")
+    .select("name, primary_contact_email")
+    .eq("id", clientId)
+    .single();
+
+  if (client?.primary_contact_email) {
+    await sendProjectStageChangeEmail({
+      to: client.primary_contact_email,
+      clientName: client.name,
+      projectName: project.name,
+      projectCode: project.project_code,
+      stageLabel: STAGE_LABELS[status],
+      portalUrl: `${process.env.NEXT_PUBLIC_APP_URL}/client/dashboard`,
+    });
+  }
 }
 
 export async function createTimeEntry(

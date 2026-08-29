@@ -2,6 +2,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database, PipelineRunStatus } from "@/types/database";
 import { getConnectorAdapter } from "@/lib/connectors";
 import { dispatchEvent } from "@/lib/webhooks/dispatch";
+import { sendPipelineRunClientEmail } from "@/lib/email/resend";
 import { applyMapping, applyTransforms, type FieldMapping, type TransformStep } from "./transforms";
 
 interface PipelineRow {
@@ -55,7 +56,7 @@ export async function runPipeline(
   }
 
   const finish = async (result: Omit<PipelineRunResult, "runId">) => {
-    await supabase
+    const { data: updatedRun } = await supabase
       .from("pipeline_runs")
       .update({
         status: result.status,
@@ -65,13 +66,17 @@ export async function runPipeline(
         error: result.error,
         finished_at: new Date().toISOString(),
       })
-      .eq("id", run.id);
+      .eq("id", run.id)
+      .select("run_number")
+      .single();
 
     await dispatchEvent(supabase, pipeline.org_id, "pipeline.run.completed", {
       pipeline_id: pipeline.id,
       run_id: run.id,
       ...result,
     });
+
+    await notifyClientOfRun(supabase, pipeline, updatedRun?.run_number ?? run.id, result);
 
     return { runId: run.id, ...result };
   };
@@ -162,4 +167,43 @@ export async function runPipeline(
       error: err instanceof Error ? err.message : "Load failed.",
     });
   }
+}
+
+/**
+ * Real-time email to the client's contact when one of their data sources
+ * finishes syncing — the client portal itself updates live via Supabase
+ * Realtime, this is the "check your email" companion channel.
+ */
+async function notifyClientOfRun(
+  supabase: SupabaseClient<Database>,
+  pipeline: PipelineRow,
+  runNumber: string,
+  result: Omit<PipelineRunResult, "runId">
+) {
+  const { data: source } = await supabase
+    .from("data_sources")
+    .select("name, client_id")
+    .eq("id", pipeline.source_id)
+    .single();
+
+  if (!source?.client_id) return;
+
+  const { data: client } = await supabase
+    .from("clients")
+    .select("name, primary_contact_email")
+    .eq("id", source.client_id)
+    .single();
+
+  if (!client?.primary_contact_email) return;
+
+  await sendPipelineRunClientEmail({
+    to: client.primary_contact_email,
+    clientName: client.name,
+    dataSourceName: source.name,
+    runNumber,
+    status: result.status,
+    recordsLoaded: result.recordsLoaded,
+    error: result.error,
+    portalUrl: `${process.env.NEXT_PUBLIC_APP_URL}/client/data`,
+  });
 }

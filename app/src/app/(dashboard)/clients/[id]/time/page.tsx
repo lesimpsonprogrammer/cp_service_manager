@@ -20,7 +20,7 @@ export default async function ClientTimePage({ params }: { params: Promise<{ id:
 
   const { data: projects } = await supabase
     .from("projects")
-    .select("id, name, project_code")
+    .select("id, name, project_code, status")
     .eq("client_id", id)
     .order("created_at", { ascending: false });
 

@@ -4,12 +4,16 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
-import { sendContractSigningEmail, sendContractReminderEmail } from "@/lib/email/resend";
+import { sendContractSigningEmail, sendContractReminderEmail, sendClientPortalInviteEmail } from "@/lib/email/resend";
 import type { ClientStatus, ContractStatus, Database, OnboardingStage } from "@/types/database";
 
 type ContractUpdate = Database["public"]["Tables"]["client_contracts"]["Update"];
 
 export interface ClientFormState {
+  error: string | null;
+}
+
+export interface ClientPortalInviteFormState {
   error: string | null;
 }
 
@@ -417,4 +421,51 @@ export async function deleteContract(clientId: string, contractId: string) {
   await supabase.from("client_contracts").delete().eq("id", contractId);
   revalidatePath(`/clients/${clientId}/contracts`);
   revalidatePath(`/clients/${clientId}/onboarding`);
+}
+
+export async function inviteClientPortalUser(
+  clientId: string,
+  _prev: ClientPortalInviteFormState,
+  formData: FormData
+): Promise<ClientPortalInviteFormState> {
+  const org = await getCurrentOrg();
+  if (!org) return { error: "Not signed in." };
+
+  const email = String(formData.get("email") ?? "").trim();
+  if (!email) return { error: "Enter an email address to invite." };
+
+  const supabase = await createClient();
+
+  const { data: client } = await supabase.from("clients").select("name").eq("id", clientId).single();
+  if (!client) return { error: "Client not found." };
+
+  const { data: invite, error } = await supabase
+    .from("client_portal_invites")
+    .insert({ org_id: org.orgId, client_id: clientId, email, invited_by: org.userId })
+    .select("token")
+    .single();
+
+  if (error || !invite) return { error: error?.message ?? "Failed to create invite." };
+
+  await sendClientPortalInviteEmail({
+    to: email,
+    clientName: client.name,
+    invitedByName: org.userEmail ?? "Your service provider",
+    acceptUrl: `${process.env.NEXT_PUBLIC_APP_URL}/client/accept?token=${invite.token}&email=${encodeURIComponent(email)}`,
+  });
+
+  revalidatePath(`/clients/${clientId}/portal`);
+  return { error: null };
+}
+
+export async function revokeClientPortalUser(clientId: string, userId: string) {
+  const supabase = await createClient();
+  await supabase.from("client_portal_users").delete().eq("id", userId).eq("client_id", clientId);
+  revalidatePath(`/clients/${clientId}/portal`);
+}
+
+export async function revokeClientPortalInvite(clientId: string, inviteId: string) {
+  const supabase = await createClient();
+  await supabase.from("client_portal_invites").delete().eq("id", inviteId).eq("client_id", clientId);
+  revalidatePath(`/clients/${clientId}/portal`);
 }

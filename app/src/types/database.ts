@@ -37,6 +37,8 @@ export type InvoiceStatus = "draft" | "sent" | "paid" | "overdue" | "void";
 
 export type SignupRequestStatus = "pending" | "approved" | "rejected";
 
+export type ProjectStatus = "intake" | "in_progress" | "client_review" | "complete";
+
 export interface Database {
   public: {
     Tables: {
@@ -164,6 +166,7 @@ export interface Database {
           client_address: string | null;
           services_description: string | null;
           hourly_rate: number | null;
+          contract_number: string;
           signing_token: string;
           approved_at: string | null;
           approved_by: string | null;
@@ -239,6 +242,7 @@ export interface Database {
           pipeline_id: string;
           org_id: string;
           status: PipelineRunStatus;
+          run_number: string;
           records_extracted: number;
           records_loaded: number;
           records_failed: number;
@@ -336,7 +340,7 @@ export interface Database {
           client_id: string;
           name: string;
           project_code: string;
-          status: string;
+          status: ProjectStatus;
           created_by: string | null;
           created_at: string;
           updated_at: string;
@@ -419,6 +423,7 @@ export interface Database {
           client_id: string;
           period_start: string;
           period_end: string;
+          timecard_number: string;
           status: TimecardStatus;
           total_hours: number;
           total_amount: number | null;
@@ -617,6 +622,59 @@ export interface Database {
             columns: ["invoice_id"];
             isOneToOne: false;
             referencedRelation: "invoices";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      client_portal_users: {
+        Row: {
+          id: string;
+          org_id: string;
+          client_id: string;
+          email: string;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["client_portal_users"]["Row"]> & {
+          id: string;
+          org_id: string;
+          client_id: string;
+          email: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["client_portal_users"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "client_portal_users_client_id_fkey";
+            columns: ["client_id"];
+            isOneToOne: false;
+            referencedRelation: "clients";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      client_portal_invites: {
+        Row: {
+          id: string;
+          org_id: string;
+          client_id: string;
+          email: string;
+          token: string;
+          invited_by: string | null;
+          expires_at: string;
+          accepted_at: string | null;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["client_portal_invites"]["Row"]> & {
+          org_id: string;
+          client_id: string;
+          email: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["client_portal_invites"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "client_portal_invites_client_id_fkey";
+            columns: ["client_id"];
+            isOneToOne: false;
+            referencedRelation: "clients";
             referencedColumns: ["id"];
           }
         ];

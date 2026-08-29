@@ -17,6 +17,7 @@ export function ClientTabNav({ clientId }: { clientId: string }) {
     { href: `${base}/accounting`, label: "Accounting" },
     { href: `${base}/compliance`, label: "Compliance" },
     { href: `${base}/data-sources`, label: "Data Sources" },
+    { href: `${base}/portal`, label: "Client Portal" },
   ];
 
   return (
