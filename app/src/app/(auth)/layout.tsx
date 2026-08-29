@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LogoMark } from "@/components/ui/Logo";
+import { BracketMarquee } from "@/components/ui/BracketMarquee";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -27,6 +28,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             for a living.
           </p>
         </div>
+
+        <BracketMarquee className="relative z-10 px-10" />
 
         <div className="relative z-10 border-t border-border p-10 text-xs text-muted">
           &copy; {new Date().getFullYear()} Cloud Performance Service Manager. All rights reserved.
