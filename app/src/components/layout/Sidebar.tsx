@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   { href: "/clients", label: "Clients", icon: "🏢" },
   { href: "/workflow", label: "Workflow", icon: "🗂" },
   { href: "/time", label: "Time Tracking", icon: "⏱" },
+  { href: "/docs", label: "Docs", icon: "📚" },
   { href: "/templates", label: "Agreement Templates", icon: "📄" },
   { href: "/data-sources", label: "Data Sources", icon: "⇄" },
   { href: "/pipelines", label: "Pipelines", icon: "⇉" },

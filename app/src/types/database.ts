@@ -449,6 +449,25 @@ export interface Database {
           }
         ];
       };
+      docs: {
+        Row: {
+          id: string;
+          org_id: string;
+          title: string;
+          slug: string;
+          body: string;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["docs"]["Row"]> & {
+          org_id: string;
+          title: string;
+          slug: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["docs"]["Row"]>;
+        Relationships: [];
+      };
       agreement_templates: {
         Row: {
           id: string;
