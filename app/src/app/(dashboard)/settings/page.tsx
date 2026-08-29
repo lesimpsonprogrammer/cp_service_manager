@@ -8,6 +8,7 @@ import { BrandColorPicker } from "@/components/ui/BrandColorPicker";
 import { BackgroundPicker } from "@/components/ui/BackgroundPicker";
 import { InvitesPanel } from "@/components/settings/InvitesPanel";
 import { SignupRequestsPanel } from "@/components/settings/SignupRequestsPanel";
+import { DocCategoriesPanel } from "@/components/settings/DocCategoriesPanel";
 
 const ADMIN_ROLES = new Set(["owner", "admin"]);
 
@@ -37,6 +38,12 @@ export default async function SettingsPage() {
         .eq("status", "pending")
         .order("created_at", { ascending: false })
     : { data: [] };
+
+  const { data: docCategories } = await supabase
+    .from("doc_categories")
+    .select("id, name")
+    .eq("org_id", org?.orgId ?? "")
+    .order("name", { ascending: true });
 
   return (
     <div className="max-w-2xl space-y-4">
@@ -106,6 +113,18 @@ export default async function SettingsPage() {
             <p className="mb-2 text-xs text-muted">Choose the base tone for the app background.</p>
             <BackgroundPicker />
           </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Doc categories</CardTitle>
+          <CardDescription>
+            The categories available when writing a doc — shown as the groups in the Docs sidebar.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="p-0">
+          <DocCategoriesPanel categories={docCategories ?? []} />
         </CardContent>
       </Card>
 

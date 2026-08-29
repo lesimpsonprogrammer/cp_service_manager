@@ -11,8 +11,8 @@ export default async function EditDocPage({ params }: { params: Promise<{ id: st
 
   if (!doc) notFound();
 
-  const { data: docs } = await supabase.from("docs").select("category");
-  const categories = [...new Set((docs ?? []).map((d) => d.category))].sort();
+  const { data: docCategories } = await supabase.from("doc_categories").select("name").order("name", { ascending: true });
+  const categories = (docCategories ?? []).map((c) => c.name);
 
   return (
     <div>

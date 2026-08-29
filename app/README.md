@@ -24,6 +24,9 @@ deployment.
   quick filter) alongside every doc, each written in Markdown with GitHub
   Flavored Markdown tables and `> [!NOTE]`/`[!TIP]`/`[!IMPORTANT]`/
   `[!WARNING]`/`[!CAUTION]` alert callouts (`src/lib/docs/markdown.ts`).
+  Categories are a managed list per org (Settings → Doc categories,
+  `doc_categories` table) rather than free text — the doc form is a dropdown
+  over that list.
 - **Clients** — a CRM section for the companies each workspace runs data
   extraction, HR consulting, or managed payroll work for (`src/app/(dashboard)/clients`),
   organized into tabs per client:
@@ -79,7 +82,7 @@ deployment.
 
 1. Create a Supabase project.
 2. Run the migrations in `supabase/migrations/` against it, in order
-   (`0001_init.sql` through `0012_docs_categories.sql`) — via the
+   (`0001_init.sql` through `0013_doc_categories.sql`) — via the
    Supabase SQL editor, or `supabase db push` if you're using the CLI.
 3. Copy `.env.example` to `.env.local` and fill in your project's URL and
    keys (Project Settings → API), plus a [Resend](https://resend.com) API
