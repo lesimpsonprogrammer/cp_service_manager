@@ -7,6 +7,7 @@ import { LogoMark } from "@/components/ui/Logo";
 
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Overview", icon: "◱" },
+  { href: "/clients", label: "Clients", icon: "🏢" },
   { href: "/data-sources", label: "Data Sources", icon: "⇄" },
   { href: "/pipelines", label: "Pipelines", icon: "⇉" },
   { href: "/webhooks", label: "Webhooks", icon: "⇢" },

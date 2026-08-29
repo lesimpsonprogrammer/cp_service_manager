@@ -1,4 +1,4 @@
-# CP Service Manager — Platform
+# Cloud Performance Service Manager — Platform
 
 The data extraction / ETL / connector / webhook platform behind
 `app.cpservicemanager.com`. Built with Next.js (App Router), Supabase
@@ -12,6 +12,10 @@ deployment.
 
 - **Auth** — Supabase email/password auth. Every new signup gets its own
   organization (multi-tenant workspace) via a Postgres trigger.
+- **Clients** — a CRM section for the companies each workspace runs data
+  extraction, HR consulting, or managed payroll work for: contact info,
+  status, an onboarding stage tracker, contract management, and linked
+  data sources (`src/app/(dashboard)/clients`).
 - **Connectors** — a small plugin architecture (`src/lib/connectors`) with
   working adapters for CSV/paste, public Google Sheets, generic REST APIs,
   and PostgreSQL. HCM and ERP systems (BambooHR, Workday, ADP, NetSuite, SAP,
@@ -27,8 +31,9 @@ deployment.
 ## Local setup
 
 1. Create a Supabase project.
-2. Run the migration in `supabase/migrations/0001_init.sql` against it
-   (Supabase SQL editor, or `supabase db push` if you're using the CLI).
+2. Run the migrations in `supabase/migrations/` against it, in order
+   (`0001_init.sql`, `0002_clients.sql`, `0003_client_onboarding.sql`) —
+   via the Supabase SQL editor, or `supabase db push` if you're using the CLI.
 3. Copy `.env.example` to `.env.local` and fill in your project's URL and
    keys (Project Settings → API).
 4. `npm install`

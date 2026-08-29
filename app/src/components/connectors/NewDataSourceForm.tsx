@@ -8,10 +8,12 @@ import { CONNECTOR_DEFINITIONS } from "@/lib/connectors/registry";
 import { createDataSource, type DataSourceFormState } from "@/app/(dashboard)/data-sources/actions";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Input, Label } from "@/components/ui/Input";
+import { Input, Label, Select } from "@/components/ui/Input";
 import { ConnectorFieldInput } from "./ConnectorFieldInput";
 
 const initialState: DataSourceFormState = { error: null };
+
+type ClientOption = { id: string; name: string };
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -22,7 +24,7 @@ function SubmitButton() {
   );
 }
 
-export function NewDataSourceForm() {
+export function NewDataSourceForm({ clients = [] }: { clients?: ClientOption[] }) {
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [state, formAction] = useActionState(createDataSource, initialState);
 
@@ -89,6 +91,20 @@ export function NewDataSourceForm() {
         {definition.fields.map((field) => (
           <ConnectorFieldInput key={field.key} field={field} />
         ))}
+
+        {clients.length > 0 && (
+          <div>
+            <Label htmlFor="client_id">Client (optional)</Label>
+            <Select id="client_id" name="client_id" defaultValue="">
+              <option value="">No client</option>
+              {clients.map((client) => (
+                <option key={client.id} value={client.id}>
+                  {client.name}
+                </option>
+              ))}
+            </Select>
+          </div>
+        )}
 
         {state.error && (
           <p className={cn("rounded-md border border-danger/30 bg-danger/10 px-3 py-2 text-sm text-danger")}>
