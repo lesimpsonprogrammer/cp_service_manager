@@ -1,6 +1,7 @@
 "use client";
 
 import { useTransition } from "react";
+import Link from "next/link";
 import { updateContractStatus, deleteContract } from "@/app/(dashboard)/clients/actions";
 import { Button } from "@/components/ui/Button";
 import { StatusBadge } from "@/components/ui/Badge";
@@ -44,6 +45,20 @@ export function ContractsList({ clientId, contracts }: { clientId: string; contr
             </div>
             <div className="flex items-center gap-2">
               <StatusBadge status={contract.status} />
+              <a
+                href={`/clients/${clientId}/contracts/${contract.id}/pdf`}
+                target="_blank"
+                rel="noreferrer"
+                className="text-xs text-brand hover:underline"
+              >
+                PDF
+              </a>
+              <Link
+                href={`/clients/${clientId}/contracts/${contract.id}/edit`}
+                className="text-xs text-brand hover:underline"
+              >
+                Edit
+              </Link>
               {nextAction && (
                 <Button
                   variant="secondary"

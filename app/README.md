@@ -13,9 +13,29 @@ deployment.
 - **Auth** — Supabase email/password auth. Every new signup gets its own
   organization (multi-tenant workspace) via a Postgres trigger.
 - **Clients** — a CRM section for the companies each workspace runs data
-  extraction, HR consulting, or managed payroll work for: contact info,
-  status, an onboarding stage tracker, contract management, and linked
-  data sources (`src/app/(dashboard)/clients`).
+  extraction, HR consulting, or managed payroll work for (`src/app/(dashboard)/clients`),
+  organized into tabs per client:
+  - **Overview** — contact info and status.
+  - **Onboarding** — a stage tracker plus the contract e-signature workflow:
+    approve a contract, send it for signature (emails a unique signing link
+    via Resend), and an Actions menu to edit, manually override the status,
+    purge (reset) the signing progress, or delete the contract.
+  - **Contracts** — the full contract record list and a PDF for each
+    (`src/lib/contracts/pdf.ts`, built with `pdf-lib`).
+  - **Accounting** — billing contacts (client-side and Momentum-side) and
+    payment terms/method.
+  - **Compliance** — HIPAA and applicable-state-privacy-law flags
+    (`src/lib/compliance/frameworks.ts`), shown to the team and printed on
+    the contract PDF as a disclosure. These are flags for visibility, not an
+    enforcement engine — verify actual obligations with counsel.
+  - **Data Sources** — data sources linked to that client.
+
+  The e-signature itself (`/sign/[token]`, public, no login) is a
+  lightweight in-house flow — typed name + checkbox, timestamped with IP —
+  not a certified provider like DocuSign. A daily Vercel Cron job
+  (`vercel.json` → `/api/cron/contract-reminders`) emails a reminder for any
+  contract that's been sitting unsigned for a few days; the same email can
+  also be triggered manually from the Onboarding tab.
 - **Connectors** — a small plugin architecture (`src/lib/connectors`) with
   working adapters for CSV/paste, public Google Sheets, generic REST APIs,
   and PostgreSQL. HCM and ERP systems (BambooHR, Workday, ADP, NetSuite, SAP,
@@ -32,10 +52,12 @@ deployment.
 
 1. Create a Supabase project.
 2. Run the migrations in `supabase/migrations/` against it, in order
-   (`0001_init.sql`, `0002_clients.sql`, `0003_client_onboarding.sql`) —
-   via the Supabase SQL editor, or `supabase db push` if you're using the CLI.
+   (`0001_init.sql` through `0004_contract_esignature.sql`) — via the
+   Supabase SQL editor, or `supabase db push` if you're using the CLI.
 3. Copy `.env.example` to `.env.local` and fill in your project's URL and
-   keys (Project Settings → API).
+   keys (Project Settings → API), plus a [Resend](https://resend.com) API
+   key and verified sending domain if you want signing/reminder emails to
+   actually send (without it, the app logs a warning and skips sending).
 4. `npm install`
 5. `npm run dev`
 
@@ -56,6 +78,12 @@ be `https://app.cpservicemanager.com` in production).
 For scheduled pipelines, add a Vercel Cron job that calls
 `POST /api/v1/pipelines/{id}/run` with an API key on the cron expression
 stored on the pipeline.
+
+`vercel.json` already defines the daily contract-reminder cron. Set
+`CRON_SECRET` in the Vercel project's environment variables (any random
+string, e.g. `openssl rand -hex 32`) — Vercel automatically sends it as
+`Authorization: Bearer <value>` when it triggers the cron, which the route
+checks.
 
 ## Secrets
 
