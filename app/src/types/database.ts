@@ -61,6 +61,7 @@ export interface Database {
           id: string;
           full_name: string | null;
           avatar_url: string | null;
+          password_updated_at: string;
           created_at: string;
         };
         Insert: Partial<Database["public"]["Tables"]["profiles"]["Row"]> & { id: string };
@@ -632,6 +633,7 @@ export interface Database {
           org_id: string;
           client_id: string;
           email: string;
+          password_updated_at: string;
           created_at: string;
         };
         Insert: Partial<Database["public"]["Tables"]["client_portal_users"]["Row"]> & {

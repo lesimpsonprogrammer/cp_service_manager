@@ -93,3 +93,37 @@ export async function acceptClientInvite(
 
   redirect("/client/login?welcome=1");
 }
+
+export async function updateClientPassword(
+  _prev: ClientAuthActionState,
+  formData: FormData
+): Promise<ClientAuthActionState> {
+  const password = String(formData.get("password") ?? "");
+  const confirmPassword = String(formData.get("confirmPassword") ?? "");
+
+  const passwordError = validatePasswordStrength(password);
+  if (passwordError) {
+    return { error: passwordError };
+  }
+  if (password !== confirmPassword) {
+    return { error: "Passwords don't match." };
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/client/login");
+
+  const { error } = await supabase.auth.updateUser({ password });
+  if (error) {
+    return { error: error.message };
+  }
+
+  await supabase
+    .from("client_portal_users")
+    .update({ password_updated_at: new Date().toISOString() })
+    .eq("id", user.id);
+
+  redirect("/client/dashboard");
+}

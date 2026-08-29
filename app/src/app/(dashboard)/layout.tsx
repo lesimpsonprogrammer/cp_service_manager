@@ -5,6 +5,7 @@ import { Sidebar } from "@/components/layout/Sidebar";
 import { Topbar } from "@/components/layout/Topbar";
 import { InactivityLogout } from "@/components/auth/InactivityLogout";
 import { signOut } from "@/app/(auth)/actions";
+import { isPasswordExpired } from "@/lib/utils/password";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const org = await getCurrentOrg();
@@ -17,6 +18,17 @@ export default async function DashboardLayout({ children }: { children: React.Re
     // Signed in but no org membership yet: either awaiting admin approval
     // (see `signup_requests`) or declined — either way, not "logged out".
     redirect(user ? "/pending-approval" : "/login");
+  }
+
+  const supabase = await createClient();
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("password_updated_at")
+    .eq("id", org.userId)
+    .maybeSingle();
+
+  if (profile && isPasswordExpired(profile.password_updated_at)) {
+    redirect("/reset-password");
   }
 
   return (

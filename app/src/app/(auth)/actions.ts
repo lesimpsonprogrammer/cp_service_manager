@@ -91,3 +91,37 @@ export async function signOut() {
   await supabase.auth.signOut();
   redirect("/login");
 }
+
+export async function updateStaffPassword(
+  _prev: AuthActionState,
+  formData: FormData
+): Promise<AuthActionState> {
+  const password = String(formData.get("password") ?? "");
+  const confirmPassword = String(formData.get("confirmPassword") ?? "");
+
+  const passwordError = validatePasswordStrength(password);
+  if (passwordError) {
+    return { error: passwordError };
+  }
+  if (password !== confirmPassword) {
+    return { error: "Passwords don't match." };
+  }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  const { error } = await supabase.auth.updateUser({ password });
+  if (error) {
+    return { error: error.message };
+  }
+
+  await supabase
+    .from("profiles")
+    .update({ password_updated_at: new Date().toISOString() })
+    .eq("id", user.id);
+
+  redirect("/dashboard");
+}

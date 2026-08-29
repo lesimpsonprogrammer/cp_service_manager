@@ -4,12 +4,17 @@ import { ClientPortalSidebar } from "@/components/portal/ClientPortalSidebar";
 import { ClientPortalTopbar } from "@/components/portal/ClientPortalTopbar";
 import { InactivityLogout } from "@/components/auth/InactivityLogout";
 import { signOutClient } from "@/app/client/actions";
+import { isPasswordExpired } from "@/lib/utils/password";
 
 export default async function ClientPortalLayout({ children }: { children: React.ReactNode }) {
   const clientUser = await getCurrentClientPortalUser();
 
   if (!clientUser) {
     redirect("/client/login");
+  }
+
+  if (isPasswordExpired(clientUser.passwordUpdatedAt)) {
+    redirect("/client/reset-password");
   }
 
   return (

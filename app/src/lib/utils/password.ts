@@ -21,3 +21,10 @@ export function validatePasswordStrength(password: string): string | null {
   }
   return null;
 }
+
+export const PASSWORD_MAX_AGE_DAYS = 30;
+
+export function isPasswordExpired(passwordUpdatedAt: string): boolean {
+  const ageMs = Date.now() - new Date(passwordUpdatedAt).getTime();
+  return ageMs > PASSWORD_MAX_AGE_DAYS * 24 * 60 * 60 * 1000;
+}
