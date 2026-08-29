@@ -33,6 +33,7 @@ const STATUS_TONE: Record<string, Tone> = {
   active: "success",
   signed: "success",
   client_approved: "success",
+  paid: "success",
   disconnected: "neutral",
   pending: "warning",
   running: "warning",
@@ -42,6 +43,8 @@ const STATUS_TONE: Record<string, Tone> = {
   error: "danger",
   failed: "danger",
   client_rejected: "danger",
+  overdue: "danger",
+  void: "neutral",
   partial: "warning",
 };
 
