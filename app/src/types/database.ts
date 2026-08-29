@@ -30,6 +30,8 @@ export type OnboardingStage =
 
 export type ContractStatus = "draft" | "sent" | "signed" | "active" | "expired" | "terminated";
 
+export type TimecardStatus = "draft" | "internally_approved" | "sent" | "client_approved" | "client_rejected";
+
 export interface Database {
   public: {
     Tables: {
@@ -321,6 +323,131 @@ export interface Database {
         };
         Update: Partial<Database["public"]["Tables"]["api_keys"]["Row"]>;
         Relationships: [];
+      };
+      projects: {
+        Row: {
+          id: string;
+          org_id: string;
+          client_id: string;
+          name: string;
+          project_code: string;
+          status: string;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["projects"]["Row"]> & {
+          org_id: string;
+          client_id: string;
+          name: string;
+          project_code: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["projects"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "projects_client_id_fkey";
+            columns: ["client_id"];
+            isOneToOne: false;
+            referencedRelation: "clients";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      time_entries: {
+        Row: {
+          id: string;
+          org_id: string;
+          client_id: string;
+          project_id: string;
+          contract_id: string | null;
+          work_date: string;
+          hours: number;
+          description: string | null;
+          billable: boolean;
+          timecard_id: string | null;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["time_entries"]["Row"]> & {
+          org_id: string;
+          client_id: string;
+          project_id: string;
+          hours: number;
+        };
+        Update: Partial<Database["public"]["Tables"]["time_entries"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "time_entries_client_id_fkey";
+            columns: ["client_id"];
+            isOneToOne: false;
+            referencedRelation: "clients";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "time_entries_project_id_fkey";
+            columns: ["project_id"];
+            isOneToOne: false;
+            referencedRelation: "projects";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "time_entries_contract_id_fkey";
+            columns: ["contract_id"];
+            isOneToOne: false;
+            referencedRelation: "client_contracts";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "time_entries_timecard_id_fkey";
+            columns: ["timecard_id"];
+            isOneToOne: false;
+            referencedRelation: "timecards";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      timecards: {
+        Row: {
+          id: string;
+          org_id: string;
+          client_id: string;
+          period_start: string;
+          period_end: string;
+          status: TimecardStatus;
+          total_hours: number;
+          total_amount: number | null;
+          internal_approval_id: string | null;
+          internal_approved_at: string | null;
+          internal_approved_by: string | null;
+          approval_token: string;
+          approver_name: string | null;
+          approver_email: string | null;
+          sent_at: string | null;
+          client_approved_at: string | null;
+          client_approved_by_name: string | null;
+          client_rejected_at: string | null;
+          rejection_reason: string | null;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["timecards"]["Row"]> & {
+          org_id: string;
+          client_id: string;
+          period_start: string;
+          period_end: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["timecards"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "timecards_client_id_fkey";
+            columns: ["client_id"];
+            isOneToOne: false;
+            referencedRelation: "clients";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       agreement_templates: {
         Row: {
