@@ -1,12 +1,11 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { Button } from "@/components/ui/Button";
 import { OnboardingProgress } from "@/components/clients/OnboardingProgress";
 import { ContractSigningPanel } from "@/components/clients/ContractSigningPanel";
 import { OnboardingActionsMenu } from "@/components/clients/OnboardingActionsMenu";
+import { ContractForm } from "@/components/clients/ContractForm";
+import { createContract } from "../../actions";
 
 export default async function ClientOnboardingPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -57,16 +56,18 @@ export default async function ClientOnboardingPage({ params }: { params: Promise
           </Card>
         </>
       ) : (
-        <EmptyState
-          icon="📄"
-          title="No contract yet"
-          description="Add a contract to start the approval and e-signature workflow."
-          action={
-            <Link href={`/clients/${id}/contracts`}>
-              <Button>Go to contracts</Button>
-            </Link>
-          }
-        />
+        <Card>
+          <CardHeader>
+            <CardTitle>Start onboarding</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4 text-sm text-muted">
+              Add this client&apos;s contract here to kick off approval and e-signature — no need to leave this
+              tab. (Additional contracts, once this one exists, can be managed from the Contracts tab.)
+            </p>
+            <ContractForm action={createContract.bind(null, id)} />
+          </CardContent>
+        </Card>
       )}
     </div>
   );
