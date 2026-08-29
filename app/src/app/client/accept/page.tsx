@@ -67,7 +67,7 @@ function AcceptForm() {
         </div>
         <div>
           <Label htmlFor="password">Password</Label>
-          <Input id="password" name="password" type="password" autoComplete="new-password" required placeholder="At least 8 characters" />
+          <Input id="password" name="password" type="password" autoComplete="new-password" required placeholder="10+ chars, upper, lower, number, symbol" />
         </div>
 
         {state.error && (

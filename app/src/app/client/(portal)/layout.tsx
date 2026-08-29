@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 import { getCurrentClientPortalUser } from "@/lib/portal/getCurrentClientPortalUser";
 import { ClientPortalSidebar } from "@/components/portal/ClientPortalSidebar";
 import { ClientPortalTopbar } from "@/components/portal/ClientPortalTopbar";
+import { InactivityLogout } from "@/components/auth/InactivityLogout";
+import { signOutClient } from "@/app/client/actions";
 
 export default async function ClientPortalLayout({ children }: { children: React.ReactNode }) {
   const clientUser = await getCurrentClientPortalUser();
@@ -12,6 +14,7 @@ export default async function ClientPortalLayout({ children }: { children: React
 
   return (
     <div className="flex h-screen overflow-hidden bg-canvas">
+      <InactivityLogout onTimeout={signOutClient} />
       <ClientPortalSidebar clientName={clientUser.clientName} />
       <div className="flex flex-1 flex-col overflow-hidden">
         <ClientPortalTopbar title={clientUser.clientName} userEmail={clientUser.userEmail} />

@@ -3,6 +3,8 @@ import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
 import { createClient } from "@/lib/supabase/server";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Topbar } from "@/components/layout/Topbar";
+import { InactivityLogout } from "@/components/auth/InactivityLogout";
+import { signOut } from "@/app/(auth)/actions";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const org = await getCurrentOrg();
@@ -19,6 +21,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   return (
     <div className="flex h-screen overflow-hidden bg-canvas">
+      <InactivityLogout onTimeout={signOut} />
       <Sidebar orgName={org.orgName} />
       <div className="flex flex-1 flex-col overflow-hidden">
         <Topbar title={org.orgName} userEmail={org.userEmail} role={org.role} />

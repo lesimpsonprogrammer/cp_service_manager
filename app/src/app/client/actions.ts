@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { validatePasswordStrength } from "@/lib/utils/password";
 
 export interface ClientAuthActionState {
   error: string | null;
@@ -55,8 +56,9 @@ export async function acceptClientInvite(
   if (!token || !email || !password) {
     return { error: "Missing invite details." };
   }
-  if (password.length < 8) {
-    return { error: "Password must be at least 8 characters." };
+  const passwordError = validatePasswordStrength(password);
+  if (passwordError) {
+    return { error: passwordError };
   }
 
   const admin = createAdminClient();

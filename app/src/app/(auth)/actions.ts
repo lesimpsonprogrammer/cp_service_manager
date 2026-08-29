@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isFreeEmailDomain } from "@/lib/utils/email";
+import { validatePasswordStrength } from "@/lib/utils/password";
 
 export interface AuthActionState {
   error: string | null;
@@ -38,8 +39,9 @@ export async function signUp(_prev: AuthActionState, formData: FormData): Promis
   if (!email || !password) {
     return { error: "Email and password are required." };
   }
-  if (password.length < 8) {
-    return { error: "Password must be at least 8 characters." };
+  const passwordError = validatePasswordStrength(password);
+  if (passwordError) {
+    return { error: passwordError };
   }
 
   if (!inviteToken && isFreeEmailDomain(email)) {
