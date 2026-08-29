@@ -14,7 +14,7 @@ export async function GET(
 
   const { data: client } = await supabase
     .from("clients")
-    .select("name, compliance_frameworks, hipaa_covered_entity, compliance_notes")
+    .select("name, compliance_frameworks, hipaa_covered_entity, compliance_notes, payment_terms, payment_method")
     .eq("id", contract.client_id)
     .single();
   const { data: org } = await supabase.from("organizations").select("name").eq("id", contract.org_id).single();
@@ -26,6 +26,8 @@ export async function GET(
       compliance_frameworks: [],
       hipaa_covered_entity: false,
       compliance_notes: null,
+      payment_terms: null,
+      payment_method: null,
     },
     orgName: org?.name ?? "Momentum Data Solutions",
   });

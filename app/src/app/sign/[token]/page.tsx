@@ -11,14 +11,18 @@ export default async function SignContractPage({ params }: { params: Promise<{ t
   const { data: contract } = await admin
     .from("client_contracts")
     .select(
-      "id, name, status, start_date, end_date, value, notes, signer_name, signed_at, signed_by_name, client_id, org_id"
+      "id, name, status, start_date, end_date, value, hourly_rate, notes, client_address, services_description, signer_name, signed_at, signed_by_name, client_id, org_id"
     )
     .eq("signing_token", token)
     .single();
 
   if (!contract) notFound();
 
-  const { data: client } = await admin.from("clients").select("name").eq("id", contract.client_id).single();
+  const { data: client } = await admin
+    .from("clients")
+    .select("name, payment_terms, payment_method")
+    .eq("id", contract.client_id)
+    .single();
   const { data: org } = await admin.from("organizations").select("name").eq("id", contract.org_id).single();
 
   if (contract.status === "signed" || contract.status === "active") {
@@ -64,16 +68,22 @@ export default async function SignContractPage({ params }: { params: Promise<{ t
           <p className="text-muted">Prepared for {client?.name}.</p>
           {contract.start_date && <p>Start date: {contract.start_date}</p>}
           {contract.end_date && <p>End date: {contract.end_date}</p>}
-          {contract.value != null && <p>Annual value: ${Number(contract.value).toLocaleString()}</p>}
+          {contract.value != null && <p>Fixed/annual value: ${Number(contract.value).toLocaleString()}</p>}
+          {contract.hourly_rate != null && <p>Hourly rate: ${Number(contract.hourly_rate).toLocaleString()}/hr</p>}
           {contract.notes && (
             <p className="whitespace-pre-wrap text-foreground">
               {renderAgreementBody(contract.notes, {
                 clientName: client?.name ?? "Client",
+                clientAddress: contract.client_address,
                 orgName: org?.name ?? "Momentum Data Solutions",
                 contractName: contract.name,
                 startDate: contract.start_date,
                 endDate: contract.end_date,
                 value: contract.value,
+                hourlyRate: contract.hourly_rate,
+                servicesDescription: contract.services_description,
+                paymentTerms: client?.payment_terms ?? null,
+                paymentMethod: client?.payment_method ?? null,
               })}
             </p>
           )}

@@ -154,6 +154,9 @@ export interface Database {
           end_date: string | null;
           value: number | null;
           notes: string | null;
+          client_address: string | null;
+          services_description: string | null;
+          hourly_rate: number | null;
           signing_token: string;
           approved_at: string | null;
           approved_by: string | null;
