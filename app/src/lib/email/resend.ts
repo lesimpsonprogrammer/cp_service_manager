@@ -71,6 +71,74 @@ export async function sendContractReminderEmail({
   });
 }
 
+export async function sendTimecardApprovalEmail({
+  to,
+  approverName,
+  clientName,
+  periodStart,
+  periodEnd,
+  totalHours,
+  reviewUrl,
+}: {
+  to: string;
+  approverName: string;
+  clientName: string;
+  periodStart: string;
+  periodEnd: string;
+  totalHours: number;
+  reviewUrl: string;
+}) {
+  const resend = getClient();
+  if (!resend) {
+    console.warn("RESEND_API_KEY not set — skipping timecard approval email.");
+    return;
+  }
+
+  await resend.emails.send({
+    from: FROM,
+    to,
+    subject: `Timecard for review: ${periodStart} – ${periodEnd}`,
+    html: `
+      <p>Hi ${approverName},</p>
+      <p>${clientName}'s timecard for ${periodStart} – ${periodEnd} (${totalHours} hours) is ready for your review.</p>
+      <p><a href="${reviewUrl}">Review and approve the timecard</a></p>
+    `,
+  });
+}
+
+export async function sendTimecardDecisionNotification({
+  to,
+  clientName,
+  periodStart,
+  periodEnd,
+  approved,
+  decidedByName,
+  reason,
+}: {
+  to: string;
+  clientName: string;
+  periodStart: string;
+  periodEnd: string;
+  approved: boolean;
+  decidedByName: string;
+  reason?: string | null;
+}) {
+  const resend = getClient();
+  if (!resend) {
+    console.warn("RESEND_API_KEY not set — skipping timecard decision email.");
+    return;
+  }
+
+  await resend.emails.send({
+    from: FROM,
+    to,
+    subject: `Timecard ${approved ? "approved" : "rejected"}: ${periodStart} – ${periodEnd}`,
+    html: approved
+      ? `<p>${decidedByName} approved ${clientName}'s timecard for ${periodStart} – ${periodEnd}.</p>`
+      : `<p>${decidedByName} rejected ${clientName}'s timecard for ${periodStart} – ${periodEnd}.${reason ? ` Reason: ${reason}` : ""}</p>`,
+  });
+}
+
 export async function sendContractSignedNotification({
   to,
   clientName,

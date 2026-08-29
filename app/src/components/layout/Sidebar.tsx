@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { href: "/dashboard", label: "Overview", icon: "◱" },
   { href: "/clients", label: "Clients", icon: "🏢" },
   { href: "/workflow", label: "Workflow", icon: "🗂" },
+  { href: "/time", label: "Time Tracking", icon: "⏱" },
   { href: "/templates", label: "Agreement Templates", icon: "📄" },
   { href: "/data-sources", label: "Data Sources", icon: "⇄" },
   { href: "/pipelines", label: "Pipelines", icon: "⇉" },

@@ -31,12 +31,17 @@ const STATUS_TONE: Record<string, Tone> = {
   connected: "success",
   succeeded: "success",
   active: "success",
+  signed: "success",
+  client_approved: "success",
   disconnected: "neutral",
   pending: "warning",
   running: "warning",
+  sent: "warning",
+  internally_approved: "warning",
   queued: "neutral",
   error: "danger",
   failed: "danger",
+  client_rejected: "danger",
   partial: "warning",
 };
 

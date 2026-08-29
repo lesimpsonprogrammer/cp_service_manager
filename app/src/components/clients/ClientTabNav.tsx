@@ -12,6 +12,7 @@ export function ClientTabNav({ clientId }: { clientId: string }) {
     { href: base, label: "Overview", exact: true },
     { href: `${base}/onboarding`, label: "Onboarding" },
     { href: `${base}/contracts`, label: "Contracts" },
+    { href: `${base}/time`, label: "Time Tracking" },
     { href: `${base}/accounting`, label: "Accounting" },
     { href: `${base}/compliance`, label: "Compliance" },
     { href: `${base}/data-sources`, label: "Data Sources" },
