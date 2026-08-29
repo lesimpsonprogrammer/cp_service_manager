@@ -33,6 +33,7 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") ?? "/dashboard";
   const checkEmail = searchParams.get("checkEmail");
+  const pendingApproval = searchParams.get("pendingApproval");
   const [email, setEmail] = useState("");
 
   return (
@@ -43,6 +44,7 @@ function LoginForm() {
       {checkEmail && (
         <div className="mt-4 rounded-md border border-brand/30 bg-brand/10 px-3 py-2 text-sm text-foreground">
           Check your inbox to confirm your email, then sign in below.
+          {pendingApproval && " Your access request will need to be approved before you can get in."}
         </div>
       )}
 
@@ -88,9 +90,9 @@ function LoginForm() {
       </form>
 
       <p className="mt-6 text-center text-sm text-muted">
-        Don&apos;t have a workspace?{" "}
+        Need access?{" "}
         <Link href="/signup" className="font-medium text-brand hover:underline">
-          Create one
+          Request an account
         </Link>
       </p>
     </div>

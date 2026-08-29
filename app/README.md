@@ -10,8 +10,15 @@ deployment.
 
 ## What's here
 
-- **Auth** — Supabase email/password auth. Every new signup gets its own
-  organization (multi-tenant workspace) via a Postgres trigger.
+- **Auth** — Supabase email/password auth, locked down (`0011_signup_approval.sql`):
+  a self-serve signup (work email only — free providers like Gmail/Yahoo are
+  rejected, `src/lib/utils/email.ts`) no longer gets its own organization for
+  free. It lands in `signup_requests` (pending) until an owner/admin approves
+  it into an existing workspace with a chosen role, or rejects it
+  (Settings → Pending signup requests). A pending/rejected user who confirms
+  their email sees `/pending-approval` instead of the dashboard. Owners/admins
+  can also send direct invite links (Settings → Invite people, `org_invites`)
+  that join their org immediately, skipping the approval queue.
 - **Clients** — a CRM section for the companies each workspace runs data
   extraction, HR consulting, or managed payroll work for (`src/app/(dashboard)/clients`),
   organized into tabs per client:
@@ -67,7 +74,7 @@ deployment.
 
 1. Create a Supabase project.
 2. Run the migrations in `supabase/migrations/` against it, in order
-   (`0001_init.sql` through `0010_invoices.sql`) — via the
+   (`0001_init.sql` through `0011_signup_approval.sql`) — via the
    Supabase SQL editor, or `supabase db push` if you're using the CLI.
 3. Copy `.env.example` to `.env.local` and fill in your project's URL and
    keys (Project Settings → API), plus a [Resend](https://resend.com) API
