@@ -12,7 +12,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div className="relative z-10 p-10">
           <Link
             href="/"
-            className="flex items-center gap-2 text-sm font-semibold tracking-tight dark:text-white"
+            className="flex items-center gap-2 text-sm font-semibold tracking-tight text-brand dark:text-white"
           >
             <LogoMark className="h-8 w-8 text-brand dark:text-white" />
             Cloud Performance Service Manager
@@ -20,17 +20,17 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         </div>
 
         <div className="relative z-10 p-10">
-          <h1 className="max-w-xl text-3xl font-semibold leading-tight tracking-tight text-foreground dark:text-white">
+          <h1 className="max-w-xl text-3xl font-semibold leading-tight tracking-tight text-brand dark:text-white">
             One platform for every spreadsheet, HCM, and ERP connection.
           </h1>
-          <p className="mt-4 max-w-lg text-sm text-muted dark:text-white">
+          <p className="mt-4 max-w-lg text-sm text-brand dark:text-white">
             Connectors, ETL pipelines, webhooks, and a REST API — built for data
             extraction, HR consulting, and managed payroll teams who move data
             for a living.
           </p>
         </div>
 
-        <div className="relative z-10 border-t border-border p-10 text-xs text-muted dark:text-white">
+        <div className="relative z-10 border-t border-border p-10 text-xs text-brand dark:text-white">
           &copy; {new Date().getFullYear()} Cloud Performance Service Manager. All rights reserved.
         </div>
       </div>
