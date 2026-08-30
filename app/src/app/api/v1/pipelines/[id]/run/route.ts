@@ -2,6 +2,11 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { authenticateApiKey, unauthorized } from "@/lib/api-keys/auth";
 import { runPipeline } from "@/lib/etl/engine";
 
+// See the matching comment in (dashboard)/pipelines/actions.ts — without
+// this, a slow extract/load gets killed by Vercel's default timeout before
+// the run row is ever marked succeeded/failed, and it's stuck on "running".
+export const maxDuration = 60;
+
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const auth = await authenticateApiKey(request);
