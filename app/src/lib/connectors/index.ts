@@ -5,6 +5,8 @@ import { googleSheetsAdapter } from "./adapters/googleSheets";
 import { restApiAdapter } from "./adapters/restApi";
 import { postgresAdapter } from "./adapters/postgres";
 import { taxBanditsAdapter } from "./adapters/taxBandits";
+import { adpWorkforceNowAdapter } from "./adapters/adpWorkforceNow";
+import { paychexFlexAdapter } from "./adapters/paychexFlex";
 
 export * from "./types";
 export { CONNECTOR_DEFINITIONS, getConnectorDefinition } from "./registry";
@@ -22,6 +24,8 @@ const ADAPTERS: Record<DataSourceType, ConnectorAdapter | null> = {
   hcm: restApiAdapter,
   erp: restApiAdapter,
   tax_filing: taxBanditsAdapter,
+  adp_workforce_now: adpWorkforceNowAdapter,
+  paychex_flex: paychexFlexAdapter,
   webhook: null,
 };
 

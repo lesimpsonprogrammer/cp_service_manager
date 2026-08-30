@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
-import { createWebhook, EVENT_OPTIONS, type WebhookFormState } from "@/app/(dashboard)/webhooks/actions";
+import { createWebhook, type WebhookFormState } from "@/app/(dashboard)/webhooks/actions";
+import { EVENT_OPTIONS } from "@/app/(dashboard)/webhooks/constants";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input, Label, Select } from "@/components/ui/Input";

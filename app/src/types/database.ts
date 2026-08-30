@@ -12,6 +12,8 @@ export type DataSourceType =
   | "hcm"
   | "erp"
   | "tax_filing"
+  | "adp_workforce_now"
+  | "paychex_flex"
   | "webhook";
 
 export type DataSourceStatus = "connected" | "disconnected" | "error" | "pending";
