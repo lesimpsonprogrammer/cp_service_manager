@@ -58,7 +58,7 @@ export default async function RootPage() {
       </section>
 
       <footer className="relative z-10 px-6 py-6 text-center text-xs text-muted">
-        &copy; {new Date().getFullYear()} Cloud Performance Service Manager · a Momentum Data platform
+        &copy; {new Date().getFullYear()} Cloud Performance Service Manager, a Momentum Data Solutions Company
       </footer>
     </main>
   );
