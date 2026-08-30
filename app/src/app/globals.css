@@ -102,6 +102,56 @@ body {
   }
 }
 
+@keyframes aurora-drift {
+  0%,
+  100% {
+    transform: translate(-8%, -6%) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translate(8%, 6%) rotate(180deg) scale(1.15);
+  }
+}
+
+.aurora-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.aurora-bg::before,
+.aurora-bg::after {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  background-image: radial-gradient(circle at 22% 28%, hsl(var(--brand) / 0.6) 0%, transparent 55%),
+    radial-gradient(circle at 72% 18%, hsl(var(--accent) / 0.45) 0%, transparent 50%),
+    radial-gradient(circle at 45% 75%, hsl(var(--brand) / 0.35) 0%, transparent 55%);
+  filter: blur(70px) saturate(140%);
+  animation: aurora-drift 22s ease-in-out infinite;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+.aurora-bg::after {
+  background-image: radial-gradient(circle at 78% 65%, hsl(var(--brand) / 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 28% 82%, hsl(var(--accent) / 0.35) 0%, transparent 55%);
+  animation-duration: 28s;
+  animation-direction: reverse;
+}
+
+.dark .aurora-bg::before,
+.dark .aurora-bg::after {
+  mix-blend-mode: plus-lighter;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-bg::before,
+  .aurora-bg::after {
+    animation: none;
+  }
+}
+
 .doc-content h1 {
   font-size: 1.5rem;
   font-weight: 600;
