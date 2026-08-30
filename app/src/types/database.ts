@@ -18,6 +18,12 @@ export type DataSourceType =
 
 export type DataSourceStatus = "connected" | "disconnected" | "error" | "pending";
 
+export type PayrollCompanyStatus = "not_started" | "onboarding" | "active" | "suspended";
+
+export type PayrollEmployeeStatus = "invited" | "onboarding" | "active" | "terminated";
+
+export type PayRunStatus = "draft" | "processing" | "submitted" | "paid" | "failed" | "canceled";
+
 export type PipelineRunStatus = "queued" | "running" | "succeeded" | "failed" | "partial";
 
 export type WebhookDirection = "inbound" | "outbound";
@@ -680,6 +686,117 @@ export interface Database {
             columns: ["client_id"];
             isOneToOne: false;
             referencedRelation: "clients";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      payroll_companies: {
+        Row: {
+          id: string;
+          org_id: string;
+          client_id: string;
+          provider: string;
+          provider_company_id: string | null;
+          status: PayrollCompanyStatus;
+          ein: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["payroll_companies"]["Row"]> & {
+          org_id: string;
+          client_id: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["payroll_companies"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "payroll_companies_client_id_fkey";
+            columns: ["client_id"];
+            isOneToOne: true;
+            referencedRelation: "clients";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      payroll_employees: {
+        Row: {
+          id: string;
+          payroll_company_id: string;
+          provider_employee_id: string | null;
+          first_name: string;
+          last_name: string;
+          email: string | null;
+          status: PayrollEmployeeStatus;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["payroll_employees"]["Row"]> & {
+          payroll_company_id: string;
+          first_name: string;
+          last_name: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["payroll_employees"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "payroll_employees_payroll_company_id_fkey";
+            columns: ["payroll_company_id"];
+            isOneToOne: false;
+            referencedRelation: "payroll_companies";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      pay_runs: {
+        Row: {
+          id: string;
+          payroll_company_id: string;
+          provider_pay_run_id: string | null;
+          pay_period_start: string;
+          pay_period_end: string;
+          pay_date: string;
+          status: PayRunStatus;
+          gross_pay_cents: number | null;
+          net_pay_cents: number | null;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["pay_runs"]["Row"]> & {
+          payroll_company_id: string;
+          pay_period_start: string;
+          pay_period_end: string;
+          pay_date: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["pay_runs"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "pay_runs_payroll_company_id_fkey";
+            columns: ["payroll_company_id"];
+            isOneToOne: false;
+            referencedRelation: "payroll_companies";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      payroll_provider_events: {
+        Row: {
+          id: string;
+          payroll_company_id: string | null;
+          provider: string;
+          event_type: string;
+          payload: Record<string, unknown>;
+          received_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["payroll_provider_events"]["Row"]> & {
+          event_type: string;
+          payload: Record<string, unknown>;
+        };
+        Update: Partial<Database["public"]["Tables"]["payroll_provider_events"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "payroll_provider_events_payroll_company_id_fkey";
+            columns: ["payroll_company_id"];
+            isOneToOne: false;
+            referencedRelation: "payroll_companies";
             referencedColumns: ["id"];
           }
         ];
