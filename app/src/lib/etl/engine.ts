@@ -1,9 +1,13 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database, PipelineRunStatus } from "@/types/database";
+import type { ExtractedRecord } from "@/lib/connectors/types";
 import { getConnectorAdapter } from "@/lib/connectors";
 import { dispatchEvent } from "@/lib/webhooks/dispatch";
 import { sendPipelineRunClientEmail } from "@/lib/email/resend";
 import { applyMapping, applyTransforms, type FieldMapping, type TransformStep } from "./transforms";
+
+/** Cap on how many transformed rows a destination-less run persists for the client portal. */
+const OUTPUT_SAMPLE_LIMIT = 500;
 
 interface PipelineRow {
   id: string;
@@ -55,7 +59,7 @@ export async function runPipeline(
     throw new Error(runInsertError?.message ?? "Failed to create pipeline run.");
   }
 
-  const finish = async (result: Omit<PipelineRunResult, "runId">) => {
+  const finish = async (result: Omit<PipelineRunResult, "runId">, outputRecords?: ExtractedRecord[]) => {
     const { data: updatedRun } = await supabase
       .from("pipeline_runs")
       .update({
@@ -64,6 +68,8 @@ export async function runPipeline(
         records_loaded: result.recordsLoaded,
         records_failed: result.recordsFailed,
         error: result.error,
+        output_sample: outputRecords ? outputRecords.slice(0, OUTPUT_SAMPLE_LIMIT) : null,
+        output_truncated: (outputRecords?.length ?? 0) > OUTPUT_SAMPLE_LIMIT,
         finished_at: new Date().toISOString(),
       })
       .eq("id", run.id)
@@ -113,13 +119,16 @@ export async function runPipeline(
   const transformed = applyTransforms(mapped, (pipeline.transform_steps as TransformStep[]) ?? []);
 
   if (!pipeline.destination_id) {
-    return finish({
-      status: "succeeded",
-      recordsExtracted: extracted.records.length,
-      recordsLoaded: transformed.length,
-      recordsFailed: 0,
-      error: null,
-    });
+    return finish(
+      {
+        status: "succeeded",
+        recordsExtracted: extracted.records.length,
+        recordsLoaded: transformed.length,
+        recordsFailed: 0,
+        error: null,
+      },
+      transformed
+    );
   }
 
   const { data: destination } = await supabase

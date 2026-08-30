@@ -248,6 +248,8 @@ export interface Database {
           records_extracted: number;
           records_loaded: number;
           records_failed: number;
+          output_sample: unknown;
+          output_truncated: boolean;
           error: string | null;
           triggered_by: string;
           started_at: string | null;

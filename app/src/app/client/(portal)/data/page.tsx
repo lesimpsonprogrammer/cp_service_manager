@@ -28,7 +28,9 @@ export default async function ClientDataPage() {
   const { data: runs } = pipelineIds.length
     ? await supabase
         .from("pipeline_runs")
-        .select("id, run_number, pipeline_id, status, records_loaded, records_failed, error, finished_at, started_at")
+        .select(
+          "id, run_number, pipeline_id, status, records_loaded, records_failed, error, finished_at, started_at, output_sample, output_truncated"
+        )
         .in("pipeline_id", pipelineIds)
         .order("started_at", { ascending: false })
         .limit(25)
@@ -84,25 +86,41 @@ export default async function ClientDataPage() {
                     <th className="px-5 py-2 font-medium">Status</th>
                     <th className="px-5 py-2 font-medium">Records</th>
                     <th className="px-5 py-2 font-medium">Finished</th>
+                    <th className="px-5 py-2 font-medium">Cleaned data</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
-                  {(runs ?? []).map((run) => (
-                    <tr key={run.id}>
-                      <td className="px-5 py-2 font-mono text-xs text-foreground">{run.run_number}</td>
-                      <td className="px-5 py-2 text-foreground">{pipelineName.get(run.pipeline_id) ?? "—"}</td>
-                      <td className="px-5 py-2">
-                        <StatusBadge status={run.status} />
-                      </td>
-                      <td className="px-5 py-2 text-muted">
-                        {run.records_loaded}
-                        {run.records_failed > 0 ? ` (${run.records_failed} failed)` : ""}
-                      </td>
-                      <td className="px-5 py-2 text-muted">
-                        {run.finished_at ? new Date(run.finished_at).toLocaleString() : "In progress"}
-                      </td>
-                    </tr>
-                  ))}
+                  {(runs ?? []).map((run) => {
+                    const outputSample = run.output_sample as Record<string, unknown>[] | null;
+                    return (
+                      <tr key={run.id}>
+                        <td className="px-5 py-2 font-mono text-xs text-foreground">{run.run_number}</td>
+                        <td className="px-5 py-2 text-foreground">{pipelineName.get(run.pipeline_id) ?? "—"}</td>
+                        <td className="px-5 py-2">
+                          <StatusBadge status={run.status} />
+                        </td>
+                        <td className="px-5 py-2 text-muted">
+                          {run.records_loaded}
+                          {run.records_failed > 0 ? ` (${run.records_failed} failed)` : ""}
+                        </td>
+                        <td className="px-5 py-2 text-muted">
+                          {run.finished_at ? new Date(run.finished_at).toLocaleString() : "In progress"}
+                        </td>
+                        <td className="px-5 py-2">
+                          {outputSample && outputSample.length > 0 ? (
+                            <a
+                              href={`/client/data/runs/${run.id}/csv`}
+                              className="text-sm font-medium text-brand underline underline-offset-2"
+                            >
+                              Download CSV{run.output_truncated ? ` (first ${outputSample.length})` : ""}
+                            </a>
+                          ) : (
+                            <span className="text-xs text-muted">—</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
