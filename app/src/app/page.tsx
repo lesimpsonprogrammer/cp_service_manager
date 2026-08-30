@@ -20,9 +20,7 @@ export default async function RootPage() {
 
       <header className="relative z-10 flex items-center justify-between px-6 py-6 lg:px-12">
         <div className="flex items-center gap-2 text-sm font-semibold tracking-tight">
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-brand text-brand-foreground">
-            <LogoMark className="h-4 w-4" />
-          </span>
+          <LogoMark className="h-8 w-8 text-brand dark:text-white" />
           Cloud Performance Service Manager
         </div>
         <nav className="flex items-center gap-3">
@@ -60,7 +58,7 @@ export default async function RootPage() {
       </section>
 
       <footer className="relative z-10 px-6 py-6 text-center text-xs text-muted">
-        &copy; {new Date().getFullYear()} Cloud Performance Service Manager · a Momentum Data platform
+        &copy; {new Date().getFullYear()} Cloud Performance Service Manager, a Momentum Data Solutions Company
       </footer>
     </main>
   );

@@ -18,9 +18,7 @@ export function ClientPortalSidebar({ clientName }: { clientName: string }) {
   return (
     <aside className="hidden w-60 shrink-0 flex-col border-r border-border bg-surface md:flex">
       <div className="flex h-14 items-center gap-2 border-b border-border px-4 text-sm font-semibold tracking-tight">
-        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-brand text-brand-foreground">
-          <LogoMark className="h-4 w-4" />
-        </span>
+        <LogoMark className="h-7 w-7 text-brand dark:text-white" />
         <span className="truncate">{clientName}</span>
       </div>
 
@@ -33,7 +31,7 @@ export function ClientPortalSidebar({ clientName }: { clientName: string }) {
               href={item.href}
               className={cn(
                 "flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                active ? "bg-brand/10 text-brand" : "text-muted hover:bg-surface-2 hover:text-foreground"
+                active ? "bg-brand/10 text-brand dark:text-white" : "text-muted hover:bg-surface-2 hover:text-foreground"
               )}
             >
               <span className="w-4 text-center text-xs">{item.icon}</span>
