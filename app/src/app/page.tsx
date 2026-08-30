@@ -18,12 +18,12 @@ export default async function RootPage() {
     <main className="relative flex min-h-screen flex-col overflow-hidden bg-canvas">
       <div className="dotted-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]" />
 
-      <header className="relative z-10 flex items-center justify-between px-6 py-6 lg:px-12">
-        <div className="flex items-center gap-2 text-sm font-semibold tracking-tight">
-          <LogoMark className="h-8 w-8 text-brand dark:text-white" />
-          Cloud Performance Service Manager
+      <header className="relative z-10 flex items-center justify-between gap-3 px-6 py-6 lg:px-12">
+        <div className="flex min-w-0 items-center gap-2 text-sm font-semibold tracking-tight">
+          <LogoMark className="h-8 w-8 shrink-0 text-brand dark:text-white" />
+          <span className="hidden sm:inline">Cloud Performance Service Manager</span>
         </div>
-        <nav className="flex items-center gap-3">
+        <nav className="flex shrink-0 items-center gap-3">
           <Link href="/login" className="text-sm text-muted hover:text-foreground">
             Sign in
           </Link>
@@ -45,12 +45,14 @@ export default async function RootPage() {
           your data extraction and payroll operations — one dashboard, one
           API, every system your clients run.
         </p>
-        <div className="mt-8 flex items-center gap-3">
-          <Link href="/signup">
-            <Button size="lg">Create your workspace</Button>
+        <div className="mt-8 flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row">
+          <Link href="/signup" className="w-full sm:w-auto">
+            <Button size="lg" className="w-full sm:w-auto">
+              Create your workspace
+            </Button>
           </Link>
-          <Link href="/login">
-            <Button size="lg" variant="secondary">
+          <Link href="/login" className="w-full sm:w-auto">
+            <Button size="lg" variant="secondary" className="w-full sm:w-auto">
               Sign in
             </Button>
           </Link>
