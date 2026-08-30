@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
-import { runPipeline, type PipelineRunResult } from "@/lib/etl/engine";
+import { runPipeline, undoPipelineRun, type PipelineRunResult, type UndoRunResult } from "@/lib/etl/engine";
 
 export interface PipelineFormState {
   error: string | null;
@@ -75,6 +75,55 @@ export async function runPipelineNow(pipelineId: string): Promise<PipelineRunRes
   revalidatePath(`/pipelines/${pipelineId}`);
   revalidatePath("/pipelines");
   revalidatePath("/dashboard");
+
+  return result;
+}
+
+/**
+ * Promotes a preview-only pipeline to a live one: sets its destination, then
+ * immediately runs it for real so the caller finds out right away whether
+ * the destination actually works, rather than saving and leaving them to
+ * separately click "Run now".
+ */
+export async function promoteToLive(pipelineId: string, destinationId: string): Promise<PipelineRunResult> {
+  if (!destinationId) throw new Error("Choose a destination to promote to.");
+
+  const supabase = await createClient();
+  const { error: updateError } = await supabase
+    .from("pipelines")
+    .update({ destination_id: destinationId })
+    .eq("id", pipelineId);
+
+  if (updateError) throw new Error(updateError.message);
+
+  const { data: pipeline, error } = await supabase
+    .from("pipelines")
+    .select("id, org_id, source_id, destination_id, mapping, transform_steps")
+    .eq("id", pipelineId)
+    .single();
+
+  if (error || !pipeline) throw new Error("Pipeline not found.");
+
+  const result = await runPipeline(supabase, pipeline, "manual");
+
+  revalidatePath(`/pipelines/${pipelineId}`);
+  revalidatePath("/pipelines");
+  revalidatePath("/dashboard");
+
+  return result;
+}
+
+export async function undoRun(runId: string): Promise<UndoRunResult> {
+  const supabase = await createClient();
+  const org = await getCurrentOrg();
+
+  const { data: run } = await supabase.from("pipeline_runs").select("pipeline_id").eq("id", runId).single();
+  const result = await undoPipelineRun(supabase, runId, org?.userId ?? null);
+
+  if (run?.pipeline_id) {
+    revalidatePath(`/pipelines/${run.pipeline_id}`);
+  }
+  revalidatePath("/pipelines");
 
   return result;
 }

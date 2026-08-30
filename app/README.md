@@ -68,7 +68,13 @@ deployment.
   and PostgreSQL. HCM and ERP systems (BambooHR, Workday, ADP, NetSuite, SAP,
   etc.) onboard as REST APIs configured with a vendor base URL/token.
 - **ETL pipelines** — extract → field-mapping → transform steps → load,
-  with every run recorded in `pipeline_runs` (`src/lib/etl`).
+  with every run recorded in `pipeline_runs` (`src/lib/etl`). A pipeline with
+  no destination runs in preview mode: it extracts and transforms but loads
+  nowhere, and a sample of the transformed output is stored on the run for
+  review. "Promote to live" sets a destination and re-runs for real; a live
+  load can be undone from the run history for destinations whose adapter
+  implements `unload` (Postgres today), which deletes matching rows
+  best-effort from the destination.
 - **Webhooks** — inbound receivers (external systems push data in, HMAC
   verified) and outbound subscriptions (get notified on `pipeline.run.completed`,
   etc.), both with a delivery log.

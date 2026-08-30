@@ -252,6 +252,10 @@ export interface Database {
           records_failed: number;
           error: string | null;
           triggered_by: string;
+          sample_records: Array<Record<string, unknown>>;
+          loaded_records: Array<Record<string, unknown>>;
+          rolled_back_at: string | null;
+          rolled_back_by: string | null;
           started_at: string | null;
           finished_at: string | null;
           created_at: string;
