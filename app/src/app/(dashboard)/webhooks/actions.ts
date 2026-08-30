@@ -6,12 +6,11 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
 import type { WebhookDirection } from "@/types/database";
+import { EVENT_OPTIONS } from "./constants";
 
 export interface WebhookFormState {
   error: string | null;
 }
-
-export const EVENT_OPTIONS = ["pipeline.run.completed", "data_source.status_changed"] as const;
 
 export async function createWebhook(
   _prev: WebhookFormState,
