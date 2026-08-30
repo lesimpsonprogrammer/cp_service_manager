@@ -7,6 +7,13 @@ import { PipelineRunHistory } from "@/components/pipelines/PipelineRunHistory";
 import { PromoteToLivePanel } from "@/components/pipelines/PromoteToLivePanel";
 import type { FieldMapping, TransformStep } from "@/lib/etl/transforms";
 
+// Extract + per-record load can run past Vercel's default serverless
+// timeout on anything but a trivial source, which kills the function before
+// the run's finish() step ever marks it succeeded/failed — leaving the row
+// stuck on "running" indefinitely. Applies to the Server Actions this page's
+// buttons invoke (runPipelineNow, promoteToLive, undoRun).
+export const maxDuration = 60;
+
 export default async function PipelineDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const supabase = await createClient();
