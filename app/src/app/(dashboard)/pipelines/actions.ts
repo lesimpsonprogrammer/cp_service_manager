@@ -6,11 +6,10 @@ import { createClient } from "@/lib/supabase/server";
 import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
 import { runPipeline, undoPipelineRun, type PipelineRunResult, type UndoRunResult } from "@/lib/etl/engine";
 
-// Extract + per-record load can run past Vercel's default serverless
-// timeout on anything but a trivial source, which kills the function before
-// the run's `finish()` step ever marks it succeeded/failed — leaving the row
-// stuck on "running" indefinitely. Cap raised to this route's plan maximum.
-export const maxDuration = 60;
+// maxDuration for the Server Actions in this file is set as route segment
+// config on pipelines/[id]/page.tsx, not here — a "use server" file can only
+// export server actions, and adding a plain constant export breaks Next's
+// server-actions compiler for the whole module.
 
 export interface PipelineFormState {
   error: string | null;
