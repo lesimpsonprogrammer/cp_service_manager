@@ -129,7 +129,6 @@ body {
     radial-gradient(circle at 45% 75%, hsl(var(--brand) / 0.35) 0%, transparent 55%);
   filter: blur(70px) saturate(140%);
   animation: aurora-drift 22s ease-in-out infinite;
-  mix-blend-mode: screen;
   will-change: transform;
 }
 
