@@ -9,6 +9,7 @@ import { TestConnectionButton } from "@/components/connectors/TestConnectionButt
 import { DeleteDataSourceButton } from "@/components/connectors/DeleteDataSourceButton";
 import { AssignClientSelect } from "@/components/connectors/AssignClientSelect";
 import { Label } from "@/components/ui/Input";
+import { Button } from "@/components/ui/Button";
 
 export default async function DataSourceDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -38,7 +39,16 @@ export default async function DataSourceDetailPage({ params }: { params: Promise
       <PageHeader
         title={source.name}
         description={definition?.label ?? source.type}
-        action={<DeleteDataSourceButton dataSourceId={source.id} />}
+        action={
+          <div className="flex items-center gap-2">
+            <Link href={`/data-sources/${source.id}/edit`}>
+              <Button variant="secondary" size="sm">
+                Edit
+              </Button>
+            </Link>
+            <DeleteDataSourceButton dataSourceId={source.id} />
+          </div>
+        }
       />
 
       <div className="grid gap-4 lg:grid-cols-3">

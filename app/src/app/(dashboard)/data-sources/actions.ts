@@ -60,6 +60,66 @@ export async function createDataSource(
   redirect(`/data-sources/${data.id}`);
 }
 
+export async function updateDataSource(
+  dataSourceId: string,
+  _prev: DataSourceFormState,
+  formData: FormData
+): Promise<DataSourceFormState> {
+  const supabase = await createClient();
+  const { data: source, error: fetchError } = await supabase
+    .from("data_sources")
+    .select("type, config")
+    .eq("id", dataSourceId)
+    .single();
+
+  if (fetchError || !source) return { error: "Data source not found." };
+
+  const definition = getConnectorDefinition(source.type);
+  if (!definition) return { error: "Unknown connector type." };
+
+  const name = String(formData.get("name") ?? "").trim();
+  if (!name) return { error: "Give this data source a name." };
+
+  const clientId = String(formData.get("client_id") ?? "").trim() || null;
+
+  const existingConfig = (source.config as Record<string, unknown>) ?? {};
+  const config: Record<string, unknown> = { ...existingConfig };
+
+  for (const field of definition.fields) {
+    const raw = formData.get(`field_${field.key}`);
+    const value = raw === null ? "" : String(raw);
+
+    if (field.secret) {
+      // The form never echoes a secret value back, so a blank submit means
+      // "leave it as-is" rather than "clear it".
+      if (value !== "") {
+        config[field.key] = value;
+      } else if (field.required && !existingConfig[field.key]) {
+        return { error: `${field.label} is required.` };
+      }
+      continue;
+    }
+
+    if (field.required && !value) {
+      return { error: `${field.label} is required.` };
+    }
+
+    if (value === "") delete config[field.key];
+    else config[field.key] = value;
+  }
+
+  const { error } = await supabase
+    .from("data_sources")
+    .update({ name, client_id: clientId, config, status: "pending", updated_at: new Date().toISOString() })
+    .eq("id", dataSourceId);
+
+  if (error) return { error: error.message };
+
+  revalidatePath(`/data-sources/${dataSourceId}`);
+  revalidatePath("/data-sources");
+  redirect(`/data-sources/${dataSourceId}`);
+}
+
 export async function testDataSourceConnection(dataSourceId: string): Promise<ConnectionTestResult> {
   const org = await getCurrentOrg();
   if (!org) return { ok: false, message: "Not signed in." };
