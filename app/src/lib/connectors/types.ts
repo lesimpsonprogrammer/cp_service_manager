@@ -52,9 +52,24 @@ export interface LoadResult {
   error?: string;
 }
 
+export interface UnloadResult {
+  deleted: number;
+  failed: number;
+  error?: string;
+}
+
 export interface ConnectorAdapter {
   testConnection(config: Record<string, unknown>): Promise<ConnectionTestResult>;
   extract(config: Record<string, unknown>): Promise<ExtractResult>;
   /** Only implemented by adapters that can act as a pipeline destination. */
   load?(config: Record<string, unknown>, records: ExtractedRecord[]): Promise<LoadResult>;
+  /**
+   * Best-effort undo of a previous `load`: given the same records that were
+   * sent, remove them from the destination again. Matches by value rather
+   * than a tracked row id (the destination table isn't required to have
+   * one), so it can miss or over-delete when the destination has duplicate
+   * rows identical to a loaded record — surfaced in the UI as a caveat, not
+   * hidden. Only implemented by adapters whose destination supports it.
+   */
+  unload?(config: Record<string, unknown>, records: ExtractedRecord[]): Promise<UnloadResult>;
 }

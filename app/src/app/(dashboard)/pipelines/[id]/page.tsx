@@ -2,8 +2,9 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { StatusBadge } from "@/components/ui/Badge";
 import { RunPipelineButton } from "@/components/pipelines/RunPipelineButton";
+import { PipelineRunHistory } from "@/components/pipelines/PipelineRunHistory";
+import { PromoteToLivePanel } from "@/components/pipelines/PromoteToLivePanel";
 import type { FieldMapping, TransformStep } from "@/lib/etl/transforms";
 
 export default async function PipelineDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -12,7 +13,7 @@ export default async function PipelineDetailPage({ params }: { params: Promise<{
   const { data: pipeline } = await supabase
     .from("pipelines")
     .select(
-      "*, source:data_sources!pipelines_source_id_fkey(id, name), destination:data_sources!pipelines_destination_id_fkey(id, name)"
+      "*, source:data_sources!pipelines_source_id_fkey(id, name), destination:data_sources!pipelines_destination_id_fkey(id, name, type)"
     )
     .eq("id", id)
     .single();
@@ -27,9 +28,19 @@ export default async function PipelineDetailPage({ params }: { params: Promise<{
     .limit(20);
 
   const source = (pipeline as unknown as { source: { name: string } | null }).source;
-  const destination = (pipeline as unknown as { destination: { name: string } | null }).destination;
+  const destination = (pipeline as unknown as { destination: { name: string; type: string } | null }).destination;
   const mapping = (pipeline.mapping ?? []) as FieldMapping[];
   const transformSteps = (pipeline.transform_steps ?? []) as unknown as TransformStep[];
+
+  let dataSources: { id: string; name: string; type: string }[] = [];
+  if (!pipeline.destination_id) {
+    const { data } = await supabase
+      .from("data_sources")
+      .select("id, name, type")
+      .neq("id", pipeline.source_id)
+      .order("created_at", { ascending: false });
+    dataSources = data ?? [];
+  }
 
   return (
     <div>
@@ -83,45 +94,20 @@ export default async function PipelineDetailPage({ params }: { params: Promise<{
         </Card>
       </div>
 
+      {!pipeline.destination_id && dataSources.length > 0 && (
+        <PromoteToLivePanel pipelineId={pipeline.id} dataSources={dataSources} />
+      )}
+
       <Card className="mt-4">
         <CardHeader>
           <CardTitle>Run history</CardTitle>
         </CardHeader>
         <CardContent className="p-0">
-          {runs && runs.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm">
-                <thead className="border-b border-border bg-surface-2 text-xs uppercase tracking-wide text-muted">
-                  <tr>
-                    <th className="px-5 py-2.5 font-medium">Started</th>
-                    <th className="px-5 py-2.5 font-medium">Trigger</th>
-                    <th className="px-5 py-2.5 font-medium">Extracted</th>
-                    <th className="px-5 py-2.5 font-medium">Loaded</th>
-                    <th className="px-5 py-2.5 font-medium">Failed</th>
-                    <th className="px-5 py-2.5 font-medium">Status</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {runs.map((run) => (
-                    <tr key={run.id}>
-                      <td className="px-5 py-2.5 text-muted">
-                        {run.started_at ? new Date(run.started_at).toLocaleString() : "—"}
-                      </td>
-                      <td className="px-5 py-2.5 text-muted">{run.triggered_by}</td>
-                      <td className="px-5 py-2.5">{run.records_extracted}</td>
-                      <td className="px-5 py-2.5">{run.records_loaded}</td>
-                      <td className="px-5 py-2.5">{run.records_failed}</td>
-                      <td className="px-5 py-2.5">
-                        <StatusBadge status={run.status} />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <p className="px-5 py-4 text-sm text-muted">No runs yet — click &ldquo;Run now&rdquo; to trigger one.</p>
-          )}
+          <PipelineRunHistory
+            runs={runs ?? []}
+            destinationType={destination?.type ?? null}
+            hasDestination={!!pipeline.destination_id}
+          />
         </CardContent>
       </Card>
     </div>

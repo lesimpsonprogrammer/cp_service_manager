@@ -95,4 +95,47 @@ export const postgresAdapter: ConnectorAdapter = {
 
     return { loaded, failed };
   },
+
+  async unload(config, records) {
+    const table = String(config.load_table ?? "").trim();
+    if (!table) throw new Error("Set a destination table for this data source first.");
+    if (!/^[a-zA-Z_][a-zA-Z0-9_]*(\.[a-zA-Z_][a-zA-Z0-9_]*)?$/.test(table)) {
+      throw new Error("Destination table must look like `table` or `schema.table`.");
+    }
+    if (records.length === 0) return { deleted: 0, failed: 0 };
+
+    const identifier = (name: string) => `"${name.replace(/"/g, '""')}"`;
+    let deleted = 0;
+    let failed = 0;
+
+    await withClient(config, async (client) => {
+      for (const record of records) {
+        const columns = Object.keys(record);
+        if (columns.length === 0) {
+          failed += 1;
+          continue;
+        }
+        const conditions = columns.map((c, i) => `${identifier(c)} is not distinct from $${i + 1}`).join(" and ");
+        const values = columns.map((c) => record[c] ?? null);
+        try {
+          // Deletes at most one matching row per record (rather than every
+          // row with these values) via a ctid subquery, since plain DELETE
+          // has no LIMIT clause in Postgres.
+          const result = await client.query(
+            `delete from ${table} where ctid = (select ctid from ${table} where ${conditions} limit 1)`,
+            values
+          );
+          if (result.rowCount && result.rowCount > 0) {
+            deleted += 1;
+          } else {
+            failed += 1;
+          }
+        } catch {
+          failed += 1;
+        }
+      }
+    });
+
+    return { deleted, failed };
+  },
 };
