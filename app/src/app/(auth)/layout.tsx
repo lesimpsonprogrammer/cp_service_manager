@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { LogoMark } from "@/components/ui/Logo";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="grid min-h-screen lg:grid-cols-2">
+    <div className="relative grid min-h-screen lg:grid-cols-2">
+      <ThemeToggle className="absolute right-4 top-4 z-20" />
       <div className="relative hidden overflow-hidden border-r border-border bg-surface lg:flex lg:flex-col lg:justify-between">
         <div className="dotted-grid dotted-grid-pulse absolute inset-0 opacity-40 [mask-image:radial-gradient(ellipse_at_top_left,black,transparent_75%)]" />
         <div className="aurora-bg" />
