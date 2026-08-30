@@ -11,9 +11,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
         <div className="relative z-10 p-10">
           <Link href="/" className="flex items-center gap-2 text-sm font-semibold tracking-tight">
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-brand text-brand-foreground">
-              <LogoMark className="h-4 w-4" />
-            </span>
+            <LogoMark className="h-8 w-8 text-brand dark:text-white" />
             Cloud Performance Service Manager
           </Link>
         </div>
