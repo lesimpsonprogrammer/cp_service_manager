@@ -169,6 +169,52 @@ export const CONNECTOR_DEFINITIONS: ConnectorDefinition[] = [
     ],
   },
   {
+    type: "adp_workforce_now",
+    category: "HCM",
+    label: "ADP Workforce Now",
+    description: "Pull worker records from ADP Workforce Now via its OAuth2 API.",
+    icon: "◫",
+    fields: [
+      {
+        key: "environment",
+        label: "Environment",
+        type: "select",
+        required: true,
+        options: [
+          { label: "Sandbox (IAT)", value: "sandbox" },
+          { label: "Production", value: "production" },
+        ],
+        defaultValue: "sandbox",
+        helpText: "Production traffic requires the mutual-TLS client certificate ADP issues for your connection, in addition to the Client ID/Secret below.",
+      },
+      { key: "client_id", label: "Client ID", type: "text", required: true },
+      { key: "client_secret", label: "Client Secret", type: "password", secret: true, required: true },
+    ],
+  },
+  {
+    type: "paychex_flex",
+    category: "HCM",
+    label: "Paychex Flex",
+    description: "Pull worker records from Paychex Flex via its OAuth2 API.",
+    icon: "◫",
+    fields: [
+      {
+        key: "environment",
+        label: "Environment",
+        type: "select",
+        required: true,
+        options: [
+          { label: "Sandbox", value: "sandbox" },
+          { label: "Production", value: "production" },
+        ],
+        defaultValue: "sandbox",
+      },
+      { key: "client_id", label: "Client ID", type: "text", required: true },
+      { key: "client_secret", label: "Client Secret", type: "password", secret: true, required: true },
+      { key: "company_id", label: "Company ID", type: "text", required: true, helpText: "Paychex company identifier to scope worker lookups to." },
+    ],
+  },
+  {
     type: "tax_filing",
     category: "Tax Filing",
     label: "TaxBandits",
