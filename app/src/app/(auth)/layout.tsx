@@ -5,8 +5,9 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
       <div className="relative hidden overflow-hidden border-r border-border bg-surface lg:flex lg:flex-col lg:justify-between">
-        <div className="dotted-grid dotted-grid-pulse absolute inset-0 [mask-image:radial-gradient(ellipse_at_top_left,black,transparent_75%)]" />
-        <div className="absolute inset-0 bg-gradient-to-br from-brand/10 via-transparent to-transparent" />
+        <div className="dotted-grid dotted-grid-pulse absolute inset-0 opacity-40 [mask-image:radial-gradient(ellipse_at_top_left,black,transparent_75%)]" />
+        <div className="aurora-bg" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-surface/80" />
 
         <div className="relative z-10 p-10">
           <Link href="/" className="flex items-center gap-2 text-sm font-semibold tracking-tight">
