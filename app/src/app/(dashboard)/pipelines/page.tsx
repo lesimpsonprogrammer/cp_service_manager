@@ -5,6 +5,14 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { StatusBadge } from "@/components/ui/Badge";
+import { PipelineAdvisorPanel } from "@/components/pipelines/PipelineAdvisorPanel";
+import { getPipelineAdvisories, type AdvisorRun } from "@/lib/etl/advisor";
+
+// How many of a pipeline's most recent runs the advisor looks at per
+// pipeline, and how many total runs it pulls across the org to build that
+// (org-wide, not per-pipeline, so this is a rough cap — fine at this scale).
+const RUNS_PER_PIPELINE = 5;
+const RECENT_RUNS_LIMIT = 300;
 
 export default async function PipelinesPage() {
   const supabase = await createClient();
@@ -12,6 +20,23 @@ export default async function PipelinesPage() {
     .from("pipelines")
     .select("id, name, is_active, schedule, source:data_sources!pipelines_source_id_fkey(name), destination:data_sources!pipelines_destination_id_fkey(name)")
     .order("created_at", { ascending: false });
+
+  const { data: recentRuns } = await supabase
+    .from("pipeline_runs")
+    .select("pipeline_id, status, started_at, created_at")
+    .order("created_at", { ascending: false })
+    .limit(RECENT_RUNS_LIMIT);
+
+  const runsByPipeline = new Map<string, AdvisorRun[]>();
+  for (const run of recentRuns ?? []) {
+    const existing = runsByPipeline.get(run.pipeline_id) ?? [];
+    if (existing.length < RUNS_PER_PIPELINE) {
+      existing.push({ status: run.status, started_at: run.started_at, created_at: run.created_at });
+      runsByPipeline.set(run.pipeline_id, existing);
+    }
+  }
+
+  const advisories = getPipelineAdvisories(pipelines ?? [], runsByPipeline);
 
   return (
     <div>
@@ -24,6 +49,8 @@ export default async function PipelinesPage() {
           </Link>
         }
       />
+
+      {pipelines && pipelines.length > 0 && <PipelineAdvisorPanel advisories={advisories} />}
 
       {pipelines && pipelines.length > 0 ? (
         <Card className="overflow-hidden">
