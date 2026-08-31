@@ -1491,3 +1491,126 @@ textarea:focus {
     grid-template-columns: 1fr;
   }
 }
+
+/* Dropdown nav (Compliance / Resources) */
+.nav-links .has-dropdown {
+  position: relative;
+}
+
+.nav-links .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 240px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 8px;
+  z-index: 20;
+}
+
+.nav-links .has-dropdown:hover .dropdown-menu,
+.nav-links .has-dropdown:focus-within .dropdown-menu {
+  display: block;
+}
+
+.nav-links .dropdown-menu a {
+  display: block;
+  padding: 8px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.nav-links .dropdown-menu a:hover {
+  background: var(--light-blue);
+}
+
+@media (max-width: 900px) {
+  .nav-links .dropdown-menu {
+    display: block;
+    position: static;
+    box-shadow: none;
+    border: none;
+    padding: 0 0 0 16px;
+  }
+}
+
+/* Simple content pages (About / Services / Contact / Compliance / Resources) */
+.page-hero {
+  padding: 64px 0 24px;
+}
+
+.page-hero h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--blue-dark);
+  margin: 0 0 12px;
+}
+
+.page-body {
+  padding: 24px 0 72px;
+}
+
+.page-body h2 {
+  font-family: var(--font-heading);
+  color: var(--blue-dark);
+  margin: 32px 0 12px;
+}
+
+.page-body p {
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 0 0 16px;
+}
+
+.page-body ul {
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 0 0 16px;
+  padding-left: 20px;
+}
+
+.page-body .eyebrow {
+  color: var(--dark-orange);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.notice-card {
+  background: var(--light-blue);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin: 24px 0;
+  color: var(--text);
+}
+
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  margin: 24px 0;
+}
+
+.resource-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.resource-card h3 {
+  font-family: var(--font-heading);
+  color: var(--blue-dark);
+  margin: 0 0 8px;
+}
+
+.resource-card p {
+  color: var(--muted);
+  margin: 0;
+}
