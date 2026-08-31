@@ -55,6 +55,9 @@
   display: inline-flex;
   width: fit-content;
   margin-bottom: 0.35rem;
+  color: var(--text, #0b1f3a);
+  font-weight: 800;
+  font-size: 1.15rem;
   text-decoration: none;
 }
 

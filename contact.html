@@ -16,7 +16,7 @@
   <meta content="summary" name="twitter:card" />
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=DM+Sans:wght@400;500;600;700;800&amp;display=swap"
     rel="stylesheet" />
   <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
   <link href="site.css" rel="stylesheet" />
@@ -34,10 +34,44 @@
 </head>
 
 <body>
+  <div class="mds-string-background" aria-hidden="true">
+    <svg class="mds-background-strings" viewBox="0 0 1600 2600" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="mds-string-gradient" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#f58220" stop-opacity="0" />
+          <stop offset=".16" stop-color="#f58220" stop-opacity=".62" />
+          <stop offset=".44" stop-color="#91c2f3" stop-opacity=".45" />
+          <stop offset=".72" stop-color="#2f8ae6" stop-opacity=".7" />
+          <stop offset="1" stop-color="#0b4f91" stop-opacity="0" />
+        </linearGradient>
+        <path id="mds-string-path" d="M-160 510 C 110 300, 340 315, 560 500 S 955 690, 1210 450 S 1540 285, 1770 445" />
+      </defs>
+      <g id="mds-string-band" fill="none" stroke="url(#mds-string-gradient)" stroke-width="1.2" vector-effect="non-scaling-stroke">
+        <use href="#mds-string-path" transform="translate(0 -126)" opacity=".18" />
+        <use href="#mds-string-path" transform="translate(0 -108)" opacity=".22" />
+        <use href="#mds-string-path" transform="translate(0 -90)" opacity=".27" />
+        <use href="#mds-string-path" transform="translate(0 -72)" opacity=".33" />
+        <use href="#mds-string-path" transform="translate(0 -54)" opacity=".4" />
+        <use href="#mds-string-path" transform="translate(0 -36)" opacity=".48" />
+        <use href="#mds-string-path" transform="translate(0 -18)" opacity=".57" />
+        <use href="#mds-string-path" opacity=".7" />
+        <use href="#mds-string-path" transform="translate(0 18)" opacity=".57" />
+        <use href="#mds-string-path" transform="translate(0 36)" opacity=".48" />
+        <use href="#mds-string-path" transform="translate(0 54)" opacity=".4" />
+        <use href="#mds-string-path" transform="translate(0 72)" opacity=".33" />
+        <use href="#mds-string-path" transform="translate(0 90)" opacity=".27" />
+        <use href="#mds-string-path" transform="translate(0 108)" opacity=".22" />
+        <use href="#mds-string-path" transform="translate(0 126)" opacity=".18" />
+      </g>
+      <use href="#mds-string-band" />
+      <use href="#mds-string-band" transform="translate(0 820)" opacity=".78" />
+      <use href="#mds-string-band" transform="translate(0 1640)" opacity=".64" />
+    </svg>
+  </div>
   <header class="site-header" id="top">
     <nav aria-label="Main navigation" class="nav container">
       <a aria-label="Momentum Data home" class="brand" href="index.html">
-        <span class="brand-text-logo">Momentum Data Solutions</span>
+        <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data Solutions" class="brand-logo" />
       </a>
       <button aria-expanded="false" aria-label="Open menu" class="nav-toggle">
         <span></span>
@@ -58,7 +92,7 @@
         <div class="has-dropdown">
           <a href="resources.html">Resources</a>
           <div class="dropdown-menu">
-            <a href="resources.html">Blog</a>
+            <a href="/blog">Blog</a>
             <a href="data-glossary.html">Data Glossary</a>
             <a href="relentless.html">Relentless Commitment</a>
             <a href="executive-brief.html">Executive Brief</a>
@@ -136,7 +170,7 @@
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="resources.html">Resources</a>
-        <a href="resources.html">Blog</a>
+        <a href="/blog">Blog</a>
         <a href="contact.html">Contact</a>
       </div>
     </div>
