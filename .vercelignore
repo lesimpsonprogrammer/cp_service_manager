@@ -12,6 +12,7 @@ momentum_data_homepage_client_login/
 # Backups / archives, not meant to be served.
 momentum-data-current-complete-services-client-portal.zip
 momentum-home-backup.html
+archive/
 
 # Internal docs and editor/OS cruft.
 docs/
