@@ -487,6 +487,30 @@ export interface Database {
         Update: Partial<Database["public"]["Tables"]["docs"]["Row"]>;
         Relationships: [];
       };
+      blog_posts: {
+        Row: {
+          id: string;
+          org_id: string;
+          title: string;
+          slug: string;
+          excerpt: string;
+          body: string;
+          category: string;
+          author_name: string;
+          published: boolean;
+          published_at: string | null;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["blog_posts"]["Row"]> & {
+          org_id: string;
+          title: string;
+          slug: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["blog_posts"]["Row"]>;
+        Relationships: [];
+      };
       agreement_templates: {
         Row: {
           id: string;
