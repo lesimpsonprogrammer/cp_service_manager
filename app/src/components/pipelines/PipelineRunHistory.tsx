@@ -126,7 +126,7 @@ export function PipelineRunHistory({
             return (
               <Fragment key={run.id}>
                 <tr>
-                  <td className="px-5 py-2.5 text-muted">
+                  <td className="px-5 py-2.5 text-muted" suppressHydrationWarning>
                     {run.started_at ? new Date(run.started_at).toLocaleString() : "—"}
                   </td>
                   <td className="px-5 py-2.5 text-muted">{run.triggered_by}</td>
