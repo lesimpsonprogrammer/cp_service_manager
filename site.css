@@ -58,8 +58,22 @@ body {
   width: max(1600px, 100vw);
   height: 2800px;
   transform: translateX(-50%);
-  opacity: 0.82;
+  opacity: 0.4;
+  filter: blur(1.5px);
   pointer-events: none;
+  animation: mds-drift 42s ease-in-out infinite;
+}
+
+@keyframes mds-drift {
+  0%   { transform: translate(-50%, 0) scale(1); }
+  50%  { transform: translate(calc(-50% + 18px), 14px) scale(1.015); }
+  100% { transform: translate(-50%, 0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mds-background-strings {
+    animation: none;
+  }
 }
 
 .site-header,
