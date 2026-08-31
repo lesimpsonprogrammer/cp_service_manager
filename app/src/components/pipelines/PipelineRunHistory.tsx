@@ -50,12 +50,13 @@ function RecordsTable({ records }: { records: Array<Record<string, unknown>> }) 
 function UndoRunButton({ runId }: { runId: string }) {
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
-  const [done, setDone] = useState<{ deleted: number; failed: number } | null>(null);
+  const [done, setDone] = useState<{ deleted: number; failed: number; error: string | null } | null>(null);
 
   if (done) {
     return (
       <p className="text-xs text-muted">
         Undone: {done.deleted} deleted{done.failed > 0 && `, ${done.failed} not found`}
+        {done.error && <span className="block text-danger">{done.error}</span>}
       </p>
     );
   }
@@ -72,7 +73,7 @@ function UndoRunButton({ runId }: { runId: string }) {
           startTransition(async () => {
             try {
               const result = await undoRun(runId);
-              setDone({ deleted: result.deleted, failed: result.failed });
+              setDone({ deleted: result.deleted, failed: result.failed, error: result.error });
             } catch (err) {
               setError(err instanceof Error ? err.message : "Undo failed.");
             }
