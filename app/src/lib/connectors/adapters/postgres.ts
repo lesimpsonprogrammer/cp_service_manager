@@ -79,6 +79,7 @@ export const postgresAdapter: ConnectorAdapter = {
     const columnList = columns.map(identifier).join(", ");
     let loaded = 0;
     let failed = 0;
+    let firstError: string | undefined;
 
     await withClient(config, async (client) => {
       for (const record of records) {
@@ -87,13 +88,17 @@ export const postgresAdapter: ConnectorAdapter = {
         try {
           await client.query(`insert into ${table} (${columnList}) values (${placeholders})`, values);
           loaded += 1;
-        } catch {
+        } catch (err) {
           failed += 1;
+          // Every failed row usually fails for the same reason (a bad
+          // column, a type mismatch) — surface the first one instead of
+          // leaving "N failed" with no way to tell why.
+          firstError ??= err instanceof Error ? err.message : "Insert failed.";
         }
       }
     });
 
-    return { loaded, failed };
+    return { loaded, failed, error: firstError };
   },
 
   async unload(config, records) {
@@ -107,6 +112,7 @@ export const postgresAdapter: ConnectorAdapter = {
     const identifier = (name: string) => `"${name.replace(/"/g, '""')}"`;
     let deleted = 0;
     let failed = 0;
+    let firstError: string | undefined;
 
     await withClient(config, async (client) => {
       for (const record of records) {
@@ -130,12 +136,13 @@ export const postgresAdapter: ConnectorAdapter = {
           } else {
             failed += 1;
           }
-        } catch {
+        } catch (err) {
           failed += 1;
+          firstError ??= err instanceof Error ? err.message : "Delete failed.";
         }
       }
     });
 
-    return { deleted, failed };
+    return { deleted, failed, error: firstError };
   },
 };
