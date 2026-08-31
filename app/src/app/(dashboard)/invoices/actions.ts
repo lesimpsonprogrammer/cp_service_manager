@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
 import { sendInvoiceEmail } from "@/lib/email/resend";
+import { generateInvoiceFromTimecard } from "@/lib/invoices/generateFromTimecard";
 
 export interface InvoiceFormState {
   error: string | null;
@@ -102,66 +103,12 @@ export async function createInvoiceFromTimecard(clientId: string, timecardId: st
   if (!org) return;
 
   const supabase = await createClient();
-  const { data: timecard } = await supabase
-    .from("timecards")
-    .select("id, period_start, period_end, total_hours, total_amount")
-    .eq("id", timecardId)
-    .single();
+  const { invoiceId, error } = await generateInvoiceFromTimecard(supabase, org.orgId, clientId, timecardId, org.userId);
 
-  if (!timecard) return;
-
-  const { data: client } = await supabase
-    .from("clients")
-    .select("billing_contact_name, billing_contact_email")
-    .eq("id", clientId)
-    .single();
-
-  const { data: entries } = await supabase
-    .from("time_entries")
-    .select("contract_id")
-    .eq("timecard_id", timecardId)
-    .limit(1);
-
-  const contractId = entries?.[0]?.contract_id ?? null;
-  const { data: contract } = contractId
-    ? await supabase.from("client_contracts").select("hourly_rate").eq("id", contractId).single()
-    : { data: null as { hourly_rate: number | null } | null };
-
-  const rate = contract?.hourly_rate ?? (timecard.total_hours > 0 ? (timecard.total_amount ?? 0) / timecard.total_hours : 0);
-  const amount = timecard.total_amount ?? timecard.total_hours * rate;
-
-  const { data: invoice, error } = await supabase
-    .from("invoices")
-    .insert({
-      org_id: org.orgId,
-      client_id: clientId,
-      contract_id: contractId,
-      timecard_id: timecardId,
-      invoice_number: generateInvoiceNumber(),
-      subtotal: amount,
-      tax_amount: 0,
-      total: amount,
-      billing_contact_name: client?.billing_contact_name ?? null,
-      billing_contact_email: client?.billing_contact_email ?? null,
-      created_by: org.userId,
-    })
-    .select("id")
-    .single();
-
-  if (error || !invoice) return;
-
-  await supabase.from("invoice_line_items").insert({
-    invoice_id: invoice.id,
-    org_id: org.orgId,
-    description: `Professional services: ${timecard.period_start} – ${timecard.period_end} (${timecard.total_hours}h)`,
-    quantity: timecard.total_hours,
-    unit_price: rate,
-    amount,
-    sort_order: 0,
-  });
+  if (error || !invoiceId) return;
 
   revalidateInvoicePaths(clientId);
-  redirect(`/clients/${clientId}/invoices/${invoice.id}`);
+  redirect(`/clients/${clientId}/invoices/${invoiceId}`);
 }
 
 export async function sendInvoiceToClient(
