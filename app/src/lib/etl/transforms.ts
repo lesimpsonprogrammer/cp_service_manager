@@ -25,7 +25,7 @@ export function applyMapping(records: ExtractedRecord[], mapping: FieldMapping[]
   return records.map((record) => {
     const mapped: ExtractedRecord = {};
     for (const { source, target } of mapping) {
-      if (source in record) mapped[target || source] = record[source];
+      if (source in record) mapped[target?.trim() || source] = record[source];
     }
     return mapped;
   });
