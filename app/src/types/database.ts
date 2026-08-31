@@ -558,6 +558,21 @@ export interface Database {
           }
         ];
       };
+      doc_categories: {
+        Row: {
+          id: string;
+          org_id: string;
+          name: string;
+          created_by: string | null;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["doc_categories"]["Row"]> & {
+          org_id: string;
+          name: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["doc_categories"]["Row"]>;
+        Relationships: [];
+      };
       org_invites: {
         Row: {
           id: string;

@@ -113,3 +113,40 @@ export async function rejectSignupRequest(requestId: string) {
 
   revalidatePath("/settings");
 }
+
+export async function createDocCategory(
+  _prev: SettingsFormState,
+  formData: FormData
+): Promise<SettingsFormState> {
+  const org = await getCurrentOrg();
+  if (!org) return { error: "Not signed in." };
+
+  const name = String(formData.get("name") ?? "").trim();
+  if (!name) return { error: "Give the category a name." };
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("doc_categories").insert({
+    org_id: org.orgId,
+    name,
+    created_by: org.userId,
+  });
+
+  if (error) {
+    return { error: error.code === "23505" ? "That category already exists." : error.message };
+  }
+
+  revalidatePath("/settings");
+  revalidatePath("/docs");
+  return { error: null };
+}
+
+export async function deleteDocCategory(categoryId: string) {
+  const org = await getCurrentOrg();
+  if (!org) return;
+
+  const supabase = await createClient();
+  await supabase.from("doc_categories").delete().eq("id", categoryId);
+
+  revalidatePath("/settings");
+  revalidatePath("/docs");
+}

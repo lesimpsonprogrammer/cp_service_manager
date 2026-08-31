@@ -5,8 +5,8 @@ import { createDoc } from "../actions";
 
 export default async function NewDocPage() {
   const supabase = await createClient();
-  const { data: docs } = await supabase.from("docs").select("category");
-  const categories = [...new Set((docs ?? []).map((d) => d.category))].sort();
+  const { data: docCategories } = await supabase.from("doc_categories").select("name").order("name", { ascending: true });
+  const categories = (docCategories ?? []).map((c) => c.name);
 
   return (
     <div>

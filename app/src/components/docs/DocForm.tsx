@@ -4,7 +4,8 @@ import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
-import { Input, Label, Textarea } from "@/components/ui/Input";
+import Link from "next/link";
+import { Input, Label, Select, Textarea } from "@/components/ui/Input";
 import type { DocFormState } from "@/app/(dashboard)/docs/actions";
 import type { Database } from "@/types/database";
 
@@ -33,6 +34,8 @@ export function DocForm({
   submitPendingLabel?: string;
 }) {
   const [state, formAction] = useActionState(action, { error: null });
+  const currentCategory = doc?.category ?? "General";
+  const categoryOptions = categories.includes(currentCategory) ? categories : [currentCategory, ...categories];
 
   return (
     <form action={formAction} className="max-w-3xl space-y-4">
@@ -43,18 +46,19 @@ export function DocForm({
         </div>
         <div>
           <Label htmlFor="category">Category</Label>
-          <Input
-            id="category"
-            name="category"
-            list="doc-categories"
-            defaultValue={doc?.category ?? "General"}
-            placeholder="General"
-          />
-          <datalist id="doc-categories">
-            {categories.map((category) => (
-              <option key={category} value={category} />
+          <Select id="category" name="category" defaultValue={currentCategory}>
+            {categoryOptions.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
             ))}
-          </datalist>
+          </Select>
+          <p className="mt-1 text-xs text-muted">
+            <Link href="/settings" className="text-brand hover:underline">
+              Manage categories
+            </Link>{" "}
+            in Settings.
+          </p>
         </div>
       </div>
 
