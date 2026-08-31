@@ -63,6 +63,49 @@ export async function createPipeline(
   redirect(`/pipelines/${data.id}`);
 }
 
+export async function updatePipeline(
+  pipelineId: string,
+  _prev: PipelineFormState,
+  formData: FormData
+): Promise<PipelineFormState> {
+  const name = String(formData.get("name") ?? "").trim();
+  const sourceId = String(formData.get("source_id") ?? "");
+  const destinationId = String(formData.get("destination_id") ?? "");
+  const schedule = String(formData.get("schedule") ?? "").trim();
+
+  if (!name) return { error: "Give this pipeline a name." };
+  if (!sourceId) return { error: "Choose a source data source." };
+
+  let mapping = [];
+  let transformSteps = [];
+  try {
+    mapping = JSON.parse(String(formData.get("mapping_json") ?? "[]"));
+    transformSteps = JSON.parse(String(formData.get("transform_json") ?? "[]"));
+  } catch {
+    return { error: "Invalid mapping or transform configuration." };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("pipelines")
+    .update({
+      name,
+      source_id: sourceId,
+      destination_id: destinationId || null,
+      mapping,
+      transform_steps: transformSteps,
+      schedule: schedule || null,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", pipelineId);
+
+  if (error) return { error: error.message };
+
+  revalidatePath(`/pipelines/${pipelineId}`);
+  revalidatePath("/pipelines");
+  redirect(`/pipelines/${pipelineId}`);
+}
+
 export async function runPipelineNow(pipelineId: string): Promise<PipelineRunResult> {
   const supabase = await createClient();
   const { data: pipeline, error } = await supabase

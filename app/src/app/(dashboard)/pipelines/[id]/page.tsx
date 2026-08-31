@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
 import { RunPipelineButton } from "@/components/pipelines/RunPipelineButton";
 import { PipelineRunHistory } from "@/components/pipelines/PipelineRunHistory";
 import { PromoteToLivePanel } from "@/components/pipelines/PromoteToLivePanel";
@@ -54,7 +56,16 @@ export default async function PipelineDetailPage({ params }: { params: Promise<{
       <PageHeader
         title={pipeline.name}
         description={`${source?.name ?? "Unknown source"} → ${destination?.name ?? "Preview only"}`}
-        action={<RunPipelineButton pipelineId={pipeline.id} />}
+        action={
+          <div className="flex items-center gap-2">
+            <Link href={`/pipelines/${pipeline.id}/edit`}>
+              <Button variant="secondary" size="sm">
+                Edit
+              </Button>
+            </Link>
+            <RunPipelineButton pipelineId={pipeline.id} />
+          </div>
+        }
       />
 
       <div className="grid gap-4 lg:grid-cols-2">
