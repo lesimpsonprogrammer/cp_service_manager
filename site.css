@@ -460,6 +460,138 @@ p {
   margin: 0;
 }
 
+/* Unified four-column services panel */
+.services-panel {
+  padding-top: 8px;
+}
+
+.services-connector {
+  position: relative;
+  display: none;
+  height: 40px;
+  margin: 0 auto;
+  max-width: 900px;
+  border-top: 1px solid var(--line);
+}
+
+.services-node {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid var(--blue);
+  box-shadow: 0 0 0 6px var(--blue-tint);
+  transform: translateX(-50%);
+}
+
+.services-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.service-column {
+  padding: 32px 26px;
+  border-bottom: 1px solid var(--line);
+}
+
+.service-column:last-child {
+  border-bottom: none;
+}
+
+.col-icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+
+.col-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.col-icon-data { background: #eaf2ff; color: #1f6feb; }
+.col-icon-project { background: #eaf7f2; color: #1a9e73; }
+.col-icon-hr { background: #fdeee1; color: #d3711f; }
+.col-icon-payroll { background: #f1eefc; color: #7c5cff; }
+
+.service-column h3 {
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 18px;
+}
+
+.col-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.col-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.col-list li:first-child {
+  padding-top: 0;
+}
+
+.col-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.col-list strong {
+  display: block;
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.col-list em {
+  display: block;
+  font-style: italic;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--body-slate);
+}
+
+@media (min-width: 700px) {
+  .services-connector {
+    display: block;
+  }
+}
+
+@media (min-width: 900px) {
+  .services-columns {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .service-column {
+    border-bottom: none;
+    border-right: 1px solid var(--line);
+  }
+
+  .service-column:last-child {
+    border-right: none;
+  }
+}
+
 /* Page hero (About/Services/Contact/Compliance/Resources) */
 .page-hero {
   padding: 64px 0 8px;
