@@ -1,7 +1,7 @@
 # Cloud Performance Service Manager — Platform
 
 The data extraction / ETL / connector / webhook platform behind
-`app.cpservicemanager.com`. Built with Next.js (App Router), Supabase
+`app.momentumdatasolutions.com`. Built with Next.js (App Router), Supabase
 (Postgres + Auth), and deployed on Vercel.
 
 The static marketing site at the repo root (`index.html`, `client-portal.html`,
@@ -104,9 +104,9 @@ deployment.
 ## Deploying
 
 Deploy this `app/` directory to Vercel as its own project, pointed at
-`app.cpservicemanager.com`. Set the same environment variables from
+`app.momentumdatasolutions.com`. Set the same environment variables from
 `.env.example` in the Vercel project settings (`NEXT_PUBLIC_APP_URL` should
-be `https://app.cpservicemanager.com` in production).
+be `https://app.momentumdatasolutions.com` in production).
 
 For scheduled pipelines, add a Vercel Cron job that calls
 `POST /api/v1/pipelines/{id}/run` with an API key on the cron expression
