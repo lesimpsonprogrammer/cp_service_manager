@@ -1,79 +1,3 @@
-const visualAdjustmentsHref = 'site-visual-adjustments.css';
-
-if (!document.querySelector(`link[href="${visualAdjustmentsHref}"]`)) {
-  const visualAdjustmentsLink = document.createElement('link');
-  visualAdjustmentsLink.rel = 'stylesheet';
-  visualAdjustmentsLink.href = visualAdjustmentsHref;
-  document.head.appendChild(visualAdjustmentsLink);
-}
-
-const momentumLogoSrc = 'assets/momentum-data-logo-transparent.svg';
-
-function applyMomentumDataLogo() {
-  const brandLogoTextNodes = document.querySelectorAll('.brand-text-logo');
-
-  brandLogoTextNodes.forEach((brandText) => {
-    const originalText = brandText.textContent.trim() || 'Momentum Data Solutions';
-    const brandLink = brandText.closest('.brand') || brandText.parentElement;
-    const logoWrap = document.createElement('span');
-    const logoImage = document.createElement('img');
-    const logoLabel = document.createElement('span');
-
-    logoWrap.className = 'brand-logo-wrap';
-    logoWrap.style.display = 'inline-flex';
-    logoWrap.style.alignItems = 'center';
-    logoWrap.style.gap = '10px';
-
-    logoImage.src = momentumLogoSrc;
-    logoImage.alt = 'Momentum Data logo';
-    logoImage.className = 'brand-logo brand-logo-transparent';
-    logoImage.decoding = 'async';
-    logoImage.loading = 'eager';
-    logoImage.style.display = 'block';
-    logoImage.style.width = 'auto';
-    logoImage.style.height = '58px';
-    logoImage.style.maxHeight = '58px';
-    logoImage.style.objectFit = 'contain';
-
-    logoLabel.className = 'brand-logo-label';
-    logoLabel.textContent = originalText;
-    logoLabel.style.color = '#ffffff';
-    logoLabel.style.fontFamily = 'var(--font-heading)';
-    logoLabel.style.fontSize = 'clamp(1.08rem, 1.6vw, 1.38rem)';
-    logoLabel.style.fontWeight = '600';
-    logoLabel.style.lineHeight = '1.05';
-    logoLabel.style.letterSpacing = '-0.02em';
-    logoLabel.style.whiteSpace = 'normal';
-
-    logoWrap.append(logoImage, logoLabel);
-    brandText.replaceWith(logoWrap);
-
-    if (brandLink) {
-      brandLink.style.alignItems = 'center';
-      brandLink.style.gap = '0';
-      brandLink.setAttribute('aria-label', originalText);
-    }
-  });
-
-  const loginCard = document.querySelector('.login-card');
-  if (loginCard && !loginCard.querySelector('.login-card-logo')) {
-    const loginLogo = document.createElement('img');
-    loginLogo.src = momentumLogoSrc;
-    loginLogo.alt = 'Momentum Data logo';
-    loginLogo.className = 'login-card-logo';
-    loginLogo.decoding = 'async';
-    loginLogo.loading = 'eager';
-    loginLogo.style.display = 'block';
-    loginLogo.style.width = 'min(210px, 78%)';
-    loginLogo.style.height = 'auto';
-    loginLogo.style.margin = '0 auto 24px';
-
-    loginCard.insertBefore(loginLogo, loginCard.firstElementChild);
-  }
-}
-
-applyMomentumDataLogo();
-
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks = document.querySelector('.nav-links');
 const year = document.querySelector('#year');
@@ -206,18 +130,12 @@ function restorePortalWelcomeLogo() {
   if (!welcomeStack || welcomeStack.querySelector('.portal-welcome-logo')) return;
 
   const logoLink = document.createElement('a');
-  const logoImage = document.createElement('img');
 
   logoLink.className = 'portal-welcome-logo';
   logoLink.href = 'index.html#top';
+  logoLink.textContent = 'Momentum Data Solutions';
   logoLink.setAttribute('aria-label', 'Momentum Data home');
 
-  logoImage.src = momentumLogoSrc;
-  logoImage.alt = 'Momentum Data logo';
-  logoImage.decoding = 'async';
-  logoImage.loading = 'eager';
-
-  logoLink.appendChild(logoImage);
   welcomeStack.insertBefore(logoLink, welcomeStack.firstElementChild);
 }
 

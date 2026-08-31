@@ -1,92 +1,9 @@
-/* Shared visual refinements for main website and Client Portfolio */
-
-/* Main website first section background */
-.hero {
-  background: #202a50 !important;
-  border-bottom-color: rgba(255, 255, 255, 0.12) !important;
-}
-
-.hero h1 {
-  color: #ffffff !important;
-}
-
-.hero .trust-row span {
-  color: #ffffff !important;
-  border-color: rgba(255, 255, 255, 0.28) !important;
-  background: rgba(255, 255, 255, 0.08) !important;
-}
-
-.site-header {
-  background: linear-gradient(90deg, #e4e9ef 0%, #eaf4ff 24%, #1f6feb 64%, #c45a12 100%) !important;
-  border-bottom: 1px solid rgba(142, 153, 168, 0.42) !important;
-  box-shadow: 0 10px 28px rgba(11, 31, 58, 0.08);
-}
-
-.site-header .nav {
-  min-height: 112px !important;
-  padding-top: 12px !important;
-  padding-bottom: 12px !important;
-}
-
-.brand {
-  margin-left: 0 !important;
-}
-
-.brand-logo,
-.brand-logo-transparent {
-  height: 84px !important;
-  max-height: 84px !important;
-  max-width: 250px !important;
-  object-fit: contain !important;
-}
+/* Shared visual refinements for Client Portfolio (main site header/hero/buttons live in site.css) */
 
 .brand-text-logo,
 .brand-logo-label {
-  color: #0b1f3a !important;
+  color: var(--text) !important;
   text-shadow: none !important;
-}
-
-.brand-logo-wrap {
-  min-width: max-content;
-}
-
-.nav-links {
-  font-weight: 500 !important;
-}
-
-.nav-links a {
-  color: #ffffff !important;
-  font-weight: 500 !important;
-  text-shadow: 0 1px 6px rgba(11, 31, 58, 0.18);
-}
-
-.nav-links a:hover {
-  color: #eaf4ff !important;
-}
-
-.btn,
-button.btn,
-.btn.primary,
-.btn.secondary,
-.nav-client-login,
-.nav-cta,
-.cookie-btn {
-  background: #1f6feb !important;
-  border-color: #1f6feb !important;
-  color: #ffffff !important;
-  font-weight: 600 !important;
-}
-
-.btn:hover,
-button.btn:hover,
-.btn.primary:hover,
-.btn.secondary:hover,
-.nav-client-login:hover,
-.nav-cta:hover,
-.cookie-btn:hover {
-  background: #1557bf !important;
-  border-color: #1557bf !important;
-  color: #ffffff !important;
 }
 
 /* Client Portfolio typography refinements */
@@ -255,28 +172,6 @@ button.btn:hover,
 }
 
 @media (max-width: 760px) {
-  .site-header .nav {
-    min-height: 96px !important;
-  }
-
-  .brand-logo,
-  .brand-logo-transparent {
-    height: 68px !important;
-    max-height: 68px !important;
-    max-width: 210px !important;
-  }
-
-  .brand-text-logo,
-  .brand-logo-label {
-    color: #ffffff !important;
-  }
-
-  .nav-links a {
-    color: var(--text) !important;
-    font-weight: 500 !important;
-    text-shadow: none;
-  }
-
   .mobile-contact,
   .mobile-client-login {
     color: var(--blue-dark) !important;
