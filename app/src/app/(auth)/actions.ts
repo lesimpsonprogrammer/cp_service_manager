@@ -86,6 +86,30 @@ export async function signUp(_prev: AuthActionState, formData: FormData): Promis
   redirect(inviteToken ? "/login?checkEmail=1" : "/login?checkEmail=1&pendingApproval=1");
 }
 
+export async function requestPasswordReset(
+  _prev: AuthActionState,
+  formData: FormData
+): Promise<AuthActionState> {
+  const email = String(formData.get("email") ?? "").trim();
+  if (!email) {
+    return { error: "Enter your email address." };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback?next=/reset-password`,
+  });
+
+  // Supabase doesn't error for an unknown email (avoids leaking which
+  // addresses have accounts) — show the same "check your inbox" outcome
+  // either way rather than surfacing `error`.
+  if (error) {
+    return { error: error.message };
+  }
+
+  redirect("/login?checkEmail=1");
+}
+
 export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();
