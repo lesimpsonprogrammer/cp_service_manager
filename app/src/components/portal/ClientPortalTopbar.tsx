@@ -1,9 +1,13 @@
 import { signOutClient } from "@/app/client/actions";
+import { MobileMenuButton } from "@/components/layout/MobileMenuButton";
 
 export function ClientPortalTopbar({ title, userEmail }: { title: string; userEmail: string | null }) {
   return (
-    <header className="flex h-14 items-center justify-between border-b border-border bg-canvas px-6">
-      <h1 className="text-sm font-semibold text-foreground">{title}</h1>
+    <header className="flex h-14 items-center justify-between border-b border-border bg-canvas px-4 sm:px-6">
+      <div className="flex min-w-0 items-center">
+        <MobileMenuButton />
+        <h1 className="truncate text-sm font-semibold text-foreground">{title}</h1>
+      </div>
 
       <div className="flex items-center gap-3">
         <span className="hidden text-sm text-muted sm:inline">{userEmail}</span>
