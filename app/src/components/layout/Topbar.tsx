@@ -1,5 +1,6 @@
 import { signOut } from "@/app/(auth)/actions";
 import { Badge } from "@/components/ui/Badge";
+import { MobileMenuButton } from "@/components/layout/MobileMenuButton";
 
 export function Topbar({
   title,
@@ -11,8 +12,11 @@ export function Topbar({
   role: string;
 }) {
   return (
-    <header className="flex h-14 items-center justify-between border-b border-border bg-canvas px-6">
-      <h1 className="text-sm font-semibold text-foreground">{title}</h1>
+    <header className="flex h-14 items-center justify-between border-b border-border bg-canvas px-4 sm:px-6">
+      <div className="flex min-w-0 items-center">
+        <MobileMenuButton />
+        <h1 className="truncate text-sm font-semibold text-foreground">{title}</h1>
+      </div>
 
       <div className="flex items-center gap-3">
         <Badge tone="brand" className="capitalize">
