@@ -1,4 +1,8 @@
 {
+  "rewrites": [
+    { "source": "/blog", "destination": "https://app.momentumdatasolutions.com/blog" },
+    { "source": "/blog/:path*", "destination": "https://app.momentumdatasolutions.com/blog/:path*" }
+  ],
   "headers": [
     {
       "source": "/(.*).html",
