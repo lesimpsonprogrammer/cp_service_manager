@@ -1,0 +1,19 @@
+# This project deploys the marketing site living at the repo root
+# (momentumdatasolutions.com). Exclude everything that isn't part
+# of that static build.
+
+# Separate Next.js/Supabase platform, deployed as its own Vercel
+# project at app.cpservicemanager.com — see app/README.md.
+app/
+
+# Superseded starter snapshot — the current build lives at the repo root.
+momentum_data_homepage_client_login/
+
+# Backups / archives, not meant to be served.
+momentum-data-current-complete-services-client-portal.zip
+momentum-home-backup.html
+
+# Internal docs and editor/OS cruft.
+docs/
+.vscode/
+.DS_Store
