@@ -2,14 +2,16 @@
 # (momentumdatasolutions.com). Exclude everything that isn't part
 # of that static build.
 
-# Separate Next.js/Supabase platform, deployed as its own Vercel
-# project at app.momentumdatasolutions.com — see app/README.md.
-#
-# Must be anchored with a leading slash: a bare "app/" pattern matches
-# ANY directory named "app" at any depth, including app/src/app/ (the
-# Next.js App Router directory itself) — which silently deleted that
-# whole route tree from the app/ project's own build.
-/app/
+# NOTE: app/ (the separate Next.js/Supabase platform at
+# app.momentumdatasolutions.com — see app/README.md) is intentionally NOT
+# excluded here. Both this marketing-site project and the app/ project
+# read this SAME root .vercelignore file. Excluding app/ kept breaking
+# the app project's own build (it deletes the exact files that project's
+# Root Directory build depends on) — first by matching app/src/app/ (the
+# Next.js App Router directory) when unanchored, then by matching the
+# app/ folder itself even anchored. Leaving app/ present in the marketing
+# site's static deploy is harmless (nothing references those files); the
+# app project needing them is not.
 
 # Superseded starter snapshot — the current build lives at the repo root.
 /momentum_data_homepage_client_login/
