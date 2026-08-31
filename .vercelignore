@@ -3,18 +3,24 @@
 # of that static build.
 
 # Separate Next.js/Supabase platform, deployed as its own Vercel
-# project at app.cpservicemanager.com — see app/README.md.
-app/
+# project at app.momentumdatasolutions.com — see app/README.md.
+#
+# Must be anchored with a leading slash: a bare "app/" pattern matches
+# ANY directory named "app" at any depth, including app/src/app/ (the
+# Next.js App Router directory itself) — which silently deleted that
+# whole route tree from the app/ project's own build.
+/app/
 
 # Superseded starter snapshot — the current build lives at the repo root.
-momentum_data_homepage_client_login/
+/momentum_data_homepage_client_login/
 
 # Backups / archives, not meant to be served.
 momentum-data-current-complete-services-client-portal.zip
 momentum-home-backup.html
-archive/
+/archive/
 
-# Internal docs and editor/OS cruft.
-docs/
-.vscode/
+# Internal docs and editor/OS cruft. Anchored to repo root — app/ has its
+# own docs feature (app/src/app/(dashboard)/docs/) that must NOT match here.
+/docs/
+/.vscode/
 .DS_Store
