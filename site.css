@@ -157,6 +157,13 @@ p {
   gap: 10px;
 }
 
+.brand-logo {
+  display: block;
+  height: 68px;
+  width: auto;
+  padding: 6px 0;
+}
+
 .brand-text-logo {
   font-weight: 800;
   font-size: 1.1rem;

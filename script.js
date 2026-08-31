@@ -130,12 +130,18 @@ function restorePortalWelcomeLogo() {
   if (!welcomeStack || welcomeStack.querySelector('.portal-welcome-logo')) return;
 
   const logoLink = document.createElement('a');
+  const logoImage = document.createElement('img');
 
   logoLink.className = 'portal-welcome-logo';
   logoLink.href = 'index.html#top';
-  logoLink.textContent = 'Momentum Data Solutions';
   logoLink.setAttribute('aria-label', 'Momentum Data home');
 
+  logoImage.src = 'assets/momentum-data-logo-transparent.svg';
+  logoImage.alt = 'Momentum Data Solutions';
+  logoImage.decoding = 'async';
+  logoImage.loading = 'eager';
+
+  logoLink.appendChild(logoImage);
   welcomeStack.insertBefore(logoLink, welcomeStack.firstElementChild);
 }
 
