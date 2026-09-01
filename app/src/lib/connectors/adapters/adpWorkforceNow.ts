@@ -53,7 +53,7 @@ async function fetchWorkers(config: Record<string, unknown>, accessToken: string
   });
 
   if (!res.ok) {
-    throw new Error(`ADP worker list request failed with status ${res.status}`);
+    throw new Error(`ADP employee list request failed with status ${res.status}`);
   }
   const body = (await res.json()) as { workers?: ExtractedRecord[] };
   return body.workers ?? [];
@@ -76,7 +76,7 @@ export const adpWorkforceNowAdapter: ConnectorAdapter = {
       const records = await fetchWorkers(config, accessToken);
       return {
         ok: true,
-        message: `Connected. Found ${records.length} worker record(s).`,
+        message: `Connected. Found ${records.length} employee record(s).`,
         fieldsDetected: records[0] ? Object.keys(records[0]) : undefined,
       };
     } catch (err) {

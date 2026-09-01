@@ -46,7 +46,7 @@ async function fetchWorkers(config: Record<string, unknown>, accessToken: string
   });
 
   if (!res.ok) {
-    throw new Error(`Paychex Flex worker list request failed with status ${res.status}`);
+    throw new Error(`Paychex Flex employee list request failed with status ${res.status}`);
   }
   const body = (await res.json()) as { content?: ExtractedRecord[] };
   return body.content ?? [];
@@ -55,7 +55,7 @@ async function fetchWorkers(config: Record<string, unknown>, accessToken: string
 /**
  * Paychex Flex authenticates with OAuth2 client-credentials (Client
  * ID/Secret over HTTP Basic) to get a short-lived access token, then scopes
- * worker lookups to a single companyId — hence a dedicated adapter rather
+ * employee lookups to a single companyId — hence a dedicated adapter rather
  * than the generic restApiAdapter.
  */
 export const paychexFlexAdapter: ConnectorAdapter = {
@@ -68,7 +68,7 @@ export const paychexFlexAdapter: ConnectorAdapter = {
       const records = await fetchWorkers(config, accessToken);
       return {
         ok: true,
-        message: `Connected. Found ${records.length} worker record(s).`,
+        message: `Connected. Found ${records.length} employee record(s).`,
         fieldsDetected: records[0] ? Object.keys(records[0]) : undefined,
       };
     } catch (err) {

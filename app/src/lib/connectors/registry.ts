@@ -172,7 +172,7 @@ export const CONNECTOR_DEFINITIONS: ConnectorDefinition[] = [
     type: "adp_workforce_now",
     category: "HCM",
     label: "ADP Workforce Now",
-    description: "Pull worker records from ADP Workforce Now via its OAuth2 API.",
+    description: "Pull employee records from ADP Workforce Now via its OAuth2 API.",
     icon: "◫",
     fields: [
       {
@@ -195,7 +195,7 @@ export const CONNECTOR_DEFINITIONS: ConnectorDefinition[] = [
     type: "paychex_flex",
     category: "HCM",
     label: "Paychex Flex",
-    description: "Pull worker records from Paychex Flex via its OAuth2 API.",
+    description: "Pull employee records from Paychex Flex via its OAuth2 API.",
     icon: "◫",
     fields: [
       {
@@ -211,7 +211,7 @@ export const CONNECTOR_DEFINITIONS: ConnectorDefinition[] = [
       },
       { key: "client_id", label: "Client ID", type: "text", required: true },
       { key: "client_secret", label: "Client Secret", type: "password", secret: true, required: true },
-      { key: "company_id", label: "Company ID", type: "text", required: true, helpText: "Paychex company identifier to scope worker lookups to." },
+      { key: "company_id", label: "Company ID", type: "text", required: true, helpText: "Paychex company identifier to scope employee lookups to." },
     ],
   },
   {
