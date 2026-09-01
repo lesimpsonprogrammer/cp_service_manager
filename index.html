@@ -16,7 +16,7 @@
   <meta content="summary" name="twitter:card" />
   <link href="https://fonts.googleapis.com" rel="preconnect" />
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=DM+Sans:wght@400;500;600;700;800&amp;display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&amp;display=swap"
     rel="stylesheet" />
   <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
   <link href="site.css" rel="stylesheet" />
@@ -124,22 +124,13 @@
       </div>
     </section>
 
-    <section class="section" id="executive-brief-teaser">
-      <div class="container">
-        <div class="resource-card" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px;">
-          <div>
-            <h3>New: the Momentum Executive Brief</h3>
-            <p><em>Why Clean Data Comes First</em> &mdash; lessons from an HRIS/HCM/ERP implementation that almost went wrong, and the readiness framework we use to keep it from happening to you.</p>
-          </div>
-          <a class="btn primary" href="executive-brief.html">Read the brief</a>
-        </div>
-      </div>
-    </section>
-
     <section class="section services-panel" id="services">
       <div class="container">
         <div class="services-connector" aria-hidden="true"><span class="services-node"></span></div>
-        <div class="services-columns">
+        <div class="services-carousel">
+        <button type="button" class="carousel-arrow prev" aria-label="Previous">&#8592;</button>
+        <button type="button" class="carousel-arrow next" aria-label="Next">&#8594;</button>
+        <div class="services-columns" id="servicesColumns">
 
           <div class="service-column">
             <div class="col-icon col-icon-data">
@@ -193,6 +184,25 @@
             </ul>
           </div>
 
+        </div>
+        </div>
+        <div class="carousel-dots" id="servicesDots">
+          <button type="button" class="is-active" aria-label="Go to slide 1"></button>
+          <button type="button" aria-label="Go to slide 2"></button>
+          <button type="button" aria-label="Go to slide 3"></button>
+          <button type="button" aria-label="Go to slide 4"></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="executive-brief-teaser">
+      <div class="container">
+        <div class="resource-card" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px;">
+          <div>
+            <h3>New: the Momentum Executive Brief</h3>
+            <p><em>Why Clean Data Comes First</em> &mdash; lessons from an HRIS/HCM/ERP implementation that almost went wrong, and the readiness framework we use to keep it from happening to you.</p>
+          </div>
+          <a class="btn primary" href="executive-brief.html">Read the brief</a>
         </div>
       </div>
     </section>

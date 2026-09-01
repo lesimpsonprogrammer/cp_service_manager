@@ -435,3 +435,61 @@ if (loginPageForm) {
     mainSurface.appendChild(notesCard);
   }
 })();
+
+// Services panel carousel: arrow buttons + dot indicators for the
+// horizontally-scrolling four-column card track.
+(() => {
+  const track = document.getElementById('servicesColumns');
+  const dotsWrap = document.getElementById('servicesDots');
+  if (!track || !dotsWrap) return;
+
+  const cards = Array.from(track.children);
+  const dots = Array.from(dotsWrap.children);
+  const prevBtn = document.querySelector('.carousel-arrow.prev');
+  const nextBtn = document.querySelector('.carousel-arrow.next');
+
+  function scrollToCard(index) {
+    const card = cards[index];
+    if (!card) return;
+    track.scrollTo({ left: card.offsetLeft - track.offsetLeft, behavior: 'smooth' });
+  }
+
+  function updateActiveDot() {
+    const trackLeft = track.scrollLeft;
+    let closest = 0;
+    let closestDist = Infinity;
+    cards.forEach((card, i) => {
+      const dist = Math.abs((card.offsetLeft - track.offsetLeft) - trackLeft);
+      if (dist < closestDist) {
+        closestDist = dist;
+        closest = i;
+      }
+    });
+    dots.forEach((dot, i) => dot.classList.toggle('is-active', i === closest));
+    return closest;
+  }
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => scrollToCard(i));
+  });
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      const current = updateActiveDot();
+      scrollToCard(Math.max(0, current - 1));
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      const current = updateActiveDot();
+      scrollToCard(Math.min(cards.length - 1, current + 1));
+    });
+  }
+
+  let scrollTimer;
+  track.addEventListener('scroll', () => {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(updateActiveDot, 100);
+  });
+})();
