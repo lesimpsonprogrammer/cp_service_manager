@@ -773,19 +773,10 @@ p {
 }
 
 .platform-showcase-copy h2 {
-  font-family: var(--font-heading);
-  font-weight: 400;
-  font-size: clamp(1.8rem, 3.2vw, 2.5rem);
-  letter-spacing: -0.03em;
-  line-height: 1.14;
-  color: var(--text);
   margin-bottom: 16px;
 }
 
 .platform-showcase-copy p {
-  color: var(--muted);
-  font-size: 1.05rem;
-  line-height: 1.6;
   max-width: 480px;
   margin-bottom: 26px;
 }
