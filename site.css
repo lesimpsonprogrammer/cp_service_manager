@@ -15,7 +15,7 @@
   --gradient: linear-gradient(120deg, #2f6feb 0%, #1f4fc4 100%);
   --radius: 4px;
   --shadow: 0 1px 2px rgba(10, 10, 12, 0.04);
-  --font: "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font: Arial, Helvetica, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-heading: "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --heading-blue: #0a0a0c;
   --body-slate: #63636b;
