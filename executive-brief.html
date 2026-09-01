@@ -20,6 +20,48 @@
     rel="stylesheet" />
   <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
   <link href="site.css" rel="stylesheet" />
+  <style>
+    #top.site-header {
+      background: linear-gradient(135deg, #0040c4 0%, #0057ff 55%, #3d6bff 100%);
+      border-bottom-color: transparent;
+    }
+    #top .nav-links a,
+    #top .nav-client-login {
+      color: #ffffff;
+    }
+    #top .nav-links a:hover,
+    #top .nav-client-login:hover {
+      color: #cfe0ff;
+    }
+    #top .nav-cta {
+      background: #ffffff;
+      color: #0040c4;
+    }
+    #top .nav-cta:hover {
+      background: #eaf0ff;
+    }
+    #top .nav-toggle span {
+      background: #ffffff;
+    }
+    #brief-gate-submit.btn.primary {
+      background: var(--blue);
+      box-shadow: 0 8px 20px rgba(31, 111, 235, 0.28);
+    }
+    #brief-gate-submit.btn.primary:hover {
+      background: var(--blue-dark);
+    }
+    @media (max-width: 900px) {
+      #top .nav-links {
+        background: #ffffff;
+      }
+      #top .nav-links a {
+        color: var(--text);
+      }
+      #top .nav-links a:hover {
+        color: var(--blue);
+      }
+    }
+  </style>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -34,40 +76,6 @@
 </head>
 
 <body>
-  <div class="mds-string-background" aria-hidden="true">
-    <svg class="mds-background-strings" viewBox="0 0 1600 2600" preserveAspectRatio="xMidYMid slice">
-      <defs>
-        <linearGradient id="mds-string-gradient" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stop-color="#f58220" stop-opacity="0" />
-          <stop offset=".16" stop-color="#f58220" stop-opacity=".62" />
-          <stop offset=".44" stop-color="#91c2f3" stop-opacity=".45" />
-          <stop offset=".72" stop-color="#2f8ae6" stop-opacity=".7" />
-          <stop offset="1" stop-color="#0b4f91" stop-opacity="0" />
-        </linearGradient>
-        <path id="mds-string-path" d="M-160 510 C 110 300, 340 315, 560 500 S 955 690, 1210 450 S 1540 285, 1770 445" />
-      </defs>
-      <g id="mds-string-band" fill="none" stroke="url(#mds-string-gradient)" stroke-width="1.2" vector-effect="non-scaling-stroke">
-        <use href="#mds-string-path" transform="translate(0 -126)" opacity=".18" />
-        <use href="#mds-string-path" transform="translate(0 -108)" opacity=".22" />
-        <use href="#mds-string-path" transform="translate(0 -90)" opacity=".27" />
-        <use href="#mds-string-path" transform="translate(0 -72)" opacity=".33" />
-        <use href="#mds-string-path" transform="translate(0 -54)" opacity=".4" />
-        <use href="#mds-string-path" transform="translate(0 -36)" opacity=".48" />
-        <use href="#mds-string-path" transform="translate(0 -18)" opacity=".57" />
-        <use href="#mds-string-path" opacity=".7" />
-        <use href="#mds-string-path" transform="translate(0 18)" opacity=".57" />
-        <use href="#mds-string-path" transform="translate(0 36)" opacity=".48" />
-        <use href="#mds-string-path" transform="translate(0 54)" opacity=".4" />
-        <use href="#mds-string-path" transform="translate(0 72)" opacity=".33" />
-        <use href="#mds-string-path" transform="translate(0 90)" opacity=".27" />
-        <use href="#mds-string-path" transform="translate(0 108)" opacity=".22" />
-        <use href="#mds-string-path" transform="translate(0 126)" opacity=".18" />
-      </g>
-      <use href="#mds-string-band" />
-      <use href="#mds-string-band" transform="translate(0 820)" opacity=".78" />
-      <use href="#mds-string-band" transform="translate(0 1640)" opacity=".64" />
-    </svg>
-  </div>
   <header class="site-header" id="top">
     <nav aria-label="Main navigation" class="nav container">
       <a aria-label="Momentum Data home" class="brand" href="index.html">
@@ -101,11 +109,9 @@
             <a href="data-connectors.html">Data Connectors</a>
           </div>
         </div>
-        <a class="mobile-client-login" href="login.html">Client Login</a>
         <a class="mobile-contact" href="contact.html">Contact us</a>
       </div>
       <div class="nav-actions nav-contact">
-        <a class="nav-client-login" href="login.html">Client Login</a>
         <a class="nav-cta" href="contact.html">Contact us</a>
       </div>
     </nav>
@@ -114,6 +120,7 @@
   <main>
     <section class="section page-body" style="padding-top: 88px;">
       <div class="container">
+        <h1 style="max-width: 560px; margin: 0 auto 28px; text-align: center; font-size: clamp(1.6rem, 3vw, 2.1rem);">Download your copy of our latest Executive Brief</h1>
         <div class="resource-card" id="brief-gate" style="max-width: 560px; margin: 0 auto;">
           <h3>Get the Momentum Executive Brief</h3>
           <p><em>Why Clean Data Comes First</em> &mdash; lessons from an HRIS/HCM/ERP implementation that almost went wrong, and the readiness framework we use to keep it from happening to you. Enter your email and we'll send you the PDF.</p>
@@ -122,7 +129,7 @@
               Email
               <input name="email" type="email" placeholder="you@example.com" required />
             </label>
-            <button class="btn primary full" type="submit">Send me the brief</button>
+            <button class="btn primary full" id="brief-gate-submit" type="submit">Send me the Brief</button>
             <p id="brief-gate-status" role="status" style="margin-top: 10px; font-size: 0.9rem;"></p>
           </form>
         </div>
@@ -132,7 +139,8 @@
   <footer class="footer">
     <div class="container footer-grid">
       <div>
-        <a class="brand footer-brand footer-text-brand" href="index.html">
+        <a class="brand footer-brand" href="index.html">
+          <img src="assets/momentum-data-logo-transparent.svg" alt="Momentum Data Solutions" class="brand-logo footer-logo" />
           <span class="footer-title">Momentum Data Solutions</span>
         </a>
         <p>Clean data, sound project delivery, and the HR and payroll expertise to carry it through.</p>
@@ -150,16 +158,6 @@
     </div>
   </footer>
 
-  <div class="cookie-notice" id="cookieNotice" role="dialog" aria-live="polite" aria-label="Cookie notice" hidden>
-    <div class="cookie-notice-content">
-      <div>
-        <strong>Cookie Notice</strong>
-        <p>We use basic cookies and local storage to remember preferences and improve your browsing experience.</p>
-      </div>
-      <button class="cookie-btn" id="cookieAccept" type="button">Accept</button>
-      <button class="cookie-btn" id="cookieDecline" type="button">Decline</button>
-    </div>
-  </div>
   <script src="script.js?v=2"></script>
   <script>
     (function () {
