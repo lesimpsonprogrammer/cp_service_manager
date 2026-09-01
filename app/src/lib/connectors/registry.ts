@@ -249,6 +249,40 @@ export const CONNECTOR_DEFINITIONS: ConnectorDefinition[] = [
       },
     ],
   },
+  {
+    type: "web_scraper",
+    category: "Web",
+    label: "Web Page / File URL",
+    description: "Pull records from a public URL — an HTML page's table, a PDF, or an Excel file.",
+    icon: "◧",
+    fields: [
+      { key: "url", label: "URL", type: "url", required: true, placeholder: "https://example.com/report.pdf" },
+      {
+        key: "format",
+        label: "Format",
+        type: "select",
+        options: [
+          { label: "Auto-detect from URL / response", value: "auto" },
+          { label: "HTML table", value: "html" },
+          { label: "PDF", value: "pdf" },
+          { label: "Excel (.xlsx)", value: "excel" },
+        ],
+        defaultValue: "auto",
+      },
+      {
+        key: "table_index",
+        label: "HTML: which table (0 = first)",
+        type: "number",
+        defaultValue: "0",
+        helpText: "Used only when the page has more than one <table>.",
+      },
+      {
+        key: "sheet_name",
+        label: "Excel: sheet name (blank = first sheet)",
+        type: "text",
+      },
+    ],
+  },
 ];
 
 export function getConnectorDefinition(type: string) {

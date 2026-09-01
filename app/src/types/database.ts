@@ -14,7 +14,8 @@ export type DataSourceType =
   | "tax_filing"
   | "adp_workforce_now"
   | "paychex_flex"
-  | "webhook";
+  | "webhook"
+  | "web_scraper";
 
 export type DataSourceStatus = "connected" | "disconnected" | "error" | "pending";
 
