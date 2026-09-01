@@ -765,7 +765,7 @@ p {
 
 .cpsm-frame-body {
   display: grid;
-  grid-template-columns: 130px 1fr;
+  grid-template-columns: 130px minmax(0, 1fr);
 }
 
 .cpsm-frame-nav {
@@ -789,6 +789,7 @@ p {
 
 .cpsm-frame-main {
   padding: 22px 24px;
+  min-width: 0;
 }
 
 .cpsm-frame-welcome {
@@ -837,6 +838,29 @@ p {
 @media (min-width: 860px) {
   .cpsm-showcase-grid {
     grid-template-columns: 0.9fr 1.1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .cpsm-frame-body {
+    grid-template-columns: 92px minmax(0, 1fr);
+  }
+
+  .cpsm-frame-nav {
+    padding: 10px 6px;
+  }
+
+  .cpsm-frame-item {
+    padding: 7px 6px;
+    font-size: 0.62rem;
+  }
+
+  .cpsm-frame-main {
+    padding: 16px 14px;
+  }
+
+  .cpsm-frame-stats {
+    grid-template-columns: 1fr;
   }
 }
 
