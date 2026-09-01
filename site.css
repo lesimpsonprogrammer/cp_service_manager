@@ -1135,3 +1135,14 @@ p {
     display: none;
   }
 }
+
+/* Executive brief teaser: branded blue band around the white card */
+.brief-teaser-band {
+  background: var(--blue);
+  padding: 56px 0;
+}
+
+.brief-teaser-band .resource-card {
+  background: var(--white);
+  border: none;
+}
