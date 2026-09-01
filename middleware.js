@@ -6,6 +6,9 @@
 //
 // While on, every request is redirected to /maintenance.html, except:
 //   - requests already headed to /maintenance.html or its own assets
+//   - the Executive Brief pages (executive-brief.html, thank-you.html),
+//     which stay reachable so the maintenance page's link to the brief
+//     — and the email-gate flow behind it — keep working during downtime
 //   - anyone carrying the bypass cookie (see below), so the team can keep
 //     previewing/editing the live site while visitors see the notice
 //
@@ -14,7 +17,9 @@
 // a cookie so the real site loads normally on every later visit.
 
 export const config = {
-  matcher: ["/((?!maintenance.html|assets/|api/|favicon.svg|robots.txt|sitemap.xml).*)"],
+  matcher: [
+    "/((?!maintenance.html|executive-brief.html|thank-you.html|assets/|api/|favicon.svg|robots.txt|sitemap.xml).*)",
+  ],
 };
 
 const BYPASS_COOKIE = "mds_bypass";
