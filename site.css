@@ -790,12 +790,17 @@ p {
 }
 
 .platform-btn-primary {
-  background: #ffffff;
-  color: #0040c4;
+  background: radial-gradient(circle at 28% 25%, #6ea8ff 0%, #2f6feb 45%, #0b2a8f 100%);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18) inset, 0 0 26px rgba(94, 150, 255, 0.55);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 .platform-btn-primary:hover {
-  background: #eaf0ff;
+  background: radial-gradient(circle at 28% 25%, #82b6ff 0%, #3d7bf5 45%, #0d33a8 100%);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.28) inset, 0 0 36px rgba(94, 150, 255, 0.75);
+  transform: translateY(-1px);
 }
 
 .platform-btn-secondary {
