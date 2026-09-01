@@ -77,39 +77,9 @@ applyMomentumDataLogo();
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks = document.querySelector('.nav-links');
 const year = document.querySelector('#year');
-const isClientPortalPage = Boolean(document.querySelector('.client-portal-main'));
 
 if (year) {
   year.textContent = new Date().getFullYear();
-}
-
-// Keep public site Client Log-in links, but show Log out on the CPSM portal dashboard.
-const desktopNavActions = document.querySelector('.nav-actions');
-const desktopContactLink = desktopNavActions?.querySelector('.nav-cta[href="#contact"], .nav-cta[href="index.html#contact"]');
-const desktopClientLoginLink = desktopNavActions?.querySelector('.nav-client-login[href="login.html"]');
-
-if (desktopContactLink && desktopClientLoginLink) {
-  desktopClientLoginLink.textContent = isClientPortalPage ? 'Log out' : 'Client Log-in';
-  desktopClientLoginLink.toggleAttribute('data-portal-logout', isClientPortalPage);
-  desktopContactLink.insertAdjacentElement('afterend', desktopClientLoginLink);
-}
-
-const mobileContactLink = navLinks?.querySelector('.mobile-contact');
-const mobileClientLoginLink = navLinks?.querySelector('.mobile-client-login');
-
-if (mobileContactLink && mobileClientLoginLink) {
-  mobileClientLoginLink.textContent = isClientPortalPage ? 'Log out' : 'Client Log-in';
-  mobileClientLoginLink.toggleAttribute('data-portal-logout', isClientPortalPage);
-  mobileContactLink.insertAdjacentElement('afterend', mobileClientLoginLink);
-}
-
-const heroActions = document.querySelector('.hero-actions');
-if (!isClientPortalPage && heroActions && !heroActions.querySelector('.client-login-hero')) {
-  const heroClientLogin = document.createElement('a');
-  heroClientLogin.className = 'btn secondary client-login-hero';
-  heroClientLogin.href = 'login.html';
-  heroClientLogin.textContent = 'Client Log-in';
-  heroActions.appendChild(heroClientLogin);
 }
 
 if (navToggle && navLinks) {
