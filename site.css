@@ -749,7 +749,8 @@ p {
 .platform-showcase {
   position: relative;
   z-index: 1;
-  background: linear-gradient(135deg, #0040c4 0%, #0057ff 55%, #3d6bff 100%);
+  background: var(--bg);
+  border-top: 1px solid var(--line);
   padding: 88px 0;
   overflow: hidden;
 }
@@ -763,7 +764,7 @@ p {
 
 .platform-showcase-eyebrow {
   display: inline-block;
-  color: #cfe0ff;
+  color: var(--blue);
   font-weight: 700;
   font-size: 0.8rem;
   letter-spacing: 0.08em;
@@ -777,12 +778,12 @@ p {
   font-size: clamp(1.8rem, 3.2vw, 2.5rem);
   letter-spacing: -0.03em;
   line-height: 1.14;
-  color: #ffffff;
+  color: var(--text);
   margin-bottom: 16px;
 }
 
 .platform-showcase-copy p {
-  color: #dbe6ff;
+  color: var(--muted);
   font-size: 1.05rem;
   line-height: 1.6;
   max-width: 480px;
