@@ -61,7 +61,7 @@ async function notifyByEmail(email, source) {
 
   const from = process.env.RESEND_FROM_EMAIL || "notifications@momentumdatasolutions.com";
   const notifyTo = process.env.LEAD_NOTIFY_EMAIL || "compliance@momentumdatasolutions.com";
-  const briefUrl = "https://www.momentumdatasolutions.com/executive-brief.html";
+  const briefUrl = "https://www.momentumdatasolutions.com/assets/momentum-executive-brief.pdf";
 
   const send = (payload) =>
     fetch("https://api.resend.com/emails", {
@@ -72,6 +72,8 @@ async function notifyByEmail(email, source) {
       },
       body: JSON.stringify(payload),
     });
+
+  const attachment = await fetchBriefAttachment(briefUrl);
 
   await Promise.all([
     send({
@@ -84,7 +86,20 @@ async function notifyByEmail(email, source) {
       from,
       to: email,
       subject: "Your Momentum Data Solutions Executive Brief",
-      text: `Thanks for your interest in Momentum Data Solutions.\n\nHere's your copy of the Executive Brief: ${briefUrl}\n\n— Momentum Data Solutions`,
+      text: `Thanks for your interest in Momentum Data Solutions.\n\nYour copy of "The Momentum Executive Brief: Why Clean Data Comes First" is attached${attachment ? "" : " — you can also read it here: " + briefUrl}.\n\n— Momentum Data Solutions`,
+      ...(attachment ? { attachments: [attachment] } : {}),
     }),
   ]);
+}
+
+async function fetchBriefAttachment(url) {
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) return null;
+    const buffer = Buffer.from(await resp.arrayBuffer());
+    return { filename: "momentum-executive-brief.pdf", content: buffer.toString("base64") };
+  } catch (err) {
+    console.error("brief-lead: could not fetch brief PDF for attachment", err);
+    return null;
+  }
 }
