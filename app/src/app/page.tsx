@@ -57,6 +57,12 @@ export default async function RootPage() {
             </Button>
           </Link>
         </div>
+        <a
+          href="https://www.momentumdatasolutions.com/executive-brief.html"
+          className="mt-6 text-sm text-muted underline-offset-4 hover:text-foreground hover:underline"
+        >
+          Read the Momentum Executive Brief →
+        </a>
       </section>
 
       <footer className="relative z-10 px-6 py-6 text-center text-xs text-muted">
