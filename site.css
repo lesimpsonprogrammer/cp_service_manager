@@ -641,7 +641,7 @@ p {
 .col-list strong {
   display: block;
   font-family: var(--font);
-  font-weight: 700;
+  font-weight: 400;
   font-size: 0.92rem;
   color: var(--text);
   margin-bottom: 4px;
