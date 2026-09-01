@@ -120,6 +120,18 @@
     </section>
     <section class="section page-body">
       <div class="container">
+        <div class="resource-card" id="brief-gate" style="max-width: 560px; margin: 0 auto 48px;">
+          <h3>Get the Executive Brief</h3>
+          <p>A one-page look at how Momentum Data Solutions turns messy data, HR, and payroll work into something reliable. Enter your email and we'll send you a copy.</p>
+          <form id="brief-gate-form" class="contact-form" style="margin-top: 16px;">
+            <label>
+              Email
+              <input name="email" type="email" placeholder="you@example.com" required />
+            </label>
+            <button class="btn primary full" type="submit">Send me the brief</button>
+            <p id="brief-gate-status" role="status" style="margin-top: 10px; font-size: 0.9rem;"></p>
+          </form>
+        </div>
         <p>Welcome to the Momentum Data Solutions Documentation Center. Documentation is your technical resource for understanding how Momentum Data Solutions collects, prepares, transforms, validates, maps, moves, and manages data across business systems.</p>
         <p>Whether you are preparing a system migration, developing an integration, configuring a workflow, connecting a data source, or simply trying to understand how information moves between platforms, start here.</p>
 
@@ -188,6 +200,33 @@
     </div>
   </div>
   <script src="script.js?v=2"></script>
+  <script>
+    (function () {
+      var form = document.getElementById("brief-gate-form");
+      if (!form) return;
+      var status = document.getElementById("brief-gate-status");
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var email = form.email.value.trim();
+        var button = form.querySelector("button[type=submit]");
+        button.disabled = true;
+        status.textContent = "Sending…";
+        fetch("/api/brief-lead", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: email, source: "executive-brief" }),
+        })
+          .then(function (res) {
+            if (!res.ok) return res.json().then(function (body) { throw new Error(body.error || "Something went wrong."); });
+            window.location.href = "thank-you.html";
+          })
+          .catch(function (err) {
+            status.textContent = err.message || "Something went wrong. Please try again.";
+            button.disabled = false;
+          });
+      });
+    })();
+  </script>
 </body>
 
 </html>
