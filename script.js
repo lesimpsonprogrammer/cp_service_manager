@@ -492,4 +492,40 @@ if (loginPageForm) {
     clearTimeout(scrollTimer);
     scrollTimer = setTimeout(updateActiveDot, 100);
   });
+
+  // Auto-rotate on a timer, looping back to the start. Pauses on hover/touch
+  // and while the visitor is actively scrolling, and is skipped entirely for
+  // prefers-reduced-motion.
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const AUTO_ROTATE_MS = 5000;
+  let autoRotateTimer = null;
+
+  function startAutoRotate() {
+    if (prefersReducedMotion || cards.length < 2) return;
+    stopAutoRotate();
+    autoRotateTimer = setInterval(() => {
+      const current = updateActiveDot();
+      const next = (current + 1) % cards.length;
+      scrollToCard(next);
+    }, AUTO_ROTATE_MS);
+  }
+
+  function stopAutoRotate() {
+    if (autoRotateTimer) {
+      clearInterval(autoRotateTimer);
+      autoRotateTimer = null;
+    }
+  }
+
+  const carouselRoot = document.querySelector('.services-carousel');
+  if (carouselRoot) {
+    carouselRoot.addEventListener('mouseenter', stopAutoRotate);
+    carouselRoot.addEventListener('mouseleave', startAutoRotate);
+    carouselRoot.addEventListener('touchstart', stopAutoRotate, { passive: true });
+  }
+  dots.forEach((dot) => dot.addEventListener('click', stopAutoRotate));
+  if (prevBtn) prevBtn.addEventListener('click', stopAutoRotate);
+  if (nextBtn) nextBtn.addEventListener('click', stopAutoRotate);
+
+  startAutoRotate();
 })();
