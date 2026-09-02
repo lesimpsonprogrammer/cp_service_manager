@@ -161,29 +161,6 @@ a {
   gap: 12px;
 }
 
-.nav-client-login {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-  padding: 0 16px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.52);
-  color: #ffffff !important;
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 0.88rem;
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.nav-client-login:hover {
-  background: rgba(255, 255, 255, 0.22);
-}
-
-.mobile-client-login {
-  display: none;
-}
-
 .nav-cta {
   justify-self: end;
   display: inline-flex;
@@ -860,12 +837,6 @@ textarea:focus {
   .mobile-contact {
     display: block;
     color: var(--blue) !important;
-    font-weight: 700;
-  }
-
-  .mobile-client-login {
-    display: block;
-    color: var(--blue-dark) !important;
     font-weight: 700;
   }
 
