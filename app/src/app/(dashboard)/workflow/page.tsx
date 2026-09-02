@@ -1,9 +1,13 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
 import { PageHeader } from "@/components/ui/PageHeader";
-import { Card } from "@/components/ui/Card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { StatusBadge } from "@/components/ui/Badge";
+import { WorkflowDefinitionsPanel } from "@/components/workflow/WorkflowDefinitionsPanel";
+import { ActiveInstancesTable } from "@/components/workflow/ActiveInstancesTable";
+import { MyTasksPanel } from "@/components/workflow/MyTasksPanel";
 import type { OnboardingStage } from "@/types/database";
 
 const STAGE_LABELS: Record<OnboardingStage, string> = {
@@ -24,7 +28,58 @@ const STAGE_ORDER: OnboardingStage[] = [
 ];
 
 export default async function WorkflowPage() {
+  const org = await getCurrentOrg();
   const supabase = await createClient();
+
+  const { data: definitions } = org
+    ? await supabase
+        .from("workflow_definitions")
+        .select("id, name, description, workflow_stages ( id )")
+        .eq("org_id", org.orgId)
+        .order("created_at", { ascending: false })
+        .returns<{ id: string; name: string; description: string | null; workflow_stages: { id: string }[] }[]>()
+    : { data: [] };
+
+  const { data: instances } = org
+    ? await supabase
+        .from("workflow_instances")
+        .select(
+          "id, title, status, workflow_definitions ( name ), workflow_stages ( name ), workflow_tasks ( id, status )"
+        )
+        .eq("org_id", org.orgId)
+        .eq("status", "active")
+        .order("created_at", { ascending: false })
+        .returns<
+          {
+            id: string;
+            title: string;
+            status: string;
+            workflow_definitions: { name: string } | null;
+            workflow_stages: { name: string } | null;
+            workflow_tasks: { id: string; status: string }[];
+          }[]
+        >()
+    : { data: [] };
+
+  const { data: myTasks } = org
+    ? await supabase
+        .from("workflow_tasks")
+        .select("id, title, status, due_at, workflow_instance_id, workflow_instances ( title )")
+        .eq("org_id", org.orgId)
+        .eq("assignee_id", org.userId)
+        .neq("status", "done")
+        .order("due_at", { ascending: true, nullsFirst: false })
+        .returns<
+          {
+            id: string;
+            title: string;
+            status: string;
+            due_at: string | null;
+            workflow_instance_id: string;
+            workflow_instances: { title: string } | null;
+          }[]
+        >()
+    : { data: [] };
 
   const { data: clients } = await supabase
     .from("clients")
@@ -49,14 +104,79 @@ export default async function WorkflowPage() {
   );
 
   return (
-    <div>
+    <div className="max-w-4xl space-y-4">
       <PageHeader
-        title="Workflow"
-        description="Every client's onboarding stage and contract status, in one place — no need to open each client to check."
+        title="Workflow Center"
+        description="Define business processes as workflows, run them as instances, and track every task through to done."
       />
 
-      {sortedClients.length > 0 ? (
-        <Card className="overflow-hidden">
+      <Card>
+        <CardHeader>
+          <CardTitle>My tasks</CardTitle>
+          <CardDescription>Work assigned to you across every active workflow run.</CardDescription>
+        </CardHeader>
+        <CardContent className="p-0">
+          <MyTasksPanel
+            tasks={(myTasks ?? []).map((t) => ({
+              id: t.id,
+              title: t.title,
+              status: t.status,
+              dueAt: t.due_at,
+              instanceId: t.workflow_instance_id,
+              instanceTitle: t.workflow_instances?.title ?? "Workflow run",
+            }))}
+          />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Active runs</CardTitle>
+          <CardDescription>Every workflow currently in progress, and where it stands.</CardDescription>
+        </CardHeader>
+        {instances && instances.length > 0 ? (
+          <ActiveInstancesTable
+            instances={instances.map((i) => ({
+              id: i.id,
+              title: i.title,
+              workflowName: i.workflow_definitions?.name ?? "Workflow",
+              stageName: i.workflow_stages?.name ?? null,
+              status: i.status,
+              openTaskCount: i.workflow_tasks.filter((t) => t.status !== "done" && t.status !== "skipped").length,
+            }))}
+          />
+        ) : (
+          <CardContent>
+            <p className="text-sm text-muted">No active runs yet — start one from a workflow below.</p>
+          </CardContent>
+        )}
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Workflows</CardTitle>
+          <CardDescription>
+            Model any business process as an ordered set of stages, then start runs against it.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="p-0">
+          <WorkflowDefinitionsPanel
+            definitions={(definitions ?? []).map((d) => ({
+              id: d.id,
+              name: d.name,
+              description: d.description,
+              stageCount: d.workflow_stages.length,
+            }))}
+          />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Client onboarding</CardTitle>
+          <CardDescription>Legacy view — each client&rsquo;s onboarding stage and contract status.</CardDescription>
+        </CardHeader>
+        {sortedClients.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead className="border-b border-border bg-surface-2 text-xs uppercase tracking-wide text-muted">
@@ -97,14 +217,16 @@ export default async function WorkflowPage() {
               </tbody>
             </table>
           </div>
-        </Card>
-      ) : (
-        <EmptyState
-          icon="🗂"
-          title="No clients yet"
-          description="Add a client to start tracking their onboarding workflow here."
-        />
-      )}
+        ) : (
+          <CardContent>
+            <EmptyState
+              icon="🗂"
+              title="No clients yet"
+              description="Add a client to start tracking their onboarding workflow here."
+            />
+          </CardContent>
+        )}
+      </Card>
     </div>
   );
 }
