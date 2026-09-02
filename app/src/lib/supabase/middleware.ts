@@ -53,7 +53,7 @@ export async function updateSession(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (!user && !isPublicPath(pathname)) {
-    const signInPath = pathname.startsWith("/client") ? "/client/login" : "/login";
+    const signInPath = pathname === "/client" || pathname.startsWith("/client/") ? "/client/login" : "/login";
     const redirectUrl = new URL(signInPath, request.url);
     redirectUrl.searchParams.set("redirectTo", pathname);
     return NextResponse.redirect(redirectUrl);

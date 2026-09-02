@@ -51,7 +51,7 @@ export async function dispatchEvent(
         error = err instanceof Error ? err.message : "Delivery failed.";
       }
 
-      await supabase.from("webhook_deliveries").insert({
+      const { error: logError } = await supabase.from("webhook_deliveries").insert({
         webhook_id: webhook.id,
         org_id: orgId,
         event,
@@ -61,6 +61,9 @@ export async function dispatchEvent(
         success,
         error,
       });
+      if (logError) {
+        console.error(`Failed to record webhook delivery for webhook ${webhook.id}:`, logError.message);
+      }
     })
   );
 }
