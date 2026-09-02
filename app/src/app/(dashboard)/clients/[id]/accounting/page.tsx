@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
@@ -15,6 +16,13 @@ export default async function ClientAccountingPage({ params }: { params: Promise
     <Card>
       <CardHeader>
         <CardTitle>Billing & payment</CardTitle>
+        <p className="mt-1 text-xs text-muted">
+          A sub-account of{" "}
+          <Link href="/accounting" className="text-brand hover:underline">
+            Global Accounting
+          </Link>
+          .
+        </p>
       </CardHeader>
       <CardContent>
         <AccountingForm action={updateClientBilling.bind(null, id)} client={client} />

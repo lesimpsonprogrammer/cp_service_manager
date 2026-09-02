@@ -42,6 +42,10 @@ export type SignupRequestStatus = "pending" | "approved" | "rejected";
 
 export type ProjectStatus = "intake" | "in_progress" | "client_review" | "complete";
 
+export type AccountingConnectionType = "billing_system" | "pos" | "general_ledger";
+
+export type AccountingConnectionStatus = "not_connected" | "connected" | "error";
+
 export interface Database {
   public: {
     Tables: {
@@ -724,6 +728,35 @@ export interface Database {
             columns: ["client_id"];
             isOneToOne: false;
             referencedRelation: "clients";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      accounting_connections: {
+        Row: {
+          id: string;
+          org_id: string;
+          connection_type: AccountingConnectionType;
+          provider: string;
+          company_name: string | null;
+          config: Record<string, unknown>;
+          status: AccountingConnectionStatus;
+          last_synced_at: string | null;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["accounting_connections"]["Row"]> & {
+          org_id: string;
+          connection_type: AccountingConnectionType;
+        };
+        Update: Partial<Database["public"]["Tables"]["accounting_connections"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "accounting_connections_org_id_fkey";
+            columns: ["org_id"];
+            isOneToOne: false;
+            referencedRelation: "organizations";
             referencedColumns: ["id"];
           }
         ];

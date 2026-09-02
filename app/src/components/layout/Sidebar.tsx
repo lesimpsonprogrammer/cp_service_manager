@@ -12,6 +12,7 @@ const NAV_ITEMS = [
   { href: "/workflow", label: "Workflow", icon: "🗂" },
   { href: "/time", label: "Time Tracking", icon: "⏱" },
   { href: "/invoices", label: "Invoices", icon: "🧾" },
+  { href: "/accounting", label: "Global Accounting", icon: "🏦" },
   { href: "/docs", label: "Docs", icon: "📚" },
   { href: "/posts", label: "Blog", icon: "📝" },
   { href: "/templates", label: "Agreement Templates", icon: "📄" },
