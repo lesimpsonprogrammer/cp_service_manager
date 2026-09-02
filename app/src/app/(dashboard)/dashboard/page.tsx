@@ -8,44 +8,156 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { StatusBadge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { hoursAgoIso } from "@/lib/utils/time";
+import { Greeting } from "@/components/dashboard/Greeting";
+import { ActionCenterWidget } from "@/components/dashboard/ActionCenterWidget";
+import { getOrgMembers } from "@/lib/org/getOrgMembers";
 
 export default async function DashboardOverviewPage() {
   const org = await getCurrentOrg();
   const supabase = await createClient();
 
   const since24h = hoursAgoIso(24);
+  const today = new Date().toISOString().slice(0, 10);
 
-  const [{ count: sourcesCount }, { count: activePipelines }, { count: runsToday }, recentRuns, recentSources] =
-    await Promise.all([
-      supabase.from("data_sources").select("id", { count: "exact", head: true }),
-      supabase
-        .from("pipelines")
-        .select("id", { count: "exact", head: true })
-        .eq("is_active", true),
-      supabase
-        .from("pipeline_runs")
-        .select("id", { count: "exact", head: true })
-        .gte("created_at", since24h),
-      supabase
-        .from("pipeline_runs")
-        .select("id, status, records_loaded, created_at, pipelines ( name )")
-        .order("created_at", { ascending: false })
-        .limit(5),
-      supabase
-        .from("data_sources")
-        .select("id, name, type, status")
-        .order("created_at", { ascending: false })
-        .limit(5),
-    ]);
+  const [
+    { count: sourcesCount },
+    { count: activePipelines },
+    { count: runsToday },
+    recentRuns,
+    recentSources,
+    profile,
+    pendingTimecards,
+    outstandingInvoices,
+    openTasks,
+    members,
+  ] = await Promise.all([
+    supabase.from("data_sources").select("id", { count: "exact", head: true }),
+    supabase
+      .from("pipelines")
+      .select("id", { count: "exact", head: true })
+      .eq("is_active", true),
+    supabase
+      .from("pipeline_runs")
+      .select("id", { count: "exact", head: true })
+      .gte("created_at", since24h),
+    supabase
+      .from("pipeline_runs")
+      .select("id, status, records_loaded, created_at, pipelines ( name )")
+      .order("created_at", { ascending: false })
+      .limit(5),
+    supabase
+      .from("data_sources")
+      .select("id, name, type, status")
+      .order("created_at", { ascending: false })
+      .limit(5),
+    org
+      ? supabase.from("profiles").select("full_name").eq("id", org.userId).maybeSingle()
+      : Promise.resolve({ data: null }),
+    org
+      ? supabase
+          .from("timecards")
+          .select("id, client_id, status, period_start, period_end, total_hours, clients ( name )")
+          .eq("org_id", org.orgId)
+          .in("status", ["draft", "internally_approved"])
+          .order("created_at", { ascending: true })
+          .returns<
+            {
+              id: string;
+              client_id: string;
+              status: "draft" | "internally_approved";
+              period_start: string;
+              period_end: string;
+              total_hours: number;
+              clients: { name: string } | null;
+            }[]
+          >()
+      : Promise.resolve({ data: [] }),
+    org
+      ? supabase
+          .from("invoices")
+          .select("id, client_id, invoice_number, status, total, due_date, clients ( name )")
+          .eq("org_id", org.orgId)
+          .in("status", ["draft", "sent", "overdue"])
+          .order("due_date", { ascending: true, nullsFirst: false })
+          .returns<
+            {
+              id: string;
+              client_id: string;
+              invoice_number: string;
+              status: string;
+              total: number;
+              due_date: string | null;
+              clients: { name: string } | null;
+            }[]
+          >()
+      : Promise.resolve({ data: [] }),
+    org
+      ? supabase
+          .from("workflow_tasks")
+          .select("id, title, status, due_at, assignee_id, workflow_instance_id, workflow_instances ( title )")
+          .eq("org_id", org.orgId)
+          .in("status", ["pending", "in_progress"])
+          .order("due_at", { ascending: true, nullsFirst: false })
+          .limit(50)
+          .returns<
+            {
+              id: string;
+              title: string;
+              status: string;
+              due_at: string | null;
+              assignee_id: string | null;
+              workflow_instance_id: string;
+              workflow_instances: { title: string } | null;
+            }[]
+          >()
+      : Promise.resolve({ data: [] }),
+    org ? getOrgMembers(org.orgId) : Promise.resolve([]),
+  ]);
+
+  const displayName = profile.data?.full_name?.trim() || org?.userEmail?.split("@")[0] || null;
+  const memberNameById = new Map(members.map((m) => [m.userId, m.fullName]));
 
   return (
     <div>
       <PageHeader
-        title={`Welcome back${org?.userEmail ? "" : ""}`}
+        title={<Greeting name={displayName} />}
         description="Here's what's happening across your connectors and pipelines."
       />
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <ActionCenterWidget
+        timecards={(pendingTimecards.data ?? []).map((t) => ({
+          id: t.id,
+          clientId: t.client_id,
+          clientName: t.clients?.name ?? "Client",
+          status: t.status,
+          periodStart: t.period_start,
+          periodEnd: t.period_end,
+          totalHours: t.total_hours,
+        }))}
+        invoices={(outstandingInvoices.data ?? [])
+          .filter((i) => i.status === "draft" || i.status === "overdue" || (i.due_date && i.due_date < today))
+          .map((i) => ({
+            id: i.id,
+            clientId: i.client_id,
+            clientName: i.clients?.name ?? "Client",
+            invoiceNumber: i.invoice_number,
+            status: i.status,
+            total: i.total,
+            dueDate: i.due_date,
+            isOverdue: i.status === "overdue" || (i.status === "sent" && !!i.due_date && i.due_date < today),
+          }))}
+        tasks={(openTasks.data ?? []).map((t) => ({
+          id: t.id,
+          title: t.title,
+          status: t.status,
+          dueAt: t.due_at,
+          instanceId: t.workflow_instance_id,
+          instanceTitle: t.workflow_instances?.title ?? "Workflow run",
+          assigneeName: t.assignee_id ? memberNameById.get(t.assignee_id) ?? "Former teammate" : null,
+        }))}
+      />
+
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Data sources" value={sourcesCount ?? 0} />
         <StatCard label="Active pipelines" value={activePipelines ?? 0} tone="brand" />
         <StatCard label="Runs (24h)" value={runsToday ?? 0} />
