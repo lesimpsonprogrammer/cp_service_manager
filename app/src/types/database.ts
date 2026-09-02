@@ -42,6 +42,10 @@ export type SignupRequestStatus = "pending" | "approved" | "rejected";
 
 export type ProjectStatus = "intake" | "in_progress" | "client_review" | "complete";
 
+export type WorkflowInstanceStatus = "active" | "completed" | "cancelled";
+
+export type WorkflowTaskStatus = "pending" | "in_progress" | "done" | "skipped";
+
 export interface Database {
   public: {
     Tables: {
@@ -724,6 +728,154 @@ export interface Database {
             columns: ["client_id"];
             isOneToOne: false;
             referencedRelation: "clients";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      workflow_definitions: {
+        Row: {
+          id: string;
+          org_id: string;
+          name: string;
+          description: string | null;
+          is_active: boolean;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["workflow_definitions"]["Row"]> & {
+          org_id: string;
+          name: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["workflow_definitions"]["Row"]>;
+        Relationships: [];
+      };
+      workflow_stages: {
+        Row: {
+          id: string;
+          org_id: string;
+          workflow_definition_id: string;
+          name: string;
+          position: number;
+          sla_hours: number | null;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["workflow_stages"]["Row"]> & {
+          org_id: string;
+          workflow_definition_id: string;
+          name: string;
+          position: number;
+        };
+        Update: Partial<Database["public"]["Tables"]["workflow_stages"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "workflow_stages_workflow_definition_id_fkey";
+            columns: ["workflow_definition_id"];
+            isOneToOne: false;
+            referencedRelation: "workflow_definitions";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      workflow_instances: {
+        Row: {
+          id: string;
+          org_id: string;
+          workflow_definition_id: string;
+          current_stage_id: string | null;
+          title: string;
+          subject_type: string | null;
+          subject_id: string | null;
+          status: WorkflowInstanceStatus;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+          completed_at: string | null;
+        };
+        Insert: Partial<Database["public"]["Tables"]["workflow_instances"]["Row"]> & {
+          org_id: string;
+          workflow_definition_id: string;
+          title: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["workflow_instances"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "workflow_instances_workflow_definition_id_fkey";
+            columns: ["workflow_definition_id"];
+            isOneToOne: false;
+            referencedRelation: "workflow_definitions";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "workflow_instances_current_stage_id_fkey";
+            columns: ["current_stage_id"];
+            isOneToOne: false;
+            referencedRelation: "workflow_stages";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      workflow_instance_events: {
+        Row: {
+          id: string;
+          org_id: string;
+          workflow_instance_id: string;
+          from_stage_id: string | null;
+          to_stage_id: string | null;
+          note: string | null;
+          created_by: string | null;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["workflow_instance_events"]["Row"]> & {
+          org_id: string;
+          workflow_instance_id: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["workflow_instance_events"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "workflow_instance_events_workflow_instance_id_fkey";
+            columns: ["workflow_instance_id"];
+            isOneToOne: false;
+            referencedRelation: "workflow_instances";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      workflow_tasks: {
+        Row: {
+          id: string;
+          org_id: string;
+          workflow_instance_id: string;
+          stage_id: string | null;
+          title: string;
+          description: string | null;
+          assignee_id: string | null;
+          status: WorkflowTaskStatus;
+          due_at: string | null;
+          completed_at: string | null;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["workflow_tasks"]["Row"]> & {
+          org_id: string;
+          workflow_instance_id: string;
+          title: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["workflow_tasks"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "workflow_tasks_workflow_instance_id_fkey";
+            columns: ["workflow_instance_id"];
+            isOneToOne: false;
+            referencedRelation: "workflow_instances";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "workflow_tasks_stage_id_fkey";
+            columns: ["stage_id"];
+            isOneToOne: false;
+            referencedRelation: "workflow_stages";
             referencedColumns: ["id"];
           }
         ];

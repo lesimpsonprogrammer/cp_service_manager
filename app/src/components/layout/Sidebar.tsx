@@ -9,7 +9,7 @@ import { useMobileSidebar } from "./MobileSidebarContext";
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Overview", icon: "◱" },
   { href: "/clients", label: "Clients", icon: "🏢" },
-  { href: "/workflow", label: "Workflow", icon: "🗂" },
+  { href: "/workflow", label: "Workflow Center", icon: "🗂" },
   { href: "/time", label: "Time Tracking", icon: "⏱" },
   { href: "/invoices", label: "Invoices", icon: "🧾" },
   { href: "/docs", label: "Docs", icon: "📚" },
