@@ -725,6 +725,35 @@ p {
   color: var(--text);
 }
 
+.resource-card h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.resource-card h3 a:hover {
+  color: var(--blue);
+}
+
+.page-photo {
+  position: relative;
+  height: 260px;
+  background-size: cover;
+  background-position: center 30%;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: flex-end;
+}
+
+.page-photo .container {
+  padding-bottom: 20px;
+}
+
+.page-photo figcaption {
+  color: #fff;
+  font-size: 0.82rem;
+  max-width: 60ch;
+}
+
 .resource-card p {
   font-size: 0.92rem;
   margin: 0;
