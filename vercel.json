@@ -1,4 +1,6 @@
 {
+  "buildCommand": "node scripts/build-site.mjs",
+  "outputDirectory": "dist",
   "rewrites": [
     { "source": "/blog", "destination": "https://app.momentumdatasolutions.com/blog" },
     { "source": "/blog/:path*", "destination": "https://app.momentumdatasolutions.com/blog/:path*" }
