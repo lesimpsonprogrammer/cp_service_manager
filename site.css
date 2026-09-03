@@ -243,7 +243,7 @@ p {
 .dropdown-menu {
   display: none;
   position: absolute;
-  top: calc(100% + 12px);
+  top: 100%;
   left: 50%;
   transform: translateX(-50%);
   min-width: 220px;
@@ -252,6 +252,16 @@ p {
   border-radius: 4px;
   box-shadow: var(--shadow);
   padding: 8px;
+  margin-top: 12px;
+}
+
+.has-dropdown::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 12px;
 }
 
 .has-dropdown:hover .dropdown-menu,
