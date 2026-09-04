@@ -44,14 +44,19 @@ const LOAD_SNAPSHOT_LIMIT = 500;
  * Runs one pipeline end-to-end: extract from its source connector, apply
  * field mapping + transform steps, then load into its destination connector
  * (when one is configured — otherwise this behaves as a dry-run/preview and
- * every transformed record counts as "loaded"). Every run is recorded in
- * `pipeline_runs` regardless of outcome.
+ * every transformed record counts as "loaded"). Passing `{ dryRun: true }`
+ * forces the preview behavior even when a destination is configured, so a
+ * live pipeline's extraction can be tested without touching the
+ * destination. Every run is recorded in `pipeline_runs` regardless of
+ * outcome.
  */
 export async function runPipeline(
   supabase: SupabaseClient<Database>,
   pipeline: PipelineRow,
-  triggeredBy: "manual" | "schedule" | "webhook" | "api" = "manual"
+  triggeredBy: "manual" | "schedule" | "webhook" | "api" | "test" = "manual",
+  options: { dryRun?: boolean } = {}
 ): Promise<PipelineRunResult> {
+  const dryRun = options.dryRun ?? false;
   const startedAt = new Date().toISOString();
   const { data: run, error: runInsertError } = await supabase
     .from("pipeline_runs")
@@ -82,20 +87,25 @@ export async function runPipeline(
         records_failed: result.recordsFailed,
         error: result.error,
         sample_records: records.sample?.slice(0, SAMPLE_LIMIT) ?? [],
-        loaded_records: records.loaded?.slice(0, LOAD_SNAPSHOT_LIMIT) ?? [],
+        // A dry run never touches the destination — never record it as if it did.
+        loaded_records: dryRun ? [] : records.loaded?.slice(0, LOAD_SNAPSHOT_LIMIT) ?? [],
         finished_at: new Date().toISOString(),
       })
       .eq("id", run.id)
       .select("run_number")
       .single();
 
-    await dispatchEvent(supabase, pipeline.org_id, "pipeline.run.completed", {
-      pipeline_id: pipeline.id,
-      run_id: run.id,
-      ...result,
-    });
+    // A dry run is a diagnostic check, not a real completion — downstream
+    // webhooks and the client-facing email should only fire for real runs.
+    if (!dryRun) {
+      await dispatchEvent(supabase, pipeline.org_id, "pipeline.run.completed", {
+        pipeline_id: pipeline.id,
+        run_id: run.id,
+        ...result,
+      });
 
-    await notifyClientOfRun(supabase, pipeline, updatedRun?.run_number ?? run.id, result);
+      await notifyClientOfRun(supabase, pipeline, updatedRun?.run_number ?? run.id, result);
+    }
 
     return { runId: run.id, ...result };
   };
@@ -131,7 +141,7 @@ export async function runPipeline(
   const mapped = applyMapping(extracted.records, (pipeline.mapping as FieldMapping[]) ?? []);
   const transformed = applyTransforms(mapped, (pipeline.transform_steps as TransformStep[]) ?? []);
 
-  if (!pipeline.destination_id) {
+  if (!pipeline.destination_id || dryRun) {
     return finish(
       {
         status: "succeeded",

@@ -63,7 +63,7 @@ export default async function PipelineDetailPage({ params }: { params: Promise<{
                 Edit
               </Button>
             </Link>
-            <RunPipelineButton pipelineId={pipeline.id} />
+            <RunPipelineButton pipelineId={pipeline.id} hasDestination={!!pipeline.destination_id} />
           </div>
         }
       />

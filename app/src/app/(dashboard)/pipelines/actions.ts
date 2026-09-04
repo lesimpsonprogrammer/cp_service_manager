@@ -128,6 +128,32 @@ export async function runPipelineNow(pipelineId: string): Promise<PipelineRunRes
 }
 
 /**
+ * Extract + map + transform only — never touches the destination, even for
+ * a pipeline that already has one configured. Lets you isolate whether a
+ * failure is on the source side or the destination side without risking a
+ * real load, and without needing to unset the destination first.
+ */
+export async function testExtractPipeline(pipelineId: string): Promise<PipelineRunResult> {
+  const supabase = await createClient();
+  const { data: pipeline, error } = await supabase
+    .from("pipelines")
+    .select("id, org_id, source_id, destination_id, mapping, transform_steps")
+    .eq("id", pipelineId)
+    .single();
+
+  if (error || !pipeline) {
+    throw new Error("Pipeline not found.");
+  }
+
+  const result = await runPipeline(supabase, pipeline, "test", { dryRun: true });
+
+  revalidatePath(`/pipelines/${pipelineId}`);
+  revalidatePath("/pipelines");
+
+  return result;
+}
+
+/**
  * Promotes a preview-only pipeline to a live one: sets its destination, then
  * immediately runs it for real so the caller finds out right away whether
  * the destination actually works, rather than saving and leaving them to
