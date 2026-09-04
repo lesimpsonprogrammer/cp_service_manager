@@ -71,9 +71,29 @@ async function extractPdfText(buffer: Buffer): Promise<ExtractedRecord[]> {
   }
 }
 
+function describeUnexpectedPayload(buffer: Buffer): string | null {
+  if (buffer.length === 0) return "the response body was empty";
+  const isZip = buffer.length >= 2 && buffer[0] === 0x50 && buffer[1] === 0x4b; // "PK"
+  if (isZip) return null;
+  const preview = buffer.subarray(0, 200).toString("utf-8");
+  if (/^\s*</.test(preview)) return "the response looks like an HTML page, not an Excel file (likely a login page, redirect, or error page)";
+  if (/^\s*[{[]/.test(preview)) return "the response looks like JSON, not an Excel file";
+  return "the response is not a valid .xlsx file (missing the zip file signature)";
+}
+
 async function extractExcel(buffer: Buffer, sheetName: string): Promise<ExtractedRecord[]> {
+  const payloadIssue = describeUnexpectedPayload(buffer);
+  if (payloadIssue) {
+    throw new Error(`Expected an Excel (.xlsx) file at this URL, but ${payloadIssue}. Check the URL and that it doesn't require authentication.`);
+  }
+
   const workbook = new ExcelJS.Workbook();
-  await workbook.xlsx.load(buffer as unknown as ArrayBuffer);
+  try {
+    await workbook.xlsx.load(buffer as unknown as ArrayBuffer);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    throw new Error(`Could not read the fetched file as an Excel workbook: ${message}`);
+  }
   const sheet = (sheetName ? workbook.getWorksheet(sheetName) : undefined) ?? workbook.worksheets[0];
   if (!sheet) throw new Error(sheetName ? `No sheet named "${sheetName}" found.` : "Workbook has no sheets.");
 
