@@ -19,11 +19,11 @@ export default async function RootPage() {
       <div className="dotted-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]" />
 
       <header className="relative z-10 flex items-center justify-between gap-3 px-6 py-6 lg:px-12">
-        <div className="flex min-w-0 items-center gap-2 text-sm font-semibold tracking-tight">
-          <LogoMark className="h-8 w-8 shrink-0 text-brand dark:text-white" />
-          <span className="hidden sm:inline">Cloud Performance Service Manager</span>
+        <div className="flex min-w-0 flex-1 items-center gap-2 text-sm font-semibold tracking-tight">
+          <LogoMark className="h-7 w-7 shrink-0 text-brand dark:text-white sm:h-8 sm:w-8" />
+          <span className="truncate text-xs sm:text-sm">Cloud Performance Service Manager</span>
         </div>
-        <nav className="flex shrink-0 items-center gap-3">
+        <nav className="flex shrink-0 items-center gap-2 sm:gap-3">
           <Link href="/login" className="text-sm text-muted hover:text-foreground">
             Sign in
           </Link>
