@@ -128,15 +128,24 @@ async function publishToFacebook(post) {
 }
 
 async function publishToLinkedIn(post) {
+  // LINKEDIN_ORG_URN posts as the Company Page (needs the Community
+  // Management API product — LinkedIn partner approval, not guaranteed).
+  // Without it, falls back to posting as the authenticated member via the
+  // self-serve "Share on LinkedIn" product (w_member_social) — the member
+  // URN doesn't need its own env var, it's resolved from the token itself.
   const orgUrn = process.env.LINKEDIN_ORG_URN; // e.g. "urn:li:organization:12345678"
   const accessToken = process.env.LINKEDIN_ACCESS_TOKEN;
-  if (!orgUrn || !accessToken) {
+  if (!accessToken) {
     throw new Error(
-      "LinkedIn isn't connected yet — create a LinkedIn developer app, get org-page posting access " +
-        "(w_organization_social, needs LinkedIn partner approval), then set LINKEDIN_ORG_URN and " +
-        "LINKEDIN_ACCESS_TOKEN in Vercel."
+      "LinkedIn isn't connected yet — create a LinkedIn developer app, request the \"Share on LinkedIn\" " +
+        "product (personal posting, self-serve) or the Community Management API (Company Page posting, " +
+        "needs LinkedIn approval), generate a token, then set LINKEDIN_ACCESS_TOKEN in Vercel " +
+        "(add LINKEDIN_ORG_URN too if posting as the Page)."
     );
   }
+
+  const author = orgUrn || (await fetchLinkedInMemberUrn(accessToken));
+
   const resp = await fetch("https://api.linkedin.com/v2/ugcPosts", {
     method: "POST",
     headers: {
@@ -145,7 +154,7 @@ async function publishToLinkedIn(post) {
       "X-Restli-Protocol-Version": "2.0.0",
     },
     body: JSON.stringify({
-      author: orgUrn,
+      author,
       lifecycleState: "PUBLISHED",
       specificContent: {
         "com.linkedin.ugc.ShareContent": {
@@ -160,6 +169,21 @@ async function publishToLinkedIn(post) {
   const data = await resp.json().catch(() => ({}));
   if (!resp.ok) throw new Error(data.message || "LinkedIn post failed.");
   return data;
+}
+
+async function fetchLinkedInMemberUrn(accessToken) {
+  const resp = await fetch("https://api.linkedin.com/v2/me", {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  const data = await resp.json().catch(() => ({}));
+  if (!resp.ok || !data.id) {
+    throw new Error(
+      data.message ||
+        "Couldn't resolve the LinkedIn member for this token — make sure the \"Share on LinkedIn\" " +
+          "product (r_liteprofile + w_member_social) is granted."
+    );
+  }
+  return `urn:li:person:${data.id}`;
 }
 
 async function publishToTikTok(_post) {
