@@ -9,6 +9,7 @@ import { BackgroundPicker } from "@/components/ui/BackgroundPicker";
 import { InvitesPanel } from "@/components/settings/InvitesPanel";
 import { SignupRequestsPanel } from "@/components/settings/SignupRequestsPanel";
 import { DocCategoriesPanel } from "@/components/settings/DocCategoriesPanel";
+import { formatRole } from "@/lib/org/formatRole";
 
 const ADMIN_ROLES = new Set(["owner", "admin"]);
 
@@ -60,9 +61,7 @@ export default async function SettingsPage() {
           </div>
           <div className="flex justify-between">
             <span className="text-muted">Your role</span>
-            <Badge tone="brand" className="capitalize">
-              {org?.role}
-            </Badge>
+            <Badge tone="brand">{org?.role ? formatRole(org.role) : null}</Badge>
           </div>
           <div className="flex justify-between">
             <span className="text-muted">Signed in as</span>
@@ -80,9 +79,7 @@ export default async function SettingsPage() {
             {(members ?? []).map((m) => (
               <li key={m.user_id} className="flex items-center justify-between px-5 py-3 text-sm">
                 <span className="font-mono text-xs text-muted">{m.user_id}</span>
-                <Badge tone="neutral" className="capitalize">
-                  {m.role}
-                </Badge>
+                <Badge tone="neutral">{formatRole(m.role)}</Badge>
               </li>
             ))}
           </ul>

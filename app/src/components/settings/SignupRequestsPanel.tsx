@@ -41,8 +41,12 @@ function RequestRow({ request }: { request: SignupRequestRow }) {
           <p className="text-xs text-muted">Requested {new Date(request.created_at).toLocaleDateString()}</p>
         </div>
         <form action={formAction} className="flex items-center gap-2">
-          <Select name="role" defaultValue="member" className="h-8 w-28 text-xs">
+          <Select name="role" defaultValue="member" className="h-8 w-40 text-xs">
             <option value="admin">Admin</option>
+            <option value="project_manager_i">Project Manager I</option>
+            <option value="project_manager_ii">Project Manager II</option>
+            <option value="project_manager_iii">Project Manager III</option>
+            <option value="project_consultant">Project Consultant</option>
             <option value="member">Member</option>
             <option value="viewer">Viewer</option>
           </Select>

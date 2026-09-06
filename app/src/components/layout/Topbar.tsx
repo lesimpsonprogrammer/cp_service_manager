@@ -1,6 +1,7 @@
 import { signOut } from "@/app/(auth)/actions";
 import { Badge } from "@/components/ui/Badge";
 import { MobileMenuButton } from "@/components/layout/MobileMenuButton";
+import { formatRole } from "@/lib/org/formatRole";
 
 export function Topbar({
   title,
@@ -19,9 +20,7 @@ export function Topbar({
       </div>
 
       <div className="flex items-center gap-3">
-        <Badge tone="brand" className="capitalize">
-          {role}
-        </Badge>
+        <Badge tone="brand">{formatRole(role)}</Badge>
         <span className="hidden text-sm text-muted sm:inline">{userEmail}</span>
         <form action={signOut}>
           <button

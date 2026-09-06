@@ -11,6 +11,7 @@ import { hoursAgoIso } from "@/lib/utils/time";
 import { Greeting } from "@/components/dashboard/Greeting";
 import { ActionCenterWidget } from "@/components/dashboard/ActionCenterWidget";
 import { getOrgMembers } from "@/lib/org/getOrgMembers";
+import { formatRole } from "@/lib/org/formatRole";
 
 export default async function DashboardOverviewPage() {
   const org = await getCurrentOrg();
@@ -161,7 +162,7 @@ export default async function DashboardOverviewPage() {
         <StatCard label="Data sources" value={sourcesCount ?? 0} />
         <StatCard label="Active pipelines" value={activePipelines ?? 0} tone="brand" />
         <StatCard label="Runs (24h)" value={runsToday ?? 0} />
-        <StatCard label="Workspace role" value={org?.role ?? "—"} />
+        <StatCard label="Workspace role" value={org?.role ? formatRole(org.role) : "—"} />
       </div>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-2">

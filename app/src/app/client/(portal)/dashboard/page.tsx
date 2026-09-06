@@ -14,20 +14,35 @@ export default async function ClientDashboardPage() {
       .select("id, name, project_code, status, updated_at")
       .eq("client_id", clientUser.clientId)
       .order("updated_at", { ascending: false }),
-    supabase.from("clients").select("project_manager_id").eq("id", clientUser.clientId).maybeSingle(),
+    supabase
+      .from("clients")
+      .select("project_manager_id, project_consultant_id")
+      .eq("id", clientUser.clientId)
+      .maybeSingle(),
   ]);
 
   const { data: projectManager } = client?.project_manager_id
     ? await supabase.from("profiles").select("full_name").eq("id", client.project_manager_id).maybeSingle()
     : { data: null };
 
+  const { data: projectConsultant } = client?.project_consultant_id
+    ? await supabase.from("profiles").select("full_name").eq("id", client.project_consultant_id).maybeSingle()
+    : { data: null };
+
+  const teamDescription = [
+    projectManager?.full_name ? `Your Project Manager is ${projectManager.full_name}.` : null,
+    projectConsultant?.full_name ? `Your Project Consultant is ${projectConsultant.full_name}.` : null,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
     <div>
       <PageHeader
         title={`Hi, welcome to ${clientUser.clientName}'s portal`}
         description={
-          projectManager?.full_name
-            ? `Your Project Manager is ${projectManager.full_name}. Track project work from intake through final approval — this board updates in real time.`
+          teamDescription
+            ? `${teamDescription} Track project work from intake through final approval — this board updates in real time.`
             : "Track project work from intake through final approval — this board updates in real time."
         }
       />

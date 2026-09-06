@@ -2,7 +2,15 @@
 // Regenerate with `supabase gen types typescript` once the project is linked
 // to a live Supabase project, and this file becomes redundant.
 
-export type OrgRole = "owner" | "admin" | "member" | "viewer";
+export type OrgRole =
+  | "owner"
+  | "admin"
+  | "project_manager_i"
+  | "project_manager_ii"
+  | "project_manager_iii"
+  | "project_consultant"
+  | "member"
+  | "viewer";
 
 export type DataSourceType =
   | "spreadsheet"
@@ -150,6 +158,7 @@ export interface Database {
           hipaa_covered_entity: boolean;
           compliance_notes: string | null;
           project_manager_id: string | null;
+          project_consultant_id: string | null;
           created_by: string | null;
           created_at: string;
           updated_at: string;

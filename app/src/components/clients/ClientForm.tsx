@@ -99,6 +99,22 @@ export function ClientForm({
         </div>
 
         <div>
+          <Label htmlFor="project_consultant_id">Project Consultant</Label>
+          <Select
+            id="project_consultant_id"
+            name="project_consultant_id"
+            defaultValue={client?.project_consultant_id ?? ""}
+          >
+            <option value="">Unassigned</option>
+            {orgMembers.map((member) => (
+              <option key={member.userId} value={member.userId}>
+                {member.fullName}
+              </option>
+            ))}
+          </Select>
+        </div>
+
+        <div>
           <Label htmlFor="notes">Notes</Label>
           <Textarea
             id="notes"

@@ -15,6 +15,10 @@ export default async function ClientOverviewPage({ params }: { params: Promise<{
     ? await supabase.from("profiles").select("full_name").eq("id", client.project_manager_id).maybeSingle()
     : { data: null };
 
+  const { data: projectConsultant } = client.project_consultant_id
+    ? await supabase.from("profiles").select("full_name").eq("id", client.project_consultant_id).maybeSingle()
+    : { data: null };
+
   return (
     <div className="grid gap-4 lg:grid-cols-3">
       <Card className="lg:col-span-2">
@@ -53,6 +57,10 @@ export default async function ClientOverviewPage({ params }: { params: Promise<{
           <div className="flex items-center justify-between border-t border-border pt-3 text-sm">
             <span className="text-muted">Project Manager</span>
             <span className="text-foreground">{projectManager?.full_name || "Unassigned"}</span>
+          </div>
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted">Project Consultant</span>
+            <span className="text-foreground">{projectConsultant?.full_name || "Unassigned"}</span>
           </div>
           <p className="text-xs text-muted">Added {new Date(client.created_at).toLocaleDateString()}</p>
         </CardContent>

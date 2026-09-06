@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Input, Label, Select } from "@/components/ui/Input";
 import { createInvite, revokeInvite, type SettingsFormState } from "@/app/(dashboard)/settings/actions";
 import type { OrgRole } from "@/types/database";
+import { formatRole } from "@/lib/org/formatRole";
 
 export interface InviteRow {
   id: string;
@@ -55,7 +56,7 @@ export function InvitesPanel({ invites, appUrl }: { invites: InviteRow[]; appUrl
             <li key={invite.id} className="flex flex-wrap items-center justify-between gap-2 px-5 py-3 text-sm">
               <div>
                 <span className="font-medium text-foreground">{invite.email}</span>
-                <span className="ml-2 text-xs capitalize text-muted">{invite.role}</span>
+                <span className="ml-2 text-xs text-muted">{formatRole(invite.role)}</span>
                 <p className="text-xs text-muted">Expires {new Date(invite.expires_at).toLocaleDateString()}</p>
               </div>
               <div className="flex items-center gap-2">
@@ -85,6 +86,10 @@ export function InvitesPanel({ invites, appUrl }: { invites: InviteRow[]; appUrl
           <Label htmlFor="invite_role">Role</Label>
           <Select id="invite_role" name="role" defaultValue="member">
             <option value="admin">Admin</option>
+            <option value="project_manager_i">Project Manager I</option>
+            <option value="project_manager_ii">Project Manager II</option>
+            <option value="project_manager_iii">Project Manager III</option>
+            <option value="project_consultant">Project Consultant</option>
             <option value="member">Member</option>
             <option value="viewer">Viewer</option>
           </Select>

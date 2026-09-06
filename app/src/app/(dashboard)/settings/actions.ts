@@ -10,7 +10,16 @@ export interface SettingsFormState {
 }
 
 const ADMIN_ROLES = new Set(["owner", "admin"]);
-const VALID_ROLES = new Set<OrgRole>(["owner", "admin", "member", "viewer"]);
+const VALID_ROLES = new Set<OrgRole>([
+  "owner",
+  "admin",
+  "project_manager_i",
+  "project_manager_ii",
+  "project_manager_iii",
+  "project_consultant",
+  "member",
+  "viewer",
+]);
 
 export async function createInvite(
   _prev: SettingsFormState,

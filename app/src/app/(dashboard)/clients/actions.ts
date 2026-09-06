@@ -57,6 +57,7 @@ function readClientFields(formData: FormData) {
     primary_contact_email: String(formData.get("primary_contact_email") ?? "").trim() || null,
     primary_contact_phone: String(formData.get("primary_contact_phone") ?? "").trim() || null,
     project_manager_id: String(formData.get("project_manager_id") ?? "").trim() || null,
+    project_consultant_id: String(formData.get("project_consultant_id") ?? "").trim() || null,
     notes: String(formData.get("notes") ?? "").trim() || null,
   };
 }
