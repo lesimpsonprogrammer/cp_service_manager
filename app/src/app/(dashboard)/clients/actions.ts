@@ -5,9 +5,18 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
 import { sendContractSigningEmail, sendContractReminderEmail, sendClientPortalInviteEmail } from "@/lib/email/resend";
-import type { ClientStatus, ContractStatus, Database, OnboardingStage } from "@/types/database";
+import type {
+  ClientPortalRole,
+  ClientStatus,
+  ContractStatus,
+  Database,
+  OnboardingStage,
+  OrgPermission,
+} from "@/types/database";
 
 type ContractUpdate = Database["public"]["Tables"]["client_contracts"]["Update"];
+
+const ADMIN_ROLES = new Set(["owner", "admin"]);
 
 export interface ClientFormState {
   error: string | null;
@@ -436,6 +445,11 @@ export async function inviteClientPortalUser(
   const email = String(formData.get("email") ?? "").trim();
   if (!email) return { error: "Enter an email address to invite." };
 
+  const role = String(formData.get("role") ?? "client_user") as ClientPortalRole;
+  if (!["client_user", "client_administrator", "client_tpa"].includes(role)) {
+    return { error: "Invalid role." };
+  }
+
   const supabase = await createClient();
 
   const { data: client } = await supabase.from("clients").select("name").eq("id", clientId).single();
@@ -443,7 +457,7 @@ export async function inviteClientPortalUser(
 
   const { data: invite, error } = await supabase
     .from("client_portal_invites")
-    .insert({ org_id: org.orgId, client_id: clientId, email, invited_by: org.userId })
+    .insert({ org_id: org.orgId, client_id: clientId, email, role, invited_by: org.userId })
     .select("token")
     .single();
 
@@ -470,4 +484,56 @@ export async function revokeClientPortalInvite(clientId: string, inviteId: strin
   const supabase = await createClient();
   await supabase.from("client_portal_invites").delete().eq("id", inviteId).eq("client_id", clientId);
   revalidatePath(`/clients/${clientId}/portal`);
+}
+
+const CLIENT_SCOPED_PERMISSIONS = new Set<OrgPermission>(["client_accounting", "contract_management"]);
+
+export async function setClientPermission(
+  clientId: string,
+  userId: string,
+  permission: OrgPermission,
+  granted: boolean
+) {
+  const org = await getCurrentOrg();
+  if (!org || !ADMIN_ROLES.has(org.role)) return;
+  if (!CLIENT_SCOPED_PERMISSIONS.has(permission)) return;
+
+  const supabase = await createClient();
+
+  if (granted) {
+    if (permission === "contract_management") {
+      const { data: client } = await supabase
+        .from("clients")
+        .select("project_manager_id, project_consultant_id")
+        .eq("id", clientId)
+        .single();
+      const isTrusted = client?.project_manager_id === userId || client?.project_consultant_id === userId;
+      if (!isTrusted) return;
+    }
+
+    const { data: existing } = await supabase
+      .from("permission_grants")
+      .select("id")
+      .eq("org_id", org.orgId)
+      .eq("user_id", userId)
+      .eq("permission", permission)
+      .eq("client_id", clientId)
+      .maybeSingle();
+
+    if (!existing) {
+      await supabase
+        .from("permission_grants")
+        .insert({ org_id: org.orgId, user_id: userId, permission, client_id: clientId, granted_by: org.userId });
+    }
+  } else {
+    await supabase
+      .from("permission_grants")
+      .delete()
+      .eq("org_id", org.orgId)
+      .eq("user_id", userId)
+      .eq("permission", permission)
+      .eq("client_id", clientId);
+  }
+
+  revalidatePath(`/clients/${clientId}`);
 }

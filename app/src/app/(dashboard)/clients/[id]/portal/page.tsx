@@ -9,12 +9,12 @@ export default async function ClientPortalAccessPage({ params }: { params: Promi
   const [{ data: users }, { data: invites }] = await Promise.all([
     supabase
       .from("client_portal_users")
-      .select("id, email, created_at")
+      .select("id, email, role, created_at")
       .eq("client_id", id)
       .order("created_at", { ascending: false }),
     supabase
       .from("client_portal_invites")
-      .select("id, email, expires_at, accepted_at")
+      .select("id, email, role, expires_at, accepted_at")
       .eq("client_id", id)
       .is("accepted_at", null)
       .order("created_at", { ascending: false }),

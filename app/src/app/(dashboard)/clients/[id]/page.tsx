@@ -1,8 +1,13 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
+import { getOrgMembers } from "@/lib/org/getOrgMembers";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card";
 import { StatusBadge } from "@/components/ui/Badge";
 import { ClientStatusActions } from "@/components/clients/ClientStatusActions";
+import { ClientPermissionsPanel } from "@/components/clients/ClientPermissionsPanel";
+
+const ADMIN_ROLES = new Set(["owner", "admin"]);
 
 export default async function ClientOverviewPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -18,6 +23,23 @@ export default async function ClientOverviewPage({ params }: { params: Promise<{
   const { data: projectConsultant } = client.project_consultant_id
     ? await supabase.from("profiles").select("full_name").eq("id", client.project_consultant_id).maybeSingle()
     : { data: null };
+
+  const org = await getCurrentOrg();
+  const isAdmin = !!org && ADMIN_ROLES.has(org.role);
+
+  const orgMembers = isAdmin ? await getOrgMembers(org!.orgId) : [];
+
+  const { data: clientPermissionGrants } = isAdmin
+    ? await supabase
+        .from("permission_grants")
+        .select("user_id, permission")
+        .eq("org_id", org!.orgId)
+        .eq("client_id", id)
+    : { data: [] };
+
+  const trustedUserIds = new Set(
+    [client.project_manager_id, client.project_consultant_id].filter((v): v is string => !!v)
+  );
 
   return (
     <div className="grid gap-4 lg:grid-cols-3">
@@ -65,6 +87,26 @@ export default async function ClientOverviewPage({ params }: { params: Promise<{
           <p className="text-xs text-muted">Added {new Date(client.created_at).toLocaleDateString()}</p>
         </CardContent>
       </Card>
+
+      {isAdmin && (
+        <Card className="lg:col-span-3">
+          <CardHeader>
+            <CardTitle>Client permissions</CardTitle>
+            <CardDescription>
+              Client Accounting and Contract Management access for this client, on top of whatever role each
+              teammate already has.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-0">
+            <ClientPermissionsPanel
+              clientId={client.id}
+              members={orgMembers}
+              grants={clientPermissionGrants ?? []}
+              trustedUserIds={trustedUserIds}
+            />
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

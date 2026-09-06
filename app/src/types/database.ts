@@ -48,6 +48,15 @@ export type InvoiceStatus = "draft" | "sent" | "paid" | "overdue" | "void";
 
 export type SignupRequestStatus = "pending" | "approved" | "rejected";
 
+export type OrgPermission =
+  | "global_accounting"
+  | "client_accounting"
+  | "contract_management"
+  | "global_tenant_manager"
+  | "business_intelligence";
+
+export type ClientPortalRole = "client_user" | "client_administrator" | "client_tpa";
+
 export type ProjectStatus = "intake" | "in_progress" | "client_review" | "complete";
 
 export type WorkflowInstanceStatus = "active" | "completed" | "cancelled";
@@ -693,6 +702,7 @@ export interface Database {
           org_id: string;
           client_id: string;
           email: string;
+          role: ClientPortalRole;
           password_updated_at: string;
           created_at: string;
         };
@@ -719,6 +729,7 @@ export interface Database {
           org_id: string;
           client_id: string;
           email: string;
+          role: ClientPortalRole;
           token: string;
           invited_by: string | null;
           expires_at: string;
@@ -734,6 +745,32 @@ export interface Database {
         Relationships: [
           {
             foreignKeyName: "client_portal_invites_client_id_fkey";
+            columns: ["client_id"];
+            isOneToOne: false;
+            referencedRelation: "clients";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      permission_grants: {
+        Row: {
+          id: string;
+          org_id: string;
+          user_id: string;
+          permission: OrgPermission;
+          client_id: string | null;
+          granted_by: string | null;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["permission_grants"]["Row"]> & {
+          org_id: string;
+          user_id: string;
+          permission: OrgPermission;
+        };
+        Update: Partial<Database["public"]["Tables"]["permission_grants"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "permission_grants_client_id_fkey";
             columns: ["client_id"];
             isOneToOne: false;
             referencedRelation: "clients";

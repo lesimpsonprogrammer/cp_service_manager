@@ -9,7 +9,9 @@ import { BackgroundPicker } from "@/components/ui/BackgroundPicker";
 import { InvitesPanel } from "@/components/settings/InvitesPanel";
 import { SignupRequestsPanel } from "@/components/settings/SignupRequestsPanel";
 import { DocCategoriesPanel } from "@/components/settings/DocCategoriesPanel";
+import { PermissionsPanel } from "@/components/settings/PermissionsPanel";
 import { formatRole } from "@/lib/org/formatRole";
+import { getOrgMembers } from "@/lib/org/getOrgMembers";
 
 const ADMIN_ROLES = new Set(["owner", "admin"]);
 
@@ -45,6 +47,16 @@ export default async function SettingsPage() {
     .select("id, name")
     .eq("org_id", org?.orgId ?? "")
     .order("name", { ascending: true });
+
+  const orgMembers = isAdmin ? await getOrgMembers(org!.orgId) : [];
+
+  const { data: permissionGrants } = isAdmin
+    ? await supabase
+        .from("permission_grants")
+        .select("user_id, permission")
+        .eq("org_id", org!.orgId)
+        .is("client_id", null)
+    : { data: [] };
 
   return (
     <div className="max-w-2xl space-y-4">
@@ -127,6 +139,19 @@ export default async function SettingsPage() {
 
       {isAdmin && (
         <>
+          <Card>
+            <CardHeader>
+              <CardTitle>Functional permissions</CardTitle>
+              <CardDescription>
+                Grant Global Accounting, Global Tenant Manager, or Business Intelligence access to specific
+                teammates, on top of their role.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
+              <PermissionsPanel members={orgMembers} grants={permissionGrants ?? []} />
+            </CardContent>
+          </Card>
+
           <Card>
             <CardHeader>
               <CardTitle>Invite people</CardTitle>

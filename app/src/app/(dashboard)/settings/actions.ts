@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
-import type { OrgRole } from "@/types/database";
+import type { OrgPermission, OrgRole } from "@/types/database";
 
 export interface SettingsFormState {
   error: string | null;
@@ -119,6 +119,47 @@ export async function rejectSignupRequest(requestId: string) {
     })
     .eq("id", requestId)
     .eq("status", "pending");
+
+  revalidatePath("/settings");
+}
+
+const ORG_WIDE_PERMISSIONS = new Set<OrgPermission>([
+  "global_accounting",
+  "global_tenant_manager",
+  "business_intelligence",
+]);
+
+export async function setOrgPermission(userId: string, permission: OrgPermission, granted: boolean) {
+  const org = await getCurrentOrg();
+  if (!org || !ADMIN_ROLES.has(org.role)) return;
+  if (!ORG_WIDE_PERMISSIONS.has(permission)) return;
+
+  const supabase = await createClient();
+
+  if (granted) {
+    const { data: existing } = await supabase
+      .from("permission_grants")
+      .select("id")
+      .eq("org_id", org.orgId)
+      .eq("user_id", userId)
+      .eq("permission", permission)
+      .is("client_id", null)
+      .maybeSingle();
+
+    if (!existing) {
+      await supabase
+        .from("permission_grants")
+        .insert({ org_id: org.orgId, user_id: userId, permission, granted_by: org.userId });
+    }
+  } else {
+    await supabase
+      .from("permission_grants")
+      .delete()
+      .eq("org_id", org.orgId)
+      .eq("user_id", userId)
+      .eq("permission", permission)
+      .is("client_id", null);
+  }
 
   revalidatePath("/settings");
 }

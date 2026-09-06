@@ -3,7 +3,7 @@
 import { useActionState, useTransition } from "react";
 import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/Button";
-import { Input, Label } from "@/components/ui/Input";
+import { Input, Label, Select } from "@/components/ui/Input";
 import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/utils/cn";
 import {
@@ -12,16 +12,25 @@ import {
   revokeClientPortalInvite,
   type ClientPortalInviteFormState,
 } from "@/app/(dashboard)/clients/actions";
+import type { ClientPortalRole } from "@/types/database";
+
+const ROLE_LABELS: Record<ClientPortalRole, string> = {
+  client_user: "Client User",
+  client_administrator: "Client Administrator",
+  client_tpa: "Client TPA",
+};
 
 export interface PortalUserRow {
   id: string;
   email: string | null;
+  role: ClientPortalRole;
   created_at: string;
 }
 
 export interface PortalInviteRow {
   id: string;
   email: string;
+  role: ClientPortalRole;
   expires_at: string;
   accepted_at: string | null;
 }
@@ -59,7 +68,12 @@ export function ClientPortalAccessPanel({
           <ul className="divide-y divide-border rounded-md border border-border">
             {users.map((user) => (
               <li key={user.id} className="flex items-center justify-between px-4 py-2.5 text-sm">
-                <span className="text-foreground">{user.email}</span>
+                <div>
+                  <span className="text-foreground">{user.email}</span>
+                  <Badge tone="neutral" className="ml-2">
+                    {ROLE_LABELS[user.role]}
+                  </Badge>
+                </div>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -87,6 +101,9 @@ export function ClientPortalAccessPanel({
               <li key={invite.id} className="flex items-center justify-between px-4 py-2.5 text-sm">
                 <div>
                   <span className="text-foreground">{invite.email}</span>
+                  <Badge tone="neutral" className="ml-2">
+                    {ROLE_LABELS[invite.role]}
+                  </Badge>
                   <Badge tone="warning" className="ml-2">
                     Expires {new Date(invite.expires_at).toLocaleDateString()}
                   </Badge>
@@ -109,6 +126,14 @@ export function ClientPortalAccessPanel({
         <div className="flex-1">
           <Label htmlFor="portal_invite_email">Invite by email</Label>
           <Input id="portal_invite_email" name="email" type="email" required placeholder="client@company.com" />
+        </div>
+        <div>
+          <Label htmlFor="portal_invite_role">Role</Label>
+          <Select id="portal_invite_role" name="role" defaultValue="client_user">
+            <option value="client_user">Client User</option>
+            <option value="client_administrator">Client Administrator</option>
+            <option value="client_tpa">Client TPA</option>
+          </Select>
         </div>
         <SubmitButton />
       </form>
