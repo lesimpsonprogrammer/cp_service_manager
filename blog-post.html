@@ -135,7 +135,7 @@
       const client = getSupabaseClient();
       const { data: post, error } = await client
         .from("blog_posts")
-        .select("title, excerpt, body, category, author_name, published_at")
+        .select("title, excerpt, body, category, author_name, published_at, image_url")
         .eq("published", true)
         .eq("slug", slug)
         .maybeSingle();
@@ -158,7 +158,10 @@
       ]
         .filter(Boolean)
         .join(" · ");
-      bodyEl.innerHTML = marked.parse(post.body || "", { breaks: true, gfm: true });
+      const image = post.image_url
+        ? `<img src="${escapeHtml(post.image_url)}" alt="" class="post-hero-image" />`
+        : "";
+      bodyEl.innerHTML = image + marked.parse(post.body || "", { breaks: true, gfm: true });
     }
 
     loadPost();

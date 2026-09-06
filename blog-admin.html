@@ -135,6 +135,10 @@
               <label>Excerpt
                 <textarea name="excerpt" id="postExcerpt" rows="2" placeholder="One or two sentences shown on the blog index."></textarea>
               </label>
+              <label>Featured image URL
+                <input type="url" name="imageUrl" id="postImageUrl" placeholder="Design it in Canva, export, then paste the image URL here" />
+              </label>
+              <img id="postImagePreview" alt="" hidden style="max-width: 240px; border-radius: 4px; border: 1px solid var(--line);" />
               <label>Body (Markdown)
                 <textarea name="body" id="postBody" rows="16" style="font-family: monospace; font-size: 0.85rem;" placeholder="# Heading&#10;&#10;Write the post here in Markdown."></textarea>
               </label>
@@ -305,6 +309,15 @@
               post.published ? "Unpublish" : "Publish"
             }</button>
             <button class="btn secondary delete-btn" type="button" data-id="${post.id}">Delete</button>
+            ${
+              post.published
+                ? `
+              <button class="btn secondary social-btn" type="button" data-id="${post.id}" data-platform="facebook">Push to Facebook</button>
+              <button class="btn secondary social-btn" type="button" data-id="${post.id}" data-platform="linkedin">Push to LinkedIn</button>
+              <button class="btn secondary social-btn" type="button" data-id="${post.id}" data-platform="tiktok">Push to TikTok</button>
+            `
+                : ""
+            }
           </div>
         </div>
       `
@@ -320,6 +333,36 @@
       postListEl.querySelectorAll(".delete-btn").forEach((btn) =>
         btn.addEventListener("click", () => deletePost(btn.dataset.id))
       );
+      postListEl.querySelectorAll(".social-btn").forEach((btn) =>
+        btn.addEventListener("click", () => pushToSocial(btn.dataset.id, btn.dataset.platform, btn))
+      );
+    }
+
+    async function pushToSocial(postId, platform, btn) {
+      const { data } = await client.auth.getSession();
+      const token = data.session?.access_token;
+      if (!token) {
+        alert("Sign in again first.");
+        return;
+      }
+      const originalLabel = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = "Pushing…";
+      try {
+        const resp = await fetch("/api/social-publish", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ postId, platform }),
+        });
+        const body = await resp.json().catch(() => ({}));
+        if (!resp.ok) throw new Error(body.error || "Push failed.");
+        alert(`Pushed to ${platform}.`);
+      } catch (err) {
+        alert(err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = originalLabel;
+      }
     }
 
     async function togglePublished(id) {
@@ -362,9 +405,24 @@
       document.getElementById("postExcerpt").value = post?.excerpt ?? "";
       document.getElementById("postBody").value = post?.body ?? "";
       document.getElementById("postPublished").checked = post?.published ?? false;
+      document.getElementById("postImageUrl").value = post?.image_url ?? "";
+      updateImagePreview();
       postFormPanel.hidden = false;
       postFormPanel.scrollIntoView({ behavior: "smooth" });
     }
+
+    function updateImagePreview() {
+      const url = document.getElementById("postImageUrl").value.trim();
+      const preview = document.getElementById("postImagePreview");
+      if (url) {
+        preview.src = url;
+        preview.hidden = false;
+      } else {
+        preview.hidden = true;
+      }
+    }
+
+    document.getElementById("postImageUrl").addEventListener("input", updateImagePreview);
 
     document.getElementById("newPostBtn").addEventListener("click", () => openForm(null));
     document.getElementById("postFormCancel").addEventListener("click", () => {
@@ -391,6 +449,7 @@
         excerpt: document.getElementById("postExcerpt").value.trim(),
         body: document.getElementById("postBody").value,
         published: document.getElementById("postPublished").checked,
+        image_url: document.getElementById("postImageUrl").value.trim() || null,
       };
       fields.published_at = fields.published
         ? existing?.published_at ?? new Date().toISOString()

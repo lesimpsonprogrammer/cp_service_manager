@@ -124,7 +124,7 @@
       const client = getSupabaseClient();
       const { data: posts, error } = await client
         .from("blog_posts")
-        .select("title, slug, excerpt, category, author_name, published_at")
+        .select("title, slug, excerpt, category, author_name, published_at, image_url")
         .eq("published", true)
         .order("published_at", { ascending: false });
 
@@ -148,8 +148,12 @@
             .filter(Boolean)
             .map(escapeHtml)
             .join(" · ");
+          const image = post.image_url
+            ? `<img src="${escapeHtml(post.image_url)}" alt="" class="resource-card-image" />`
+            : "";
           return `
             <article class="resource-card">
+              ${image}
               <h3><a href="/blog/${encodeURIComponent(post.slug)}">${escapeHtml(post.title)}</a></h3>
               <p class="post-meta">${meta}</p>
               <p>${escapeHtml(post.excerpt)}</p>
