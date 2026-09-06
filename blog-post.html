@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title id="pageTitle">Blog | Momentum Data Solutions</title>
+  <meta id="pageDescription" content="Momentum Insights" name="description" />
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=DM+Sans:wght@400;500;600;700;800&amp;display=swap"
+    rel="stylesheet" />
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="site.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header class="site-header" id="top">
+    <nav aria-label="Main navigation" class="nav container">
+      <a aria-label="Momentum Data home" class="brand" href="index.html">
+        <img src="assets/momentum-data-logo-white.svg" alt="Momentum Data Solutions" class="brand-logo" />
+      </a>
+      <button aria-expanded="false" aria-label="Open menu" class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <div class="has-dropdown">
+          <a href="services.html">Services</a>
+          <div class="dropdown-menu">
+            <a href="services.html">Data Management</a>
+            <a href="hr-consulting.html">HR Consulting</a>
+            <a href="managed-payroll.html">Managed Payroll</a>
+            <a href="project-management.html">Project Management</a>
+          </div>
+        </div>
+        <div class="has-dropdown">
+          <a href="hipaa.html">Compliance</a>
+          <div class="dropdown-menu">
+            <a href="hipaa.html">HIPAA</a>
+            <a href="data-handling-policy.html">Data Handling Policy</a>
+            <a href="data-security-governance.html">Data Security &amp; Governance</a>
+          </div>
+        </div>
+        <div class="has-dropdown">
+          <a href="resources.html">Resources</a>
+          <div class="dropdown-menu">
+            <a href="/blog">Blog</a>
+            <a href="data-glossary.html">Data Glossary</a>
+            <a href="relentless.html">Relentless Commitment</a>
+            <a href="executive-brief.html">Executive Brief</a>
+            <a href="data-apis.html">Data API's</a>
+            <a href="data-webhooks.html">Data Webhooks</a>
+            <a href="data-connectors.html">Data Connectors</a>
+          </div>
+        </div>
+        <a class="mobile-contact" href="contact.html">Contact us</a>
+      </div>
+      <div class="nav-actions nav-contact">
+        <a class="nav-cta" href="contact.html">Contact us</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section page-hero">
+      <div class="container">
+        <h1 id="postTitle">Loading…</h1>
+        <p class="post-meta" id="postMeta"></p>
+      </div>
+    </section>
+    <section class="section page-body">
+      <div class="container">
+        <div id="postBody" class="post-body"></div>
+        <p><a href="/blog">&larr; Back to all posts</a></p>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <a class="brand footer-brand footer-text-brand" href="index.html">
+          <span class="footer-title">Momentum Data Solutions</span>
+        </a>
+        <p>Clean data, sound project delivery, and the HR and payroll expertise to carry it through.</p>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="resources.html">Resources</a>
+        <a href="relentless.html">Relentless Commitment</a>
+        <a href="/blog">Blog</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+    <div class="container copyright">
+      <span>© <span id="year"></span> Momentum Data Solutions. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.115.0/dist/umd/supabase.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+  <script src="blog-config.js"></script>
+  <script>
+    function escapeHtml(str) {
+      const div = document.createElement("div");
+      div.textContent = str ?? "";
+      return div.innerHTML;
+    }
+
+    function getSlug() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("slug")) return params.get("slug");
+      // Falls back to the last path segment for /blog/:slug direct hits.
+      const parts = window.location.pathname.split("/").filter(Boolean);
+      return parts.length ? decodeURIComponent(parts[parts.length - 1]) : "";
+    }
+
+    async function loadPost() {
+      const slug = getSlug();
+      const titleEl = document.getElementById("postTitle");
+      const metaEl = document.getElementById("postMeta");
+      const bodyEl = document.getElementById("postBody");
+
+      if (!slug) {
+        titleEl.textContent = "Post not found";
+        return;
+      }
+
+      const client = getSupabaseClient();
+      const { data: post, error } = await client
+        .from("blog_posts")
+        .select("title, excerpt, body, category, author_name, published_at")
+        .eq("published", true)
+        .eq("slug", slug)
+        .maybeSingle();
+
+      if (error || !post) {
+        titleEl.textContent = "Post not found";
+        bodyEl.innerHTML = "<p>This post doesn't exist or isn't published.</p>";
+        return;
+      }
+
+      document.title = `${post.title} | Momentum Data Solutions`;
+      document.getElementById("pageTitle").textContent = `${post.title} | Momentum Data Solutions`;
+      document.getElementById("pageDescription").setAttribute("content", post.excerpt || post.title);
+
+      titleEl.textContent = post.title;
+      metaEl.textContent = [
+        post.category,
+        post.author_name,
+        post.published_at ? new Date(post.published_at).toLocaleDateString() : null,
+      ]
+        .filter(Boolean)
+        .join(" · ");
+      bodyEl.innerHTML = marked.parse(post.body || "", { breaks: true, gfm: true });
+    }
+
+    loadPost();
+  </script>
+  <script src="script.js?v=2"></script>
+</body>
+
+</html>

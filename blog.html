@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="Momentum Insights: articles on data extraction, ETL, spreadsheets, HCM, ERP, HR, and payroll." name="description" />
+  <title>Blog | Momentum Data Solutions</title>
+  <link href="https://www.momentumdatasolutions.com/blog.html" rel="canonical" />
+  <meta content="Blog | Momentum Data Solutions" property="og:title" />
+  <meta content="Momentum Insights: articles on data extraction, ETL, spreadsheets, HCM, ERP, HR, and payroll." property="og:description" />
+  <meta content="website" property="og:type" />
+  <meta content="https://www.momentumdatasolutions.com/blog.html" property="og:url" />
+  <meta content="Momentum Data Solutions" property="og:site_name" />
+  <meta content="summary" name="twitter:card" />
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=DM+Sans:wght@400;500;600;700;800&amp;display=swap"
+    rel="stylesheet" />
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="site.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header class="site-header" id="top">
+    <nav aria-label="Main navigation" class="nav container">
+      <a aria-label="Momentum Data home" class="brand" href="index.html">
+        <img src="assets/momentum-data-logo-white.svg" alt="Momentum Data Solutions" class="brand-logo" />
+      </a>
+      <button aria-expanded="false" aria-label="Open menu" class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <div class="has-dropdown">
+          <a href="services.html">Services</a>
+          <div class="dropdown-menu">
+            <a href="services.html">Data Management</a>
+            <a href="hr-consulting.html">HR Consulting</a>
+            <a href="managed-payroll.html">Managed Payroll</a>
+            <a href="project-management.html">Project Management</a>
+          </div>
+        </div>
+        <div class="has-dropdown">
+          <a href="hipaa.html">Compliance</a>
+          <div class="dropdown-menu">
+            <a href="hipaa.html">HIPAA</a>
+            <a href="data-handling-policy.html">Data Handling Policy</a>
+            <a href="data-security-governance.html">Data Security &amp; Governance</a>
+          </div>
+        </div>
+        <div class="has-dropdown">
+          <a href="resources.html">Resources</a>
+          <div class="dropdown-menu">
+            <a href="/blog">Blog</a>
+            <a href="data-glossary.html">Data Glossary</a>
+            <a href="relentless.html">Relentless Commitment</a>
+            <a href="executive-brief.html">Executive Brief</a>
+            <a href="data-apis.html">Data API's</a>
+            <a href="data-webhooks.html">Data Webhooks</a>
+            <a href="data-connectors.html">Data Connectors</a>
+          </div>
+        </div>
+        <a class="mobile-contact" href="contact.html">Contact us</a>
+      </div>
+      <div class="nav-actions nav-contact">
+        <a class="nav-cta" href="contact.html">Contact us</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section page-hero">
+      <div class="container">
+        <h1>Momentum Insights</h1>
+      </div>
+    </section>
+    <section class="section page-body">
+      <div class="container">
+        <div id="blogList" class="resource-grid" aria-live="polite">
+          <p>Loading posts…</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <a class="brand footer-brand footer-text-brand" href="index.html">
+          <span class="footer-title">Momentum Data Solutions</span>
+        </a>
+        <p>Clean data, sound project delivery, and the HR and payroll expertise to carry it through.</p>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="resources.html">Resources</a>
+        <a href="relentless.html">Relentless Commitment</a>
+        <a href="/blog">Blog</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+    <div class="container copyright">
+      <span>© <span id="year"></span> Momentum Data Solutions. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.115.0/dist/umd/supabase.js"></script>
+  <script src="blog-config.js"></script>
+  <script>
+    function escapeHtml(str) {
+      const div = document.createElement("div");
+      div.textContent = str ?? "";
+      return div.innerHTML;
+    }
+
+    async function loadPosts() {
+      const listEl = document.getElementById("blogList");
+      const client = getSupabaseClient();
+      const { data: posts, error } = await client
+        .from("blog_posts")
+        .select("title, slug, excerpt, category, author_name, published_at")
+        .eq("published", true)
+        .order("published_at", { ascending: false });
+
+      if (error) {
+        listEl.innerHTML = "<p>Sorry, posts couldn't be loaded right now.</p>";
+        return;
+      }
+
+      if (!posts || posts.length === 0) {
+        listEl.innerHTML = "<p>Nothing published yet — check back soon.</p>";
+        return;
+      }
+
+      listEl.innerHTML = posts
+        .map((post) => {
+          const meta = [
+            post.category,
+            post.author_name,
+            post.published_at ? new Date(post.published_at).toLocaleDateString() : null,
+          ]
+            .filter(Boolean)
+            .map(escapeHtml)
+            .join(" · ");
+          return `
+            <article class="resource-card">
+              <h3><a href="/blog/${encodeURIComponent(post.slug)}">${escapeHtml(post.title)}</a></h3>
+              <p class="post-meta">${meta}</p>
+              <p>${escapeHtml(post.excerpt)}</p>
+            </article>
+          `;
+        })
+        .join("");
+    }
+
+    loadPosts();
+  </script>
+  <script src="script.js?v=2"></script>
+</body>
+
+</html>

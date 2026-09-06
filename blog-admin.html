@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="noindex, nofollow" name="robots" />
+  <title>Blog Admin | Momentum Data Solutions</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=DM+Sans:wght@400;500;600;700;800&amp;display=swap"
+    rel="stylesheet" />
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml" />
+  <link href="site.css" rel="stylesheet" />
+  <style>
+    .admin-shell {
+      max-width: 900px;
+    }
+
+    .admin-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .admin-post-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+      flex-wrap: wrap;
+    }
+
+    .admin-post-row .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .admin-status {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+    }
+
+    .admin-status.is-published {
+      color: var(--blue);
+      border-color: var(--blue);
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    .form-error {
+      border: 1px solid #c0392b;
+      background: #fdecea;
+      color: #c0392b;
+      padding: 10px 12px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header" id="top">
+    <nav aria-label="Main navigation" class="nav container">
+      <a aria-label="Momentum Data home" class="brand" href="index.html">
+        <img src="assets/momentum-data-logo-white.svg" alt="Momentum Data Solutions" class="brand-logo" />
+      </a>
+      <div class="nav-links"></div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section page-hero">
+      <div class="container">
+        <h1>Blog Admin</h1>
+      </div>
+    </section>
+    <section class="section page-body">
+      <div class="container admin-shell">
+
+        <div id="loginPanel">
+          <form id="loginForm" class="contact-form" style="max-width: 400px;">
+            <label>Email
+              <input type="email" name="email" id="loginEmail" required />
+            </label>
+            <label>Password
+              <input type="password" name="password" id="loginPassword" required />
+            </label>
+            <p id="loginError" class="form-error" hidden></p>
+            <button class="btn primary full" type="submit">Sign in</button>
+          </form>
+        </div>
+
+        <div id="adminPanel" hidden>
+          <div class="admin-toolbar">
+            <label style="display:flex; align-items:center; gap:8px;">
+              Organization
+              <select id="orgSelect"></select>
+            </label>
+            <div style="display:flex; gap:8px;">
+              <button class="btn secondary" id="newPostBtn" type="button">New post</button>
+              <button class="btn secondary" id="signOutBtn" type="button">Sign out</button>
+            </div>
+          </div>
+
+          <div id="postList"></div>
+
+          <div id="postFormPanel" hidden>
+            <h2 id="postFormTitle">New post</h2>
+            <form id="postForm" class="contact-form">
+              <input type="hidden" name="id" id="postId" />
+              <label>Title
+                <input type="text" name="title" id="postTitle" required placeholder="What Is ETL? A Simple Guide" />
+              </label>
+              <label>Category
+                <input type="text" name="category" id="postCategory" placeholder="General" />
+              </label>
+              <label>Author
+                <input type="text" name="authorName" id="postAuthor" placeholder="Larry Simpson" />
+              </label>
+              <label>Excerpt
+                <textarea name="excerpt" id="postExcerpt" rows="2" placeholder="One or two sentences shown on the blog index."></textarea>
+              </label>
+              <label>Body (Markdown)
+                <textarea name="body" id="postBody" rows="16" style="font-family: monospace; font-size: 0.85rem;" placeholder="# Heading&#10;&#10;Write the post here in Markdown."></textarea>
+              </label>
+              <label style="flex-direction: row; align-items: center;">
+                <input type="checkbox" name="published" id="postPublished" style="width: auto;" />
+                Published (visible at /blog)
+              </label>
+              <p id="postFormError" class="form-error" hidden></p>
+              <div style="display:flex; gap:8px;">
+                <button class="btn primary" type="submit" id="postFormSubmit">Save post</button>
+                <button class="btn secondary" type="button" id="postFormCancel">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.115.0/dist/umd/supabase.js"></script>
+  <script src="blog-config.js"></script>
+  <script>
+    const client = getSupabaseClient();
+    let currentUser = null;
+    let currentOrgId = null;
+    let posts = [];
+
+    const loginPanel = document.getElementById("loginPanel");
+    const adminPanel = document.getElementById("adminPanel");
+    const orgSelect = document.getElementById("orgSelect");
+    const postListEl = document.getElementById("postList");
+    const postFormPanel = document.getElementById("postFormPanel");
+    const postForm = document.getElementById("postForm");
+    const postFormError = document.getElementById("postFormError");
+
+    function slugify(text) {
+      return (
+        (text || "")
+          .toLowerCase()
+          .trim()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "") || "post"
+      );
+    }
+
+    async function uniqueSlug(orgId, title, ignoreId) {
+      const base = slugify(title);
+      let slug = base;
+      let suffix = 2;
+      for (;;) {
+        let query = client.from("blog_posts").select("id").eq("org_id", orgId).eq("slug", slug);
+        if (ignoreId) query = query.neq("id", ignoreId);
+        const { data } = await query.maybeSingle();
+        if (!data) return slug;
+        slug = `${base}-${suffix}`;
+        suffix += 1;
+      }
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement("div");
+      div.textContent = str ?? "";
+      return div.innerHTML;
+    }
+
+    async function init() {
+      const { data } = await client.auth.getSession();
+      if (data.session) {
+        currentUser = data.session.user;
+        await enterAdmin();
+      }
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value;
+      const errorEl = document.getElementById("loginError");
+      errorEl.hidden = true;
+
+      const { data, error } = await client.auth.signInWithPassword({ email, password });
+      if (error || !data.user) {
+        errorEl.textContent = error?.message ?? "Sign in failed.";
+        errorEl.hidden = false;
+        return;
+      }
+      currentUser = data.user;
+      await enterAdmin();
+    });
+
+    document.getElementById("signOutBtn").addEventListener("click", async () => {
+      await client.auth.signOut();
+      currentUser = null;
+      currentOrgId = null;
+      adminPanel.hidden = true;
+      loginPanel.hidden = false;
+    });
+
+    async function enterAdmin() {
+      const { data: memberships, error } = await client
+        .from("org_members")
+        .select("org_id, organizations(name)")
+        .eq("user_id", currentUser.id);
+
+      if (error || !memberships || memberships.length === 0) {
+        document.getElementById("loginError").textContent =
+          "Signed in, but this account isn't a member of any organization.";
+        document.getElementById("loginError").hidden = false;
+        await client.auth.signOut();
+        return;
+      }
+
+      orgSelect.innerHTML = memberships
+        .map(
+          (m) =>
+            `<option value="${m.org_id}">${escapeHtml(m.organizations?.name ?? m.org_id)}</option>`
+        )
+        .join("");
+      currentOrgId = memberships[0].org_id;
+
+      loginPanel.hidden = true;
+      adminPanel.hidden = false;
+      await loadPosts();
+    }
+
+    orgSelect.addEventListener("change", async () => {
+      currentOrgId = orgSelect.value;
+      await loadPosts();
+    });
+
+    async function loadPosts() {
+      postListEl.innerHTML = "<p>Loading…</p>";
+      const { data, error } = await client
+        .from("blog_posts")
+        .select("*")
+        .eq("org_id", currentOrgId)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        postListEl.innerHTML = `<p class="form-error">${escapeHtml(error.message)}</p>`;
+        return;
+      }
+      posts = data ?? [];
+      renderPostList();
+    }
+
+    function renderPostList() {
+      if (posts.length === 0) {
+        postListEl.innerHTML = "<p>No posts yet for this organization.</p>";
+        return;
+      }
+      postListEl.innerHTML = posts
+        .map(
+          (post) => `
+        <div class="admin-post-row" data-id="${post.id}">
+          <div>
+            <strong>${escapeHtml(post.title)}</strong>
+            <div>
+              <span class="admin-status ${post.published ? "is-published" : ""}">${
+                post.published ? "Published" : "Draft"
+              }</span>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn secondary edit-btn" type="button" data-id="${post.id}">Edit</button>
+            <button class="btn secondary toggle-btn" type="button" data-id="${post.id}">${
+              post.published ? "Unpublish" : "Publish"
+            }</button>
+            <button class="btn secondary delete-btn" type="button" data-id="${post.id}">Delete</button>
+          </div>
+        </div>
+      `
+        )
+        .join("");
+
+      postListEl.querySelectorAll(".edit-btn").forEach((btn) =>
+        btn.addEventListener("click", () => openForm(posts.find((p) => p.id === btn.dataset.id)))
+      );
+      postListEl.querySelectorAll(".toggle-btn").forEach((btn) =>
+        btn.addEventListener("click", () => togglePublished(btn.dataset.id))
+      );
+      postListEl.querySelectorAll(".delete-btn").forEach((btn) =>
+        btn.addEventListener("click", () => deletePost(btn.dataset.id))
+      );
+    }
+
+    async function togglePublished(id) {
+      const post = posts.find((p) => p.id === id);
+      if (!post) return;
+      const nextPublished = !post.published;
+      const { error } = await client
+        .from("blog_posts")
+        .update({
+          published: nextPublished,
+          published_at: nextPublished ? new Date().toISOString() : post.published_at,
+        })
+        .eq("id", id);
+      if (error) {
+        alert(error.message);
+        return;
+      }
+      await loadPosts();
+    }
+
+    async function deletePost(id) {
+      const post = posts.find((p) => p.id === id);
+      if (!post) return;
+      if (!confirm(`Delete "${post.title}"? This can't be undone.`)) return;
+      const { error } = await client.from("blog_posts").delete().eq("id", id);
+      if (error) {
+        alert(error.message);
+        return;
+      }
+      await loadPosts();
+    }
+
+    function openForm(post) {
+      postFormError.hidden = true;
+      document.getElementById("postFormTitle").textContent = post ? "Edit post" : "New post";
+      document.getElementById("postId").value = post?.id ?? "";
+      document.getElementById("postTitle").value = post?.title ?? "";
+      document.getElementById("postCategory").value = post?.category ?? "General";
+      document.getElementById("postAuthor").value = post?.author_name ?? "";
+      document.getElementById("postExcerpt").value = post?.excerpt ?? "";
+      document.getElementById("postBody").value = post?.body ?? "";
+      document.getElementById("postPublished").checked = post?.published ?? false;
+      postFormPanel.hidden = false;
+      postFormPanel.scrollIntoView({ behavior: "smooth" });
+    }
+
+    document.getElementById("newPostBtn").addEventListener("click", () => openForm(null));
+    document.getElementById("postFormCancel").addEventListener("click", () => {
+      postFormPanel.hidden = true;
+    });
+
+    postForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      postFormError.hidden = true;
+
+      const id = document.getElementById("postId").value || null;
+      const title = document.getElementById("postTitle").value.trim();
+      if (!title) {
+        postFormError.textContent = "Give this post a title.";
+        postFormError.hidden = false;
+        return;
+      }
+
+      const existing = id ? posts.find((p) => p.id === id) : null;
+      const fields = {
+        title,
+        category: document.getElementById("postCategory").value.trim() || "General",
+        author_name: document.getElementById("postAuthor").value.trim(),
+        excerpt: document.getElementById("postExcerpt").value.trim(),
+        body: document.getElementById("postBody").value,
+        published: document.getElementById("postPublished").checked,
+      };
+      fields.published_at = fields.published
+        ? existing?.published_at ?? new Date().toISOString()
+        : existing?.published_at ?? null;
+
+      let error;
+      if (id) {
+        if (!existing || existing.title !== title) {
+          fields.slug = await uniqueSlug(currentOrgId, title, id);
+        }
+        ({ error } = await client.from("blog_posts").update(fields).eq("id", id));
+      } else {
+        fields.slug = await uniqueSlug(currentOrgId, title);
+        fields.org_id = currentOrgId;
+        fields.created_by = currentUser.id;
+        ({ error } = await client.from("blog_posts").insert(fields));
+      }
+
+      if (error) {
+        postFormError.textContent = error.message;
+        postFormError.hidden = false;
+        return;
+      }
+
+      postFormPanel.hidden = true;
+      await loadPosts();
+    });
+
+    init();
+  </script>
+</body>
+
+</html>
