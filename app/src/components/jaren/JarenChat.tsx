@@ -168,6 +168,7 @@ function JarenConversationPane({
 }) {
   const [input, setInput] = useState("");
   const [activeId, setActiveId] = useState(conversationId);
+  const [creatingConversation, setCreatingConversation] = useState(false);
 
   const { messages, sendMessage, status, error } = useChat({
     id: conversationId ?? undefined,
@@ -194,7 +195,7 @@ function JarenConversationPane({
     },
   });
 
-  const busy = status === "streaming" || status === "submitted";
+  const busy = status === "streaming" || status === "submitted" || creatingConversation;
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -204,16 +205,21 @@ function JarenConversationPane({
 
     let id = activeId;
     if (!id) {
-      const res = await fetch("/api/jaren/conversations", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ title: text.slice(0, 60) }),
-      });
-      if (res.ok) {
-        const data = (await res.json()) as { conversation: ConversationSummary };
-        id = data.conversation.id;
-        setActiveId(id);
-        onConversationCreated(id);
+      setCreatingConversation(true);
+      try {
+        const res = await fetch("/api/jaren/conversations", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ title: text.slice(0, 60) }),
+        });
+        if (res.ok) {
+          const data = (await res.json()) as { conversation: ConversationSummary };
+          id = data.conversation.id;
+          setActiveId(id);
+          onConversationCreated(id);
+        }
+      } finally {
+        setCreatingConversation(false);
       }
     }
 
@@ -259,10 +265,13 @@ function JarenConversationPane({
             })}
           </div>
         ))}
-        {status === "submitted" && (
-          <div className="mr-auto flex max-w-[80%] items-center gap-2 rounded-card border border-border bg-surface px-4 py-2 text-sm text-muted">
-            <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-border-strong border-t-brand" />
-            Jaren is thinking…
+        {(status === "submitted" || creatingConversation) && (
+          <div className="mr-auto flex max-w-[80%] items-center gap-3 rounded-card border border-border bg-surface px-4 py-3 text-sm text-muted">
+            <span className="relative flex h-6 w-6 shrink-0 items-center justify-center">
+              <span className="absolute inset-0 animate-pulse rounded-full bg-brand/40 blur-md" />
+              <span className="relative h-5 w-5 animate-spin rounded-full border-[3px] border-border-strong border-t-brand shadow-glow" />
+            </span>
+            <span className="animate-pulse">Jaren is thinking…</span>
           </div>
         )}
         {error && (
