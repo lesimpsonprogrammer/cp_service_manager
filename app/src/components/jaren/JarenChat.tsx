@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { Button } from "@/components/ui/Button";
+import { renderChatMarkdown } from "@/lib/jaren/markdown";
 
 export function JarenChat() {
   const [input, setInput] = useState("");
@@ -39,11 +40,25 @@ export function JarenChat() {
                 : "mr-auto max-w-[80%] rounded-card border border-border bg-surface px-4 py-2 text-sm text-foreground"
             }
           >
-            {message.parts.map((part, i) =>
-              part.type === "text" ? <span key={i}>{part.text}</span> : null
-            )}
+            {message.parts.map((part, i) => {
+              if (part.type !== "text") return null;
+              if (message.role === "user") return <span key={i}>{part.text}</span>;
+              return (
+                <div
+                  key={i}
+                  className="doc-content doc-content-chat"
+                  dangerouslySetInnerHTML={{ __html: renderChatMarkdown(part.text) }}
+                />
+              );
+            })}
           </div>
         ))}
+        {status === "submitted" && (
+          <div className="mr-auto flex max-w-[80%] items-center gap-2 rounded-card border border-border bg-surface px-4 py-2 text-sm text-muted">
+            <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-border-strong border-t-brand" />
+            Jaren is thinking…
+          </div>
+        )}
         {error && (
           <p className="rounded-card border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700">
             {error.message || "Jaren hit an error. Try again in a moment."}
