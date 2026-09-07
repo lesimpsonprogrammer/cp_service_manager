@@ -46,6 +46,10 @@ export type WorkflowInstanceStatus = "active" | "completed" | "cancelled";
 
 export type WorkflowTaskStatus = "pending" | "in_progress" | "done" | "skipped";
 
+export type EnhancementTaskStatus = "backlog" | "in_progress" | "done";
+
+export type EnhancementTaskPriority = "low" | "medium" | "high";
+
 export interface Database {
   public: {
     Tables: {
@@ -495,6 +499,27 @@ export interface Database {
             referencedColumns: ["id"];
           }
         ];
+      };
+      enhancement_tasks: {
+        Row: {
+          id: string;
+          org_id: string;
+          title: string;
+          description: string | null;
+          notes: string | null;
+          status: EnhancementTaskStatus;
+          priority: EnhancementTaskPriority;
+          assignee_id: string | null;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["enhancement_tasks"]["Row"]> & {
+          org_id: string;
+          title: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["enhancement_tasks"]["Row"]>;
+        Relationships: [];
       };
       docs: {
         Row: {
