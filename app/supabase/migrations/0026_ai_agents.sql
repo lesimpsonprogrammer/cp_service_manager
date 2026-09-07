@@ -7,7 +7,7 @@
 --   1. Lets a profile be labeled with a job title/description and flagged
 --      as an agent, so agent accounts are visibly distinct from human staff
 --      everywhere they're listed.
---   2. Makes 'sys_admin' (added in 0024) carry the same permissions as
+--   2. Makes 'sys_admin' (added in 0025) carry the same permissions as
 --      'admin' for ordinary org resources — full autonomy, as intended.
 --   3. Adds one deliberate guardrail: `agent_autonomy_settings`, a
 --      per-org switch for how much autonomy sys_admin agents get. It is
