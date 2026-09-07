@@ -36,7 +36,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
     <MobileSidebarProvider>
       <div className="flex h-screen overflow-hidden bg-canvas">
         <InactivityLogout onTimeout={signOut} />
-        <Sidebar orgName={org.orgName} />
+        <Sidebar orgName={org.orgName} role={org.role} />
         <div className="flex flex-1 flex-col overflow-hidden">
           <Topbar title={org.orgName} userEmail={org.userEmail} role={org.role} />
           <main className="scrollbar-thin flex-1 overflow-y-auto p-6">{children}</main>

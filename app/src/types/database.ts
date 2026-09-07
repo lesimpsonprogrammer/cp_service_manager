@@ -346,6 +346,27 @@ export interface Database {
         Update: Partial<Database["public"]["Tables"]["api_keys"]["Row"]>;
         Relationships: [];
       };
+      sql_editor_query_log: {
+        Row: {
+          id: string;
+          org_id: string;
+          user_id: string;
+          query: string;
+          row_count: number | null;
+          status: "success" | "error";
+          error_message: string | null;
+          duration_ms: number | null;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["sql_editor_query_log"]["Row"]> & {
+          org_id: string;
+          user_id: string;
+          query: string;
+          status: "success" | "error";
+        };
+        Update: Partial<Database["public"]["Tables"]["sql_editor_query_log"]["Row"]>;
+        Relationships: [];
+      };
       projects: {
         Row: {
           id: string;
@@ -882,7 +903,12 @@ export interface Database {
       };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      run_sql_editor_query: {
+        Args: { query: string };
+        Returns: Record<string, unknown>[];
+      };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };

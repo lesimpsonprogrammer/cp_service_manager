@@ -6,7 +6,14 @@ import { cn } from "@/lib/utils/cn";
 import { LogoMark } from "@/components/ui/Logo";
 import { useMobileSidebar } from "./MobileSidebarContext";
 
-const NAV_ITEMS = [
+interface NavItem {
+  href: string;
+  label: string;
+  icon: string;
+  adminOnly?: boolean;
+}
+
+const NAV_ITEMS: NavItem[] = [
   { href: "/dashboard", label: "Overview", icon: "◱" },
   { href: "/clients", label: "Clients", icon: "🏢" },
   { href: "/workflow", label: "Workflow Center", icon: "🗂" },
@@ -19,12 +26,17 @@ const NAV_ITEMS = [
   { href: "/pipelines", label: "Pipelines", icon: "⇉" },
   { href: "/webhooks", label: "Webhooks", icon: "⇢" },
   { href: "/api-keys", label: "API Keys", icon: "⚿" },
+  { href: "/sql-editor", label: "SQL Editor", icon: "🛢", adminOnly: true },
   { href: "/settings", label: "Settings", icon: "⚙" },
 ];
 
-export function Sidebar({ orgName }: { orgName: string }) {
+const ADMIN_ROLES = new Set(["owner", "admin"]);
+
+export function Sidebar({ orgName, role }: { orgName: string; role: string }) {
   const pathname = usePathname();
   const { isOpen, close } = useMobileSidebar();
+  const isAdmin = ADMIN_ROLES.has(role);
+  const items = NAV_ITEMS.filter((item) => !item.adminOnly || isAdmin);
 
   return (
     <>
@@ -55,7 +67,7 @@ export function Sidebar({ orgName }: { orgName: string }) {
         </div>
 
         <nav className="flex-1 space-y-0.5 overflow-y-auto p-3">
-          {NAV_ITEMS.map((item) => {
+          {items.map((item) => {
             const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (
               <Link
