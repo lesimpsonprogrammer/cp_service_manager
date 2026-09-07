@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 /**
- * Jaren's entry point on the dashboard header, replacing the old plain
- * sidebar nav item — a shimmering star mark instead of a list row.
+ * Jaren's entry point — a shimmering star mark instead of a plain sidebar
+ * list row. Lives in the Topbar, so it's on every page, not just Overview.
  */
 export function JarenBrandLink() {
   return (
@@ -14,7 +14,7 @@ export function JarenBrandLink() {
         ✦
       </span>
       <span>
-        Jaren <span className="text-muted">+ Cloud Performance</span>
+        Jaren <span className="hidden text-muted sm:inline">+ Cloud Performance</span>
       </span>
     </Link>
   );

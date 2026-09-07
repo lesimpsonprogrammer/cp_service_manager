@@ -1,6 +1,7 @@
 import { signOut } from "@/app/(auth)/actions";
 import { Badge } from "@/components/ui/Badge";
 import { MobileMenuButton } from "@/components/layout/MobileMenuButton";
+import { JarenBrandLink } from "@/components/dashboard/JarenBrandLink";
 
 export function Topbar({
   title,
@@ -19,6 +20,7 @@ export function Topbar({
       </div>
 
       <div className="flex items-center gap-3">
+        <JarenBrandLink />
         <Badge tone="brand" className="capitalize">
           {role}
         </Badge>
