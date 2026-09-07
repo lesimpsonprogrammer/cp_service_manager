@@ -36,6 +36,10 @@ export function JarenChat() {
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [initialMessages, setInitialMessages] = useState<StoredMessage[]>([]);
   const [loadingConversation, setLoadingConversation] = useState(false);
+  // Remounts the chat pane (fresh useChat instance) — bumped only when the
+  // user explicitly switches or starts a chat, never when a pane in
+  // progress self-assigns a conversation id after its first message.
+  const [paneKey, setPaneKey] = useState(0);
 
   const loadConversations = useCallback(async (status: "active" | "archived") => {
     const res = await fetch(`/api/jaren/conversations?status=${status}`);
@@ -58,6 +62,7 @@ export function JarenChat() {
       const data = res.ok ? ((await res.json()) as { messages: StoredMessage[] }) : { messages: [] };
       setInitialMessages(data.messages);
       setConversationId(id);
+      setPaneKey((k) => k + 1);
     } finally {
       setLoadingConversation(false);
     }
@@ -66,6 +71,7 @@ export function JarenChat() {
   function startNewChat() {
     setConversationId(null);
     setInitialMessages([]);
+    setPaneKey((k) => k + 1);
   }
 
   async function archive(id: string, status: "active" | "archived") {
@@ -131,10 +137,12 @@ export function JarenChat() {
           <div className="flex h-full items-center justify-center text-sm text-muted">Loading…</div>
         ) : (
           <JarenConversationPane
-            key={conversationId ?? "new"}
+            key={paneKey}
             conversationId={conversationId}
             initialMessages={initialMessages}
             onConversationCreated={(id) => {
+              // Update the highlighted id and refresh the list, but don't
+              // bump paneKey — this pane is mid-send and must not remount.
               setConversationId(id);
               loadConversations("active");
               setTab("active");
