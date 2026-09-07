@@ -1,29 +1,227 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { Button } from "@/components/ui/Button";
 import { renderChatMarkdown } from "@/lib/jaren/markdown";
 
+type ConversationSummary = {
+  id: string;
+  title: string;
+  status: "active" | "archived";
+  updated_at: string;
+};
+
+type StoredMessage = {
+  id: string;
+  role: "user" | "assistant";
+  content: string;
+  created_at: string;
+};
+
+function relativeTime(iso: string) {
+  const diffMs = Date.now() - new Date(iso).getTime();
+  const minutes = Math.round(diffMs / 60_000);
+  if (minutes < 1) return "just now";
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.round(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  return `${Math.round(hours / 24)}d ago`;
+}
+
 export function JarenChat() {
+  const [tab, setTab] = useState<"active" | "archived">("active");
+  const [conversations, setConversations] = useState<ConversationSummary[]>([]);
+  const [conversationId, setConversationId] = useState<string | null>(null);
+  const [initialMessages, setInitialMessages] = useState<StoredMessage[]>([]);
+  const [loadingConversation, setLoadingConversation] = useState(false);
+
+  const loadConversations = useCallback(async (status: "active" | "archived") => {
+    const res = await fetch(`/api/jaren/conversations?status=${status}`);
+    if (!res.ok) return;
+    const data = (await res.json()) as { conversations: ConversationSummary[] };
+    setConversations(data.conversations);
+  }, []);
+
+  useEffect(() => {
+    // Fetching the conversation list for the active tab, not deriving
+    // render state from props/state — the documented exception to this rule.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadConversations(tab);
+  }, [tab, loadConversations]);
+
+  const openConversation = useCallback(async (id: string) => {
+    setLoadingConversation(true);
+    try {
+      const res = await fetch(`/api/jaren/conversations/${id}/messages`);
+      const data = res.ok ? ((await res.json()) as { messages: StoredMessage[] }) : { messages: [] };
+      setInitialMessages(data.messages);
+      setConversationId(id);
+    } finally {
+      setLoadingConversation(false);
+    }
+  }, []);
+
+  function startNewChat() {
+    setConversationId(null);
+    setInitialMessages([]);
+  }
+
+  async function archive(id: string, status: "active" | "archived") {
+    await fetch(`/api/jaren/conversations/${id}`, {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ status }),
+    });
+    if (conversationId === id) startNewChat();
+    loadConversations(tab);
+  }
+
+  return (
+    <div className="flex h-[70vh] gap-4">
+      <aside className="flex w-56 shrink-0 flex-col border-r border-border pr-3">
+        <Button size="sm" variant="secondary" onClick={startNewChat} className="mb-3">
+          + New chat
+        </Button>
+        <div className="mb-2 flex gap-1 text-xs">
+          <button
+            onClick={() => setTab("active")}
+            className={`rounded-md px-2 py-1 ${tab === "active" ? "bg-surface-2 font-medium text-foreground" : "text-muted"}`}
+          >
+            Recent
+          </button>
+          <button
+            onClick={() => setTab("archived")}
+            className={`rounded-md px-2 py-1 ${tab === "archived" ? "bg-surface-2 font-medium text-foreground" : "text-muted"}`}
+          >
+            Archived
+          </button>
+        </div>
+        <div className="scrollbar-thin flex-1 space-y-1 overflow-y-auto">
+          {conversations.length === 0 && (
+            <p className="px-1 py-2 text-xs text-muted">
+              {tab === "active" ? "No conversations yet." : "Nothing archived."}
+            </p>
+          )}
+          {conversations.map((c) => (
+            <div
+              key={c.id}
+              className={`group flex items-center gap-1 rounded-md px-2 py-1.5 text-xs ${
+                conversationId === c.id ? "bg-surface-2" : "hover:bg-surface-2"
+              }`}
+            >
+              <button onClick={() => openConversation(c.id)} className="min-w-0 flex-1 text-left">
+                <div className="truncate text-foreground">{c.title}</div>
+                <div className="text-muted">{relativeTime(c.updated_at)}</div>
+              </button>
+              <button
+                onClick={() => archive(c.id, tab === "active" ? "archived" : "active")}
+                title={tab === "active" ? "Archive" : "Restore"}
+                className="shrink-0 text-muted opacity-0 hover:text-foreground group-hover:opacity-100"
+              >
+                {tab === "active" ? "Archive" : "Restore"}
+              </button>
+            </div>
+          ))}
+        </div>
+      </aside>
+      <div className="min-w-0 flex-1">
+        {loadingConversation ? (
+          <div className="flex h-full items-center justify-center text-sm text-muted">Loading…</div>
+        ) : (
+          <JarenConversationPane
+            key={conversationId ?? "new"}
+            conversationId={conversationId}
+            initialMessages={initialMessages}
+            onConversationCreated={(id) => {
+              setConversationId(id);
+              loadConversations("active");
+              setTab("active");
+            }}
+            onMessageSaved={() => loadConversations(tab === "archived" ? "active" : tab)}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
+function JarenConversationPane({
+  conversationId,
+  initialMessages,
+  onConversationCreated,
+  onMessageSaved,
+}: {
+  conversationId: string | null;
+  initialMessages: StoredMessage[];
+  onConversationCreated: (id: string) => void;
+  onMessageSaved: () => void;
+}) {
   const [input, setInput] = useState("");
+  const [activeId, setActiveId] = useState(conversationId);
+
   const { messages, sendMessage, status, error } = useChat({
+    id: conversationId ?? undefined,
+    messages: initialMessages.map((m) => ({
+      id: m.id,
+      role: m.role,
+      parts: [{ type: "text" as const, text: m.content }],
+    })),
     transport: new DefaultChatTransport({ api: "/api/jaren/chat" }),
+    onFinish: async ({ message }) => {
+      const id = activeId;
+      if (!id) return;
+      const text = message.parts
+        .filter((p): p is { type: "text"; text: string } => p.type === "text")
+        .map((p) => p.text)
+        .join("");
+      if (!text) return;
+      await fetch(`/api/jaren/conversations/${id}/messages`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ role: "assistant", content: text }),
+      });
+      onMessageSaved();
+    },
   });
 
   const busy = status === "streaming" || status === "submitted";
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const text = input.trim();
     if (!text || busy) return;
-    sendMessage({ text });
     setInput("");
+
+    let id = activeId;
+    if (!id) {
+      const res = await fetch("/api/jaren/conversations", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ title: text.slice(0, 60) }),
+      });
+      if (res.ok) {
+        const data = (await res.json()) as { conversation: ConversationSummary };
+        id = data.conversation.id;
+        setActiveId(id);
+        onConversationCreated(id);
+      }
+    }
+
+    if (id) {
+      fetch(`/api/jaren/conversations/${id}/messages`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ role: "user", content: text }),
+      });
+    }
+
+    sendMessage({ text });
   }
 
   return (
-    <div className="flex h-[70vh] flex-col">
+    <div className="flex h-full flex-col">
       <div className="scrollbar-thin flex-1 space-y-4 overflow-y-auto px-1 py-2">
         {messages.length === 0 && (
           <p className="text-sm text-muted">

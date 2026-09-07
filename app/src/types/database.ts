@@ -880,6 +880,47 @@ export interface Database {
           }
         ];
       };
+      jaren_conversations: {
+        Row: {
+          id: string;
+          org_id: string;
+          user_id: string;
+          title: string;
+          status: "active" | "archived";
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["jaren_conversations"]["Row"]> & {
+          org_id: string;
+          user_id: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["jaren_conversations"]["Row"]>;
+        Relationships: [];
+      };
+      jaren_messages: {
+        Row: {
+          id: string;
+          conversation_id: string;
+          role: "user" | "assistant";
+          content: string;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["jaren_messages"]["Row"]> & {
+          conversation_id: string;
+          role: "user" | "assistant";
+          content: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["jaren_messages"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "jaren_messages_conversation_id_fkey";
+            columns: ["conversation_id"];
+            isOneToOne: false;
+            referencedRelation: "jaren_conversations";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
