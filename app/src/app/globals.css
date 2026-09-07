@@ -197,6 +197,12 @@ body {
   }
 }
 
+.doc-content-chat > :first-child {
+  margin-top: 0;
+}
+.doc-content-chat > :last-child {
+  margin-bottom: 0;
+}
 .doc-content h1 {
   font-size: 1.5rem;
   font-weight: 600;

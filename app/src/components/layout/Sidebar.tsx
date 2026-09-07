@@ -8,6 +8,7 @@ import { useMobileSidebar } from "./MobileSidebarContext";
 
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Overview", icon: "◱" },
+  { href: "/jaren", label: "Jaren", icon: "✦" },
   { href: "/clients", label: "Clients", icon: "🏢" },
   { href: "/workflow", label: "Workflow Center", icon: "🗂" },
   { href: "/time", label: "Time Tracking", icon: "⏱" },
