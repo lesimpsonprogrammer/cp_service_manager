@@ -2,15 +2,18 @@
 
 import { useActionState, useState, useTransition } from "react";
 import { useFormStatus } from "react-dom";
+import { cn } from "@/lib/utils/cn";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Input, Label, Select, Textarea } from "@/components/ui/Input";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { TASK_ASSIGNEES } from "@/lib/tasks/assignees";
 import {
   createTask,
   deleteTask,
   updateTaskAssignee,
+  updateTaskDueDate,
   updateTaskNotes,
   updateTaskPriority,
   updateTaskStatus,
@@ -25,12 +28,8 @@ export interface TaskRow {
   notes: string | null;
   status: EnhancementTaskStatus;
   priority: EnhancementTaskPriority;
-  assignee_id: string | null;
-}
-
-export interface MemberOption {
-  userId: string;
-  fullName: string;
+  assignee: string | null;
+  due_date: string | null;
 }
 
 const COLUMNS: { status: EnhancementTaskStatus; label: string }[] = [
@@ -45,6 +44,11 @@ const PRIORITY_TONE: Record<EnhancementTaskPriority, "neutral" | "warning" | "da
   high: "danger",
 };
 
+function isOverdue(dueDate: string | null, status: EnhancementTaskStatus) {
+  if (!dueDate || status === "done") return false;
+  return dueDate < new Date().toISOString().slice(0, 10);
+}
+
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
@@ -54,9 +58,10 @@ function SubmitButton() {
   );
 }
 
-function TaskCard({ task, members }: { task: TaskRow; members: MemberOption[] }) {
+function TaskCard({ task }: { task: TaskRow }) {
   const [isPending, startTransition] = useTransition();
   const [notes, setNotes] = useState(task.notes ?? "");
+  const overdue = isOverdue(task.due_date, task.status);
 
   return (
     <Card className="p-3.5">
@@ -96,19 +101,28 @@ function TaskCard({ task, members }: { task: TaskRow; members: MemberOption[] })
         </Select>
       </div>
 
-      <Select
-        className="mt-2"
-        value={task.assignee_id ?? ""}
-        disabled={isPending}
-        onChange={(e) => startTransition(() => updateTaskAssignee(task.id, e.target.value))}
-      >
-        <option value="">Unassigned</option>
-        {members.map((m) => (
-          <option key={m.userId} value={m.userId}>
-            {m.fullName}
-          </option>
-        ))}
-      </Select>
+      <div className="mt-2 grid grid-cols-2 gap-2">
+        <Select
+          value={task.assignee ?? ""}
+          disabled={isPending}
+          onChange={(e) => startTransition(() => updateTaskAssignee(task.id, e.target.value))}
+        >
+          <option value="">Unassigned</option>
+          {TASK_ASSIGNEES.map((name) => (
+            <option key={name} value={name}>
+              {name}
+            </option>
+          ))}
+        </Select>
+        <Input
+          type="date"
+          value={task.due_date ?? ""}
+          disabled={isPending}
+          className={cn(overdue && "border-danger text-danger")}
+          onChange={(e) => startTransition(() => updateTaskDueDate(task.id, e.target.value))}
+        />
+      </div>
+      {overdue && <p className="mt-1 text-xs font-medium text-danger">Overdue</p>}
 
       <Textarea
         className="mt-2"
@@ -135,7 +149,7 @@ function TaskCard({ task, members }: { task: TaskRow; members: MemberOption[] })
   );
 }
 
-export function TaskBoard({ tasks, members }: { tasks: TaskRow[]; members: MemberOption[] }) {
+export function TaskBoard({ tasks }: { tasks: TaskRow[] }) {
   const [state, formAction] = useActionState(createTask, { error: null } as TaskFormState);
 
   return (
@@ -145,14 +159,13 @@ export function TaskBoard({ tasks, members }: { tasks: TaskRow[]; members: Membe
           <CardTitle>Log a task</CardTitle>
         </CardHeader>
         <CardContent>
-          <form action={formAction} className="grid gap-3 sm:grid-cols-[1fr_140px_180px_auto] sm:items-end">
-            <div className="sm:col-span-4">
+          <form
+            action={formAction}
+            className="grid gap-3 sm:grid-cols-[1fr_1fr_120px_160px_140px_auto] sm:items-end"
+          >
+            <div className="sm:col-span-2">
               <Label htmlFor="task_title">Title</Label>
               <Input id="task_title" name="title" required placeholder="What needs doing?" />
-            </div>
-            <div className="sm:col-span-2">
-              <Label htmlFor="task_description">Description</Label>
-              <Input id="task_description" name="description" placeholder="Optional details" />
             </div>
             <div>
               <Label htmlFor="task_priority">Priority</Label>
@@ -164,18 +177,26 @@ export function TaskBoard({ tasks, members }: { tasks: TaskRow[]; members: Membe
             </div>
             <div>
               <Label htmlFor="task_assignee">Assignee</Label>
-              <Select id="task_assignee" name="assignee_id" defaultValue="">
+              <Select id="task_assignee" name="assignee" defaultValue="">
                 <option value="">Unassigned</option>
-                {members.map((m) => (
-                  <option key={m.userId} value={m.userId}>
-                    {m.fullName}
+                {TASK_ASSIGNEES.map((name) => (
+                  <option key={name} value={name}>
+                    {name}
                   </option>
                 ))}
               </Select>
             </div>
+            <div>
+              <Label htmlFor="task_due_date">Due date</Label>
+              <Input id="task_due_date" name="due_date" type="date" />
+            </div>
             <SubmitButton />
+            <div className="sm:col-span-6">
+              <Label htmlFor="task_description">Description</Label>
+              <Input id="task_description" name="description" placeholder="Optional details" />
+            </div>
             {state.error && (
-              <p className="rounded-md border border-danger/30 bg-danger/10 px-3 py-2 text-sm text-danger sm:col-span-4">
+              <p className="rounded-md border border-danger/30 bg-danger/10 px-3 py-2 text-sm text-danger sm:col-span-6">
                 {state.error}
               </p>
             )}
@@ -197,7 +218,7 @@ export function TaskBoard({ tasks, members }: { tasks: TaskRow[]; members: Membe
                 </div>
                 <div className="space-y-3">
                   {columnTasks.map((task) => (
-                    <TaskCard key={task.id} task={task} members={members} />
+                    <TaskCard key={task.id} task={task} />
                   ))}
                 </div>
               </div>

@@ -21,7 +21,8 @@ export async function createTask(
 
   const description = String(formData.get("description") ?? "").trim();
   const priority = String(formData.get("priority") ?? "medium") as EnhancementTaskPriority;
-  const assigneeId = String(formData.get("assignee_id") ?? "").trim();
+  const assignee = String(formData.get("assignee") ?? "").trim();
+  const dueDate = String(formData.get("due_date") ?? "").trim();
 
   const supabase = await createClient();
   const { error } = await supabase.from("enhancement_tasks").insert({
@@ -29,13 +30,15 @@ export async function createTask(
     title,
     description: description || null,
     priority,
-    assignee_id: assigneeId || null,
+    assignee: assignee || null,
+    due_date: dueDate || null,
     created_by: org.userId,
   });
 
   if (error) return { error: error.message };
 
   revalidatePath("/tasks");
+  revalidatePath("/dashboard");
   return { error: null };
 }
 
@@ -47,6 +50,7 @@ export async function updateTaskStatus(taskId: string, status: EnhancementTaskSt
   await supabase.from("enhancement_tasks").update({ status }).eq("id", taskId);
 
   revalidatePath("/tasks");
+  revalidatePath("/dashboard");
 }
 
 export async function updateTaskPriority(taskId: string, priority: EnhancementTaskPriority) {
@@ -59,17 +63,32 @@ export async function updateTaskPriority(taskId: string, priority: EnhancementTa
   revalidatePath("/tasks");
 }
 
-export async function updateTaskAssignee(taskId: string, assigneeId: string) {
+export async function updateTaskAssignee(taskId: string, assignee: string) {
   const org = await getCurrentOrg();
   if (!org) return;
 
   const supabase = await createClient();
   await supabase
     .from("enhancement_tasks")
-    .update({ assignee_id: assigneeId || null })
+    .update({ assignee: assignee || null })
     .eq("id", taskId);
 
   revalidatePath("/tasks");
+  revalidatePath("/dashboard");
+}
+
+export async function updateTaskDueDate(taskId: string, dueDate: string) {
+  const org = await getCurrentOrg();
+  if (!org) return;
+
+  const supabase = await createClient();
+  await supabase
+    .from("enhancement_tasks")
+    .update({ due_date: dueDate || null })
+    .eq("id", taskId);
+
+  revalidatePath("/tasks");
+  revalidatePath("/dashboard");
 }
 
 export async function updateTaskNotes(taskId: string, notes: string) {
@@ -93,4 +112,5 @@ export async function deleteTask(taskId: string) {
   await supabase.from("enhancement_tasks").delete().eq("id", taskId);
 
   revalidatePath("/tasks");
+  revalidatePath("/dashboard");
 }
