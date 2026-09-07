@@ -9,6 +9,7 @@ import { StatusBadge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { hoursAgoIso } from "@/lib/utils/time";
 import { Greeting } from "@/components/dashboard/Greeting";
+import { JarenBrandLink } from "@/components/dashboard/JarenBrandLink";
 import { ActionCenterWidget } from "@/components/dashboard/ActionCenterWidget";
 import { getOrgMembers } from "@/lib/org/getOrgMembers";
 
@@ -122,6 +123,7 @@ export default async function DashboardOverviewPage() {
       <PageHeader
         title={<Greeting name={displayName} />}
         description="Here's what's happening across your connectors and pipelines."
+        action={<JarenBrandLink />}
       />
 
       <ActionCenterWidget

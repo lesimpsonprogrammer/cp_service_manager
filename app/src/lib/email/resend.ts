@@ -1,6 +1,11 @@
 import { Resend } from "resend";
+import type { SystemReportSection } from "@/lib/reports/systemReport";
 
 const FROM = process.env.RESEND_FROM_EMAIL ?? "notifications@cpservicemanager.com";
+// Display name only — actually sending from jaren.agent@momentumdatasolutions.com
+// requires that domain to be verified as a Resend sending domain first; until
+// then this still sends from FROM above, just labeled as Jaren.
+const JAREN_FROM = `Jaren CP <${FROM}>`;
 
 function getClient(): Resend | null {
   const apiKey = process.env.RESEND_API_KEY;
@@ -303,5 +308,66 @@ export async function sendInvoiceEmail({
       }.</p>
       <p><a href="${invoiceUrl}">View and download the invoice (PDF)</a></p>
     `,
+  });
+}
+
+function money(amount: number) {
+  return `$${amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+export async function sendSystemReportEmail({
+  to,
+  orgName,
+  report,
+}: {
+  to: string[];
+  orgName: string;
+  report: SystemReportSection;
+}) {
+  const resend = getClient();
+  if (!resend) {
+    console.warn("RESEND_API_KEY not set — skipping system report email.");
+    return;
+  }
+
+  const section = (title: string, rows: string[]) =>
+    rows.length === 0
+      ? ""
+      : `<h3 style="margin:20px 0 8px;">${title}</h3><ul style="margin:0;padding-left:20px;">${rows
+          .map((r) => `<li>${r}</li>`)
+          .join("")}</ul>`;
+
+  const html = `
+    <p>Hi there,</p>
+    <p>Here's your system digest for <strong>${orgName}</strong> — new activity from the last 7 days, plus what needs attention.</p>
+    ${section(
+      "New clients",
+      report.newClients.map((c) => `${c.name} — added ${new Date(c.createdAt).toLocaleDateString()}`)
+    )}
+    ${section(
+      "New logins",
+      report.newLogins.map((l) => `${l.email} — ${new Date(l.lastSignInAt).toLocaleString()}`)
+    )}
+    ${section(
+      "Unpaid invoices",
+      report.unpaidInvoices.map(
+        (i) =>
+          `${i.invoiceNumber} — ${i.clientName} — ${money(i.total)}${
+            i.dueDate ? ` (due ${i.dueDate})` : " (no due date)"
+          } — ${i.status}`
+      )
+    )}
+    ${section(
+      "Invoices due within 7 days",
+      report.invoicesDueSoon.map((i) => `${i.invoiceNumber} — ${i.clientName} — ${money(i.total)} — due ${i.dueDate}`)
+    )}
+    <p style="margin-top:24px;color:#666;font-size:12px;">— Jaren CP</p>
+  `;
+
+  await resend.emails.send({
+    from: JAREN_FROM,
+    to,
+    subject: `System digest: ${orgName}`,
+    html,
   });
 }

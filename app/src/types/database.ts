@@ -2,7 +2,7 @@
 // Regenerate with `supabase gen types typescript` once the project is linked
 // to a live Supabase project, and this file becomes redundant.
 
-export type OrgRole = "owner" | "admin" | "member" | "viewer";
+export type OrgRole = "owner" | "admin" | "member" | "viewer" | "sys_admin";
 
 export type DataSourceType =
   | "spreadsheet"
@@ -68,6 +68,9 @@ export interface Database {
           id: string;
           full_name: string | null;
           avatar_url: string | null;
+          title: string | null;
+          description: string | null;
+          is_agent: boolean;
           password_updated_at: string;
           created_at: string;
         };
@@ -344,6 +347,27 @@ export interface Database {
           key_hash: string;
         };
         Update: Partial<Database["public"]["Tables"]["api_keys"]["Row"]>;
+        Relationships: [];
+      };
+      sql_editor_query_log: {
+        Row: {
+          id: string;
+          org_id: string;
+          user_id: string;
+          query: string;
+          row_count: number | null;
+          status: "success" | "error";
+          error_message: string | null;
+          duration_ms: number | null;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["sql_editor_query_log"]["Row"]> & {
+          org_id: string;
+          user_id: string;
+          query: string;
+          status: "success" | "error";
+        };
+        Update: Partial<Database["public"]["Tables"]["sql_editor_query_log"]["Row"]>;
         Relationships: [];
       };
       projects: {
@@ -923,7 +947,12 @@ export interface Database {
       };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      run_sql_editor_query: {
+        Args: { query: string };
+        Returns: Record<string, unknown>[];
+      };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };

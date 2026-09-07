@@ -12,6 +12,27 @@ import { DocCategoriesPanel } from "@/components/settings/DocCategoriesPanel";
 
 const ADMIN_ROLES = new Set(["owner", "admin"]);
 
+const DEVELOPER_LINKS = [
+  {
+    name: "GitHub",
+    description: "Source repo, PRs, and CI",
+    href: "https://github.com/lesimpsonprogrammer/cp_service_manager",
+    icon: "🐙",
+  },
+  {
+    name: "Supabase",
+    description: "Database, auth, and storage",
+    href: "https://supabase.com/dashboard/project/ucuejofewehpuxcwvubu",
+    icon: "⚡",
+  },
+  {
+    name: "Railway",
+    description: "cpsm-blog service",
+    href: "https://railway.com/project/7a7b0872-e9fc-4373-8870-79a6945226b7",
+    icon: "🚆",
+  },
+];
+
 export default async function SettingsPage() {
   const org = await getCurrentOrg();
   const supabase = await createClient();
@@ -21,6 +42,10 @@ export default async function SettingsPage() {
     .from("org_members")
     .select("user_id, role, created_at")
     .eq("org_id", org?.orgId ?? "");
+
+  const { data: profile } = org
+    ? await supabase.from("profiles").select("full_name").eq("id", org.userId).maybeSingle()
+    : { data: null };
 
   const { data: invites } = isAdmin
     ? await supabase
@@ -57,6 +82,10 @@ export default async function SettingsPage() {
           <div className="flex justify-between">
             <span className="text-muted">Name</span>
             <span className="text-foreground">{org?.orgName}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-muted">Your name</span>
+            <span className="text-foreground">{profile?.full_name ?? org?.userEmail?.split("@")[0]}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-muted">Your role</span>
@@ -152,6 +181,36 @@ export default async function SettingsPage() {
             </CardHeader>
             <CardContent className="p-0">
               <SignupRequestsPanel requests={signupRequests ?? []} />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Developers</CardTitle>
+              <CardDescription>Quick links to where this workspace actually runs.</CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
+              <ul className="divide-y divide-border">
+                {DEVELOPER_LINKS.map((link) => (
+                  <li key={link.name}>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center justify-between px-5 py-3 text-sm hover:bg-surface-2"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <span className="w-4 text-center text-xs" aria-hidden="true">
+                          {link.icon}
+                        </span>
+                        <span className="text-foreground">{link.name}</span>
+                        <span className="text-xs text-muted">{link.description}</span>
+                      </span>
+                      <span className="text-muted">↗</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </CardContent>
           </Card>
         </>
