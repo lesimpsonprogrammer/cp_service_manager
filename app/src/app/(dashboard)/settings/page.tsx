@@ -22,6 +22,10 @@ export default async function SettingsPage() {
     .select("user_id, role, created_at")
     .eq("org_id", org?.orgId ?? "");
 
+  const { data: profile } = org
+    ? await supabase.from("profiles").select("full_name").eq("id", org.userId).maybeSingle()
+    : { data: null };
+
   const { data: invites } = isAdmin
     ? await supabase
         .from("org_invites")
@@ -57,6 +61,10 @@ export default async function SettingsPage() {
           <div className="flex justify-between">
             <span className="text-muted">Name</span>
             <span className="text-foreground">{org?.orgName}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-muted">Your name</span>
+            <span className="text-foreground">{profile?.full_name ?? org?.userEmail?.split("@")[0]}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-muted">Your role</span>
