@@ -13,6 +13,10 @@ import { ActionCenterWidget } from "@/components/dashboard/ActionCenterWidget";
 import { TaskManagerCard } from "@/components/dashboard/TaskManagerCard";
 import { getOrgMembers } from "@/lib/org/getOrgMembers";
 
+const ORG_ROLE_LABELS: Record<string, string> = {
+  owner: "GSDA",
+};
+
 export default async function DashboardOverviewPage() {
   const org = await getCurrentOrg();
   const supabase = await createClient();
@@ -170,7 +174,7 @@ export default async function DashboardOverviewPage() {
         <StatCard label="Data sources" value={sourcesCount ?? 0} />
         <StatCard label="Active pipelines" value={activePipelines ?? 0} tone="brand" />
         <StatCard label="Runs (24h)" value={runsToday ?? 0} />
-        <StatCard label="Workspace role" value={org?.role ?? "—"} />
+        <StatCard label="Workspace role" value={org?.role ? (ORG_ROLE_LABELS[org.role] ?? org.role) : "—"} />
       </div>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-3">

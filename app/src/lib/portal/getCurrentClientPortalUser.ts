@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import type { ClientPortalRole } from "@/lib/portal/permissions";
 
 export interface CurrentClientPortalUser {
   userId: string;
@@ -7,6 +8,7 @@ export interface CurrentClientPortalUser {
   clientId: string;
   clientName: string;
   passwordUpdatedAt: string;
+  role: ClientPortalRole;
 }
 
 /**
@@ -24,12 +26,13 @@ export async function getCurrentClientPortalUser(): Promise<CurrentClientPortalU
 
   const { data: membership } = await supabase
     .from("client_portal_users")
-    .select("org_id, client_id, password_updated_at, clients ( name )")
+    .select("org_id, client_id, password_updated_at, role, clients ( name )")
     .eq("id", user.id)
     .maybeSingle<{
       org_id: string;
       client_id: string;
       password_updated_at: string;
+      role: ClientPortalRole;
       clients: { name: string } | null;
     }>();
 
@@ -42,5 +45,6 @@ export async function getCurrentClientPortalUser(): Promise<CurrentClientPortalU
     clientId: membership.client_id,
     clientName: membership.clients?.name ?? "Your workspace",
     passwordUpdatedAt: membership.password_updated_at,
+    role: membership.role,
   };
 }

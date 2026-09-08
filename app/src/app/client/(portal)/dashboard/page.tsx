@@ -1,11 +1,16 @@
+import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentClientPortalUser } from "@/lib/portal/getCurrentClientPortalUser";
+import { canAccessPortalScreen, firstAccessiblePortalPath } from "@/lib/portal/permissions";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { ProjectKanbanBoard } from "@/components/portal/ProjectKanbanBoard";
 
 export default async function ClientDashboardPage() {
   const clientUser = await getCurrentClientPortalUser();
   if (!clientUser) return null;
+  if (!canAccessPortalScreen(clientUser.role, "dashboard")) {
+    redirect(firstAccessiblePortalPath(clientUser.role));
+  }
 
   const supabase = await createClient();
   const [{ data: projects }, { data: client }] = await Promise.all([
