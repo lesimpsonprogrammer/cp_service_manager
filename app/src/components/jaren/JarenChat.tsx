@@ -21,6 +21,16 @@ type StoredMessage = {
   created_at: string;
 };
 
+// Network-level stream drops surface as opaque browser errors (e.g. Firefox's
+// "Error in input stream") rather than the friendly text the API returns.
+function describeConnectionError(error: Error): string {
+  const message = error.message || "";
+  if (/input stream|network|fetch failed|load failed/i.test(message)) {
+    return "The connection to Jaren dropped partway through. This is usually a brief network hiccup — try again.";
+  }
+  return message || "Jaren hit an error. Try again in a moment.";
+}
+
 function relativeTime(iso: string) {
   const diffMs = Date.now() - new Date(iso).getTime();
   const minutes = Math.round(diffMs / 60_000);
@@ -172,7 +182,7 @@ function JarenConversationPane({
   const [activeId, setActiveId] = useState(conversationId);
   const [creatingConversation, setCreatingConversation] = useState(false);
 
-  const { messages, sendMessage, status, error } = useChat({
+  const { messages, sendMessage, regenerate, clearError, status, error } = useChat({
     id: conversationId ?? undefined,
     messages: initialMessages.map((m) => ({
       id: m.id,
@@ -280,9 +290,19 @@ function JarenConversationPane({
           </div>
         )}
         {error && (
-          <p className="rounded-card border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700">
-            {error.message || "Jaren hit an error. Try again in a moment."}
-          </p>
+          <div className="flex items-center justify-between gap-3 rounded-card border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700">
+            <span>{describeConnectionError(error)}</span>
+            <button
+              type="button"
+              onClick={() => {
+                clearError();
+                regenerate();
+              }}
+              className="shrink-0 rounded-md border border-red-300 px-2 py-1 text-xs font-medium hover:bg-red-100"
+            >
+              Retry
+            </button>
+          </div>
         )}
       </div>
       <form onSubmit={handleSubmit} className="mt-3 flex gap-2 border-t border-border pt-3">
