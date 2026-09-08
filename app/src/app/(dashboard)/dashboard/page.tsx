@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { hoursAgoIso } from "@/lib/utils/time";
 import { Greeting } from "@/components/dashboard/Greeting";
 import { ActionCenterWidget } from "@/components/dashboard/ActionCenterWidget";
+import { TaskManagerCard } from "@/components/dashboard/TaskManagerCard";
 import { getOrgMembers } from "@/lib/org/getOrgMembers";
 
 export default async function DashboardOverviewPage() {
@@ -30,6 +31,7 @@ export default async function DashboardOverviewPage() {
     outstandingInvoices,
     openTasks,
     members,
+    enhancementTasks,
   ] = await Promise.all([
     supabase.from("data_sources").select("id", { count: "exact", head: true }),
     supabase
@@ -112,6 +114,13 @@ export default async function DashboardOverviewPage() {
           >()
       : Promise.resolve({ data: [] }),
     org ? getOrgMembers(org.orgId) : Promise.resolve([]),
+    org
+      ? supabase
+          .from("enhancement_tasks")
+          .select("id, title, status, due_date, assignee")
+          .eq("org_id", org.orgId)
+          .order("due_date", { ascending: true, nullsFirst: false })
+      : Promise.resolve({ data: [] }),
   ]);
 
   const displayName = profile.data?.full_name?.trim() || org?.userEmail?.split("@")[0] || null;
@@ -164,7 +173,7 @@ export default async function DashboardOverviewPage() {
         <StatCard label="Workspace role" value={org?.role ?? "—"} />
       </div>
 
-      <div className="mt-6 grid gap-4 lg:grid-cols-2">
+      <div className="mt-6 grid gap-4 lg:grid-cols-3">
         <Card>
           <CardHeader className="flex items-center justify-between">
             <CardTitle>Recent pipeline runs</CardTitle>
@@ -243,6 +252,16 @@ export default async function DashboardOverviewPage() {
             )}
           </CardContent>
         </Card>
+
+        <TaskManagerCard
+          tasks={(enhancementTasks.data ?? []).map((t) => ({
+            id: t.id,
+            title: t.title,
+            status: t.status,
+            dueDate: t.due_date,
+            assignee: t.assignee,
+          }))}
+        />
       </div>
     </div>
   );

@@ -15,8 +15,11 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^4.0.56",
+    "@ai-sdk/react": "^4.0.93",
     "@supabase/ssr": "^0.12.5",
     "@supabase/supabase-js": "^2.112.4",
+    "ai": "^7.0.90",
     "cheerio": "^1.2.0",
     "clsx": "^2.1.1",
     "exceljs": "^4.4.0",

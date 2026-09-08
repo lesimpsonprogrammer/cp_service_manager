@@ -197,6 +197,12 @@ body {
   }
 }
 
+.doc-content-chat > :first-child {
+  margin-top: 0;
+}
+.doc-content-chat > :last-child {
+  margin-bottom: 0;
+}
 .doc-content h1 {
   font-size: 1.5rem;
   font-weight: 600;
@@ -300,4 +306,29 @@ body {
 }
 .doc-alert-caution {
   border-left-color: hsl(var(--danger));
+}
+
+.jaren-star {
+  display: inline-block;
+  animation: jaren-shimmer 2.4s ease-in-out infinite;
+}
+
+@keyframes jaren-shimmer {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.92);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+    filter: drop-shadow(0 0 6px hsl(var(--brand) / 0.7));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jaren-star {
+    animation: none;
+  }
 }

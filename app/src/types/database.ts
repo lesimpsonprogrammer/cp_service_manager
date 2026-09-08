@@ -2,7 +2,7 @@
 // Regenerate with `supabase gen types typescript` once the project is linked
 // to a live Supabase project, and this file becomes redundant.
 
-export type OrgRole = "owner" | "admin" | "member" | "viewer";
+export type OrgRole = "owner" | "admin" | "member" | "viewer" | "sys_admin";
 
 export type DataSourceType =
   | "spreadsheet"
@@ -46,6 +46,10 @@ export type WorkflowInstanceStatus = "active" | "completed" | "cancelled";
 
 export type WorkflowTaskStatus = "pending" | "in_progress" | "done" | "skipped";
 
+export type EnhancementTaskStatus = "backlog" | "in_progress" | "done";
+
+export type EnhancementTaskPriority = "low" | "medium" | "high";
+
 export interface Database {
   public: {
     Tables: {
@@ -68,6 +72,9 @@ export interface Database {
           id: string;
           full_name: string | null;
           avatar_url: string | null;
+          title: string | null;
+          description: string | null;
+          is_agent: boolean;
           password_updated_at: string;
           created_at: string;
         };
@@ -346,6 +353,27 @@ export interface Database {
         Update: Partial<Database["public"]["Tables"]["api_keys"]["Row"]>;
         Relationships: [];
       };
+      sql_editor_query_log: {
+        Row: {
+          id: string;
+          org_id: string;
+          user_id: string;
+          query: string;
+          row_count: number | null;
+          status: "success" | "error";
+          error_message: string | null;
+          duration_ms: number | null;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["sql_editor_query_log"]["Row"]> & {
+          org_id: string;
+          user_id: string;
+          query: string;
+          status: "success" | "error";
+        };
+        Update: Partial<Database["public"]["Tables"]["sql_editor_query_log"]["Row"]>;
+        Relationships: [];
+      };
       projects: {
         Row: {
           id: string;
@@ -471,6 +499,28 @@ export interface Database {
             referencedColumns: ["id"];
           }
         ];
+      };
+      enhancement_tasks: {
+        Row: {
+          id: string;
+          org_id: string;
+          title: string;
+          description: string | null;
+          notes: string | null;
+          status: EnhancementTaskStatus;
+          priority: EnhancementTaskPriority;
+          assignee: string | null;
+          due_date: string | null;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["enhancement_tasks"]["Row"]> & {
+          org_id: string;
+          title: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["enhancement_tasks"]["Row"]>;
+        Relationships: [];
       };
       docs: {
         Row: {
@@ -880,9 +930,55 @@ export interface Database {
           }
         ];
       };
+      jaren_conversations: {
+        Row: {
+          id: string;
+          org_id: string;
+          user_id: string;
+          title: string;
+          status: "active" | "archived";
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["jaren_conversations"]["Row"]> & {
+          org_id: string;
+          user_id: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["jaren_conversations"]["Row"]>;
+        Relationships: [];
+      };
+      jaren_messages: {
+        Row: {
+          id: string;
+          conversation_id: string;
+          role: "user" | "assistant";
+          content: string;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["jaren_messages"]["Row"]> & {
+          conversation_id: string;
+          role: "user" | "assistant";
+          content: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["jaren_messages"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "jaren_messages_conversation_id_fkey";
+            columns: ["conversation_id"];
+            isOneToOne: false;
+            referencedRelation: "jaren_conversations";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      run_sql_editor_query: {
+        Args: { query: string };
+        Returns: Record<string, unknown>[];
+      };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };
