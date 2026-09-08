@@ -6,6 +6,9 @@ import { createClient } from "@/lib/supabase/server";
 import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
 import { sendContractSigningEmail, sendContractReminderEmail, sendClientPortalInviteEmail } from "@/lib/email/resend";
 import type { ClientStatus, ContractStatus, Database, OnboardingStage } from "@/types/database";
+import type { ClientPortalRole } from "@/lib/portal/permissions";
+
+const CLIENT_PORTAL_ROLES: ClientPortalRole[] = ["client_user", "client_administrator", "client_tpa"];
 
 type ContractUpdate = Database["public"]["Tables"]["client_contracts"]["Update"];
 
@@ -435,6 +438,11 @@ export async function inviteClientPortalUser(
   const email = String(formData.get("email") ?? "").trim();
   if (!email) return { error: "Enter an email address to invite." };
 
+  const roleInput = String(formData.get("role") ?? "client_user");
+  const role: ClientPortalRole = CLIENT_PORTAL_ROLES.includes(roleInput as ClientPortalRole)
+    ? (roleInput as ClientPortalRole)
+    : "client_user";
+
   const supabase = await createClient();
 
   const { data: client } = await supabase.from("clients").select("name").eq("id", clientId).single();
@@ -442,7 +450,7 @@ export async function inviteClientPortalUser(
 
   const { data: invite, error } = await supabase
     .from("client_portal_invites")
-    .insert({ org_id: org.orgId, client_id: clientId, email, invited_by: org.userId })
+    .insert({ org_id: org.orgId, client_id: clientId, email, invited_by: org.userId, role })
     .select("token")
     .single();
 
@@ -457,6 +465,13 @@ export async function inviteClientPortalUser(
 
   revalidatePath(`/clients/${clientId}/portal`);
   return { error: null };
+}
+
+export async function updateClientPortalUserRole(clientId: string, userId: string, role: ClientPortalRole) {
+  if (!CLIENT_PORTAL_ROLES.includes(role)) return;
+  const supabase = await createClient();
+  await supabase.from("client_portal_users").update({ role }).eq("id", userId).eq("client_id", clientId);
+  revalidatePath(`/clients/${clientId}/portal`);
 }
 
 export async function revokeClientPortalUser(clientId: string, userId: string) {

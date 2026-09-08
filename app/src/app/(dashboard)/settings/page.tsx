@@ -9,6 +9,7 @@ import { BackgroundPicker } from "@/components/ui/BackgroundPicker";
 import { InvitesPanel } from "@/components/settings/InvitesPanel";
 import { SignupRequestsPanel } from "@/components/settings/SignupRequestsPanel";
 import { DocCategoriesPanel } from "@/components/settings/DocCategoriesPanel";
+import { orgRoleLabel } from "@/lib/org/roleLabels";
 
 const ADMIN_ROLES = new Set(["owner", "admin"]);
 
@@ -90,7 +91,7 @@ export default async function SettingsPage() {
           <div className="flex justify-between">
             <span className="text-muted">Your role</span>
             <Badge tone="brand" className="capitalize">
-              {org?.role}
+              {org?.role ? orgRoleLabel(org.role) : null}
             </Badge>
           </div>
           <div className="flex justify-between">
@@ -110,7 +111,7 @@ export default async function SettingsPage() {
               <li key={m.user_id} className="flex items-center justify-between px-5 py-3 text-sm">
                 <span className="font-mono text-xs text-muted">{m.user_id}</span>
                 <Badge tone="neutral" className="capitalize">
-                  {m.role}
+                  {orgRoleLabel(m.role)}
                 </Badge>
               </li>
             ))}

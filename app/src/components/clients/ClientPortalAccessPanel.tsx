@@ -10,13 +10,18 @@ import {
   inviteClientPortalUser,
   revokeClientPortalUser,
   revokeClientPortalInvite,
+  updateClientPortalUserRole,
   type ClientPortalInviteFormState,
 } from "@/app/(dashboard)/clients/actions";
+import { CLIENT_PORTAL_ROLE_LABELS, type ClientPortalRole } from "@/lib/portal/permissions";
+
+const ROLE_OPTIONS: ClientPortalRole[] = ["client_user", "client_administrator", "client_tpa"];
 
 export interface PortalUserRow {
   id: string;
   email: string | null;
   created_at: string;
+  role: ClientPortalRole;
 }
 
 export interface PortalInviteRow {
@@ -58,19 +63,37 @@ export function ClientPortalAccessPanel({
         ) : (
           <ul className="divide-y divide-border rounded-md border border-border">
             {users.map((user) => (
-              <li key={user.id} className="flex items-center justify-between px-4 py-2.5 text-sm">
+              <li key={user.id} className="flex items-center justify-between gap-3 px-4 py-2.5 text-sm">
                 <span className="text-foreground">{user.email}</span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  disabled={pending}
-                  onClick={() => {
-                    if (!confirm(`Revoke portal access for ${user.email}?`)) return;
-                    startTransition(() => revokeClientPortalUser(clientId, user.id));
-                  }}
-                >
-                  Revoke
-                </Button>
+                <div className="flex items-center gap-2">
+                  <select
+                    className="rounded-md border border-border bg-surface px-2 py-1 text-xs text-foreground"
+                    value={user.role}
+                    disabled={pending}
+                    onChange={(e) =>
+                      startTransition(() =>
+                        updateClientPortalUserRole(clientId, user.id, e.target.value as ClientPortalRole)
+                      )
+                    }
+                  >
+                    {ROLE_OPTIONS.map((role) => (
+                      <option key={role} value={role}>
+                        {CLIENT_PORTAL_ROLE_LABELS[role]}
+                      </option>
+                    ))}
+                  </select>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    disabled={pending}
+                    onClick={() => {
+                      if (!confirm(`Revoke portal access for ${user.email}?`)) return;
+                      startTransition(() => revokeClientPortalUser(clientId, user.id));
+                    }}
+                  >
+                    Revoke
+                  </Button>
+                </div>
               </li>
             ))}
           </ul>
@@ -109,6 +132,21 @@ export function ClientPortalAccessPanel({
         <div className="flex-1">
           <Label htmlFor="portal_invite_email">Invite by email</Label>
           <Input id="portal_invite_email" name="email" type="email" required placeholder="client@company.com" />
+        </div>
+        <div>
+          <Label htmlFor="portal_invite_role">Role</Label>
+          <select
+            id="portal_invite_role"
+            name="role"
+            defaultValue="client_user"
+            className="h-9 rounded-md border border-border bg-surface px-2 text-sm text-foreground"
+          >
+            {ROLE_OPTIONS.map((role) => (
+              <option key={role} value={role}>
+                {CLIENT_PORTAL_ROLE_LABELS[role]}
+              </option>
+            ))}
+          </select>
         </div>
         <SubmitButton />
       </form>

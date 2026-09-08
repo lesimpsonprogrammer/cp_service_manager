@@ -22,7 +22,7 @@ export default async function ClientPortalLayout({ children }: { children: React
     <MobileSidebarProvider>
       <div className="flex h-screen overflow-hidden bg-canvas">
         <InactivityLogout onTimeout={signOutClient} />
-        <ClientPortalSidebar clientName={clientUser.clientName} />
+        <ClientPortalSidebar clientName={clientUser.clientName} role={clientUser.role} />
         <div className="flex flex-1 flex-col overflow-hidden">
           <ClientPortalTopbar title={clientUser.clientName} userEmail={clientUser.userEmail} />
           <main className="scrollbar-thin flex-1 overflow-y-auto p-6">{children}</main>

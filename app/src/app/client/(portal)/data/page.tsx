@@ -1,5 +1,7 @@
+import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentClientPortalUser } from "@/lib/portal/getCurrentClientPortalUser";
+import { canAccessPortalScreen, firstAccessiblePortalPath } from "@/lib/portal/permissions";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { StatusBadge } from "@/components/ui/Badge";
@@ -8,6 +10,9 @@ import { EmptyState } from "@/components/ui/EmptyState";
 export default async function ClientDataPage() {
   const clientUser = await getCurrentClientPortalUser();
   if (!clientUser) return null;
+  if (!canAccessPortalScreen(clientUser.role, "data")) {
+    redirect(firstAccessiblePortalPath(clientUser.role));
+  }
 
   const supabase = await createClient();
 

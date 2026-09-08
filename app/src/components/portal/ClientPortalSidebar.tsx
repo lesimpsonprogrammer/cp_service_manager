@@ -5,17 +5,19 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
 import { LogoMark } from "@/components/ui/Logo";
 import { useMobileSidebar } from "@/components/layout/MobileSidebarContext";
+import { canAccessPortalScreen, type ClientPortalRole, type ClientPortalScreen } from "@/lib/portal/permissions";
 
-const NAV_ITEMS = [
-  { href: "/client/dashboard", label: "Projects", icon: "◱" },
-  { href: "/client/data", label: "Data & Syncs", icon: "⇄" },
-  { href: "/client/contracts", label: "Contracts", icon: "📄" },
-  { href: "/client/invoices", label: "Invoices", icon: "🧾" },
+const NAV_ITEMS: { href: string; label: string; icon: string; screen: ClientPortalScreen }[] = [
+  { href: "/client/dashboard", label: "Projects", icon: "◱", screen: "dashboard" },
+  { href: "/client/data", label: "Data & Syncs", icon: "⇄", screen: "data" },
+  { href: "/client/contracts", label: "Contracts", icon: "📄", screen: "contracts" },
+  { href: "/client/invoices", label: "Invoices", icon: "🧾", screen: "invoices" },
 ];
 
-export function ClientPortalSidebar({ clientName }: { clientName: string }) {
+export function ClientPortalSidebar({ clientName, role }: { clientName: string; role: ClientPortalRole }) {
   const pathname = usePathname();
   const { isOpen, close } = useMobileSidebar();
+  const visibleItems = NAV_ITEMS.filter((item) => canAccessPortalScreen(role, item.screen));
 
   return (
     <>
@@ -46,7 +48,7 @@ export function ClientPortalSidebar({ clientName }: { clientName: string }) {
         </div>
 
         <nav className="flex-1 space-y-0.5 overflow-y-auto p-3">
-          {NAV_ITEMS.map((item) => {
+          {visibleItems.map((item) => {
             const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (
               <Link
