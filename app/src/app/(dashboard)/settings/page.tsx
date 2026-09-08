@@ -71,11 +71,27 @@ export default async function SettingsPage() {
     .eq("org_id", org?.orgId ?? "")
     .order("name", { ascending: true });
 
+  const sections = [
+    { id: "general", label: "General" },
+    { id: "members", label: "Members" },
+    { id: "appearance", label: "Appearance" },
+    { id: "docs", label: "Doc categories" },
+    ...(isAdmin ? [{ id: "developers", label: "Developers" }] : []),
+  ];
+
   return (
     <div className="max-w-2xl space-y-4">
       <PageHeader title="Settings" description="Workspace details and membership." />
 
-      <Card>
+      <nav className="flex flex-wrap gap-x-4 gap-y-1 border-b border-border pb-3 text-sm">
+        {sections.map((s) => (
+          <a key={s.id} href={`#${s.id}`} className="text-muted hover:text-foreground">
+            {s.label}
+          </a>
+        ))}
+      </nav>
+
+      <Card id="general" className="scroll-mt-4">
         <CardHeader>
           <CardTitle>Workspace</CardTitle>
         </CardHeader>
@@ -101,7 +117,7 @@ export default async function SettingsPage() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card id="members" className="scroll-mt-4">
         <CardHeader>
           <CardTitle>Members</CardTitle>
         </CardHeader>
@@ -116,45 +132,6 @@ export default async function SettingsPage() {
               </li>
             ))}
           </ul>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Appearance</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-5 text-sm">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-foreground">Theme</p>
-              <p className="text-xs text-muted">Switch between light and dark mode.</p>
-            </div>
-            <ThemeToggle />
-          </div>
-
-          <div>
-            <p className="text-foreground">Accent color</p>
-            <p className="mb-2 text-xs text-muted">Choose the color used for buttons, links, and highlights.</p>
-            <BrandColorPicker />
-          </div>
-
-          <div>
-            <p className="text-foreground">Background</p>
-            <p className="mb-2 text-xs text-muted">Choose the base tone for the app background.</p>
-            <BackgroundPicker />
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Doc categories</CardTitle>
-          <CardDescription>
-            The categories available when writing a doc — shown as the groups in the Docs sidebar.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="p-0">
-          <DocCategoriesPanel categories={docCategories ?? []} />
         </CardContent>
       </Card>
 
@@ -184,8 +161,51 @@ export default async function SettingsPage() {
               <SignupRequestsPanel requests={signupRequests ?? []} />
             </CardContent>
           </Card>
+        </>
+      )}
 
-          <Card>
+      <Card id="appearance" className="scroll-mt-4">
+        <CardHeader>
+          <CardTitle>Appearance</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-5 text-sm">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-foreground">Theme</p>
+              <p className="text-xs text-muted">Switch between light and dark mode.</p>
+            </div>
+            <ThemeToggle />
+          </div>
+
+          <div>
+            <p className="text-foreground">Accent color</p>
+            <p className="mb-2 text-xs text-muted">Choose the color used for buttons, links, and highlights.</p>
+            <BrandColorPicker />
+          </div>
+
+          <div>
+            <p className="text-foreground">Background</p>
+            <p className="mb-2 text-xs text-muted">Choose the base tone for the app background.</p>
+            <BackgroundPicker />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card id="docs" className="scroll-mt-4">
+        <CardHeader>
+          <CardTitle>Doc categories</CardTitle>
+          <CardDescription>
+            The categories available when writing a doc — shown as the groups in the Docs sidebar.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="p-0">
+          <DocCategoriesPanel categories={docCategories ?? []} />
+        </CardContent>
+      </Card>
+
+      {isAdmin && (
+        <>
+          <Card id="developers" className="scroll-mt-4">
             <CardHeader>
               <CardTitle>Developers</CardTitle>
               <CardDescription>Quick links to where this workspace actually runs.</CardDescription>
