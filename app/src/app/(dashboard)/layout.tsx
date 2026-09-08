@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
+import { getCurrentOrg, getOrgMemberships } from "@/lib/org/getCurrentOrg";
 import { createClient } from "@/lib/supabase/server";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Topbar } from "@/components/layout/Topbar";
@@ -22,11 +22,10 @@ export default async function DashboardLayout({ children }: { children: React.Re
   }
 
   const supabase = await createClient();
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("password_updated_at")
-    .eq("id", org.userId)
-    .maybeSingle();
+  const [{ data: profile }, memberships] = await Promise.all([
+    supabase.from("profiles").select("password_updated_at").eq("id", org.userId).maybeSingle(),
+    getOrgMemberships(),
+  ]);
 
   if (profile && isPasswordExpired(profile.password_updated_at)) {
     redirect("/reset-password");
@@ -38,7 +37,13 @@ export default async function DashboardLayout({ children }: { children: React.Re
         <InactivityLogout onTimeout={signOut} />
         <Sidebar orgName={org.orgName} role={org.role} />
         <div className="flex flex-1 flex-col overflow-hidden">
-          <Topbar title={org.orgName} userEmail={org.userEmail} role={org.role} />
+          <Topbar
+            title={org.orgName}
+            userEmail={org.userEmail}
+            role={org.role}
+            orgId={org.orgId}
+            memberships={memberships}
+          />
           <main className="scrollbar-thin flex-1 overflow-y-auto p-6">{children}</main>
         </div>
       </div>

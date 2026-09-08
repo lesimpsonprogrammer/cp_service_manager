@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation";
-import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
+import { getCurrentOrg, getOrgMemberships } from "@/lib/org/getCurrentOrg";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Badge } from "@/components/ui/Badge";
+import { OrgSwitcher } from "@/components/layout/OrgSwitcher";
 import { SqlEditorConsole } from "@/components/sql-editor/SqlEditorConsole";
 import { getRecentQueryLog } from "./actions";
 
@@ -13,7 +14,7 @@ export default async function SqlEditorPage() {
     redirect("/dashboard");
   }
 
-  const recentQueries = await getRecentQueryLog();
+  const [recentQueries, memberships] = await Promise.all([getRecentQueryLog(), getOrgMemberships()]);
   const environment = process.env.VERCEL_ENV ?? process.env.NODE_ENV ?? "development";
 
   return (
@@ -23,10 +24,10 @@ export default async function SqlEditorPage() {
         description="Read-only. Run SELECT queries against your organization's own data — every table you can see here is the same data RLS already scopes to you."
         action={
           <div className="flex items-center gap-2">
-            <Badge tone="neutral" className="capitalize">
+            <Badge tone="neutral" className="whitespace-nowrap px-4 capitalize">
               env: {environment}
             </Badge>
-            <Badge tone="brand">{org.orgName}</Badge>
+            <OrgSwitcher currentOrgId={org.orgId} currentOrgName={org.orgName} memberships={memberships} />
           </div>
         }
       />
