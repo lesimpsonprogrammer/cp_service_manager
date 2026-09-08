@@ -9,6 +9,7 @@ import { BackgroundPicker } from "@/components/ui/BackgroundPicker";
 import { InvitesPanel } from "@/components/settings/InvitesPanel";
 import { SignupRequestsPanel } from "@/components/settings/SignupRequestsPanel";
 import { DocCategoriesPanel } from "@/components/settings/DocCategoriesPanel";
+import { SqlEditorScopeToggle } from "@/components/settings/SqlEditorScopeToggle";
 
 const ADMIN_ROLES = new Set(["owner", "admin"]);
 
@@ -181,6 +182,16 @@ export default async function SettingsPage() {
             </CardHeader>
             <CardContent className="p-0">
               <SignupRequestsPanel requests={signupRequests ?? []} />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>SQL Editor</CardTitle>
+              <CardDescription>Safety controls for the org-wide read-only SQL Editor.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <SqlEditorScopeToggle locked={org?.sqlEditorLockOrgScope ?? false} />
             </CardContent>
           </Card>
 

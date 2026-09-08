@@ -11,7 +11,7 @@ export interface SqlEditorResult {
   durationMs: number;
 }
 
-export async function runSqlEditorQuery(query: string): Promise<SqlEditorResult> {
+export async function runSqlEditorQuery(query: string, clientId: string | null = null): Promise<SqlEditorResult> {
   const org = await getCurrentOrg();
   if (!org || !ADMIN_ROLES.has(org.role)) {
     return { rows: null, error: "The SQL editor is limited to organization owners and admins.", durationMs: 0 };
@@ -24,7 +24,7 @@ export async function runSqlEditorQuery(query: string): Promise<SqlEditorResult>
 
   const supabase = await createClient();
   const start = Date.now();
-  const { data, error } = await supabase.rpc("run_sql_editor_query", { query: trimmed });
+  const { data, error } = await supabase.rpc("run_sql_editor_query", { query: trimmed, client_id: clientId });
   const durationMs = Date.now() - start;
 
   if (error) {
@@ -57,4 +57,23 @@ export async function getRecentQueryLog(): Promise<QueryLogEntry[]> {
     .limit(20);
 
   return (data as QueryLogEntry[] | null) ?? [];
+}
+
+export interface ScopableClient {
+  id: string;
+  name: string;
+}
+
+export async function getScopableClients(): Promise<ScopableClient[]> {
+  const org = await getCurrentOrg();
+  if (!org || !ADMIN_ROLES.has(org.role)) return [];
+
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("clients")
+    .select("id, name")
+    .eq("org_id", org.orgId)
+    .order("name", { ascending: true });
+
+  return (data as ScopableClient[] | null) ?? [];
 }

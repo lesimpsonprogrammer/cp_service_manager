@@ -150,3 +150,23 @@ export async function deleteDocCategory(categoryId: string) {
   revalidatePath("/settings");
   revalidatePath("/docs");
 }
+
+export async function setSqlEditorLockOrgScope(locked: boolean): Promise<SettingsFormState> {
+  const org = await getCurrentOrg();
+  if (!org) return { error: "Not signed in." };
+  if (!ADMIN_ROLES.has(org.role)) {
+    return { error: "Only owners and admins can change this." };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from("organizations")
+    .update({ sql_editor_lock_org_scope: locked })
+    .eq("id", org.orgId);
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/settings");
+  revalidatePath("/sql-editor");
+  return { error: null };
+}

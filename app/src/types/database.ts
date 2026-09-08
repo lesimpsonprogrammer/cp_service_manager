@@ -58,6 +58,7 @@ export interface Database {
           id: string;
           name: string;
           slug: string;
+          sql_editor_lock_org_scope: boolean;
           created_at: string;
         };
         Insert: Partial<Database["public"]["Tables"]["organizations"]["Row"]> & {

@@ -6,6 +6,7 @@ export interface CurrentOrg {
   role: string;
   userId: string;
   userEmail: string | null;
+  sqlEditorLockOrgScope: boolean;
 }
 
 /**
@@ -23,11 +24,15 @@ export async function getCurrentOrg(): Promise<CurrentOrg | null> {
 
   const { data: membership } = await supabase
     .from("org_members")
-    .select("org_id, role, organizations ( name )")
+    .select("org_id, role, organizations ( name, sql_editor_lock_org_scope )")
     .eq("user_id", user.id)
     .order("created_at", { ascending: true })
     .limit(1)
-    .maybeSingle<{ org_id: string; role: string; organizations: { name: string } | null }>();
+    .maybeSingle<{
+      org_id: string;
+      role: string;
+      organizations: { name: string; sql_editor_lock_org_scope: boolean } | null;
+    }>();
 
   if (!membership) return null;
 
@@ -37,5 +42,6 @@ export async function getCurrentOrg(): Promise<CurrentOrg | null> {
     role: membership.role,
     userId: user.id,
     userEmail: user.email ?? null,
+    sqlEditorLockOrgScope: membership.organizations?.sql_editor_lock_org_scope ?? false,
   };
 }

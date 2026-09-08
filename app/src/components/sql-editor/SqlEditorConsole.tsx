@@ -45,7 +45,15 @@ function downloadCsv(rows: Record<string, unknown>[]) {
   URL.revokeObjectURL(url);
 }
 
-export function SqlEditorConsole({ recentQueries }: { recentQueries: QueryLogEntry[] }) {
+export function SqlEditorConsole({
+  recentQueries,
+  clientId = null,
+  clientName = null,
+}: {
+  recentQueries: QueryLogEntry[];
+  clientId?: string | null;
+  clientName?: string | null;
+}) {
   const [query, setQuery] = useState("select * from clients limit 25");
   const [rows, setRows] = useState<Record<string, unknown>[] | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -58,7 +66,7 @@ export function SqlEditorConsole({ recentQueries }: { recentQueries: QueryLogEnt
   function run(q: string) {
     setQuery(q);
     startTransition(async () => {
-      const result = await runSqlEditorQuery(q);
+      const result = await runSqlEditorQuery(q, clientId);
       setRows(result.rows);
       setError(result.error);
       setDurationMs(result.durationMs);
@@ -98,6 +106,9 @@ export function SqlEditorConsole({ recentQueries }: { recentQueries: QueryLogEnt
             <p className="mt-2 text-xs text-warning">
               No LIMIT in this query — results are capped at {ROW_LIMIT} rows automatically.
             </p>
+          )}
+          {clientName && (
+            <p className="mt-2 text-xs text-brand">Scoped to client: {clientName}</p>
           )}
         </CardContent>
         <CardFooter>
