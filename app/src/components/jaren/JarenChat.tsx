@@ -86,9 +86,9 @@ export function JarenChat() {
   }
 
   return (
-    <div className="relative flex h-[70vh] gap-4 overflow-hidden rounded-card">
+    <div className="relative flex h-[70vh] gap-4 overflow-hidden rounded-card border border-border-strong">
       <JarenVortexBackground />
-      <aside className="relative z-10 flex w-56 shrink-0 flex-col border-r border-border pr-3">
+      <aside className="relative z-10 flex w-56 shrink-0 flex-col border-r border-border-strong pr-3">
         <Button size="sm" variant="secondary" onClick={startNewChat} className="mb-3">
           + New chat
         </Button>
