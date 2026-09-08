@@ -5,10 +5,15 @@
 --   client_administrator  - full portal access (adds Contracts, Invoices)
 --   client_tpa            - third-party accountant (Contracts, Invoices only)
 
-create type client_portal_role as enum ('client_user', 'client_administrator', 'client_tpa');
+do $$
+begin
+  if not exists (select 1 from pg_type where typname = 'client_portal_role') then
+    create type client_portal_role as enum ('client_user', 'client_administrator', 'client_tpa');
+  end if;
+end $$;
 
-alter table client_portal_invites add column role client_portal_role not null default 'client_user';
-alter table client_portal_users add column role client_portal_role not null default 'client_user';
+alter table client_portal_invites add column if not exists role client_portal_role not null default 'client_user';
+alter table client_portal_users add column if not exists role client_portal_role not null default 'client_user';
 
 -- ---------------------------------------------------------------------------
 -- handle_new_user: carry the invited role from client_portal_invites onto
