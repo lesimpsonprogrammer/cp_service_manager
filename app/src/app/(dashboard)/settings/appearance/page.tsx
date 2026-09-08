@@ -1,8 +1,9 @@
 import { PageHeader } from "@/components/ui/PageHeader";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/Card";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { BrandColorPicker } from "@/components/ui/BrandColorPicker";
 import { BackgroundPicker } from "@/components/ui/BackgroundPicker";
+import { JarenBackgroundSettings } from "@/components/settings/JarenBackgroundSettings";
 
 export default function AppearanceSettingsPage() {
   return (
@@ -33,6 +34,16 @@ export default function AppearanceSettingsPage() {
             <p className="mb-2 text-xs text-muted">Choose the base tone for the app background.</p>
             <BackgroundPicker />
           </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Jaren</CardTitle>
+          <CardDescription>Chat background for the Jaren assistant.</CardDescription>
+        </CardHeader>
+        <CardContent className="text-sm">
+          <JarenBackgroundSettings />
         </CardContent>
       </Card>
     </div>

@@ -2,6 +2,7 @@
 
 import Script from "next/script";
 import { useEffect, useState } from "react";
+import { readJarenVortexSettings, JAREN_VORTEX_DEFAULTS } from "@/lib/jaren/vortexSettings";
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace -- required shape for JSX intrinsic augmentation
@@ -23,22 +24,30 @@ declare global {
  */
 export function JarenVortexBackground({ className = "" }: { className?: string }) {
   const [theme, setTheme] = useState<"dark" | "light">("light");
+  const [settings, setSettings] = useState(JAREN_VORTEX_DEFAULTS);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const root = document.documentElement;
-    const sync = () => setTheme(root.classList.contains("dark") ? "dark" : "light");
+    const sync = () => {
+      setTheme(root.classList.contains("dark") ? "dark" : "light");
+      setSettings(readJarenVortexSettings());
+      setMounted(true);
+    };
     sync();
     const observer = new MutationObserver(sync);
     observer.observe(root, { attributes: true, attributeFilter: ["class"] });
     return () => observer.disconnect();
   }, []);
 
+  if (!mounted || !settings.enabled) return null;
+
   return (
     <>
       <Script src="/jaren-vortex.js" strategy="afterInteractive" />
       <jaren-vortex
         theme={theme}
-        opacity="0.55"
+        opacity={String(settings.opacity)}
         transparent=""
         aria-hidden="true"
         className={`pointer-events-none absolute inset-0 ${className}`}
