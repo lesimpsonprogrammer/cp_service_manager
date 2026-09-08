@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
 import { runPipeline, undoPipelineRun, type PipelineRunResult, type UndoRunResult } from "@/lib/etl/engine";
+import { getConnectorAdapter, type ExtractedRecord } from "@/lib/connectors";
+import { suggestMapping, type SuggestMappingResult } from "@/lib/etl/suggestMapping";
 
 // maxDuration for the Server Actions in this file is set as route segment
 // config on pipelines/[id]/page.tsx, not here — a "use server" file can only
@@ -188,4 +190,68 @@ export async function togglePipelineActive(pipelineId: string, isActive: boolean
   await supabase.from("pipelines").update({ is_active: isActive }).eq("id", pipelineId);
   revalidatePath(`/pipelines/${pipelineId}`);
   revalidatePath("/pipelines");
+}
+
+export interface SuggestMappingState {
+  error: string | null;
+  result: SuggestMappingResult | null;
+}
+
+/**
+ * Pulls a small sample from the source (and destination, if picked) via
+ * their connector adapters and scores candidate field mappings from it —
+ * lexical name similarity plus value-shape profiling, no external calls.
+ * Config/credentials never leave the server; only field names, inferred
+ * types, and a few sample values are returned to the client.
+ */
+export async function suggestPipelineMapping(
+  sourceId: string,
+  destinationId: string | null
+): Promise<SuggestMappingState> {
+  if (!sourceId) return { error: "Choose a source first.", result: null };
+
+  const supabase = await createClient();
+
+  const { data: source, error: sourceError } = await supabase
+    .from("data_sources")
+    .select("type, config")
+    .eq("id", sourceId)
+    .single();
+  if (sourceError || !source) return { error: "Source data source not found.", result: null };
+
+  const sourceAdapter = getConnectorAdapter(source.type);
+  if (!sourceAdapter) return { error: `No connector adapter for source type "${source.type}".`, result: null };
+
+  let sourceRecords;
+  try {
+    sourceRecords = (await sourceAdapter.extract(source.config ?? {})).records;
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Couldn't sample the source.", result: null };
+  }
+
+  let destinationRecords: ExtractedRecord[] | null = null;
+  if (destinationId) {
+    const { data: destination } = await supabase
+      .from("data_sources")
+      .select("type, config")
+      .eq("id", destinationId)
+      .single();
+
+    const destinationAdapter = destination ? getConnectorAdapter(destination.type) : null;
+    if (destination && destinationAdapter) {
+      try {
+        destinationRecords = (await destinationAdapter.extract(destination.config ?? {})).records;
+      } catch {
+        // A destination that can't be sampled (write-only, unreachable for a
+        // read) just falls back to name-cleanup suggestions — not a hard error.
+        destinationRecords = null;
+      }
+    }
+  }
+
+  if (sourceRecords.length === 0) {
+    return { error: "The source returned no sample records to profile.", result: null };
+  }
+
+  return { error: null, result: suggestMapping(sourceRecords, destinationRecords) };
 }
