@@ -25,6 +25,7 @@ async function getMemberships(userId: string): Promise<MembershipRow[]> {
     .from("org_members")
     .select("org_id, role, organizations ( name )")
     .eq("user_id", userId)
+    .eq("status", "active")
     .order("created_at", { ascending: true })
     .returns<MembershipRow[]>();
 

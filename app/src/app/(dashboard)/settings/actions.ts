@@ -12,6 +12,63 @@ export interface SettingsFormState {
 const ADMIN_ROLES = new Set(["owner", "admin"]);
 const VALID_ROLES = new Set<OrgRole>(["owner", "admin", "member", "viewer"]);
 
+type MemberStatus = "active" | "suspended" | "removed";
+
+async function setMemberStatus(userId: string, status: MemberStatus): Promise<SettingsFormState> {
+  const org = await getCurrentOrg();
+  if (!org) return { error: "Not signed in." };
+  if (!ADMIN_ROLES.has(org.role)) return { error: "Only owners and admins can change member status." };
+  if (userId === org.userId) return { error: "You can't change your own status." };
+
+  const supabase = await createClient();
+
+  const { data: target } = await supabase
+    .from("org_members")
+    .select("role")
+    .eq("org_id", org.orgId)
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (!target) return { error: "That person isn't a member of this workspace." };
+
+  if (target.role === "owner" && status !== "active") {
+    const { count } = await supabase
+      .from("org_members")
+      .select("user_id", { count: "exact", head: true })
+      .eq("org_id", org.orgId)
+      .eq("role", "owner")
+      .eq("status", "active");
+
+    if ((count ?? 0) <= 1) return { error: "Can't change the last active owner's status." };
+  }
+
+  const { error } = await supabase
+    .from("org_members")
+    .update({ status, status_changed_at: new Date().toISOString(), status_changed_by: org.userId })
+    .eq("org_id", org.orgId)
+    .eq("user_id", userId);
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/settings/team");
+  return { error: null };
+}
+
+/** Soft-removes a member into the recycle bin -- revokes access immediately, restorable later. */
+export async function removeMember(userId: string): Promise<SettingsFormState> {
+  return setMemberStatus(userId, "removed");
+}
+
+/** Temporarily blocks access without removing the membership. */
+export async function suspendMember(userId: string): Promise<SettingsFormState> {
+  return setMemberStatus(userId, "suspended");
+}
+
+/** Restores a suspended or removed member back to active. */
+export async function restoreMember(userId: string): Promise<SettingsFormState> {
+  return setMemberStatus(userId, "active");
+}
+
 export async function createInvite(
   _prev: SettingsFormState,
   formData: FormData

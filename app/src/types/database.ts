@@ -3,6 +3,7 @@
 // to a live Supabase project, and this file becomes redundant.
 
 export type OrgRole = "owner" | "admin" | "member" | "viewer" | "sys_admin";
+export type OrgMemberStatus = "active" | "suspended" | "removed";
 
 export type DataSourceType =
   | "spreadsheet"
@@ -87,6 +88,9 @@ export interface Database {
           org_id: string;
           user_id: string;
           role: OrgRole;
+          status: OrgMemberStatus;
+          status_changed_at: string | null;
+          status_changed_by: string | null;
           created_at: string;
         };
         Insert: Partial<Database["public"]["Tables"]["org_members"]["Row"]> & {

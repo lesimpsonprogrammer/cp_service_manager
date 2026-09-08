@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/Badge";
 import { InvitesPanel } from "@/components/settings/InvitesPanel";
 import { SignupRequestsPanel } from "@/components/settings/SignupRequestsPanel";
+import { MembersPanel } from "@/components/settings/MembersPanel";
 import { orgRoleLabel } from "@/lib/org/roleLabels";
 
 const ADMIN_ROLES = new Set(["owner", "admin"]);
@@ -16,7 +17,7 @@ export default async function TeamSettingsPage() {
 
   const { data: members } = await supabase
     .from("org_members")
-    .select("user_id, role, created_at")
+    .select("user_id, role, status, created_at")
     .eq("org_id", org?.orgId ?? "");
 
   const { data: profile } = org
@@ -73,18 +74,10 @@ export default async function TeamSettingsPage() {
       <Card>
         <CardHeader>
           <CardTitle>Members</CardTitle>
+          <CardDescription>Suspend or remove access; removed and suspended people land in the recycle bin below, restorable anytime.</CardDescription>
         </CardHeader>
         <CardContent className="p-0">
-          <ul className="divide-y divide-border">
-            {(members ?? []).map((m) => (
-              <li key={m.user_id} className="flex items-center justify-between px-5 py-3 text-sm">
-                <span className="font-mono text-xs text-muted">{m.user_id}</span>
-                <Badge tone="neutral" className="capitalize">
-                  {orgRoleLabel(m.role)}
-                </Badge>
-              </li>
-            ))}
-          </ul>
+          <MembersPanel members={members ?? []} currentUserId={org?.userId ?? ""} isAdmin={isAdmin} />
         </CardContent>
       </Card>
 
