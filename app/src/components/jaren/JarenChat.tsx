@@ -5,6 +5,7 @@ import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { Button } from "@/components/ui/Button";
 import { renderChatMarkdown } from "@/lib/jaren/markdown";
+import { JarenVortexBackground } from "@/components/jaren/JarenVortexBackground";
 
 type ConversationSummary = {
   id: string;
@@ -85,8 +86,9 @@ export function JarenChat() {
   }
 
   return (
-    <div className="flex h-[70vh] gap-4">
-      <aside className="flex w-56 shrink-0 flex-col border-r border-border pr-3">
+    <div className="relative flex h-[70vh] gap-4 overflow-hidden rounded-card">
+      <JarenVortexBackground />
+      <aside className="relative z-10 flex w-56 shrink-0 flex-col border-r border-border pr-3">
         <Button size="sm" variant="secondary" onClick={startNewChat} className="mb-3">
           + New chat
         </Button>
@@ -132,7 +134,7 @@ export function JarenChat() {
           ))}
         </div>
       </aside>
-      <div className="min-w-0 flex-1">
+      <div className="relative z-10 min-w-0 flex-1">
         {loadingConversation ? (
           <div className="flex h-full items-center justify-center text-sm text-muted">Loading…</div>
         ) : (
@@ -232,6 +234,9 @@ function JarenConversationPane({
     }
 
     sendMessage({ text });
+    // Signal the vortex background to pull its scattered particles back into
+    // formation — the "Jaren enters" moment described alongside the design.
+    window.dispatchEvent(new Event("jaren-enters"));
   }
 
   return (
