@@ -28,6 +28,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/webhooks", label: "Webhooks", icon: "⇢" },
   { href: "/api-keys", label: "API Keys", icon: "⚿" },
   { href: "/sql-editor", label: "SQL Editor", icon: "🛢", adminOnly: true },
+  { href: "/status", label: "System Status", icon: "🛰", adminOnly: true },
   { href: "/settings", label: "Settings", icon: "⚙" },
 ];
 
