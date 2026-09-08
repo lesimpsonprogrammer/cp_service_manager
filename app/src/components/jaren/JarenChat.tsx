@@ -31,6 +31,14 @@ function describeConnectionError(error: Error): string {
   return message || "Jaren hit an error. Try again in a moment.";
 }
 
+type HealthResult = {
+  overall: string;
+  credential: string;
+  model: string;
+  modelStatus: string;
+  message: string;
+};
+
 function relativeTime(iso: string) {
   const diffMs = Date.now() - new Date(iso).getTime();
   const minutes = Math.round(diffMs / 60_000);
@@ -51,6 +59,22 @@ export function JarenChat() {
   // user explicitly switches or starts a chat, never when a pane in
   // progress self-assigns a conversation id after its first message.
   const [paneKey, setPaneKey] = useState(0);
+  const [health, setHealth] = useState<HealthResult | { error: string } | null>(null);
+  const [checkingHealth, setCheckingHealth] = useState(false);
+
+  async function runHealthCheck() {
+    setCheckingHealth(true);
+    setHealth(null);
+    try {
+      const res = await fetch("/api/jaren/health", { method: "POST" });
+      const data = await res.json();
+      setHealth(res.ok ? (data as HealthResult) : { error: data.error ?? `Request failed (${res.status}).` });
+    } catch {
+      setHealth({ error: "Could not reach the health check endpoint." });
+    } finally {
+      setCheckingHealth(false);
+    }
+  }
 
   const loadConversations = useCallback(async (status: "active" | "archived") => {
     const res = await fetch(`/api/jaren/conversations?status=${status}`);
@@ -99,9 +123,37 @@ export function JarenChat() {
     <div className="relative flex h-[70vh] gap-4 overflow-hidden rounded-card">
       <JarenVortexBackground />
       <aside className="relative z-10 flex w-56 shrink-0 flex-col border-r border-border pr-3">
-        <Button size="sm" variant="secondary" onClick={startNewChat} className="mb-3">
+        <Button size="sm" variant="secondary" onClick={startNewChat} className="mb-2">
           + New chat
         </Button>
+        <button
+          onClick={runHealthCheck}
+          disabled={checkingHealth}
+          className="mb-3 rounded-md px-2 py-1 text-left text-xs text-muted hover:bg-surface-2 hover:text-foreground disabled:opacity-50"
+        >
+          {checkingHealth ? "Checking…" : "Run health check"}
+        </button>
+        {health && (
+          <div
+            className={`mb-3 rounded-md border px-2 py-2 text-xs ${
+              "error" in health || health.overall !== "ready"
+                ? "border-red-200 bg-red-50 text-red-700"
+                : "border-green-200 bg-green-50 text-green-700"
+            }`}
+          >
+            {"error" in health ? (
+              health.error
+            ) : (
+              <>
+                <div>
+                  <b>{health.overall}</b> · credential: {health.credential} · model: {health.model} (
+                  {health.modelStatus})
+                </div>
+                <div className="mt-1">{health.message}</div>
+              </>
+            )}
+          </div>
+        )}
         <div className="mb-2 flex gap-1 text-xs">
           <button
             onClick={() => setTab("active")}
