@@ -1,8 +1,9 @@
 import { authorize, checkMutationOrigin, readBoundedJson } from "@/lib/jaren/access-policy";
 import { requireCpsmSession } from "@/lib/jaren/session";
 import { createAgentUIStreamResponse } from "ai";
+import { createClient } from "@/lib/supabase/server";
 
-import { jarenAgent } from "@/lib/jaren/agent";
+import { createJarenAgent, type EssentialSkill, type EnhancedSkill } from "@/lib/jaren/agent";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -65,8 +66,20 @@ export async function POST(request: Request) {
     return Response.json({ error: "A messages array is required." }, { status: 400 });
   }
 
+  const supabase = await createClient();
+  const { data: agentSettings } = await supabase
+    .from("jaren_agent_settings")
+    .select("essential_skills, enhanced_skills")
+    .eq("org_id", access.tenantId)
+    .maybeSingle();
+
+  const agent = createJarenAgent(
+    agentSettings?.essential_skills as EssentialSkill[] | undefined,
+    agentSettings?.enhanced_skills as EnhancedSkill[] | undefined,
+  );
+
   return createAgentUIStreamResponse({
-    agent: jarenAgent,
+    agent,
     uiMessages: body.messages,
     abortSignal: request.signal,
     timeout: { totalMs: 55_000 },

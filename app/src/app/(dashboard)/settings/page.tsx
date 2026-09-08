@@ -9,29 +9,21 @@ import { BackgroundPicker } from "@/components/ui/BackgroundPicker";
 import { InvitesPanel } from "@/components/settings/InvitesPanel";
 import { SignupRequestsPanel } from "@/components/settings/SignupRequestsPanel";
 import { DocCategoriesPanel } from "@/components/settings/DocCategoriesPanel";
+import { JarenSkillsForm, JarenSkillsReadOnly } from "@/components/settings/JarenSkillsForm";
+import { JarenBackgroundControls } from "@/components/jaren/JarenBackgroundControls";
 import { orgRoleLabel } from "@/lib/org/roleLabels";
+import { ESSENTIAL_SKILL_LABELS, ENHANCED_SKILL_LABELS, type EssentialSkill, type EnhancedSkill } from "@/lib/jaren/agent";
 
 const ADMIN_ROLES = new Set(["owner", "admin"]);
 
-const JAREN_ESSENTIAL_SKILLS = [
-  "Data extraction",
-  "Data modeling",
-  "Data automation",
-  "Design aesthetics",
-  "Excel workbooks",
-  "SQL",
-];
-
-const JAREN_ENHANCED_SKILLS = [
-  "Coding",
-  "Field mapping",
-  "Business operations",
-  "Application design",
-  "Analytics",
-  "Data innovation",
-  "Technology innovation",
-  "Tool engineering",
-];
+const ESSENTIAL_OPTIONS = (Object.entries(ESSENTIAL_SKILL_LABELS) as [EssentialSkill, string][]).map(
+  ([value, label]) => ({ value, label })
+);
+const ENHANCED_OPTIONS = (Object.entries(ENHANCED_SKILL_LABELS) as [EnhancedSkill, string][]).map(
+  ([value, label]) => ({ value, label })
+);
+const DEFAULT_ESSENTIAL = ESSENTIAL_OPTIONS.map((o) => o.value);
+const DEFAULT_ENHANCED = ENHANCED_OPTIONS.map((o) => o.value);
 
 export default async function SettingsPage() {
   const org = await getCurrentOrg();
@@ -69,6 +61,17 @@ export default async function SettingsPage() {
     .select("id, name")
     .eq("org_id", org?.orgId ?? "")
     .order("name", { ascending: true });
+
+  const { data: jarenSettings } = org
+    ? await supabase
+        .from("jaren_agent_settings")
+        .select("essential_skills, enhanced_skills")
+        .eq("org_id", org.orgId)
+        .maybeSingle()
+    : { data: null };
+
+  const activeEssential = jarenSettings?.essential_skills ?? DEFAULT_ESSENTIAL;
+  const activeEnhanced = jarenSettings?.enhanced_skills ?? DEFAULT_ENHANCED;
 
   const sections = [
     { id: "people", label: "People" },
@@ -207,29 +210,29 @@ export default async function SettingsPage() {
         <CardHeader>
           <CardTitle>Jaren Agentic Settings</CardTitle>
           <CardDescription>
-            Jaren CP&apos;s configured duties. These are set in code today — nothing here is editable yet.
+            Which duties Jaren CP leads with. His identity and security rules stay fixed — only the duty tags
+            here change what he's told to prioritize.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4 text-sm">
-          <div>
-            <p className="mb-2 text-foreground">Essential duties</p>
-            <div className="flex flex-wrap gap-1.5">
-              {JAREN_ESSENTIAL_SKILLS.map((skill) => (
-                <Badge key={skill} tone="brand">
-                  {skill}
-                </Badge>
-              ))}
-            </div>
-          </div>
-          <div>
-            <p className="mb-2 text-foreground">Enhanced duties</p>
-            <div className="flex flex-wrap gap-1.5">
-              {JAREN_ENHANCED_SKILLS.map((skill) => (
-                <Badge key={skill} tone="neutral">
-                  {skill}
-                </Badge>
-              ))}
-            </div>
+        <CardContent className="space-y-6 text-sm">
+          {isAdmin ? (
+            <JarenSkillsForm
+              essentialOptions={ESSENTIAL_OPTIONS}
+              enhancedOptions={ENHANCED_OPTIONS}
+              activeEssential={activeEssential}
+              activeEnhanced={activeEnhanced}
+            />
+          ) : (
+            <JarenSkillsReadOnly
+              essentialOptions={ESSENTIAL_OPTIONS}
+              enhancedOptions={ENHANCED_OPTIONS}
+              activeEssential={activeEssential}
+              activeEnhanced={activeEnhanced}
+            />
+          )}
+
+          <div className="border-t border-border pt-4">
+            <JarenBackgroundControls />
           </div>
         </CardContent>
       </Card>

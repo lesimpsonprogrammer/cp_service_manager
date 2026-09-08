@@ -973,6 +973,20 @@ export interface Database {
           }
         ];
       };
+      jaren_agent_settings: {
+        Row: {
+          org_id: string;
+          essential_skills: string[];
+          enhanced_skills: string[];
+          updated_by: string | null;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["jaren_agent_settings"]["Row"]> & {
+          org_id: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["jaren_agent_settings"]["Row"]>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: {

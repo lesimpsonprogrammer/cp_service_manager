@@ -2,6 +2,7 @@
 
 import Script from "next/script";
 import { useEffect, useState } from "react";
+import { readJarenVortexSettings, type JarenVortexSettings } from "@/components/jaren/JarenBackgroundControls";
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace -- required shape for JSX intrinsic augmentation
@@ -10,6 +11,8 @@ declare global {
       "jaren-vortex": React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         theme?: "dark" | "light";
         opacity?: string;
+        speed?: string;
+        density?: string;
         transparent?: string;
       };
     }
@@ -23,6 +26,7 @@ declare global {
  */
 export function JarenVortexBackground({ className = "" }: { className?: string }) {
   const [theme, setTheme] = useState<"dark" | "light">("light");
+  const [settings, setSettings] = useState<JarenVortexSettings>(readJarenVortexSettings);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -33,12 +37,22 @@ export function JarenVortexBackground({ className = "" }: { className?: string }
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const onSettingsChange = (e: Event) => setSettings((e as CustomEvent<JarenVortexSettings>).detail);
+    window.addEventListener("jaren-vortex-settings", onSettingsChange);
+    return () => window.removeEventListener("jaren-vortex-settings", onSettingsChange);
+  }, []);
+
+  if (!settings.enabled) return null;
+
   return (
     <>
       <Script src="/jaren-vortex.js" strategy="afterInteractive" />
       <jaren-vortex
         theme={theme}
-        opacity="0.55"
+        opacity={String(settings.opacity)}
+        speed={String(settings.speed)}
+        density={String(settings.density)}
         transparent=""
         aria-hidden="true"
         className={`pointer-events-none absolute inset-0 ${className}`}
