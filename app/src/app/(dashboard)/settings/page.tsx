@@ -28,6 +28,13 @@ const SETTINGS_SECTIONS = [
     adminOnly: false,
   },
   {
+    href: "/settings/archive",
+    name: "Data retention & archive",
+    description: "Removed data is archived, not deleted -- retention windows and archived records.",
+    icon: "🗄",
+    adminOnly: true,
+  },
+  {
     href: "/settings/developers",
     name: "Developers",
     description: "Quick links to where this workspace actually runs.",

@@ -108,6 +108,60 @@ export interface Database {
           }
         ];
       };
+      retention_policies: {
+        Row: {
+          org_id: string;
+          category: string;
+          retention_years: number;
+          updated_at: string;
+          updated_by: string | null;
+        };
+        Insert: Partial<Database["public"]["Tables"]["retention_policies"]["Row"]> & {
+          org_id: string;
+          category: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["retention_policies"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "retention_policies_org_id_fkey";
+            columns: ["org_id"];
+            isOneToOne: false;
+            referencedRelation: "organizations";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      archived_records: {
+        Row: {
+          id: string;
+          org_id: string;
+          category: string;
+          source_id: string;
+          data: Record<string, unknown>;
+          removed_at: string;
+          archived_at: string;
+          archived_by: string | null;
+          batch_label: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["archived_records"]["Row"]> & {
+          org_id: string;
+          category: string;
+          source_id: string;
+          data: Record<string, unknown>;
+          removed_at: string;
+          batch_label: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["archived_records"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "archived_records_org_id_fkey";
+            columns: ["org_id"];
+            isOneToOne: false;
+            referencedRelation: "organizations";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       data_sources: {
         Row: {
           id: string;
