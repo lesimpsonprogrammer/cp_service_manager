@@ -13,25 +13,24 @@ import { orgRoleLabel } from "@/lib/org/roleLabels";
 
 const ADMIN_ROLES = new Set(["owner", "admin"]);
 
-const DEVELOPER_LINKS = [
-  {
-    name: "GitHub",
-    description: "Source repo, PRs, and CI",
-    href: "https://github.com/lesimpsonprogrammer/cp_service_manager",
-    icon: "🐙",
-  },
-  {
-    name: "Supabase",
-    description: "Database, auth, and storage",
-    href: "https://supabase.com/dashboard/project/ucuejofewehpuxcwvubu",
-    icon: "⚡",
-  },
-  {
-    name: "Railway",
-    description: "cpsm-blog service",
-    href: "https://railway.com/project/7a7b0872-e9fc-4373-8870-79a6945226b7",
-    icon: "🚆",
-  },
+const JAREN_ESSENTIAL_SKILLS = [
+  "Data extraction",
+  "Data modeling",
+  "Data automation",
+  "Design aesthetics",
+  "Excel workbooks",
+  "SQL",
+];
+
+const JAREN_ENHANCED_SKILLS = [
+  "Coding",
+  "Field mapping",
+  "Business operations",
+  "Application design",
+  "Analytics",
+  "Data innovation",
+  "Technology innovation",
+  "Tool engineering",
 ];
 
 export default async function SettingsPage() {
@@ -72,11 +71,11 @@ export default async function SettingsPage() {
     .order("name", { ascending: true });
 
   const sections = [
-    { id: "general", label: "General" },
-    { id: "members", label: "Members" },
-    { id: "appearance", label: "Appearance" },
-    { id: "docs", label: "Doc categories" },
-    ...(isAdmin ? [{ id: "developers", label: "Developers" }] : []),
+    { id: "people", label: "People" },
+    ...(isAdmin ? [{ id: "access", label: "Access Permissions" }] : []),
+    { id: "appearance", label: "App Appearance" },
+    { id: "docs", label: "Doc" },
+    { id: "jaren", label: "Jaren Agentic Settings" },
   ];
 
   return (
@@ -91,9 +90,10 @@ export default async function SettingsPage() {
         ))}
       </nav>
 
-      <Card id="general" className="scroll-mt-4">
+      <Card id="people" className="scroll-mt-4">
         <CardHeader>
-          <CardTitle>Workspace</CardTitle>
+          <CardTitle>People</CardTitle>
+          <CardDescription>Workspace details and who's in this workspace.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-2 text-sm">
           <div className="flex justify-between">
@@ -117,7 +117,7 @@ export default async function SettingsPage() {
         </CardContent>
       </Card>
 
-      <Card id="members" className="scroll-mt-4">
+      <Card>
         <CardHeader>
           <CardTitle>Members</CardTitle>
         </CardHeader>
@@ -136,7 +136,7 @@ export default async function SettingsPage() {
       </Card>
 
       {isAdmin && (
-        <>
+        <div id="access" className="scroll-mt-4 space-y-4">
           <Card>
             <CardHeader>
               <CardTitle>Invite people</CardTitle>
@@ -161,12 +161,12 @@ export default async function SettingsPage() {
               <SignupRequestsPanel requests={signupRequests ?? []} />
             </CardContent>
           </Card>
-        </>
+        </div>
       )}
 
       <Card id="appearance" className="scroll-mt-4">
         <CardHeader>
-          <CardTitle>Appearance</CardTitle>
+          <CardTitle>App Appearance</CardTitle>
         </CardHeader>
         <CardContent className="space-y-5 text-sm">
           <div className="flex items-center justify-between">
@@ -203,39 +203,36 @@ export default async function SettingsPage() {
         </CardContent>
       </Card>
 
-      {isAdmin && (
-        <>
-          <Card id="developers" className="scroll-mt-4">
-            <CardHeader>
-              <CardTitle>Developers</CardTitle>
-              <CardDescription>Quick links to where this workspace actually runs.</CardDescription>
-            </CardHeader>
-            <CardContent className="p-0">
-              <ul className="divide-y divide-border">
-                {DEVELOPER_LINKS.map((link) => (
-                  <li key={link.name}>
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex items-center justify-between px-5 py-3 text-sm hover:bg-surface-2"
-                    >
-                      <span className="flex items-center gap-2.5">
-                        <span className="w-4 text-center text-xs" aria-hidden="true">
-                          {link.icon}
-                        </span>
-                        <span className="text-foreground">{link.name}</span>
-                        <span className="text-xs text-muted">{link.description}</span>
-                      </span>
-                      <span className="text-muted">↗</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        </>
-      )}
+      <Card id="jaren" className="scroll-mt-4">
+        <CardHeader>
+          <CardTitle>Jaren Agentic Settings</CardTitle>
+          <CardDescription>
+            Jaren CP&apos;s configured duties. These are set in code today — nothing here is editable yet.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4 text-sm">
+          <div>
+            <p className="mb-2 text-foreground">Essential duties</p>
+            <div className="flex flex-wrap gap-1.5">
+              {JAREN_ESSENTIAL_SKILLS.map((skill) => (
+                <Badge key={skill} tone="brand">
+                  {skill}
+                </Badge>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="mb-2 text-foreground">Enhanced duties</p>
+            <div className="flex flex-wrap gap-1.5">
+              {JAREN_ENHANCED_SKILLS.map((skill) => (
+                <Badge key={skill} tone="neutral">
+                  {skill}
+                </Badge>
+              ))}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

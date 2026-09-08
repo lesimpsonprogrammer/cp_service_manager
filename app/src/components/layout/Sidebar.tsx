@@ -33,6 +33,12 @@ const NAV_ITEMS: NavItem[] = [
 
 const ADMIN_ROLES = new Set(["owner", "admin"]);
 
+const DEVELOPER_LINKS = [
+  { name: "GitHub", href: "https://github.com/lesimpsonprogrammer/cp_service_manager", icon: "🐙" },
+  { name: "Supabase", href: "https://supabase.com/dashboard/project/ucuejofewehpuxcwvubu", icon: "⚡" },
+  { name: "Railway", href: "https://railway.com/project/7a7b0872-e9fc-4373-8870-79a6945226b7", icon: "🚆" },
+];
+
 export function Sidebar({ orgName, role }: { orgName: string; role: string }) {
   const pathname = usePathname();
   const { isOpen, close } = useMobileSidebar();
@@ -90,6 +96,23 @@ export function Sidebar({ orgName, role }: { orgName: string; role: string }) {
         </nav>
 
         <div className="border-t border-border p-3 text-xs text-muted">
+          {isAdmin && (
+            <div className="mb-2 flex items-center gap-2.5">
+              {DEVELOPER_LINKS.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  title={link.name}
+                  aria-label={link.name}
+                  className="hover:text-foreground"
+                >
+                  <span aria-hidden="true">{link.icon}</span>
+                </a>
+              ))}
+            </div>
+          )}
           <a
             href="https://momentumdatasolutions.com"
             className="hover:text-foreground"
