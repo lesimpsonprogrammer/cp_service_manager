@@ -35,7 +35,7 @@ export async function createInvite(
 
   if (error) return { error: error.message };
 
-  revalidatePath("/settings");
+  revalidatePath("/settings/team");
   return { error: null };
 }
 
@@ -46,7 +46,7 @@ export async function revokeInvite(inviteId: string) {
   const supabase = await createClient();
   await supabase.from("org_invites").delete().eq("id", inviteId).is("accepted_at", null);
 
-  revalidatePath("/settings");
+  revalidatePath("/settings/team");
 }
 
 export async function approveSignupRequest(
@@ -92,7 +92,7 @@ export async function approveSignupRequest(
 
   if (error) return { error: error.message };
 
-  revalidatePath("/settings");
+  revalidatePath("/settings/team");
   return { error: null };
 }
 
@@ -111,7 +111,7 @@ export async function rejectSignupRequest(requestId: string) {
     .eq("id", requestId)
     .eq("status", "pending");
 
-  revalidatePath("/settings");
+  revalidatePath("/settings/team");
 }
 
 export async function createDocCategory(
@@ -135,7 +135,7 @@ export async function createDocCategory(
     return { error: error.code === "23505" ? "That category already exists." : error.message };
   }
 
-  revalidatePath("/settings");
+  revalidatePath("/settings/docs");
   revalidatePath("/docs");
   return { error: null };
 }
@@ -147,6 +147,6 @@ export async function deleteDocCategory(categoryId: string) {
   const supabase = await createClient();
   await supabase.from("doc_categories").delete().eq("id", categoryId);
 
-  revalidatePath("/settings");
+  revalidatePath("/settings/docs");
   revalidatePath("/docs");
 }

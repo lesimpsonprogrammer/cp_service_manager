@@ -54,7 +54,7 @@ export function DocForm({
             ))}
           </Select>
           <p className="mt-1 text-xs text-muted">
-            <Link href="/settings" className="text-brand hover:underline">
+            <Link href="/settings/docs" className="text-brand hover:underline">
               Manage categories
             </Link>{" "}
             in Settings.
