@@ -113,6 +113,7 @@ export function DataStudioConsole({
   const [queryRows, setQueryRows] = useState<Record<string, unknown>[] | null>(null);
   const [queryError, setQueryError] = useState<string | null>(null);
   const [queryDurationMs, setQueryDurationMs] = useState<number | null>(null);
+  const [copyLabel, setCopyLabel] = useState("Copy SQL");
   const [isPending, startTransition] = useTransition();
 
   const selectedTable = useMemo(
@@ -191,7 +192,7 @@ export function DataStudioConsole({
     if (!selectedTable || !editorMode) return;
     setError(null);
 
-    let values: Record<string, unknown> = {};
+    const values: Record<string, unknown> = {};
     try {
       for (const column of writableColumns) {
         const parsed = parseColumnValue(column, formValues[column.name] ?? "", editorMode);
@@ -270,6 +271,17 @@ export function DataStudioConsole({
       setQueryError(result.error);
       setQueryDurationMs(result.durationMs);
     });
+  }
+
+  async function copySql() {
+    if (!query.trim()) return;
+    try {
+      await navigator.clipboard.writeText(query);
+      setCopyLabel("Copied ✓");
+      window.setTimeout(() => setCopyLabel("Copy SQL"), 1600);
+    } catch {
+      setQueryError("Unable to copy SQL to the clipboard. Your browser may have blocked clipboard access.");
+    }
   }
 
   return (
@@ -589,14 +601,24 @@ export function DataStudioConsole({
             </CardContent>
             <CardFooter>
               <span className="text-xs text-muted">RLS + org/client scope remain active. 5s timeout.</span>
-              <button
-                type="button"
-                onClick={() => runQuery()}
-                disabled={isPending || !query.trim()}
-                className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
-              >
-                {isPending ? "Running…" : "Run query"}
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={copySql}
+                  disabled={!query.trim()}
+                  className="rounded-md border border-border px-4 py-2 text-sm font-medium text-foreground disabled:opacity-40"
+                >
+                  {copyLabel}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => runQuery()}
+                  disabled={isPending || !query.trim()}
+                  className="rounded-md bg-brand px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+                >
+                  {isPending ? "Running…" : "Run query"}
+                </button>
+              </div>
             </CardFooter>
           </Card>
 
