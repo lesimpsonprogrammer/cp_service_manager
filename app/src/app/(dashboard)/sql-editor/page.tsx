@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -34,6 +35,12 @@ export default async function SqlEditorPage() {
         description="Internal PostgreSQL workspace for scoped data inspection, row-level writes, SQL validation, and immutable mutation auditing."
         action={
           <div className="flex flex-wrap items-center gap-2">
+            <Link
+              href="/sql-editor/sql-builder-sow"
+              className="rounded-md border border-border px-3 py-1.5 text-sm font-medium text-muted transition-colors hover:border-border-strong hover:text-foreground"
+            >
+              SQL Builder — Instructions & SOW ↗
+            </Link>
             <Badge tone="neutral" className="capitalize">
               env: {environment}
             </Badge>
