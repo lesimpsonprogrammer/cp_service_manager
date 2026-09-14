@@ -38,6 +38,8 @@ test.describe("route protection", () => {
     "/invoices",
     "/docs",
     "/templates",
+    "/sql-editor",
+    "/status",
   ];
 
   for (const route of protectedRoutes) {

@@ -735,6 +735,7 @@ export interface Database {
           client_id: string;
           email: string;
           password_updated_at: string;
+          role: "client_user" | "client_administrator" | "client_tpa";
           created_at: string;
         };
         Insert: Partial<Database["public"]["Tables"]["client_portal_users"]["Row"]> & {
@@ -764,6 +765,7 @@ export interface Database {
           invited_by: string | null;
           expires_at: string;
           accepted_at: string | null;
+          role: "client_user" | "client_administrator" | "client_tpa";
           created_at: string;
         };
         Insert: Partial<Database["public"]["Tables"]["client_portal_invites"]["Row"]> & {
@@ -970,6 +972,20 @@ export interface Database {
             referencedColumns: ["id"];
           }
         ];
+      };
+      jaren_agent_settings: {
+        Row: {
+          org_id: string;
+          essential_skills: string[];
+          enhanced_skills: string[];
+          updated_by: string | null;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["jaren_agent_settings"]["Row"]> & {
+          org_id: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["jaren_agent_settings"]["Row"]>;
+        Relationships: [];
       };
     };
     Views: Record<string, never>;

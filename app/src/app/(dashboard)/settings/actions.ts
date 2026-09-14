@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
 import type { OrgRole } from "@/types/database";
+import { ESSENTIAL_SKILL_LABELS, ENHANCED_SKILL_LABELS } from "@/lib/jaren/agent";
 
 export interface SettingsFormState {
   error: string | null;
@@ -149,4 +150,32 @@ export async function deleteDocCategory(categoryId: string) {
 
   revalidatePath("/settings");
   revalidatePath("/docs");
+}
+
+export async function updateJarenSkills(
+  _prev: SettingsFormState,
+  formData: FormData
+): Promise<SettingsFormState> {
+  const org = await getCurrentOrg();
+  if (!org) return { error: "Not signed in." };
+  if (!ADMIN_ROLES.has(org.role)) return { error: "Only owners and admins can change Jaren's duties." };
+
+  const essentialSkills = formData.getAll("essential").map(String).filter((s) => s in ESSENTIAL_SKILL_LABELS);
+  const enhancedSkills = formData.getAll("enhanced").map(String).filter((s) => s in ENHANCED_SKILL_LABELS);
+
+  if (essentialSkills.length === 0) return { error: "Keep at least one essential duty active." };
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("jaren_agent_settings").upsert({
+    org_id: org.orgId,
+    essential_skills: essentialSkills,
+    enhanced_skills: enhancedSkills,
+    updated_by: org.userId,
+    updated_at: new Date().toISOString(),
+  });
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/settings");
+  return { error: null };
 }

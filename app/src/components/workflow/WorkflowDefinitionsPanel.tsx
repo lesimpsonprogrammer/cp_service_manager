@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useTransition } from "react";
+import { useActionState, useState, useTransition } from "react";
 import { useFormStatus } from "react-dom";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/Button";
@@ -11,6 +11,33 @@ import {
   startWorkflowInstance,
   type WorkflowFormState,
 } from "@/app/(dashboard)/workflow/actions";
+
+const WORKFLOW_PRESETS = [
+  {
+    label: "Service request intake",
+    name: "Service request intake",
+    description: "",
+    stages: "Intake\nTriage\nIn progress\nResolved",
+  },
+  {
+    label: "Client onboarding",
+    name: "Client onboarding",
+    description: "",
+    stages: "Contract sent\nContract signed\nSetup\nLive",
+  },
+  {
+    label: "Invoice approval",
+    name: "Invoice approval",
+    description: "",
+    stages: "Draft\nReview\nApproved\nSent",
+  },
+  {
+    label: "Custom…",
+    name: "",
+    description: "",
+    stages: "",
+  },
+] as const;
 
 export interface WorkflowDefinitionRow {
   id: string;
@@ -48,6 +75,10 @@ export function WorkflowDefinitionsPanel({ definitions }: { definitions: Workflo
     error: null,
   } as WorkflowFormState);
   const [pending, startTransition] = useTransition();
+  const [presetIndex, setPresetIndex] = useState(0);
+  const [name, setName] = useState<string>(WORKFLOW_PRESETS[0].name);
+  const [description, setDescription] = useState<string>(WORKFLOW_PRESETS[0].description);
+  const [stages, setStages] = useState<string>(WORKFLOW_PRESETS[0].stages);
 
   return (
     <div className="space-y-4">
@@ -88,12 +119,47 @@ export function WorkflowDefinitionsPanel({ definitions }: { definitions: Workflo
 
       <form action={createAction} className="space-y-3 px-5 pb-5">
         <div>
+          <Label htmlFor="workflow_preset">Start from a preset</Label>
+          <select
+            id="workflow_preset"
+            className="h-9 w-full rounded-md border border-border bg-surface px-2 text-sm text-foreground"
+            value={presetIndex}
+            onChange={(e) => {
+              const index = Number(e.target.value);
+              const preset = WORKFLOW_PRESETS[index] ?? WORKFLOW_PRESETS[0];
+              setPresetIndex(index);
+              setName(preset.name);
+              setDescription(preset.description);
+              setStages(preset.stages);
+            }}
+          >
+            {WORKFLOW_PRESETS.map((preset, index) => (
+              <option key={preset.label} value={index}>
+                {preset.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
           <Label htmlFor="workflow_name">New workflow name</Label>
-          <Input id="workflow_name" name="name" required placeholder="Service request intake" />
+          <Input
+            id="workflow_name"
+            name="name"
+            required
+            placeholder="Service request intake"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
         </div>
         <div>
           <Label htmlFor="workflow_description">Description</Label>
-          <Input id="workflow_description" name="description" placeholder="Optional" />
+          <Input
+            id="workflow_description"
+            name="description"
+            placeholder="Optional"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
         </div>
         <div>
           <Label htmlFor="workflow_stages">Stages (one per line, in order)</Label>
@@ -103,6 +169,8 @@ export function WorkflowDefinitionsPanel({ definitions }: { definitions: Workflo
             required
             rows={4}
             placeholder={"Intake\nTriage\nIn progress\nResolved"}
+            value={stages}
+            onChange={(e) => setStages(e.target.value)}
           />
         </div>
         <SubmitButton label="Create workflow" pendingLabel="Creating…" />

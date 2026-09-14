@@ -1,5 +1,7 @@
+import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentClientPortalUser } from "@/lib/portal/getCurrentClientPortalUser";
+import { canAccessPortalScreen, firstAccessiblePortalPath } from "@/lib/portal/permissions";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card, CardContent } from "@/components/ui/Card";
 import { StatusBadge } from "@/components/ui/Badge";
@@ -8,6 +10,9 @@ import { EmptyState } from "@/components/ui/EmptyState";
 export default async function ClientInvoicesPage() {
   const clientUser = await getCurrentClientPortalUser();
   if (!clientUser) return null;
+  if (!canAccessPortalScreen(clientUser.role, "invoices")) {
+    redirect(firstAccessiblePortalPath(clientUser.role));
+  }
 
   const supabase = await createClient();
   const { data: invoices } = await supabase
