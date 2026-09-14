@@ -44,7 +44,7 @@ const config: Config = {
         success: "hsl(var(--success) / <alpha-value>)",
       },
       borderRadius: {
-        card: "10px",
+        card: "1.5px",
       },
       boxShadow: {
         panel: "0 1px 0 0 hsl(var(--border) / 1) inset, 0 1px 2px 0 rgb(0 0 0 / 0.04)",
