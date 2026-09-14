@@ -103,6 +103,18 @@ deployment.
 - `npm run build` — production build
 - `npm run typecheck` — `tsc --noEmit`
 - `npm run lint` — ESLint (flat config, `eslint-config-next`)
+- `npm run test` — unit tests (Vitest) for pure logic: connector adapters
+  (including a mocked-`fetch` suite for the TaxBandits OAuth + UserToken
+  flow), webhook HMAC signing, and contract template rendering
+  (`tests/unit/`)
+- `npm run test:e2e` — Playwright smoke tests (`tests/e2e/`) that boot the
+  dev server against placeholder Supabase env vars and check the public
+  pages render and protected routes redirect signed-out visitors to
+  `/login`. Requires Chromium; if `playwright install` can't reach the
+  network, point `PLAYWRIGHT_CHROMIUM_EXECUTABLE` at an existing Chromium
+  binary instead.
+
+Both suites run in CI on every PR via `.github/workflows/test.yml`.
 
 ## Deploying
 
