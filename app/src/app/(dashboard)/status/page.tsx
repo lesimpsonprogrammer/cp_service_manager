@@ -7,6 +7,7 @@ import {
   checkDomains,
   checkSupabase,
   checkJarenConfig,
+  checkDecisionEngine,
   getCodebaseInfo,
   getHostingInfo,
   getUnconfiguredChecks,
@@ -62,14 +63,18 @@ export default async function StatusPage() {
     redirect("/dashboard");
   }
 
-  const [domains, supabase] = await Promise.all([checkDomains(), checkSupabase()]);
+  const [domains, supabase, decisionEngine] = await Promise.all([
+    checkDomains(),
+    checkSupabase(),
+    checkDecisionEngine(),
+  ]);
   const jaren = checkJarenConfig();
   const codebase = getCodebaseInfo();
   const hosting = getHostingInfo();
   const unconfigured = getUnconfiguredChecks();
   const links = getQuickLinks();
 
-  const allResults = [...domains, supabase, jaren, codebase, hosting, ...unconfigured];
+  const allResults = [...domains, supabase, decisionEngine, jaren, codebase, hosting, ...unconfigured];
   const downCount = allResults.filter((r) => r.status === "down").length;
 
   return (
@@ -97,6 +102,7 @@ export default async function StatusPage() {
         <StatusCard result={supabase} />
         <StatusCard result={codebase} />
         <StatusCard result={jaren} />
+        <StatusCard result={decisionEngine} />
         {unconfigured.map((r) => (
           <StatusCard key={r.name} result={r} />
         ))}
