@@ -13,7 +13,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
         <div className="relative z-10 p-10">
           <Link href="/" className="inline-flex items-center">
-            <Logo className="h-16 w-auto" />
+            <Logo className="h-28 w-auto" />
           </Link>
         </div>
 

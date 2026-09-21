@@ -20,7 +20,7 @@ export default async function RootPage() {
 
       <header className="relative z-10 flex items-center justify-between gap-3 px-6 py-6 lg:px-12">
         <div className="flex min-w-0 flex-1 items-center">
-          <Logo className="h-10 w-auto sm:h-11" />
+          <Logo className="h-14 w-auto sm:h-16" />
         </div>
         <nav className="flex shrink-0 items-center gap-2 sm:gap-3">
           <Link href="/login" className="text-sm text-muted hover:text-foreground">
