@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LogoMark } from "@/components/ui/Logo";
+import { Logo } from "@/components/ui/Logo";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
@@ -12,12 +12,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-surface/80" />
 
         <div className="relative z-10 p-10">
-          <Link
-            href="/"
-            className="flex items-center gap-2 text-sm font-semibold tracking-tight text-brand dark:text-white"
-          >
-            <LogoMark className="h-8 w-8 text-brand dark:text-white" />
-            Cloud Performance Service Manager
+          <Link href="/" className="inline-flex items-center">
+            <Logo className="h-16 w-auto" />
           </Link>
         </div>
 

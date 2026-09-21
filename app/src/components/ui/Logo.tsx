@@ -14,3 +14,22 @@ export function LogoMark({ className }: { className?: string }) {
     </svg>
   );
 }
+
+export function Logo({ className }: { className?: string }) {
+  return (
+    <>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/cpsm-logo-navy.png"
+        alt="Cloud Performance Service Manager"
+        className={`block dark:hidden ${className ?? ""}`}
+      />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/cpsm-logo-white.png"
+        alt="Cloud Performance Service Manager"
+        className={`hidden dark:block ${className ?? ""}`}
+      />
+    </>
+  );
+}

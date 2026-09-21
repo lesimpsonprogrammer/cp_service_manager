@@ -878,6 +878,13 @@ p {
   border-right: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.platform-frame-logo {
+  display: block;
+  height: 60px;
+  width: auto;
+  margin: 0 2px 14px;
+}
+
 .platform-frame-item {
   padding: 8px 10px;
   border-radius: 4px;
