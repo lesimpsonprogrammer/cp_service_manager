@@ -78,14 +78,14 @@ export function checkJarenConfig(): CheckResult {
 }
 
 export function getCodebaseInfo(): CheckResult {
-  const sha = process.env.RAILWAY_GIT_COMMIT_SHA;
-  const branch = process.env.RAILWAY_GIT_BRANCH;
-  const message = process.env.RAILWAY_GIT_COMMIT_MESSAGE;
+  const sha = process.env.VERCEL_GIT_COMMIT_SHA;
+  const branch = process.env.VERCEL_GIT_COMMIT_REF;
+  const message = process.env.VERCEL_GIT_COMMIT_MESSAGE;
   if (!sha) {
     return {
       name: "Codebase",
       status: "unknown",
-      detail: "No Railway git metadata found in this environment.",
+      detail: "No Vercel git metadata found in this environment.",
       href: "https://github.com/lesimpsonprogrammer/cp_service_manager",
     };
   }
@@ -98,20 +98,21 @@ export function getCodebaseInfo(): CheckResult {
 }
 
 export function getHostingInfo(): CheckResult {
-  const service = process.env.RAILWAY_SERVICE_NAME;
-  const environment = process.env.RAILWAY_ENVIRONMENT_NAME;
-  const domain = process.env.RAILWAY_PUBLIC_DOMAIN;
-  if (!service) {
+  const onVercel = process.env.VERCEL === "1";
+  const environment = process.env.VERCEL_ENV;
+  const url = process.env.VERCEL_URL;
+  if (!onVercel) {
     return {
-      name: "Hosting (Railway)",
+      name: "Hosting (Vercel)",
       status: "unknown",
-      detail: "Not running on Railway, or Railway's environment variables aren't present.",
+      detail: "Not running on Vercel, or Vercel's environment variables aren't present.",
     };
   }
   return {
-    name: "Hosting (Railway)",
+    name: "Hosting (Vercel)",
     status: "up",
-    detail: `${service} · ${environment ?? "unknown env"}${domain ? ` · ${domain}` : ""}`,
+    detail: `${environment ?? "unknown env"}${url ? ` · ${url}` : ""}`,
+    href: "https://vercel.com/dashboard",
   };
 }
 
@@ -127,12 +128,6 @@ export function getUnconfiguredChecks(): CheckResult[] {
       status: "not_configured",
       detail: "No CLOUDFLARE_API_TOKEN configured — add one to check zone/SSL/DNS status live.",
       href: "https://dash.cloudflare.com",
-    },
-    {
-      name: "Vercel",
-      status: "not_configured",
-      detail: "Not currently used for hosting (Railway is) — kept as a link in case that changes.",
-      href: "https://vercel.com/dashboard",
     },
   ];
 }

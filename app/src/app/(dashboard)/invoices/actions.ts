@@ -199,17 +199,24 @@ export async function sendInvoiceToClient(
 
   const { data: client } = await supabase.from("clients").select("name").eq("id", clientId).single();
 
-  await sendInvoiceEmail({
+  const invoiceUrl = `${process.env.NEXT_PUBLIC_APP_URL}/clients/${clientId}/invoices/${invoiceId}/pdf`;
+  const emailSent = await sendInvoiceEmail({
     to: contactEmail,
     contactName,
     clientName: client?.name ?? "your organization",
     invoiceNumber: invoice.invoice_number,
     total: invoice.total,
     dueDate: invoice.due_date,
-    invoiceUrl: `${process.env.NEXT_PUBLIC_APP_URL}/clients/${clientId}/invoices/${invoiceId}/pdf`,
+    invoiceUrl,
   });
 
   revalidateInvoicePaths(clientId);
+
+  if (!emailSent) {
+    return {
+      error: `Invoice marked as sent, but the notification email didn't go out (email isn't configured yet). Share this link with ${contactName} directly: ${invoiceUrl}`,
+    };
+  }
   return { error: null };
 }
 
