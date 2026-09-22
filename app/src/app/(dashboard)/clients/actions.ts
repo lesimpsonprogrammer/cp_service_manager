@@ -329,7 +329,7 @@ export async function sendContractForSignature(
   const { data: client } = await supabase.from("clients").select("name").eq("id", clientId).single();
   const signingUrl = `${process.env.NEXT_PUBLIC_APP_URL}/sign/${contract.signing_token}`;
 
-  await sendContractSigningEmail({
+  const emailSent = await sendContractSigningEmail({
     to: signerEmail,
     signerName,
     clientName: client?.name ?? "your organization",
@@ -341,6 +341,12 @@ export async function sendContractForSignature(
 
   revalidatePath(`/clients/${clientId}/onboarding`);
   revalidatePath(`/clients/${clientId}/contracts`);
+
+  if (!emailSent) {
+    return {
+      error: `Contract marked as sent, but the notification email didn't go out (email isn't configured yet). Share this link with ${signerName} directly: ${signingUrl}`,
+    };
+  }
   return { error: null };
 }
 
@@ -456,14 +462,21 @@ export async function inviteClientPortalUser(
 
   if (error || !invite) return { error: error?.message ?? "Failed to create invite." };
 
-  await sendClientPortalInviteEmail({
+  const acceptUrl = `${process.env.NEXT_PUBLIC_APP_URL}/client/accept?token=${invite.token}&email=${encodeURIComponent(email)}`;
+  const emailSent = await sendClientPortalInviteEmail({
     to: email,
     clientName: client.name,
     invitedByName: org.userEmail ?? "Your service provider",
-    acceptUrl: `${process.env.NEXT_PUBLIC_APP_URL}/client/accept?token=${invite.token}&email=${encodeURIComponent(email)}`,
+    acceptUrl,
   });
 
   revalidatePath(`/clients/${clientId}/portal`);
+
+  if (!emailSent) {
+    return {
+      error: `Invite created, but the notification email didn't go out (email isn't configured yet). Share this link with ${email} directly: ${acceptUrl}`,
+    };
+  }
   return { error: null };
 }
 

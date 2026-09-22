@@ -25,14 +25,14 @@ export async function sendContractSigningEmail({
   clientName: string;
   contractName: string;
   signingUrl: string;
-}) {
+}): Promise<boolean> {
   const resend = getClient();
   if (!resend) {
     console.warn("RESEND_API_KEY not set — skipping contract signing email.");
-    return;
+    return false;
   }
 
-  await resend.emails.send({
+  const { error } = await resend.emails.send({
     from: FROM,
     to,
     subject: `${contractName} — signature requested`,
@@ -43,6 +43,11 @@ export async function sendContractSigningEmail({
       <p>This link is unique to you — please don't forward it.</p>
     `,
   });
+  if (error) {
+    console.error("Resend error sending contract signing email:", error);
+    return false;
+  }
+  return true;
 }
 
 export async function sendContractReminderEmail({
@@ -57,14 +62,14 @@ export async function sendContractReminderEmail({
   clientName: string;
   contractName: string;
   signingUrl: string;
-}) {
+}): Promise<boolean> {
   const resend = getClient();
   if (!resend) {
     console.warn("RESEND_API_KEY not set — skipping contract reminder email.");
-    return;
+    return false;
   }
 
-  await resend.emails.send({
+  const { error } = await resend.emails.send({
     from: FROM,
     to,
     subject: `Reminder: ${contractName} is awaiting your signature`,
@@ -74,6 +79,11 @@ export async function sendContractReminderEmail({
       <p><a href="${signingUrl}">Review and sign the contract</a></p>
     `,
   });
+  if (error) {
+    console.error("Resend error sending contract reminder email:", error);
+    return false;
+  }
+  return true;
 }
 
 export async function sendTimecardApprovalEmail({
@@ -92,14 +102,14 @@ export async function sendTimecardApprovalEmail({
   periodEnd: string;
   totalHours: number;
   reviewUrl: string;
-}) {
+}): Promise<boolean> {
   const resend = getClient();
   if (!resend) {
     console.warn("RESEND_API_KEY not set — skipping timecard approval email.");
-    return;
+    return false;
   }
 
-  await resend.emails.send({
+  const { error } = await resend.emails.send({
     from: FROM,
     to,
     subject: `Timecard for review: ${periodStart} – ${periodEnd}`,
@@ -109,6 +119,11 @@ export async function sendTimecardApprovalEmail({
       <p><a href="${reviewUrl}">Review and approve the timecard</a></p>
     `,
   });
+  if (error) {
+    console.error("Resend error sending timecard approval email:", error);
+    return false;
+  }
+  return true;
 }
 
 export async function sendTimecardDecisionNotification({
@@ -127,14 +142,14 @@ export async function sendTimecardDecisionNotification({
   approved: boolean;
   decidedByName: string;
   reason?: string | null;
-}) {
+}): Promise<boolean> {
   const resend = getClient();
   if (!resend) {
     console.warn("RESEND_API_KEY not set — skipping timecard decision email.");
-    return;
+    return false;
   }
 
-  await resend.emails.send({
+  const { error } = await resend.emails.send({
     from: FROM,
     to,
     subject: `Timecard ${approved ? "approved" : "rejected"}: ${periodStart} – ${periodEnd}`,
@@ -142,6 +157,11 @@ export async function sendTimecardDecisionNotification({
       ? `<p>${decidedByName} approved ${clientName}'s timecard for ${periodStart} – ${periodEnd}.</p>`
       : `<p>${decidedByName} rejected ${clientName}'s timecard for ${periodStart} – ${periodEnd}.${reason ? ` Reason: ${reason}` : ""}</p>`,
   });
+  if (error) {
+    console.error("Resend error sending timecard decision email:", error);
+    return false;
+  }
+  return true;
 }
 
 export async function sendClientPortalInviteEmail({
@@ -154,14 +174,14 @@ export async function sendClientPortalInviteEmail({
   clientName: string;
   invitedByName: string;
   acceptUrl: string;
-}) {
+}): Promise<boolean> {
   const resend = getClient();
   if (!resend) {
     console.warn("RESEND_API_KEY not set — skipping client portal invite email.");
-    return;
+    return false;
   }
 
-  await resend.emails.send({
+  const { error } = await resend.emails.send({
     from: FROM,
     to,
     subject: `You're invited to ${clientName}'s client portal`,
@@ -172,6 +192,11 @@ export async function sendClientPortalInviteEmail({
       <p>This link is unique to you — please don't forward it.</p>
     `,
   });
+  if (error) {
+    console.error("Resend error sending client portal invite email:", error);
+    return false;
+  }
+  return true;
 }
 
 export async function sendProjectStageChangeEmail({
@@ -188,14 +213,14 @@ export async function sendProjectStageChangeEmail({
   projectCode: string;
   stageLabel: string;
   portalUrl: string;
-}) {
+}): Promise<boolean> {
   const resend = getClient();
   if (!resend) {
     console.warn("RESEND_API_KEY not set — skipping project stage change email.");
-    return;
+    return false;
   }
 
-  await resend.emails.send({
+  const { error } = await resend.emails.send({
     from: FROM,
     to,
     subject: `${projectName} moved to "${stageLabel}"`,
@@ -205,6 +230,11 @@ export async function sendProjectStageChangeEmail({
       <p><a href="${portalUrl}">View it in your client portal</a></p>
     `,
   });
+  if (error) {
+    console.error("Resend error sending project stage change email:", error);
+    return false;
+  }
+  return true;
 }
 
 export async function sendPipelineRunClientEmail({
@@ -225,16 +255,16 @@ export async function sendPipelineRunClientEmail({
   recordsLoaded: number;
   error: string | null;
   portalUrl: string;
-}) {
+}): Promise<boolean> {
   const resend = getClient();
   if (!resend) {
     console.warn("RESEND_API_KEY not set — skipping pipeline run client email.");
-    return;
+    return false;
   }
 
   const succeeded = status === "succeeded";
 
-  await resend.emails.send({
+  const { error: sendError } = await resend.emails.send({
     from: FROM,
     to,
     subject: `${succeeded ? "Sync complete" : "Sync issue"}: ${dataSourceName} (${runNumber})`,
@@ -245,6 +275,11 @@ export async function sendPipelineRunClientEmail({
       <p><a href="${portalUrl}">View sync history in your client portal</a></p>
     `,
   });
+  if (sendError) {
+    console.error("Resend error sending pipeline run client email:", sendError);
+    return false;
+  }
+  return true;
 }
 
 export async function sendContractSignedNotification({
@@ -257,19 +292,24 @@ export async function sendContractSignedNotification({
   clientName: string;
   contractName: string;
   signedByName: string;
-}) {
+}): Promise<boolean> {
   const resend = getClient();
   if (!resend) {
     console.warn("RESEND_API_KEY not set — skipping signed notification email.");
-    return;
+    return false;
   }
 
-  await resend.emails.send({
+  const { error } = await resend.emails.send({
     from: FROM,
     to,
     subject: `Signed: ${contractName}`,
     html: `<p>${signedByName} just signed <strong>${contractName}</strong> for ${clientName}.</p>`,
   });
+  if (error) {
+    console.error("Resend error sending signed notification email:", error);
+    return false;
+  }
+  return true;
 }
 
 export async function sendInvoiceEmail({
@@ -288,16 +328,16 @@ export async function sendInvoiceEmail({
   total: number;
   dueDate: string | null;
   invoiceUrl: string;
-}) {
+}): Promise<boolean> {
   const resend = getClient();
   if (!resend) {
     console.warn("RESEND_API_KEY not set — skipping invoice email.");
-    return;
+    return false;
   }
 
   const amount = `$${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-  await resend.emails.send({
+  const { error } = await resend.emails.send({
     from: FROM,
     to,
     subject: `Invoice ${invoiceNumber} from ${clientName}'s service provider — ${amount} due`,
@@ -309,6 +349,11 @@ export async function sendInvoiceEmail({
       <p><a href="${invoiceUrl}">View and download the invoice (PDF)</a></p>
     `,
   });
+  if (error) {
+    console.error("Resend error sending invoice email:", error);
+    return false;
+  }
+  return true;
 }
 
 function money(amount: number) {
@@ -323,11 +368,11 @@ export async function sendSystemReportEmail({
   to: string[];
   orgName: string;
   report: SystemReportSection;
-}) {
+}): Promise<boolean> {
   const resend = getClient();
   if (!resend) {
     console.warn("RESEND_API_KEY not set — skipping system report email.");
-    return;
+    return false;
   }
 
   const section = (title: string, rows: string[]) =>
@@ -364,10 +409,15 @@ export async function sendSystemReportEmail({
     <p style="margin-top:24px;color:#666;font-size:12px;">— Jaren CP</p>
   `;
 
-  await resend.emails.send({
+  const { error } = await resend.emails.send({
     from: JAREN_FROM,
     to,
     subject: `System digest: ${orgName}`,
     html,
   });
+  if (error) {
+    console.error("Resend error sending system report email:", error);
+    return false;
+  }
+  return true;
 }
