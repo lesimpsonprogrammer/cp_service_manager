@@ -1,0 +1,26 @@
+<header class="mds-hdr">
+  <div class="mds-hdr-bar">
+    <div class="mds-brand">
+      {% module "header_logo" path="@hubspot/linked_image" label="Header logo" img={ src: "__LOGO__", alt: "Momentum Data Solutions", width: 48, height: 40, size_type: "exact", loading: "eager" }, link="/" %}
+      <a class="mds-word" href="/">Momentum Data Solutions</a>
+    </div>
+    <input type="checkbox" id="mds-nav-toggle" class="mds-nav-toggle" aria-label="Toggle menu">
+    <label for="mds-nav-toggle" class="mds-burger" aria-hidden="true"><span></span><span></span><span></span></label>
+    <nav class="mds-nav" aria-label="Main navigation">
+      {% set mds_nav = menu(__MENU_ID__) %}
+      {% for item in mds_nav.children %}
+        {% if item.children %}
+          <div class="mds-dd">
+            <a class="mds-item{% if item.activeBranch %} is-active{% endif %}" href="{{ item.url or '#' }}">{{ item.label }}<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a>
+            <div class="mds-dd-menu">
+              {% for child in item.children %}<a class="{% if child.activeNode %}is-active{% endif %}" href="{{ child.url }}">{{ child.label }}</a>{% endfor %}
+            </div>
+          </div>
+        {% else %}
+          <a class="mds-item{% if item.activeNode %} is-active{% endif %}" href="{{ item.url }}">{{ item.label }}</a>
+        {% endif %}
+      {% endfor %}
+      {% module "header_cta" path="@hubspot/rich_text" label="Header button" html='<a class="mds-cta" href="/contact">Contact us</a>' %}
+    </nav>
+  </div>
+</header>
