@@ -7,6 +7,7 @@ import { postgresAdapter } from "./adapters/postgres";
 import { taxBanditsAdapter } from "./adapters/taxBandits";
 import { adpWorkforceNowAdapter } from "./adapters/adpWorkforceNow";
 import { paychexFlexAdapter } from "./adapters/paychexFlex";
+import { hubspotAdapter } from "./adapters/hubspot";
 
 export * from "./types";
 export { CONNECTOR_DEFINITIONS, getConnectorDefinition } from "./registry";
@@ -26,6 +27,7 @@ const ADAPTERS: Record<DataSourceType, ConnectorAdapter | null> = {
   tax_filing: taxBanditsAdapter,
   adp_workforce_now: adpWorkforceNowAdapter,
   paychex_flex: paychexFlexAdapter,
+  hubspot: hubspotAdapter,
   webhook: null,
 };
 

@@ -249,6 +249,34 @@ export const CONNECTOR_DEFINITIONS: ConnectorDefinition[] = [
       },
     ],
   },
+  {
+    type: "hubspot",
+    category: "CRM",
+    label: "HubSpot",
+    description: "Sync contact or company records with HubSpot via a Private App token.",
+    icon: "◪",
+    fields: [
+      {
+        key: "object_type",
+        label: "Object type",
+        type: "select",
+        required: true,
+        options: [
+          { label: "Contacts", value: "contacts" },
+          { label: "Companies", value: "companies" },
+        ],
+        defaultValue: "contacts",
+      },
+      { key: "access_token", label: "Private App access token", type: "password", secret: true, required: true, helpText: "Create a Private App in HubSpot with crm.objects.contacts / crm.objects.companies read & write scopes." },
+      {
+        key: "id_property",
+        label: "Match records on",
+        type: "text",
+        defaultValue: "email",
+        helpText: "Unique HubSpot property to upsert/archive on — typically \"email\" for contacts or \"domain\" for companies.",
+      },
+    ],
+  },
 ];
 
 export function getConnectorDefinition(type: string) {
