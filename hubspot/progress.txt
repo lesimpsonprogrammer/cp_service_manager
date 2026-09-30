@@ -27,3 +27,8 @@ executive-brief: text+cards+CTA done, form b0a557fc inserted (m23), removed m8,m
 home: Exec Brief image -> user photo (executive-brief-street.jpg); added Momentum Insights newsletter section (laptop image, form PLACEHOLDER, consent); metrics trimmed to 99.09% only (removed 2 invented metrics); CTA subtext added
 executive-brief: all (DONE; gated form b0a557fc UNPUBLISHED)
 comparison: live site == source bundle (page_036c60) on every page; all built pages contain full source content; only global-footer brand line + copyright missing (footer is theme-global)
+about: NEW page 403296671434 (clone of data-management); old 403082859197 renamed 'DELETE ME', slug about-unused-template
+about: slug is about-1 (about still reserved by old draft 403082859197 — user to delete old, then set slug to about)
+about: hero, who we are(01), founder(02, m23 text + m24 photo), process(03, m25 + whiteboard img), work(04), CTA done. REMAINING: work intro text, perspective, purpose, statement sections after CTA
+home hero: image -> cpsm-data-studio.png (real DataStudioConsole UI rendered locally with sample data, dark theme); reconciliation image also available (cpsm-reconciliation.png)
+all 20 built pages: headHtml bold headings <style>h1..h6{font-weight:700 !important}</style>
