@@ -21,3 +21,9 @@ data-connectors: step 0 applied
 data-connectors: all (DONE)
 support-tools: step 0 applied
 support-tools: all (DONE)
+contact: DONE (form c2b093cd inserted beside body, CTA removed, heading typo fixed 'data, HR, and payroll')
+contact: form switched to a23c45e9 (New contact us form, user's build; UNPUBLISHED)
+executive-brief: text+cards+CTA done, form b0a557fc inserted (m23), removed m8,m9,m13,m14; remaining: REMOVE m17, REMOVE m19
+home: Exec Brief image -> user photo (executive-brief-street.jpg); added Momentum Insights newsletter section (laptop image, form PLACEHOLDER, consent); metrics trimmed to 99.09% only (removed 2 invented metrics); CTA subtext added
+executive-brief: all (DONE; gated form b0a557fc UNPUBLISHED)
+comparison: live site == source bundle (page_036c60) on every page; all built pages contain full source content; only global-footer brand line + copyright missing (footer is theme-global)
