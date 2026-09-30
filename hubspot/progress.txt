@@ -1,0 +1,18 @@
+# Applied fill steps (out/step-<slug>-<n>.json). Home done manually. About/contact/brief/glossary/terms: special handling, not started.
+data-management: 0 1 2 3 4  (DONE)
+implementation: 0 1 2 3 4  (DONE)
+human-resources: 0 1 2 3  (DONE)
+managed-payroll: 0 1 2 3 4  (DONE, custom cleanup of quote form text)
+payroll-processing: all (DONE, custom list formatting)
+year-end-reporting: all (DONE)
+community-plus: STOPPED after step 0 (user: Community + not managed on HubSpot; user to delete draft 403109438164)
+community-membership: SKIPPED (same; user to delete draft 403109438170)
+cloud-performance: all (DONE)
+community: all (DONE)
+hipaa: all (DONE)
+data-handling-policy: all (DONE)
+data-security-governance: step 0 applied
+data-security-governance: all (DONE)
+relentless-commitment: all (DONE)
+data-apis: steps 0-2 applied (remaining: REMOVE_SECTION module-15)
+data-apis: all (DONE)

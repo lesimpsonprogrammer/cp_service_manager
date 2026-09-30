@@ -26,13 +26,17 @@ function bodyHtml(sec) {
   const out = [];
   let list = [];
   const flush = () => { if (list.length) { out.push('<ul>' + list.map((t) => `<li>${t}</li>`).join('') + '</ul>'); list = []; } };
-  for (const b of sec.blocks) {
-    if (skip.has(b.text)) continue;
+  const blocks = sec.blocks.filter((b) => !skip.has(b.text));
+  const isItem = (b) => b && b.tag !== 'h3' && (b.tag === 'li' || (b.text.length < 110 && !/[.?!:]$/.test(b.text) && (!/^\d/.test(b.text) || b.text.length < 30)));
+  for (let i = 0; i < blocks.length; i++) {
+    const b = blocks[i];
     let t = esc(b.text);
     if (b.href && b.linkText && !/^\s*$/.test(b.linkText)) t = t.replace(esc(b.linkText), `<a href="${esc(b.href)}">${esc(b.linkText)}</a>`);
-    const isItem = b.tag === 'li' || (b.text.length < 110 && !/[.?!:]$/.test(b.text) && !/^\d/.test(b.text));
+    const next = blocks[i + 1];
     if (b.tag === 'h3') { flush(); out.push(`<h3>${t}</h3>`); }
-    else if (isItem) list.push(t);
+    // A short label followed by a full sentence is a "term + description" pair, not a list item.
+    else if (isItem(b) && next && !isItem(next) && next.tag !== 'h3') { flush(); out.push(`<p><strong>${t}</strong><br>${esc(next.text)}</p>`); i++; }
+    else if (isItem(b)) list.push(t);
     else { flush(); out.push(`<p>${t}</p>`); }
   }
   flush();
@@ -85,7 +89,7 @@ function plan(slug, contentId) {
   } else removes.push({ section: CTA.h2 });
 
   const title = `${d[slug].label} | Momentum Data Solutions`;
-  const desc = (lead.replace(/<[^>]+>/g, '') || hero.title).slice(0, 155);
+  let desc = (lead.replace(/<[^>]+>/g, '') || hero.title); if (desc.length > 160) desc = desc.slice(0, 157).replace(/\s+\S*$/, '') + '…';
   ops.push({ action: 'SET_METADATA', contentId, htmlTitle: title, metaDescription: desc });
 
   const batches = [];
