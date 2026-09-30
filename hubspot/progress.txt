@@ -16,3 +16,8 @@ data-security-governance: all (DONE)
 relentless-commitment: all (DONE)
 data-apis: steps 0-2 applied (remaining: REMOVE_SECTION module-15)
 data-apis: all (DONE)
+data-webhooks: all (DONE, explorer section added from docs)
+data-connectors: step 0 applied
+data-connectors: all (DONE)
+support-tools: step 0 applied
+support-tools: all (DONE)
