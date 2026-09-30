@@ -32,3 +32,4 @@ about: slug is about-1 (about still reserved by old draft 403082859197 — user 
 about: hero, who we are(01), founder(02, m23 text + m24 photo), process(03, m25 + whiteboard img), work(04), CTA done. REMAINING: work intro text, perspective, purpose, statement sections after CTA
 home hero: image -> cpsm-data-studio.png (real DataStudioConsole UI rendered locally with sample data, dark theme); reconciliation image also available (cpsm-reconciliation.png)
 all 20 built pages: headHtml bold headings <style>h1..h6{font-weight:700 !important}</style>
+about: DONE (perspective m28, purpose m29 gray bg, statement m30, work intro m27). home: user edited hero; 'Get started today' linked; logo in hero left column.
