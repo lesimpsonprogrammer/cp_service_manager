@@ -1,8 +1,14 @@
+import { createHmac } from "crypto";
 import type { ConnectorAdapter, ExtractedRecord } from "../types";
 
 const BASE_URLS: Record<string, string> = {
-  sandbox: "https://testapi.taxbandits.com",
-  production: "https://api.taxbandits.com",
+  sandbox: "https://testapi.taxbandits.com/v1.7.3",
+  production: "https://api.taxbandits.com/v1.7.3",
+};
+
+const OAUTH_URLS: Record<string, string> = {
+  sandbox: "https://testoauth.expressauth.net/v2/tbsauth",
+  production: "https://oauth.expressauth.net/v2/tbsauth",
 };
 
 const LIST_ENDPOINTS: Record<string, string> = {
@@ -15,28 +21,50 @@ function baseUrl(config: Record<string, unknown>): string {
   return BASE_URLS[String(config.environment ?? "sandbox")] ?? BASE_URLS.sandbox!;
 }
 
+function oauthUrl(config: Record<string, unknown>): string {
+  return OAUTH_URLS[String(config.environment ?? "sandbox")] ?? OAUTH_URLS.sandbox!;
+}
+
+function base64Url(value: string): string {
+  return Buffer.from(value).toString("base64url");
+}
+
+export function createTaxBanditsJws(
+  clientId: string,
+  clientSecret: string,
+  userToken: string,
+  issuedAt = Math.floor(Date.now() / 1000)
+): string {
+  const header = base64Url(JSON.stringify({ alg: "HS256", typ: "JWT" }));
+  const payload = base64Url(JSON.stringify({ iss: clientId, sub: clientId, aud: userToken, iat: issuedAt }));
+  const unsignedToken = `${header}.${payload}`;
+  const signature = createHmac("sha256", clientSecret).update(unsignedToken).digest("base64url");
+  return `${unsignedToken}.${signature}`;
+}
+
 async function fetchAccessToken(config: Record<string, unknown>): Promise<string> {
   const clientId = String(config.client_id ?? "");
   const clientSecret = String(config.client_secret ?? "");
-  const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
+  const userToken = String(config.user_token ?? "");
+  const jws = createTaxBanditsJws(clientId, clientSecret, userToken);
 
-  const res = await fetch(`${baseUrl(config)}/v1.7.3/token`, {
-    method: "POST",
+  const res = await fetch(oauthUrl(config), {
+    method: "GET",
     headers: {
-      Authorization: `Basic ${basicAuth}`,
-      "Content-Type": "application/x-www-form-urlencoded",
+      Authentication: jws,
+      Accept: "application/json",
     },
-    body: "grant_type=client_credentials",
   });
 
   if (!res.ok) {
     throw new Error(`TaxBandits token request failed with status ${res.status}`);
   }
-  const body = (await res.json()) as { access_token?: string };
-  if (!body.access_token) {
+  const body = (await res.json()) as { AccessToken?: string; access_token?: string };
+  const accessToken = body.AccessToken ?? body.access_token;
+  if (!accessToken) {
     throw new Error("TaxBandits token response did not include an access_token.");
   }
-  return body.access_token;
+  return accessToken;
 }
 
 async function fetchForms(config: Record<string, unknown>, accessToken: string): Promise<ExtractedRecord[]> {

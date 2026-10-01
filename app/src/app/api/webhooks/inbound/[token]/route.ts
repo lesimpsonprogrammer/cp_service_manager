@@ -1,5 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { verifySignature } from "@/lib/webhooks/signature";
+import { verifyTaxBanditsWebhook } from "@/lib/webhooks/taxBanditsSignature";
 
 /**
  * Public inbound webhook receiver. Not protected by Supabase auth — the
@@ -23,8 +24,31 @@ export async function POST(request: Request, { params }: { params: Promise<{ tok
   }
 
   const rawBody = await request.text();
-  const signature = request.headers.get("x-cpsm-signature");
-  const valid = verifySignature(webhook.secret, rawBody, signature);
+  let valid = false;
+  let signatureError = "Invalid or missing X-CPSM-Signature header.";
+
+  if (webhook.data_source_id) {
+    const { data: dataSource } = await admin
+      .from("data_sources")
+      .select("type, config")
+      .eq("id", webhook.data_source_id)
+      .maybeSingle();
+
+    if (dataSource?.type === "tax_filing") {
+      const config = (dataSource.config ?? {}) as Record<string, unknown>;
+      valid = verifyTaxBanditsWebhook(
+        String(config.client_id ?? ""),
+        String(config.client_secret ?? ""),
+        request.headers.get("timestamp"),
+        request.headers.get("signature")
+      );
+      signatureError = "Invalid or missing TaxBandits Signature/TimeStamp headers.";
+    } else {
+      valid = verifySignature(webhook.secret, rawBody, request.headers.get("x-cpsm-signature"));
+    }
+  } else {
+    valid = verifySignature(webhook.secret, rawBody, request.headers.get("x-cpsm-signature"));
+  }
 
   let payload: Record<string, unknown> = {};
   try {
@@ -41,7 +65,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ tok
     direction: "inbound",
     payload,
     success: valid,
-    error: valid ? null : "Invalid or missing X-CPSM-Signature header.",
+    error: valid ? null : signatureError,
   });
 
   if (!valid) {
