@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { getDecisionEngineHealth } from "@/lib/decision-engine/client";
 
 export type CheckStatus = "up" | "down" | "degraded" | "not_configured" | "unknown";
 
@@ -74,6 +75,22 @@ export function checkJarenConfig(): CheckResult {
       ? `Credential configured, model: ${model}. Run the live health check on /jaren for a real OpenAI round-trip.`
       : "OPENAI_API_KEY is not set — chat will return 503.",
     href: "/jaren",
+  };
+}
+
+export async function checkDecisionEngine(): Promise<CheckResult> {
+  const health = await getDecisionEngineHealth();
+  const available = health.engines.filter((engine) => engine.available).length;
+  const engineSummary = health.engines.length
+    ? ` ${available}/${health.engines.length} computational engines available.`
+    : "";
+
+  return {
+    name: "CPSM Decision Engine",
+    status: health.status,
+    detail: `${health.detail}${engineSummary}`,
+    latencyMs: health.latencyMs,
+    href: "/decision-center",
   };
 }
 
