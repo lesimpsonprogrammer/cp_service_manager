@@ -1,4 +1,4 @@
-# Momentum Data Website Starter
+# Momentum Data Solutions Website 
 
 This is a one-page responsive website for Momentum Data, a small business focused on data extraction, spreadsheet cleanup, reporting, workflow automation, and HCM/payroll data support.
 
