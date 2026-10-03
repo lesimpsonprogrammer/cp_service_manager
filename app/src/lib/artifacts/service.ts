@@ -218,19 +218,10 @@ export async function createArtifactDownloadUrl(
   return { ok: true, value: data.signedUrl };
 }
 
+/** Re-points `is_latest` at the newest available version, atomically (see 0037). */
 async function refreshLatestVersion(db: Db, bucketId: string, key: string) {
-  const { data: newest } = await db
-    .from("artifacts")
-    .select("id")
-    .eq("bucket_id", bucketId)
-    .eq("key", key)
-    .eq("status", "available")
-    .order("version", { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  await db.from("artifacts").update({ is_latest: false }).eq("bucket_id", bucketId).eq("key", key).eq("is_latest", true);
-  if (newest) await db.from("artifacts").update({ is_latest: true }).eq("id", newest.id);
+  const { error } = await db.rpc("refresh_artifact_latest", { p_bucket_id: bucketId, p_key: key });
+  if (error) console.warn(`[artifacts] failed to refresh latest version for ${key}: ${error.message}`);
 }
 
 async function isLatest(db: Db, artifactId: string) {

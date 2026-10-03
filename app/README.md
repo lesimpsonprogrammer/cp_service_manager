@@ -111,7 +111,7 @@ deployment.
     | CSM CLI | CPSM API |
     | --- | --- |
     | `cray artifacts buckets list` | `GET /api/v1/artifacts/buckets` |
-    | `cray artifacts list <bucket>` | `GET /api/v1/artifacts/buckets/{bucket}/objects?prefix=&client_id=&all_versions=true` |
+    | `cray artifacts list <bucket>` | `GET /api/v1/artifacts/buckets/{bucket}/objects?prefix=&client_id=&all_versions=true&limit=&offset=` (follow `next_offset`) |
     | `cray artifacts create <bucket> <key> <file>` | `POST /api/v1/artifacts/buckets/{bucket}/objects` `{ "key": "..." }` → `PUT` bytes to `upload.signed_url` → `POST /api/v1/artifacts/objects/{id}/complete` |
     | `cray artifacts describe <bucket> <key>` | `GET /api/v1/artifacts/objects/{id}` (includes a 5-minute `download_url`) |
     | `cray artifacts get <bucket> <key> <file>` | `GET /api/v1/artifacts/objects/{id}?redirect=true` (`curl -L -o file`) |

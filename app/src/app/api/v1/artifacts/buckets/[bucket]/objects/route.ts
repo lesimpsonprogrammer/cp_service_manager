@@ -6,6 +6,10 @@ import { prepareArtifactUpload } from "@/lib/artifacts/service";
 const OBJECT_FIELDS =
   "id, key, version, is_latest, file_name, content_type, size_bytes, checksum_sha256, description, tags, client_id, uploaded_by, created_at";
 
+// limit + 1 rows are fetched per page, which must stay under Supabase's
+// default 1,000-row response cap or `next_offset` would silently vanish.
+const MAX_PAGE_SIZE = 500;
+
 async function findBucket(orgId: string, name: string) {
   const { data } = await createAdminClient()
     .from("artifact_buckets")
@@ -18,7 +22,9 @@ async function findBucket(orgId: string, name: string) {
 
 /**
  * GET /api/v1/artifacts/buckets/{bucket}/objects — like `cray artifacts list`.
- * Query: `prefix`, `client_id`, `all_versions=true`, `limit` (max 1000).
+ * Query: `prefix`, `client_id`, `all_versions=true`, `limit` (default/max 500), and
+ * `offset` — when `next_offset` in the response is non-null, pass it back as
+ * `offset` to fetch the next page.
  */
 export async function GET(request: Request, { params }: { params: Promise<{ bucket: string }> }) {
   const auth = await authenticateApiKey(request);
@@ -32,7 +38,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ buck
   const prefix = normalizeArtifactPrefix(url.searchParams.get("prefix") ?? "");
   const clientId = url.searchParams.get("client_id");
   const allVersions = url.searchParams.get("all_versions") === "true";
-  const limit = Math.min(Math.max(Number(url.searchParams.get("limit")) || 1000, 1), 1000);
+  const limit = Math.min(Math.max(Math.floor(Number(url.searchParams.get("limit"))) || MAX_PAGE_SIZE, 1), MAX_PAGE_SIZE);
+  const offset = Math.max(Math.floor(Number(url.searchParams.get("offset"))) || 0, 0);
 
   let query = createAdminClient()
     .from("artifacts")
@@ -42,14 +49,24 @@ export async function GET(request: Request, { params }: { params: Promise<{ buck
     .eq("status", "available")
     .order("key")
     .order("version", { ascending: false })
-    .limit(limit);
+    // One extra row tells us whether another page exists. (bucket, key,
+    // version) is unique, so this ordering is stable across pages.
+    .range(offset, offset + limit);
   if (!allVersions) query = query.eq("is_latest", true);
   if (prefix) query = query.like("key", `${prefix.replace(/[\\%_]/g, "\\$&")}%`);
   if (clientId) query = query.eq("client_id", clientId);
 
   const { data, error } = await query;
   if (error) return Response.json({ error: error.message }, { status: 500 });
-  return Response.json({ bucket: bucket.name, prefix, data });
+
+  const rows = data ?? [];
+  const hasMore = rows.length > limit;
+  return Response.json({
+    bucket: bucket.name,
+    prefix,
+    data: hasMore ? rows.slice(0, limit) : rows,
+    next_offset: hasMore ? offset + limit : null,
+  });
 }
 
 /**

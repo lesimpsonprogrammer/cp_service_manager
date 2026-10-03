@@ -1066,6 +1066,10 @@ export interface Database {
       };
     };
     Functions: {
+      refresh_artifact_latest: {
+        Args: { p_bucket_id: string; p_key: string };
+        Returns: undefined;
+      };
       run_sql_editor_query: {
         Args: { query: string };
         Returns: Record<string, unknown>[];
