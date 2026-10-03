@@ -164,3 +164,19 @@ the Supabase project is linked via the CLI, regenerate it with:
 ```
 supabase gen types typescript --linked > src/types/database.ts
 ```
+
+## Schema: planned vs live
+
+`supabase/cpsm_schema_all_in_one.sql` is the whole schema in one file:
+
+1. **Enhancement roadmap** — every migration and what it adds.
+2. **Planned vs live report** — paste the file into the Supabase SQL editor
+   and run it. It's a single read-only `SELECT` that marks each migration
+   LIVE / PARTIAL / NOT APPLIED, then lists missing objects, objects that
+   differ (column type, default, function body, RLS), and live-only drift
+   that isn't in any migration.
+3. **Full planned schema** — the end-state DDL, as a comment.
+
+It's generated, so after adding a migration rerun
+`scripts/schema-all-in-one/build.sh` (needs `psql`, `pg_dump`, `python3`
+and a throwaway local Postgres — see the script header).
