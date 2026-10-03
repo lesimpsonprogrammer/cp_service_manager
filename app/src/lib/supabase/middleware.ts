@@ -4,12 +4,14 @@ import { NextResponse, type NextRequest } from "next/server";
 const PUBLIC_PATHS = [
   "/login",
   "/signup",
+  "/forgot-password",
   "/auth/callback",
   "/auth/error",
   "/sign",
   "/timecard",
   "/client/login",
   "/client/accept",
+  "/blog",
 ];
 
 function isPublicPath(pathname: string) {

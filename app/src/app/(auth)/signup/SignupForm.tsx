@@ -74,7 +74,7 @@ export function SignupForm({
             type="password"
             autoComplete="new-password"
             required
-            minLength={8}
+            minLength={10}
             placeholder="10+ chars, upper, lower, number, symbol"
           />
         </div>
