@@ -8,7 +8,7 @@ Version 1 supports independent FIFO tasks sharing a capacity pool (SimPy), logno
 
 ## Railway deployment
 
-Use repo `lesimpsonprogrammer/cp_service_manager`, branch `feature/cpsm-python-decision-service`, service root `/decision-engine`, Dockerfile `Dockerfile`, config file `/decision-engine/railway.toml`. Healthcheck `/ready` is public and reveals readiness only; `/health` and run endpoints require Bearer authentication. Set `DECISION_ENGINE_API_KEY` to a cryptographically random secret at least 32 characters long. Expose HTTPS for CPSM if CPSM runs outside Railway. Keep one worker and bounded concurrency; no database required.
+Use repo `lesimpsonprogrammer/cp_service_manager`, branch `feature/cpsm-python-decision-service`, service root `/decision-engine`, Dockerfile `Dockerfile`. Set these settings directly in Railway; new services do not use legacy railway.toml configuration. Healthcheck `/ready` is public and reveals readiness only; `/health` and run endpoints require Bearer authentication. Set `DECISION_ENGINE_API_KEY` to a cryptographically random secret at least 32 characters long. Expose HTTPS for CPSM if CPSM runs outside Railway. Keep one worker and bounded concurrency; no database required.
 
 Set on the CPSM deployment serving app2, then redeploy:
 
