@@ -21,6 +21,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/time", label: "Time Tracking", icon: "⏱" },
   { href: "/invoices", label: "Invoices", icon: "🧾" },
   { href: "/docs", label: "Docs", icon: "📚" },
+  { href: "/artifacts", label: "Artifacts", icon: "🗄" },
   { href: "/posts", label: "Blog", icon: "📝" },
   { href: "/templates", label: "Agreement Templates", icon: "📄" },
   { href: "/data-sources", label: "Data Sources", icon: "⇄" },

@@ -83,6 +83,50 @@ deployment.
   etc.), both with a delivery log.
 - **Public REST API** — `/api/v1/*`, authenticated with `Authorization: Bearer <api key>`.
   Keys are managed in-app and only ever shown once, in full, at creation time.
+- **Artifacts** — a versioned file store for everything MDS produces or
+  receives (`src/app/(dashboard)/artifacts`, `0036_artifact_management.sql`),
+  modeled on HPE Cray System Management's S3 "Artifact Management":
+  - **Buckets** — every workspace gets the MDS system buckets (`contracts`,
+    `invoices`, `client-uploads`, `client-deliverables`, `payroll`,
+    `hr-consulting`, `pipeline-exports`, `reports`, `sql-scripts`,
+    `templates`, `brand-assets`, `backups`, `agents`); owners/admins can add
+    custom ones.
+  - **Objects** — addressed by bucket + key (`acme/2026/q3-register.xlsx`),
+    browsable by folder, searchable by key/description/tag, optionally linked
+    to a client (shown on that client's **Artifacts** tab). Re-uploading a key
+    adds a new version; older versions stay downloadable until deleted.
+  - **Storage** — bytes live in the private Supabase Storage bucket
+    `artifacts` with no anon/authenticated policies; the app server reaches it
+    with the service role only after an RLS-scoped row check
+    (`src/lib/artifacts/service.ts`). Uploads go browser → storage through a
+    signed upload URL (so large files skip the serverless body limit), then a
+    finalize step confirms the object and records its size. Downloads are
+    60-second signed URLs; **share links** are signed URLs that expire in
+    1 hour, 24 hours, or 7 days. The largest uploadable file is your Supabase
+    project's storage upload limit (50 MB on Free).
+  - **Roles** — viewers are read-only; members can upload, share, and delete;
+    owners/admins also manage buckets.
+  - **API** — the same operations under `/api/v1/artifacts` with an API key:
+
+    | CSM CLI | CPSM API |
+    | --- | --- |
+    | `cray artifacts buckets list` | `GET /api/v1/artifacts/buckets` |
+    | `cray artifacts list <bucket>` | `GET /api/v1/artifacts/buckets/{bucket}/objects?prefix=&client_id=&all_versions=true&limit=&offset=` (follow `next_offset`) |
+    | `cray artifacts create <bucket> <key> <file>` | `POST /api/v1/artifacts/buckets/{bucket}/objects` `{ "key": "..." }` → `PUT` bytes to `upload.signed_url` → `POST /api/v1/artifacts/objects/{id}/complete` |
+    | `cray artifacts describe <bucket> <key>` | `GET /api/v1/artifacts/objects/{id}` (includes a 5-minute `download_url`) |
+    | `cray artifacts get <bucket> <key> <file>` | `GET /api/v1/artifacts/objects/{id}?redirect=true` (`curl -L -o file`) |
+    | `cray artifacts delete <bucket> <key>` | `DELETE /api/v1/artifacts/objects/{id}` (one version) |
+
+    ```bash
+    # Upload a payroll register to the payroll bucket
+    curl -s -X POST "$APP/api/v1/artifacts/buckets/payroll/objects" \
+      -H "Authorization: Bearer $CPSM_KEY" -H "Content-Type: application/json" \
+      -d '{"key":"acme/2026/q3-register.xlsx","tags":["q3"]}' > upload.json
+    curl -s -X PUT "$(jq -r .upload.signed_url upload.json)" \
+      -H "Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" \
+      --data-binary @q3-register.xlsx
+    curl -s -X POST "$APP$(jq -r .upload.complete_url upload.json)" -H "Authorization: Bearer $CPSM_KEY"
+    ```
 
 ## Local setup
 

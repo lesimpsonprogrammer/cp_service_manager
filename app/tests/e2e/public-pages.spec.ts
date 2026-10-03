@@ -37,6 +37,8 @@ test.describe("route protection", () => {
     "/settings",
     "/invoices",
     "/docs",
+    "/artifacts",
+    "/artifacts/contracts",
     "/templates",
     "/sql-editor",
     "/status",

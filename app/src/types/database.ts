@@ -50,6 +50,8 @@ export type EnhancementTaskStatus = "backlog" | "in_progress" | "done";
 
 export type EnhancementTaskPriority = "low" | "medium" | "high";
 
+export type ArtifactStatus = "pending" | "available";
+
 export interface Database {
   public: {
     Tables: {
@@ -652,6 +654,68 @@ export interface Database {
         Update: Partial<Database["public"]["Tables"]["doc_categories"]["Row"]>;
         Relationships: [];
       };
+      artifact_buckets: {
+        Row: {
+          id: string;
+          org_id: string;
+          name: string;
+          description: string;
+          is_system: boolean;
+          created_by: string | null;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["artifact_buckets"]["Row"]> & {
+          org_id: string;
+          name: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["artifact_buckets"]["Row"]>;
+        Relationships: [];
+      };
+      artifacts: {
+        Row: {
+          id: string;
+          org_id: string;
+          bucket_id: string;
+          key: string;
+          version: number;
+          is_latest: boolean;
+          status: ArtifactStatus;
+          file_name: string;
+          content_type: string;
+          size_bytes: number;
+          checksum_sha256: string | null;
+          description: string;
+          tags: string[];
+          client_id: string | null;
+          storage_path: string;
+          uploaded_by: string | null;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["artifacts"]["Row"]> & {
+          org_id: string;
+          bucket_id: string;
+          key: string;
+          file_name: string;
+          storage_path: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["artifacts"]["Row"]>;
+        Relationships: [
+          {
+            foreignKeyName: "artifacts_bucket_id_fkey";
+            columns: ["bucket_id"];
+            isOneToOne: false;
+            referencedRelation: "artifact_buckets";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "artifacts_client_id_fkey";
+            columns: ["client_id"];
+            isOneToOne: false;
+            referencedRelation: "clients";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       org_invites: {
         Row: {
           id: string;
@@ -988,8 +1052,24 @@ export interface Database {
         Relationships: [];
       };
     };
-    Views: Record<string, never>;
+    Views: {
+      artifact_bucket_stats: {
+        Row: {
+          bucket_id: string;
+          org_id: string;
+          object_count: number;
+          version_count: number;
+          total_bytes: number;
+          last_upload_at: string | null;
+        };
+        Relationships: [];
+      };
+    };
     Functions: {
+      refresh_artifact_latest: {
+        Args: { p_bucket_id: string; p_key: string };
+        Returns: undefined;
+      };
       run_sql_editor_query: {
         Args: { query: string };
         Returns: Record<string, unknown>[];
