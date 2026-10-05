@@ -52,9 +52,17 @@ export type EnhancementTaskPriority = "low" | "medium" | "high";
 
 export type ArtifactStatus = "pending" | "available";
 
+import type { SavedDecisionRun } from "@/lib/decision-engine/scenarios";
+
 export interface Database {
   public: {
     Tables: {
+      decision_runs: {
+        Row: SavedDecisionRun & { org_id: string; created_by: string | null };
+        Insert: Partial<SavedDecisionRun> & { id: string; org_id: string; created_by: string; name: string; engine: SavedDecisionRun["engine"]; scenario: Record<string, unknown>; status: SavedDecisionRun["status"] };
+        Update: Partial<SavedDecisionRun>;
+        Relationships: [];
+      };
       organizations: {
         Row: {
           id: string;
