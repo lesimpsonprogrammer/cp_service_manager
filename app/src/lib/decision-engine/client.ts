@@ -38,7 +38,7 @@ function getConfig() {
   return {
     url: process.env.DECISION_ENGINE_URL?.replace(/\/$/, ""),
     apiKey: process.env.DECISION_ENGINE_API_KEY,
-    timeoutMs: Number(process.env.DECISION_ENGINE_TIMEOUT_MS ?? DEFAULT_TIMEOUT_MS),
+    timeoutMs: Math.min(15000,Math.max(1000,Number(process.env.DECISION_ENGINE_TIMEOUT_MS) || DEFAULT_TIMEOUT_MS)),
   };
 }
 
@@ -89,7 +89,7 @@ export async function getDecisionEngineHealth(): Promise<DecisionEngineHealth> {
 
     const payload = (await response.json()) as Partial<DecisionEngineHealth>;
     return {
-      status: payload.status === "degraded" ? "degraded" : "up",
+      status: payload.status === 'down' ? 'down' : payload.status === 'up' && ['simulation','risk','optimization'].every(name => Array.isArray(payload.engines) && payload.engines.some(engine => engine.name === name && engine.available === true)) ? 'up' : 'degraded',
       version: payload.version,
       latencyMs,
       engines: Array.isArray(payload.engines) ? payload.engines : [],
