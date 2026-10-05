@@ -4,6 +4,7 @@ import { getDecisionEngineHealth } from "@/lib/decision-engine/client";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
+import DecisionWorkbench from "./DecisionWorkbench";
 
 const ADMIN_ROLES = new Set(["owner", "admin"]);
 
@@ -11,17 +12,17 @@ const ENGINE_META = {
   simulation: {
     title: "Deterministic Simulation",
     implementation: "SimPy",
-    description: "Schedules, workflow timing, capacity, quantities, queues, dependencies, and deterministic cost scenarios.",
+    description: "Independent tasks sharing a capacity pool, FIFO queue timing, and busy-time costs.",
   },
   risk: {
     title: "Probabilistic Risk",
     implementation: "PyMC",
-    description: "Uncertainty, completion ranges, cost exposure, probability of delay, and scenario risk distributions.",
+    description: "Lognormal duration sampling from a supplied mean and deviation, completion ranges, and probability of delay.",
   },
   optimization: {
     title: "Optimization",
     implementation: "OR-Tools / CP-SAT",
-    description: "Resource allocation, staffing, sequencing, scheduling, hard constraints, and objective optimization.",
+    description: "Minimum-cost worker-to-task assignment, with one worker per task and at most one task per worker.",
   },
 } as const;
 
@@ -70,19 +71,21 @@ export default async function DecisionCenterPage() {
         })}
       </div>
 
+      <DecisionWorkbench ready={health.status === "up"} />
+
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>Decision flow</CardTitle>
-            <CardDescription>How CPSM will use the three engines with Jaren.</CardDescription>
+            <CardDescription>What the current Decision Engine supports.</CardDescription>
           </CardHeader>
           <CardContent>
             <ol className="space-y-3 text-sm text-muted">
-              <li><strong className="text-foreground">1. CPSM data</strong> provides the approved client, workflow, resource, quantity, schedule, and cost inputs.</li>
-              <li><strong className="text-foreground">2. Simulation</strong> produces the deterministic baseline.</li>
-              <li><strong className="text-foreground">3. Risk</strong> evaluates uncertainty around the baseline.</li>
-              <li><strong className="text-foreground">4. Optimization</strong> finds the best feasible plan under CPSM constraints.</li>
-              <li><strong className="text-foreground">5. Jaren</strong> explains the verified results, handles exceptions, and presents recommendations for approval.</li>
+              <li><strong className="text-foreground">1. Inputs</strong> are entered and validated for the selected engine.</li>
+              <li><strong className="text-foreground">2. Computation</strong> runs through CPSM’s private service connection.</li>
+              <li><strong className="text-foreground">3. Combined mode</strong> executes independent simulation, risk, and optimization sections; results are not automatically fed between engines.</li>
+              <li><strong className="text-foreground">4. History</strong> retains inputs and results for organization administrators.</li>
+              <li><strong className="text-foreground">5. Review</strong> supports human decisions; no client actions are performed automatically. Custom constraints and Jaren interpretation are not part of this run interface.</li>
             </ol>
           </CardContent>
         </Card>

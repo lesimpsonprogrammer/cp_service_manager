@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { Button } from "@/components/ui/Button";
@@ -232,10 +232,14 @@ function JarenConversationPane({
 }) {
   const [input, setInput] = useState("");
   const [activeId, setActiveId] = useState(conversationId);
+  // Keep the SDK chat identity stable when the first persisted conversation is created.
+  const chatId = useRef(conversationId ?? crypto.randomUUID());
+  const activeIdRef = useRef(conversationId);
   const [creatingConversation, setCreatingConversation] = useState(false);
+  const [persistenceError, setPersistenceError] = useState("");
 
   const { messages, sendMessage, regenerate, clearError, status, error } = useChat({
-    id: conversationId ?? undefined,
+    id: chatId.current,
     messages: initialMessages.map((m) => ({
       id: m.id,
       role: m.role,
@@ -243,7 +247,7 @@ function JarenConversationPane({
     })),
     transport: new DefaultChatTransport({ api: "/api/jaren/chat" }),
     onFinish: async ({ message }) => {
-      const id = activeId;
+      const id = activeIdRef.current;
       if (!id) return;
       const text = message.parts
         .filter((p): p is { type: "text"; text: string } => p.type === "text")
@@ -276,12 +280,16 @@ function JarenConversationPane({
           headers: { "content-type": "application/json" },
           body: JSON.stringify({ title: text.slice(0, 60) }),
         });
+        if (!res.ok) throw new Error("Conversation history is unavailable.");
         if (res.ok) {
           const data = (await res.json()) as { conversation: ConversationSummary };
           id = data.conversation.id;
+          activeIdRef.current = id;
           setActiveId(id);
           onConversationCreated(id);
         }
+      } catch {
+        setPersistenceError("Conversation history could not be started. You can still chat, but this conversation may not be saved.");
       } finally {
         setCreatingConversation(false);
       }
@@ -295,7 +303,7 @@ function JarenConversationPane({
       });
     }
 
-    sendMessage({ text });
+    void sendMessage({ text });
     // Signal the vortex background to pull its scattered particles back into
     // formation — the "Jaren enters" moment described alongside the design.
     window.dispatchEvent(new Event("jaren-enters"));
@@ -303,6 +311,7 @@ function JarenConversationPane({
 
   return (
     <div className="flex h-full flex-col">
+      {persistenceError && <p role="status" className="px-1 py-2 text-sm text-warning">{persistenceError}</p>}
       <div className="scrollbar-thin flex-1 space-y-4 overflow-y-auto px-1 py-2">
         {messages.length === 0 && (
           <p className="text-sm text-muted">
@@ -372,3 +381,4 @@ function JarenConversationPane({
     </div>
   );
 }
+
