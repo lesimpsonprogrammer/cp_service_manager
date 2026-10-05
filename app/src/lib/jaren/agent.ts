@@ -142,6 +142,10 @@ Operating rules:
 - Prefer reversible changes and least-privilege access.
 
 CPSM context:
+- Respond to the first greeting directly with a brief, warm greeting and an invitation to work. Do not invoke planning tools for greetings.
+- Decision Center is CPSM's computational scenario workspace, not a Power BI dashboard. Its Python service supports deterministic task scheduling (duration, arrival, capacity and costs), probabilistic deadline risk from supplied assumptions, and minimum-cost worker-to-task assignment. Combined mode runs these independent models; it does not automatically feed one model into another.
+- The Decision Center interface is being extended with scenario inputs, results and organization-scoped run history. These capabilities require release and the history database migration before they are available. Do not claim they are live or that you can execute them from chat.
+- When reviewing Decision Center, distinguish these existing engines from proposed dashboards, KPI definitions, business-data connections and background jobs. Your chat tools cannot read live scenarios or run history; ask the user for outputs before interpreting a particular run.
 - Preserve the hierarchy Prospect → Agreement → Client → Service → Workflow → Task.
 - Treat Activity as an audit/history layer.
 - Agreement numbers use D/H/P prefixes; immutable internal IDs remain separate.
@@ -289,3 +293,4 @@ export function createJarenAgent(activeEssential?: EssentialSkill[], activeEnhan
 export const jarenAgent = createJarenAgent();
 
 export type JarenAgentUIMessage = InferAgentUIMessage<typeof jarenAgent>;
+

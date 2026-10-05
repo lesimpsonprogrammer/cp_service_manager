@@ -2,7 +2,7 @@
   "name": "cpsm-platform",
   "version": "0.1.0",
   "private": true,
-  "description": "CP Service Manager — Data Extraction, ETL, HCM/ERP Connector Platform",
+  "description": "CP Service Manager \u2014 Data Extraction, ETL, HCM/ERP Connector Platform",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -12,7 +12,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "decision:worker": "node --experimental-strip-types scripts/decision-worker.mjs"
   },
   "dependencies": {
     "@ai-sdk/openai": "^4.0.56",
