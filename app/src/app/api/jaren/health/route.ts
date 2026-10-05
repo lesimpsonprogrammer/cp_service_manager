@@ -1,7 +1,18 @@
 import { authorize, checkMutationOrigin } from "@/lib/jaren/access-policy";
 import { requireCpsmSession } from "@/lib/jaren/session";
+import { timingSafeEqual } from "node:crypto";
+import { publicJarenHealth } from "@/lib/jaren/public-health";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+// Protected synthetic generation check; returns a sanitized summary. Detailed generation diagnostics remain authenticated.
+export async function GET(request: Request) {
+  const expected = process.env.JAREN_STATUS_CHECK_TOKEN;
+  const received = request.headers.get("authorization") ?? "";
+  const wanted = expected ? `Bearer ${expected}` : "";
+  if (!wanted || received.length !== wanted.length || !timingSafeEqual(Buffer.from(received),Buffer.from(wanted))) return Response.json({error:"Unauthorized"},{status:401});
+  return Response.json(await publicJarenHealth(new URL(request.url).searchParams.get('mode') ?? 'generation'), {headers:{'Cache-Control':'no-store'}});
+}
 
 const model = process.env.AI_MODEL ?? "gpt-5";
 
