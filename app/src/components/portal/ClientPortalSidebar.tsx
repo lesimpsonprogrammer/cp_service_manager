@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
-import { LogoMark } from "@/components/ui/Logo";
+import { LogoWordmark } from "@/components/ui/Logo";
 import { useMobileSidebar } from "@/components/layout/MobileSidebarContext";
 import { canAccessPortalScreen, type ClientPortalRole, type ClientPortalScreen } from "@/lib/portal/permissions";
 
@@ -35,7 +35,7 @@ export function ClientPortalSidebar({ clientName, role }: { clientName: string; 
         )}
       >
         <div className="flex h-14 items-center gap-2 border-b border-border px-4 text-sm font-semibold tracking-tight">
-          <LogoMark className="h-7 w-7 text-brand dark:text-white" />
+          <LogoWordmark height={32} />
           <span className="truncate">{clientName}</span>
           <button
             type="button"

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LogoMark } from "@/components/ui/Logo";
+import { AnimatedLogo, LogoWordmark } from "@/components/ui/Logo";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
@@ -12,16 +12,13 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-surface/80" />
 
         <div className="relative z-10 p-10">
-          <Link
-            href="/"
-            className="flex items-center gap-2 text-sm font-semibold tracking-tight text-brand dark:text-white"
-          >
-            <LogoMark className="h-8 w-8 text-brand dark:text-white" />
-            Cloud Performance Service Manager
+          <Link href="/" className="inline-flex items-center">
+            <LogoWordmark height={44} eager />
           </Link>
         </div>
 
         <div className="relative z-10 p-10">
+          <AnimatedLogo className="mb-8 w-36" />
           <h1 className="max-w-xl text-3xl font-semibold leading-tight tracking-tight text-brand dark:text-white">
             One platform for every spreadsheet, HCM, and ERP connection.
           </h1>

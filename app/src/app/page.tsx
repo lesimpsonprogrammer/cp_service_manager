@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/Button";
-import { LogoMark } from "@/components/ui/Logo";
+import { AnimatedLogo, LogoWordmark } from "@/components/ui/Logo";
 
 export default async function RootPage() {
   const supabase = await createClient();
@@ -19,9 +19,8 @@ export default async function RootPage() {
       <div className="dotted-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]" />
 
       <header className="relative z-10 flex items-center justify-between gap-3 px-6 py-6 lg:px-12">
-        <div className="flex min-w-0 flex-1 items-center gap-2 text-sm font-semibold tracking-tight">
-          <LogoMark className="h-7 w-7 shrink-0 text-brand dark:text-white sm:h-8 sm:w-8" />
-          <span className="truncate text-xs sm:text-sm">Cloud Performance Service Manager</span>
+        <div className="flex min-w-0 flex-1 items-center">
+          <LogoWordmark height={40} eager className="h-9 w-auto sm:h-10" />
         </div>
         <nav className="flex shrink-0 items-center gap-2 sm:gap-3">
           <Link href="/login" className="text-sm text-muted hover:text-foreground">
@@ -34,6 +33,7 @@ export default async function RootPage() {
       </header>
 
       <section className="relative z-10 mx-auto flex max-w-6xl flex-1 flex-col items-center justify-center px-6 text-center">
+        <AnimatedLogo className="mb-8 w-32 sm:w-40" />
         <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl lg:text-4xl xl:text-5xl">
           <span className="block text-balance">
             Connect any spreadsheet, HCM, HRIS, Benefits Admin Portal, or ERP.
