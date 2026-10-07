@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AnimatedLogo, LogoWordmark } from "@/components/ui/Logo";
+import { AnimatedLogo, CpsmWordmark } from "@/components/ui/Logo";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
@@ -12,8 +12,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-surface/80" />
 
         <div className="relative z-10 p-10">
-          <Link href="/" className="inline-flex items-center">
-            <LogoWordmark height={44} eager />
+          <Link href="/" className="inline-flex text-brand dark:text-white">
+            <CpsmWordmark className="h-11" />
           </Link>
         </div>
 
