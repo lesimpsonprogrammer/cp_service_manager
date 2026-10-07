@@ -4,6 +4,7 @@ import { createAgentUIStreamResponse } from "ai";
 import { createClient } from "@/lib/supabase/server";
 
 import { createJarenAgent, type EssentialSkill, type EnhancedSkill } from "@/lib/jaren/agent";
+import { CHAT_BODY_LIMIT, checkChatAttachments } from "@/lib/jaren/attachments";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -52,7 +53,7 @@ export async function POST(request: Request) {
 
   let body: { messages?: unknown[] };
   try {
-    const parsed = await readBoundedJson(request);
+    const parsed = await readBoundedJson(request, CHAT_BODY_LIMIT);
     if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error("invalid-json");
     body = parsed as { messages?: unknown[] };
   } catch (error) {
@@ -65,6 +66,8 @@ export async function POST(request: Request) {
   if (!Array.isArray(body.messages) || body.messages.length === 0 || body.messages.length > 100) {
     return Response.json({ error: "A messages array is required." }, { status: 400 });
   }
+  const attachmentError = checkChatAttachments(body.messages);
+  if (attachmentError) return Response.json({ error: attachmentError }, { status: 400 });
 
   const supabase = await createClient();
   const { data: agentSettings } = await supabase
