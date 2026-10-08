@@ -2,10 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
+import { DefaultChatTransport, type FileUIPart, type UIMessage } from "ai";
 import { Button } from "@/components/ui/Button";
 import { renderChatMarkdown } from "@/lib/jaren/markdown";
 import { JarenVortexBackground } from "@/components/jaren/JarenVortexBackground";
+import { MAX_IMAGES_PER_MESSAGE, historyText, trimHistoryImages } from "@/lib/jaren/attachments";
+import { prepareScreenshot } from "@/lib/jaren/image-prep";
 
 type ConversationSummary = {
   id: string;
@@ -237,15 +239,24 @@ function JarenConversationPane({
   const activeIdRef = useRef(conversationId);
   const [creatingConversation, setCreatingConversation] = useState(false);
   const [persistenceError, setPersistenceError] = useState("");
+  const [attachments, setAttachments] = useState<FileUIPart[]>([]);
+  const [attachError, setAttachError] = useState("");
+  const [preparing, setPreparing] = useState(0);
+  const fileInput = useRef<HTMLInputElement>(null);
 
-  const { messages, sendMessage, regenerate, clearError, status, error } = useChat({
+  const { messages, sendMessage, regenerate, clearError, status, error } = useChat<UIMessage>({
     id: chatId.current,
     messages: initialMessages.map((m) => ({
       id: m.id,
       role: m.role,
       parts: [{ type: "text" as const, text: m.content }],
     })),
-    transport: new DefaultChatTransport({ api: "/api/jaren/chat" }),
+    transport: new DefaultChatTransport({
+      api: "/api/jaren/chat",
+      prepareSendMessagesRequest: ({ id, messages, body }) => ({
+        body: { ...body, id, messages: trimHistoryImages(messages) },
+      }),
+    }),
     onFinish: async ({ message }) => {
       const id = activeIdRef.current;
       if (!id) return;
@@ -265,11 +276,52 @@ function JarenConversationPane({
 
   const busy = status === "streaming" || status === "submitted" || creatingConversation;
 
+  async function addImages(files: File[]) {
+    setAttachError("");
+    const room = MAX_IMAGES_PER_MESSAGE - attachments.length - preparing;
+    if (files.length > room) setAttachError(`Attach up to ${MAX_IMAGES_PER_MESSAGE} screenshots per message.`);
+    const accepted = files.slice(0, Math.max(0, room));
+    if (accepted.length === 0) return;
+    setPreparing((n) => n + accepted.length);
+    for (const file of accepted) {
+      try {
+        const part = await prepareScreenshot(file);
+        setAttachments((current) => [...current, part].slice(0, MAX_IMAGES_PER_MESSAGE));
+      } catch (err) {
+        setAttachError(err instanceof Error ? err.message : "That image could not be attached.");
+      } finally {
+        setPreparing((n) => n - 1);
+      }
+    }
+  }
+
+  function imagesFrom(list: FileList | null | undefined) {
+    return Array.from(list ?? []).filter((f) => f.type.startsWith("image/"));
+  }
+
+  function handlePaste(e: React.ClipboardEvent) {
+    const images = imagesFrom(e.clipboardData.files);
+    if (images.length === 0) return;
+    // Keep any text that was copied along with the image.
+    if (!e.clipboardData.getData("text/plain")) e.preventDefault();
+    void addImages(images);
+  }
+
+  function handleDrop(e: React.DragEvent) {
+    const images = imagesFrom(e.dataTransfer.files);
+    if (images.length === 0) return;
+    e.preventDefault();
+    void addImages(images);
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const text = input.trim();
-    if (!text || busy) return;
+    const files = attachments;
+    if ((!text && files.length === 0) || busy || preparing > 0) return;
     setInput("");
+    setAttachments([]);
+    setAttachError("");
 
     let id = activeId;
     if (!id) {
@@ -278,7 +330,7 @@ function JarenConversationPane({
         const res = await fetch("/api/jaren/conversations", {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ title: text.slice(0, 60) }),
+          body: JSON.stringify({ title: (text || "Screenshot").slice(0, 60) }),
         });
         if (!res.ok) throw new Error("Conversation history is unavailable.");
         if (res.ok) {
@@ -299,18 +351,18 @@ function JarenConversationPane({
       fetch(`/api/jaren/conversations/${id}/messages`, {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ role: "user", content: text }),
+        body: JSON.stringify({ role: "user", content: historyText(text, files.length) }),
       });
     }
 
-    void sendMessage({ text });
+    void sendMessage(files.length ? { text: text || "Please look at this screenshot.", files } : { text });
     // Signal the vortex background to pull its scattered particles back into
     // formation — the "Jaren enters" moment described alongside the design.
     window.dispatchEvent(new Event("jaren-enters"));
   }
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col" onDragOver={(e) => e.preventDefault()} onDrop={handleDrop}>
       {persistenceError && <p role="status" className="px-1 py-2 text-sm text-warning">{persistenceError}</p>}
       <div className="scrollbar-thin flex-1 space-y-4 overflow-y-auto px-1 py-2">
         {messages.length === 0 && (
@@ -329,6 +381,12 @@ function JarenConversationPane({
             }
           >
             {message.parts.map((part, i) => {
+              if (part.type === "file" && message.role === "user" && part.url.startsWith("data:image/")) {
+                return (
+                  // eslint-disable-next-line @next/next/no-img-element -- local data URL preview
+                  <img key={i} src={part.url} alt={part.filename ?? "Screenshot"} className="mb-1 max-h-48 rounded-md" />
+                );
+              }
               if (part.type !== "text") return null;
               if (message.role === "user") return <span key={i}>{part.text}</span>;
               return (
@@ -366,17 +424,60 @@ function JarenConversationPane({
           </div>
         )}
       </div>
-      <form onSubmit={handleSubmit} className="mt-3 flex gap-2 border-t border-border pt-3">
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Message Jaren..."
-          disabled={busy}
-          className="flex-1 rounded-card border border-border bg-surface px-3 py-2 text-sm text-foreground outline-none focus:border-brand"
-        />
-        <Button type="submit" disabled={busy || !input.trim()}>
-          Send
-        </Button>
+      <form onSubmit={handleSubmit} className="mt-3 border-t border-border pt-3">
+        {(attachments.length > 0 || preparing > 0) && (
+          <div className="mb-2 flex flex-wrap gap-2">
+            {attachments.map((a, i) => (
+              <div key={i} className="relative">
+                {/* eslint-disable-next-line @next/next/no-img-element -- local data URL preview */}
+                <img src={a.url} alt={a.filename ?? "Screenshot"} className="h-16 w-16 rounded-md border border-border object-cover" />
+                <button
+                  type="button"
+                  onClick={() => setAttachments((current) => current.filter((_, j) => j !== i))}
+                  aria-label="Remove screenshot"
+                  className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full border border-border bg-surface text-xs text-muted hover:text-foreground"
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+            {preparing > 0 && <div className="flex h-16 items-center px-2 text-xs text-muted">Adding screenshot…</div>}
+          </div>
+        )}
+        {attachError && <p role="alert" className="mb-2 text-xs text-red-600">{attachError}</p>}
+        <div className="flex gap-2">
+          <input
+            ref={fileInput}
+            type="file"
+            accept="image/png,image/jpeg,image/webp,image/gif"
+            multiple
+            hidden
+            onChange={(e) => {
+              void addImages(imagesFrom(e.target.files));
+              e.target.value = "";
+            }}
+          />
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => fileInput.current?.click()}
+            disabled={busy || attachments.length + preparing >= MAX_IMAGES_PER_MESSAGE}
+            title="Attach screenshots (or paste them into the message box)"
+          >
+            Attach
+          </Button>
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onPaste={handlePaste}
+            placeholder="Message Jaren… paste or attach a screenshot"
+            disabled={busy}
+            className="flex-1 rounded-card border border-border bg-surface px-3 py-2 text-sm text-foreground outline-none focus:border-brand"
+          />
+          <Button type="submit" disabled={busy || preparing > 0 || (!input.trim() && attachments.length === 0)}>
+            Send
+          </Button>
+        </div>
       </form>
     </div>
   );
