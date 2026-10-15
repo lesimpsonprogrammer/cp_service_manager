@@ -12,6 +12,7 @@ const NAV_ITEMS: { href: string; label: string; icon: string; screen: ClientPort
   { href: "/client/data", label: "Data & Syncs", icon: "⇄", screen: "data" },
   { href: "/client/contracts", label: "Contracts", icon: "📄", screen: "contracts" },
   { href: "/client/invoices", label: "Invoices", icon: "🧾", screen: "invoices" },
+  { href: "/client/support", label: "Support", icon: "🎫", screen: "support" },
 ];
 
 export function ClientPortalSidebar({ clientName, role }: { clientName: string; role: ClientPortalRole }) {

@@ -421,3 +421,69 @@ export async function sendSystemReportEmail({
   }
   return true;
 }
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+/**
+ * One template for every GLASS ticket notification. Everything passed in is
+ * treated as plain text and escaped — ticket subjects and replies are user
+ * content, including from client-portal users.
+ */
+export async function sendGlassTicketEmail({
+  to,
+  subject,
+  heading,
+  intro,
+  quote,
+  ctaLabel,
+  ctaUrl,
+}: {
+  to: string | string[];
+  subject: string;
+  heading: string;
+  intro: string;
+  quote?: string | null;
+  ctaLabel: string;
+  ctaUrl: string;
+}): Promise<boolean> {
+  const resend = getClient();
+  if (!resend) {
+    console.warn("RESEND_API_KEY not set — skipping GLASS ticket email.");
+    return false;
+  }
+
+  const recipients = (Array.isArray(to) ? to : [to]).filter(Boolean);
+  if (recipients.length === 0) return false;
+
+  const trimmedQuote = quote ? (quote.length > 1500 ? `${quote.slice(0, 1500)}…` : quote) : null;
+
+  const { error } = await resend.emails.send({
+    from: FROM,
+    to: recipients,
+    subject,
+    html: `
+      <p style="margin:0 0 4px;color:#666;font-size:12px;letter-spacing:.08em;text-transform:uppercase;">GLASS Service Desk</p>
+      <h2 style="margin:0 0 12px;font-size:18px;">${escapeHtml(heading)}</h2>
+      <p>${escapeHtml(intro)}</p>
+      ${
+        trimmedQuote
+          ? `<blockquote style="margin:16px 0;padding:8px 12px;border-left:3px solid #1d4ed8;color:#333;white-space:pre-wrap;">${escapeHtml(trimmedQuote)}</blockquote>`
+          : ""
+      }
+      <p><a href="${escapeHtml(ctaUrl)}">${escapeHtml(ctaLabel)}</a></p>
+      <p style="margin-top:24px;color:#666;font-size:12px;">Reply from the link above so your message stays on the ticket.</p>
+    `,
+  });
+  if (error) {
+    console.error("Resend error sending GLASS ticket email:", error);
+    return false;
+  }
+  return true;
+}

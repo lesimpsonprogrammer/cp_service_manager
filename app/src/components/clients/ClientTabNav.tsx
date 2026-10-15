@@ -11,6 +11,7 @@ export function ClientTabNav({ clientId }: { clientId: string }) {
   const items = [
     { href: base, label: "Overview", exact: true },
     { href: `${base}/onboarding`, label: "Onboarding" },
+    { href: `${base}/tickets`, label: "Tickets" },
     { href: `${base}/contracts`, label: "Contracts" },
     { href: `${base}/time`, label: "Time Tracking" },
     { href: `${base}/invoices`, label: "Invoices" },

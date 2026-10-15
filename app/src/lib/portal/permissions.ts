@@ -1,11 +1,11 @@
 export type ClientPortalRole = "client_user" | "client_administrator" | "client_tpa";
 
-export type ClientPortalScreen = "dashboard" | "data" | "contracts" | "invoices";
+export type ClientPortalScreen = "dashboard" | "data" | "contracts" | "invoices" | "support";
 
 const SCREEN_ACCESS: Record<ClientPortalRole, ClientPortalScreen[]> = {
-  client_user: ["dashboard", "data"],
-  client_administrator: ["dashboard", "data", "contracts", "invoices"],
-  client_tpa: ["contracts", "invoices"],
+  client_user: ["dashboard", "data", "support"],
+  client_administrator: ["dashboard", "data", "contracts", "invoices", "support"],
+  client_tpa: ["contracts", "invoices", "support"],
 };
 
 export const SCREEN_PATHS: Record<ClientPortalScreen, string> = {
@@ -13,6 +13,7 @@ export const SCREEN_PATHS: Record<ClientPortalScreen, string> = {
   data: "/client/data",
   contracts: "/client/contracts",
   invoices: "/client/invoices",
+  support: "/client/support",
 };
 
 export const CLIENT_PORTAL_ROLE_LABELS: Record<ClientPortalRole, string> = {
