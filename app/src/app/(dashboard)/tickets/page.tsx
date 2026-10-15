@@ -148,11 +148,11 @@ export default async function TicketsPage({
       </div>
 
       <Card className="mb-4 p-3">
-        <form method="get" className="flex flex-wrap items-end gap-2">
+        <form method="get" className="grid grid-cols-2 items-center gap-2 md:grid-cols-4 xl:grid-cols-8">
           {filters.queue !== "open" && <input type="hidden" name="queue" value={filters.queue} />}
           {filters.view !== "list" && <input type="hidden" name="view" value={filters.view} />}
-          <Input name="q" defaultValue={filters.q} placeholder="Search subject, GLS-number, requester…" className="h-8 min-w-[14rem] flex-1 text-xs" aria-label="Search tickets" />
-          <Select name="priority" defaultValue={filters.priority ?? ""} className="h-8 w-auto text-xs" aria-label="Priority">
+          <Input name="q" defaultValue={filters.q} placeholder="Search subject, GLS-number, requester…" className="col-span-2 h-8 text-xs" aria-label="Search tickets" />
+          <Select name="priority" defaultValue={filters.priority ?? ""} className="h-8 text-xs" aria-label="Priority">
             <option value="">Any priority</option>
             {TICKET_PRIORITIES.map((p) => (
               <option key={p} value={p}>
@@ -160,7 +160,7 @@ export default async function TicketsPage({
               </option>
             ))}
           </Select>
-          <Select name="type" defaultValue={filters.type ?? ""} className="h-8 w-auto text-xs" aria-label="Type">
+          <Select name="type" defaultValue={filters.type ?? ""} className="h-8 text-xs" aria-label="Type">
             <option value="">Any type</option>
             {TICKET_TYPES.map((t) => (
               <option key={t} value={t}>
@@ -168,7 +168,7 @@ export default async function TicketsPage({
               </option>
             ))}
           </Select>
-          <Select name="client" defaultValue={filters.clientId ?? ""} className="h-8 w-auto max-w-[12rem] text-xs" aria-label="Client">
+          <Select name="client" defaultValue={filters.clientId ?? ""} className="h-8 text-xs" aria-label="Client">
             <option value="">Any client</option>
             {(clients ?? []).map((c) => (
               <option key={c.id} value={c.id}>
@@ -176,7 +176,7 @@ export default async function TicketsPage({
               </option>
             ))}
           </Select>
-          <Select name="category" defaultValue={filters.categoryId ?? ""} className="h-8 w-auto max-w-[12rem] text-xs" aria-label="Category">
+          <Select name="category" defaultValue={filters.categoryId ?? ""} className="h-8 text-xs" aria-label="Category">
             <option value="">Any category</option>
             {(categories ?? []).map((c) => (
               <option key={c.id} value={c.id}>
@@ -184,7 +184,7 @@ export default async function TicketsPage({
               </option>
             ))}
           </Select>
-          <Select name="assignee" defaultValue={filters.assigneeId ?? ""} className="h-8 w-auto max-w-[12rem] text-xs" aria-label="Assignee">
+          <Select name="assignee" defaultValue={filters.assigneeId ?? ""} className="h-8 text-xs" aria-label="Assignee">
             <option value="">Any assignee</option>
             {members.map((m) => (
               <option key={m.userId} value={m.userId}>
@@ -192,21 +192,23 @@ export default async function TicketsPage({
               </option>
             ))}
           </Select>
-          <Select name="sort" defaultValue={filters.sort} className="h-8 w-auto text-xs" aria-label="Sort">
+          <Select name="sort" defaultValue={filters.sort} className="h-8 text-xs" aria-label="Sort">
             {SORTS.map((s) => (
               <option key={s} value={s}>
                 Sort: {SORT_LABELS[s]}
               </option>
             ))}
           </Select>
-          <Button type="submit" size="sm" variant="secondary">
-            Apply
-          </Button>
-          {hasFilters && (
-            <Link href={queueHref(filters, { q: "", priority: null, type: null, clientId: null, categoryId: null, assigneeId: null })} className="self-center text-xs text-muted hover:text-foreground">
-              Clear
-            </Link>
-          )}
+          <div className="flex items-center gap-3">
+            <Button type="submit" size="sm" variant="secondary">
+              Apply
+            </Button>
+            {hasFilters && (
+              <Link href={queueHref(filters, { q: "", priority: null, type: null, clientId: null, categoryId: null, assigneeId: null })} className="text-xs text-muted hover:text-foreground">
+                Clear
+              </Link>
+            )}
+          </div>
         </form>
       </Card>
 

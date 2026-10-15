@@ -123,6 +123,11 @@ export default async function ClientTicketPage({
           )}
 
           {done && !ticket.satisfaction_rating && <ClientRatingForm ticketId={ticket.id} />}
+          {ticket.satisfaction_rating && (
+            <p className="rounded-md border border-success/30 bg-success/10 px-3 py-2 text-sm text-success" role="status">
+              Thanks for the feedback! You rated this request {ticket.satisfaction_rating}/5.
+            </p>
+          )}
         </div>
 
         <aside>

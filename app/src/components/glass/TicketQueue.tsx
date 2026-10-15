@@ -66,34 +66,40 @@ export function TicketQueue({
           {Array.from(selected).map((id) => (
             <input key={id} type="hidden" name="ticket_ids" value={id} />
           ))}
-          <p className="mr-auto self-center text-sm text-muted">
+          <p className="w-full text-sm text-muted sm:mr-auto sm:w-auto sm:flex-1">
             {selected.size === 0 ? "Select tickets to update them together" : `${selected.size} selected`}
           </p>
-          <Select name="bulk_status" defaultValue="" aria-label="Set status" className="h-8 w-auto text-xs">
-            <option value="">Status…</option>
-            {TICKET_STATUSES.map((s) => (
-              <option key={s} value={s}>
-                {STATUS_LABELS[s]}
-              </option>
-            ))}
-          </Select>
-          <Select name="bulk_priority" defaultValue="" aria-label="Set priority" className="h-8 w-auto text-xs">
-            <option value="">Priority…</option>
-            {TICKET_PRIORITIES.map((p) => (
-              <option key={p} value={p}>
-                {PRIORITY_LABELS[p]}
-              </option>
-            ))}
-          </Select>
-          <Select name="bulk_assignee" defaultValue="" aria-label="Set assignee" className="h-8 w-auto text-xs">
-            <option value="">Assignee…</option>
-            <option value="unassigned">Unassigned</option>
-            {members.map((m) => (
-              <option key={m.userId} value={m.userId}>
-                {m.fullName}
-              </option>
-            ))}
-          </Select>
+          <div className="w-36">
+            <Select name="bulk_status" defaultValue="" aria-label="Set status" className="h-8 text-xs">
+              <option value="">Status…</option>
+              {TICKET_STATUSES.map((s) => (
+                <option key={s} value={s}>
+                  {STATUS_LABELS[s]}
+                </option>
+              ))}
+            </Select>
+          </div>
+          <div className="w-32">
+            <Select name="bulk_priority" defaultValue="" aria-label="Set priority" className="h-8 text-xs">
+              <option value="">Priority…</option>
+              {TICKET_PRIORITIES.map((p) => (
+                <option key={p} value={p}>
+                  {PRIORITY_LABELS[p]}
+                </option>
+              ))}
+            </Select>
+          </div>
+          <div className="w-40">
+            <Select name="bulk_assignee" defaultValue="" aria-label="Set assignee" className="h-8 text-xs">
+              <option value="">Assignee…</option>
+              <option value="unassigned">Unassigned</option>
+              {members.map((m) => (
+                <option key={m.userId} value={m.userId}>
+                  {m.fullName}
+                </option>
+              ))}
+            </Select>
+          </div>
           <Button type="submit" size="sm" disabled={pending || selected.size === 0}>
             {pending ? "Applying…" : "Apply"}
           </Button>

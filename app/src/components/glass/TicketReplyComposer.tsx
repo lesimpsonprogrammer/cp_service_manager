@@ -77,23 +77,25 @@ export function TicketReplyComposer({
           ))}
         </div>
         {macros.length > 0 && (
-          <Select
-            aria-label="Insert a macro"
-            defaultValue=""
-            className="ml-auto h-8 w-auto text-xs"
-            onChange={(e) => {
-              const macro = macros.find((m) => m.id === e.target.value);
-              if (macro) setBody((prev) => (prev ? `${prev}\n\n` : "") + applyMacro(macro.body, macroVars));
-              e.target.value = "";
-            }}
-          >
-            <option value="">Insert macro…</option>
-            {macros.map((m) => (
-              <option key={m.id} value={m.id}>
-                {m.name}
-              </option>
-            ))}
-          </Select>
+          <div className="ml-auto w-48">
+            <Select
+              aria-label="Insert a macro"
+              defaultValue=""
+              className="h-8 text-xs"
+              onChange={(e) => {
+                const macro = macros.find((m) => m.id === e.target.value);
+                if (macro) setBody((prev) => (prev ? `${prev}\n\n` : "") + applyMacro(macro.body, macroVars));
+                e.target.value = "";
+              }}
+            >
+              <option value="">Insert macro…</option>
+              {macros.map((m) => (
+                <option key={m.id} value={m.id}>
+                  {m.name}
+                </option>
+              ))}
+            </Select>
+          </div>
         )}
       </div>
 
@@ -128,7 +130,7 @@ export function TicketReplyComposer({
             <label htmlFor="next_status" className="mb-1 block text-xs text-muted">
               Then set status
             </label>
-            <Select id="next_status" name="next_status" defaultValue="" className="h-9 w-auto text-sm">
+            <Select id="next_status" name="next_status" defaultValue="" className="h-9 text-sm">
               <option value="">Keep ({STATUS_LABELS[currentStatus]})</option>
               {TICKET_STATUSES.filter((s) => s !== currentStatus && s !== "new").map((s) => (
                 <option key={s} value={s}>
