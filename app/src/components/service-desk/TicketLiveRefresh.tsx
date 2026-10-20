@@ -32,7 +32,7 @@ export function TicketLiveRefresh({
       timer.current = setTimeout(() => router.refresh(), 400);
     };
 
-    let channel = supabase.channel(`glass-${ticketId ?? clientId ?? orgId ?? "queue"}`);
+    let channel = supabase.channel(`service-desk-${ticketId ?? clientId ?? orgId ?? "queue"}`);
     if (ticketId) {
       channel = channel
         .on("postgres_changes", { event: "*", schema: "public", table: "tickets", filter: `id=eq.${ticketId}` }, refresh)

@@ -1,9 +1,9 @@
 import { after } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { authenticateApiKey, unauthorized } from "@/lib/api-keys/auth";
-import { notifyTicketCreated } from "@/lib/glass/notify";
-import { fetchQueue, parseQueueFilters } from "@/lib/glass/queue";
-import { firstIssue, parseApiCreateTicket, ticketStatusSchema } from "@/lib/glass/validation";
+import { notifyTicketCreated } from "@/lib/service-desk/notify";
+import { fetchQueue, parseQueueFilters } from "@/lib/service-desk/queue";
+import { firstIssue, parseApiCreateTicket, ticketStatusSchema } from "@/lib/service-desk/validation";
 
 const PUBLIC_COLUMNS =
   "id, ticket_number, subject, description, status, priority, type, channel, client_id, project_id, category_id, assignee_id, requester_name, requester_email, client_visible, tags, first_response_due_at, resolution_due_at, first_responded_at, resolved_at, closed_at, satisfaction_rating, created_at, updated_at, last_activity_at";
@@ -66,8 +66,8 @@ export async function POST(request: Request) {
     .single();
 
   if (error || !data) {
-    const glass = error?.message.match(/GLASS: (.+)$/);
-    return Response.json({ error: glass ? glass[1] : "Couldn't create the ticket." }, { status: glass ? 422 : 500 });
+    const dbError = error?.message.match(/SERVICE_DESK: (.+)$/);
+    return Response.json({ error: dbError ? dbError[1] : "Couldn't create the ticket." }, { status: dbError ? 422 : 500 });
   }
 
   after(() => notifyTicketCreated(data.id, null));

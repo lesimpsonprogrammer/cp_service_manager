@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { describeClock, formatDuration, getSlaSnapshot, type SlaTicketFields } from "@/lib/glass/sla";
+import { describeClock, formatDuration, getSlaSnapshot, type SlaTicketFields } from "@/lib/service-desk/sla";
 
 const now = new Date("2026-10-15T12:00:00Z");
 const at = (minutesFromNow: number) => new Date(now.getTime() + minutesFromNow * 60000).toISOString();

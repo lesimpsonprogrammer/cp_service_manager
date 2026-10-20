@@ -5,16 +5,16 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentClientPortalUser } from "@/lib/portal/getCurrentClientPortalUser";
 import { canAccessPortalScreen, firstAccessiblePortalPath } from "@/lib/portal/permissions";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { TicketPriorityBadge, TicketStatusBadge } from "@/components/glass/TicketBadges";
-import { TicketThread } from "@/components/glass/TicketThread";
-import { TicketLiveRefresh } from "@/components/glass/TicketLiveRefresh";
-import { LocalTime } from "@/components/glass/LocalTime";
+import { TicketPriorityBadge, TicketStatusBadge } from "@/components/service-desk/TicketBadges";
+import { TicketThread } from "@/components/service-desk/TicketThread";
+import { TicketLiveRefresh } from "@/components/service-desk/TicketLiveRefresh";
+import { LocalTime } from "@/components/service-desk/LocalTime";
 import {
   ClientRatingForm,
   ClientReplyForm,
   ClientStatusButton,
-} from "@/components/glass/ClientPortalTicketForms";
-import { TYPE_LABELS } from "@/lib/glass/constants";
+} from "@/components/service-desk/ClientPortalTicketForms";
+import { TYPE_LABELS } from "@/lib/service-desk/constants";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 

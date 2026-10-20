@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils/cn";
-import { formatBytes } from "@/lib/glass/attachments";
+import { formatBytes } from "@/lib/service-desk/attachments";
 import { LocalTime } from "./LocalTime";
 
 export interface ThreadAttachment {
@@ -25,7 +25,7 @@ function AttachmentList({ items }: { items: ThreadAttachment[] }) {
       {items.map((a) => (
         <li key={a.id}>
           <a
-            href={`/api/glass/attachments/${a.id}`}
+            href={`/api/service-desk/attachments/${a.id}`}
             className="inline-flex items-center gap-1.5 rounded-md border border-border bg-surface-2 px-2.5 py-1 text-xs text-foreground hover:border-brand/50"
           >
             <span aria-hidden="true">📎</span>

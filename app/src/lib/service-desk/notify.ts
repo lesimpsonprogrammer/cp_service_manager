@@ -1,5 +1,5 @@
 import { createAdminClient } from "@/lib/supabase/admin";
-import { sendGlassTicketEmail } from "@/lib/email/resend";
+import { sendServiceDeskTicketEmail } from "@/lib/email/resend";
 import { dispatchEvent } from "@/lib/webhooks/dispatch";
 import type { TicketStatus } from "@/types/database";
 import { CLIENT_STATUS_LABELS, PRIORITY_LABELS, STATUS_LABELS, WEBHOOK_EVENTS } from "./constants";
@@ -55,7 +55,7 @@ async function safely(label: string, fn: () => Promise<void>) {
   try {
     await fn();
   } catch (err) {
-    console.error(`GLASS notification failed (${label}):`, err);
+    console.error(`Service Desk notification failed (${label}):`, err);
   }
 }
 
@@ -66,12 +66,12 @@ export async function notifyTicketCreated(ticketId: string, actorId: string | nu
 
     const staff = await staffRecipients(admin, ticket, actorId);
     if (staff.length) {
-      await sendGlassTicketEmail({
+      await sendServiceDeskTicketEmail({
         to: staff,
         subject: `[${ticket.ticket_number}] New ${PRIORITY_LABELS[ticket.priority].toLowerCase()} ticket: ${ticket.subject}`,
         heading: `${ticket.ticket_number} · ${ticket.subject}`,
         intro: `A new ticket was opened${ticket.requester_name ? ` by ${ticket.requester_name}` : ""} and is assigned to you.`,
-        ctaLabel: "Open the ticket in GLASS",
+        ctaLabel: "Open the ticket in the Service Desk",
         ctaUrl: staffTicketUrl(ticket.id),
       });
     }
@@ -80,7 +80,7 @@ export async function notifyTicketCreated(ticketId: string, actorId: string | nu
     if (ticket.channel !== "staff") {
       const to = await requesterEmail(admin, ticket);
       if (to) {
-        await sendGlassTicketEmail({
+        await sendServiceDeskTicketEmail({
           to,
           subject: `[${ticket.ticket_number}] We received your request: ${ticket.subject}`,
           heading: `We've got it — ${ticket.ticket_number}`,
@@ -117,13 +117,13 @@ export async function notifyTicketReply(ticketId: string, messageId: string) {
     if (message.author_type === "client") {
       const staff = await staffRecipients(admin, ticket, null);
       if (staff.length) {
-        await sendGlassTicketEmail({
+        await sendServiceDeskTicketEmail({
           to: staff,
           subject: `[${ticket.ticket_number}] Client replied: ${ticket.subject}`,
           heading: `${message.author_name ?? "The client"} replied`,
           intro: `New reply on ${ticket.ticket_number}.`,
           quote: message.body,
-          ctaLabel: "Respond in GLASS",
+          ctaLabel: "Respond in the Service Desk",
           ctaUrl: staffTicketUrl(ticket.id),
         });
       }
@@ -131,13 +131,13 @@ export async function notifyTicketReply(ticketId: string, messageId: string) {
       // Internal notes go to the rest of the team on the ticket only.
       const staff = await staffRecipients(admin, ticket, message.author_id);
       if (staff.length) {
-        await sendGlassTicketEmail({
+        await sendServiceDeskTicketEmail({
           to: staff,
           subject: `[${ticket.ticket_number}] Internal note: ${ticket.subject}`,
           heading: `${message.author_name ?? "A teammate"} added an internal note`,
           intro: `Internal note on ${ticket.ticket_number} (not visible to the client).`,
           quote: message.body,
-          ctaLabel: "Open the ticket in GLASS",
+          ctaLabel: "Open the ticket in the Service Desk",
           ctaUrl: staffTicketUrl(ticket.id),
         });
       }
@@ -145,7 +145,7 @@ export async function notifyTicketReply(ticketId: string, messageId: string) {
     } else {
       const to = await requesterEmail(admin, ticket);
       if (to) {
-        await sendGlassTicketEmail({
+        await sendServiceDeskTicketEmail({
           to,
           subject: `[${ticket.ticket_number}] New reply: ${ticket.subject}`,
           heading: `${message.author_name ?? "Our team"} replied to your request`,
@@ -176,7 +176,7 @@ export async function notifyStatusChanged(ticketId: string, from: TicketStatus, 
       const to = await requesterEmail(admin, ticket);
       if (to && ticket.requester_user_id !== actorId) {
         const resolved = ticket.status === "resolved";
-        await sendGlassTicketEmail({
+        await sendServiceDeskTicketEmail({
           to,
           subject: `[${ticket.ticket_number}] ${resolved ? "Resolved" : "Waiting on your reply"}: ${ticket.subject}`,
           heading: resolved ? `${ticket.ticket_number} is resolved` : `We need a bit more from you on ${ticket.ticket_number}`,
@@ -191,12 +191,12 @@ export async function notifyStatusChanged(ticketId: string, from: TicketStatus, 
 
     const staff = await staffRecipients(admin, ticket, actorId);
     if (staff.length) {
-      await sendGlassTicketEmail({
+      await sendServiceDeskTicketEmail({
         to: staff,
         subject: `[${ticket.ticket_number}] ${STATUS_LABELS[from]} → ${STATUS_LABELS[ticket.status]}`,
         heading: `${ticket.ticket_number} is now ${STATUS_LABELS[ticket.status].toLowerCase()}`,
         intro: `${ticket.subject} moved from "${STATUS_LABELS[from]}" to "${STATUS_LABELS[ticket.status]}". The client sees "${CLIENT_STATUS_LABELS[ticket.status]}".`,
-        ctaLabel: "Open the ticket in GLASS",
+        ctaLabel: "Open the ticket in the Service Desk",
         ctaUrl: staffTicketUrl(ticket.id),
       });
     }
@@ -217,12 +217,12 @@ export async function notifyAssigned(ticketId: string, actorId: string | null) {
     const emails = await getUserEmails(admin, [ticket.assignee_id]);
     const to = emails.get(ticket.assignee_id);
     if (!to) return;
-    await sendGlassTicketEmail({
+    await sendServiceDeskTicketEmail({
       to,
       subject: `[${ticket.ticket_number}] Assigned to you: ${ticket.subject}`,
       heading: `${ticket.ticket_number} is yours`,
       intro: `You're now the owner of "${ticket.subject}" (${PRIORITY_LABELS[ticket.priority]} priority).`,
-      ctaLabel: "Open the ticket in GLASS",
+      ctaLabel: "Open the ticket in the Service Desk",
       ctaUrl: staffTicketUrl(ticket.id),
     });
   });

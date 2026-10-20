@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { createAttachmentDownloadUrl } from "@/lib/glass/attachments";
+import { createAttachmentDownloadUrl } from "@/lib/service-desk/attachments";
 
 // Shared by staff and client-portal users (session cookie auth). The
 // RLS-scoped select is the access check — portal users can't see files on

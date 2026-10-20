@@ -11,12 +11,12 @@ import {
   deleteTicketMacro,
   saveSlaPolicies,
   setTicketCategoryActive,
-  type GlassFormState,
+  type ServiceDeskFormState,
 } from "@/app/(dashboard)/tickets/actions";
-import { PRIORITY_LABELS, TICKET_PRIORITIES } from "@/lib/glass/constants";
+import { PRIORITY_LABELS, TICKET_PRIORITIES } from "@/lib/service-desk/constants";
 import type { TicketPriority } from "@/types/database";
 
-function FormMessage({ state }: { state: GlassFormState }) {
+function FormMessage({ state }: { state: ServiceDeskFormState }) {
   if (!state.error && !state.success) return null;
   return (
     <p className={cn("text-sm", state.error ? "text-danger" : "text-success")} role="status">
@@ -34,7 +34,7 @@ export function SlaPoliciesForm({
   policies: Record<TicketPriority, { firstResponse: number; resolution: number; custom: boolean }>;
   editable: boolean;
 }) {
-  const [state, formAction, pending] = useActionState(saveSlaPolicies, { error: null } as GlassFormState);
+  const [state, formAction, pending] = useActionState(saveSlaPolicies, { error: null } as ServiceDeskFormState);
   return (
     <form action={formAction} className="space-y-3">
       <div className="overflow-x-auto">
@@ -104,7 +104,7 @@ export function CategoriesPanel({
   members: { userId: string; fullName: string }[];
   editable: boolean;
 }) {
-  const [state, formAction, pending] = useActionState(createTicketCategory, { error: null } as GlassFormState);
+  const [state, formAction, pending] = useActionState(createTicketCategory, { error: null } as ServiceDeskFormState);
   const [rowPending, startTransition] = useTransition();
   const memberName = (id: string | null) => (id ? members.find((m) => m.userId === id)?.fullName ?? "Former teammate" : null);
 
@@ -185,7 +185,7 @@ export function CategoriesPanel({
 }
 
 export function MacrosPanel({ macros, editable }: { macros: { id: string; name: string; body: string }[]; editable: boolean }) {
-  const [state, formAction, pending] = useActionState(createTicketMacro, { error: null } as GlassFormState);
+  const [state, formAction, pending] = useActionState(createTicketMacro, { error: null } as ServiceDeskFormState);
   const [rowPending, startTransition] = useTransition();
 
   return (

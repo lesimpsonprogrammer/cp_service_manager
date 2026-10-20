@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
 import type { OrgRole } from "@/types/database";
 import { ESSENTIAL_SKILL_LABELS, ENHANCED_SKILL_LABELS } from "@/lib/jaren/agent";
+import { emitEvent } from "@/lib/webhooks/emit";
 
 export interface SettingsFormState {
   error: string | null;
@@ -27,14 +28,26 @@ export async function createInvite(
   if (!VALID_ROLES.has(role)) return { error: "Invalid role." };
 
   const supabase = await createClient();
-  const { error } = await supabase.from("org_invites").insert({
-    org_id: org.orgId,
+  const { data: invite, error } = await supabase
+    .from("org_invites")
+    .insert({
+      org_id: org.orgId,
+      email,
+      role,
+      invited_by: org.userId,
+    })
+    .select("id")
+    .single();
+
+  if (error || !invite) return { error: error?.message ?? "Couldn't create the invite." };
+
+  emitEvent(org.orgId, "security.member.invited", {
+    id: invite.id,
     email,
     role,
-    invited_by: org.userId,
+    actor_email: org.userEmail,
+    org_name: org.orgName,
   });
-
-  if (error) return { error: error.message };
 
   revalidatePath("/settings");
   return { error: null };
@@ -66,7 +79,7 @@ export async function approveSignupRequest(
 
   const { data: request } = await supabase
     .from("signup_requests")
-    .select("id, user_id, status")
+    .select("id, user_id, email, status")
     .eq("id", requestId)
     .single();
 
@@ -92,6 +105,14 @@ export async function approveSignupRequest(
     .eq("id", requestId);
 
   if (error) return { error: error.message };
+
+  emitEvent(org.orgId, "security.signup.approved", {
+    id: request.id,
+    email: request.email,
+    role,
+    actor_email: org.userEmail,
+    org_name: org.orgName,
+  });
 
   revalidatePath("/settings");
   return { error: null };

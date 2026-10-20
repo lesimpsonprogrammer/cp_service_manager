@@ -1,8 +1,8 @@
 import { after } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { authenticateApiKey, unauthorized } from "@/lib/api-keys/auth";
-import { notifyTicketReply } from "@/lib/glass/notify";
-import { apiMessageSchema, firstIssue } from "@/lib/glass/validation";
+import { notifyTicketReply } from "@/lib/service-desk/notify";
+import { apiMessageSchema, firstIssue } from "@/lib/service-desk/validation";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 

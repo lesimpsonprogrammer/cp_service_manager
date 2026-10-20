@@ -5,11 +5,11 @@ import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
 import { getOrgMembers } from "@/lib/org/getOrgMembers";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/Card";
-import { CategoriesPanel, MacrosPanel, SlaPoliciesForm } from "@/components/glass/GlassSettingsPanels";
-import { AUTO_CLOSE_AFTER_DAYS, DEFAULT_SLA_MINUTES, TICKET_PRIORITIES } from "@/lib/glass/constants";
+import { CategoriesPanel, MacrosPanel, SlaPoliciesForm } from "@/components/service-desk/ServiceDeskSettingsPanels";
+import { AUTO_CLOSE_AFTER_DAYS, DEFAULT_SLA_MINUTES, TICKET_PRIORITIES } from "@/lib/service-desk/constants";
 import type { TicketPriority } from "@/types/database";
 
-export default async function GlassSettingsPage() {
+export default async function ServiceDeskSettingsPage() {
   const org = await getCurrentOrg();
   if (!org) redirect("/login");
   const isAdmin = org.role === "owner" || org.role === "admin";
@@ -43,11 +43,11 @@ export default async function GlassSettingsPage() {
     <div className="max-w-3xl space-y-4">
       <div className="text-sm text-muted">
         <Link href="/tickets" className="hover:text-foreground">
-          ← GLASS Tickets
+          ← Service Desk
         </Link>
       </div>
       <PageHeader
-        title="GLASS settings"
+        title="Service Desk settings"
         description={`SLA targets, routing, and canned replies. Resolved tickets auto-close after ${AUTO_CLOSE_AFTER_DAYS} days without activity.`}
       />
 

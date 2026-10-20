@@ -7,8 +7,8 @@ import {
   STATUS_LABELS,
   STATUS_TONES,
   type Tone,
-} from "@/lib/glass/constants";
-import { describeClock, getSlaSnapshot, type SlaClockState, type SlaTicketFields } from "@/lib/glass/sla";
+} from "@/lib/service-desk/constants";
+import { describeClock, getSlaSnapshot, type SlaClockState, type SlaTicketFields } from "@/lib/service-desk/sla";
 import type { TicketPriority, TicketStatus } from "@/types/database";
 
 const DOT: Record<Tone, string> = {

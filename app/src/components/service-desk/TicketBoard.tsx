@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { STATUS_LABELS } from "@/lib/glass/constants";
+import { STATUS_LABELS } from "@/lib/service-desk/constants";
 import type { TicketStatus } from "@/types/database";
 import { TicketPriorityBadge } from "./TicketBadges";
 import type { QueueTableRow } from "./TicketQueue";

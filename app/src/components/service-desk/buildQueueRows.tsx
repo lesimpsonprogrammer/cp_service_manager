@@ -1,4 +1,4 @@
-import type { QueueRow } from "@/lib/glass/queue";
+import type { QueueRow } from "@/lib/service-desk/queue";
 import { SlaBadge } from "./TicketBadges";
 import type { QueueTableRow } from "./TicketQueue";
 

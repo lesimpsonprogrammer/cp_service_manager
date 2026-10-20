@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { reportEmailFailure } from "@/lib/webhooks/emit";
 import type { SystemReportSection } from "@/lib/reports/systemReport";
 
 const FROM = process.env.RESEND_FROM_EMAIL ?? "notifications@cpservicemanager.com";
@@ -45,6 +46,7 @@ export async function sendContractSigningEmail({
   });
   if (error) {
     console.error("Resend error sending contract signing email:", error);
+    reportEmailFailure("contract signing", error);
     return false;
   }
   return true;
@@ -81,6 +83,7 @@ export async function sendContractReminderEmail({
   });
   if (error) {
     console.error("Resend error sending contract reminder email:", error);
+    reportEmailFailure("contract reminder", error);
     return false;
   }
   return true;
@@ -121,6 +124,7 @@ export async function sendTimecardApprovalEmail({
   });
   if (error) {
     console.error("Resend error sending timecard approval email:", error);
+    reportEmailFailure("timecard approval", error);
     return false;
   }
   return true;
@@ -159,6 +163,7 @@ export async function sendTimecardDecisionNotification({
   });
   if (error) {
     console.error("Resend error sending timecard decision email:", error);
+    reportEmailFailure("timecard decision", error);
     return false;
   }
   return true;
@@ -194,6 +199,7 @@ export async function sendClientPortalInviteEmail({
   });
   if (error) {
     console.error("Resend error sending client portal invite email:", error);
+    reportEmailFailure("client portal invite", error);
     return false;
   }
   return true;
@@ -232,6 +238,7 @@ export async function sendProjectStageChangeEmail({
   });
   if (error) {
     console.error("Resend error sending project stage change email:", error);
+    reportEmailFailure("project stage change", error);
     return false;
   }
   return true;
@@ -277,6 +284,7 @@ export async function sendPipelineRunClientEmail({
   });
   if (sendError) {
     console.error("Resend error sending pipeline run client email:", sendError);
+    reportEmailFailure("pipeline run client", sendError);
     return false;
   }
   return true;
@@ -307,6 +315,7 @@ export async function sendContractSignedNotification({
   });
   if (error) {
     console.error("Resend error sending signed notification email:", error);
+    reportEmailFailure("signed notification", error);
     return false;
   }
   return true;
@@ -351,6 +360,7 @@ export async function sendInvoiceEmail({
   });
   if (error) {
     console.error("Resend error sending invoice email:", error);
+    reportEmailFailure("invoice", error);
     return false;
   }
   return true;
@@ -417,6 +427,7 @@ export async function sendSystemReportEmail({
   });
   if (error) {
     console.error("Resend error sending system report email:", error);
+    reportEmailFailure("system report", error);
     return false;
   }
   return true;
@@ -432,11 +443,11 @@ function escapeHtml(value: string): string {
 }
 
 /**
- * One template for every GLASS ticket notification. Everything passed in is
+ * One template for every Service Desk ticket notification. Everything passed in is
  * treated as plain text and escaped — ticket subjects and replies are user
  * content, including from client-portal users.
  */
-export async function sendGlassTicketEmail({
+export async function sendServiceDeskTicketEmail({
   to,
   subject,
   heading,
@@ -455,7 +466,7 @@ export async function sendGlassTicketEmail({
 }): Promise<boolean> {
   const resend = getClient();
   if (!resend) {
-    console.warn("RESEND_API_KEY not set — skipping GLASS ticket email.");
+    console.warn("RESEND_API_KEY not set — skipping Service Desk ticket email.");
     return false;
   }
 
@@ -469,7 +480,7 @@ export async function sendGlassTicketEmail({
     to: recipients,
     subject,
     html: `
-      <p style="margin:0 0 4px;color:#666;font-size:12px;letter-spacing:.08em;text-transform:uppercase;">GLASS Service Desk</p>
+      <p style="margin:0 0 4px;color:#666;font-size:12px;letter-spacing:.08em;text-transform:uppercase;">CP Service Manager Service Desk</p>
       <h2 style="margin:0 0 12px;font-size:18px;">${escapeHtml(heading)}</h2>
       <p>${escapeHtml(intro)}</p>
       ${
@@ -482,7 +493,8 @@ export async function sendGlassTicketEmail({
     `,
   });
   if (error) {
-    console.error("Resend error sending GLASS ticket email:", error);
+    console.error("Resend error sending Service Desk ticket email:", error);
+    reportEmailFailure("Service Desk ticket", error);
     return false;
   }
   return true;

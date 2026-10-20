@@ -4,8 +4,8 @@ import { useActionState, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Label, Select, Textarea } from "@/components/ui/Input";
 import { cn } from "@/lib/utils/cn";
-import { postTicketReply, type GlassFormState } from "@/app/(dashboard)/tickets/actions";
-import { MAX_ATTACHMENTS_PER_MESSAGE, STATUS_LABELS, TICKET_STATUSES } from "@/lib/glass/constants";
+import { postTicketReply, type ServiceDeskFormState } from "@/app/(dashboard)/tickets/actions";
+import { MAX_ATTACHMENTS_PER_MESSAGE, STATUS_LABELS, TICKET_STATUSES } from "@/lib/service-desk/constants";
 import type { TicketStatus } from "@/types/database";
 
 export interface MacroOption {
@@ -36,14 +36,14 @@ export function TicketReplyComposer({
   const [visibility, setVisibility] = useState<"public" | "internal">(canReplyPublicly ? "public" : "internal");
   const [body, setBody] = useState("");
   const [formKey, setFormKey] = useState(0);
-  const [state, formAction, pending] = useActionState(async (prev: GlassFormState, formData: FormData) => {
+  const [state, formAction, pending] = useActionState(async (prev: ServiceDeskFormState, formData: FormData) => {
     const result = await postTicketReply(ticketId, prev, formData);
     if (!result.error) {
       setBody("");
       setFormKey((k) => k + 1);
     }
     return result;
-  }, { error: null } as GlassFormState);
+  }, { error: null } as ServiceDeskFormState);
 
   const internal = visibility === "internal";
 

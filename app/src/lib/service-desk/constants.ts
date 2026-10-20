@@ -1,7 +1,7 @@
 import type { TicketChannel, TicketPriority, TicketStatus, TicketType } from "@/types/database";
 
-export const GLASS_NAME = "GLASS";
-export const GLASS_TAGLINE = "Service desk & ticketing";
+export const SERVICE_DESK_NAME = "Service Desk";
+export const SERVICE_DESK_TAGLINE = "Client requests & internal issues";
 
 export const TICKET_STATUSES: TicketStatus[] = ["new", "open", "pending_client", "on_hold", "resolved", "closed"];
 export const TICKET_PRIORITIES: TicketPriority[] = ["urgent", "high", "normal", "low"];
@@ -9,7 +9,7 @@ export const TICKET_TYPES: TicketType[] = ["question", "incident", "service_requ
 
 /** Statuses that still need work from the team. */
 export const ACTIVE_STATUSES: TicketStatus[] = ["new", "open", "pending_client", "on_hold"];
-/** Statuses that stop the SLA clock (mirrors the trigger in 0038_glass_ticketing.sql). */
+/** Statuses that stop the SLA clock (mirrors the trigger in 0039_service_desk_rename.sql). */
 export const PAUSED_STATUSES: TicketStatus[] = ["pending_client", "on_hold"];
 export const DONE_STATUSES: TicketStatus[] = ["resolved", "closed"];
 
@@ -84,7 +84,7 @@ export const PRIORITY_RANK: Record<TicketPriority, number> = { urgent: 0, high: 
 
 /**
  * Built-in SLA targets in minutes, used when a workspace hasn't saved its
- * own. Kept in sync with `glass_sla_minutes()` in the migration.
+ * own. Kept in sync with `service_desk_sla_minutes()` in the migration.
  */
 export const DEFAULT_SLA_MINUTES: Record<TicketPriority, { firstResponse: number; resolution: number }> = {
   urgent: { firstResponse: 60, resolution: 240 },

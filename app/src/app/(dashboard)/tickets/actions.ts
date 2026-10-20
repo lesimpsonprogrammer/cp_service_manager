@@ -6,9 +6,9 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
-import { checkAttachments, filesFromForm, storeAttachments } from "@/lib/glass/attachments";
-import { getDisplayNames } from "@/lib/glass/people";
-import { notifyAssigned, notifyStatusChanged, notifyTicketCreated, notifyTicketReply } from "@/lib/glass/notify";
+import { checkAttachments, filesFromForm, storeAttachments } from "@/lib/service-desk/attachments";
+import { getDisplayNames } from "@/lib/service-desk/people";
+import { notifyAssigned, notifyStatusChanged, notifyTicketCreated, notifyTicketReply } from "@/lib/service-desk/notify";
 import {
   bulkUpdateSchema,
   categorySchema,
@@ -19,18 +19,18 @@ import {
   staffCreateTicketSchema,
   ticketPropertiesSchema,
   ticketStatusSchema,
-} from "@/lib/glass/validation";
-import { ATTACHMENTS_BUCKET, TICKET_PRIORITIES } from "@/lib/glass/constants";
+} from "@/lib/service-desk/validation";
+import { ATTACHMENTS_BUCKET, TICKET_PRIORITIES } from "@/lib/service-desk/constants";
 import type { TicketStatus } from "@/types/database";
 
-export interface GlassFormState {
+export interface ServiceDeskFormState {
   error: string | null;
   success?: string | null;
 }
 
 const ADMIN_ROLES = new Set(["owner", "admin"]);
 
-/** Viewers are read-only in GLASS (RLS enforces it too; this gives a clear message). */
+/** Viewers are read-only in the Service Desk (RLS enforces it too; this gives a clear message). */
 async function requireEditor() {
   const org = await getCurrentOrg();
   if (!org) return { org: null, error: "Not signed in." } as const;
@@ -41,15 +41,15 @@ async function requireEditor() {
 async function requireAdmin() {
   const org = await getCurrentOrg();
   if (!org) return { org: null, error: "Not signed in." } as const;
-  if (!ADMIN_ROLES.has(org.role)) return { org: null, error: "Only workspace admins can change GLASS settings." } as const;
+  if (!ADMIN_ROLES.has(org.role)) return { org: null, error: "Only workspace admins can change Service Desk settings." } as const;
   return { org, error: null } as const;
 }
 
 /** Turns trigger/constraint errors into something a person can act on. */
 function friendlyDbError(message: string | undefined, fallback: string): string {
   if (!message) return fallback;
-  const glass = message.match(/GLASS: (.+)$/);
-  if (glass) return glass[1]!.charAt(0).toUpperCase() + glass[1]!.slice(1) + ".";
+  const dbError = message.match(/SERVICE_DESK: (.+)$/);
+  if (dbError) return dbError[1]!.charAt(0).toUpperCase() + dbError[1]!.slice(1) + ".";
   if (message.includes("row-level security")) return "You don't have permission to do that.";
   return message;
 }
@@ -66,7 +66,7 @@ function revalidateTicket(ticketId?: string, clientId?: string | null) {
 // Tickets
 // ---------------------------------------------------------------------------
 
-export async function createTicket(_prev: GlassFormState, formData: FormData): Promise<GlassFormState> {
+export async function createTicket(_prev: ServiceDeskFormState, formData: FormData): Promise<ServiceDeskFormState> {
   const { org, error: authError } = await requireEditor();
   if (!org) return { error: authError };
 
@@ -145,9 +145,9 @@ export async function createTicket(_prev: GlassFormState, formData: FormData): P
 
 export async function updateTicketProperties(
   ticketId: string,
-  _prev: GlassFormState,
+  _prev: ServiceDeskFormState,
   formData: FormData
-): Promise<GlassFormState> {
+): Promise<ServiceDeskFormState> {
   const { org, error: authError } = await requireEditor();
   if (!org) return { error: authError };
 
@@ -202,9 +202,9 @@ export async function updateTicketProperties(
 
 export async function postTicketReply(
   ticketId: string,
-  _prev: GlassFormState,
+  _prev: ServiceDeskFormState,
   formData: FormData
-): Promise<GlassFormState> {
+): Promise<ServiceDeskFormState> {
   const { org, error: authError } = await requireEditor();
   if (!org) return { error: authError };
 
@@ -278,7 +278,7 @@ export async function postTicketReply(
   return { error: null, success: isInternal ? "Internal note added." : "Reply sent." };
 }
 
-export async function bulkUpdateTickets(_prev: GlassFormState, formData: FormData): Promise<GlassFormState> {
+export async function bulkUpdateTickets(_prev: ServiceDeskFormState, formData: FormData): Promise<ServiceDeskFormState> {
   const { org, error: authError } = await requireEditor();
   if (!org) return { error: authError };
 
@@ -349,7 +349,7 @@ export async function deleteTicket(ticketId: string) {
 // Settings: SLA policies, categories, macros
 // ---------------------------------------------------------------------------
 
-export async function saveSlaPolicies(_prev: GlassFormState, formData: FormData): Promise<GlassFormState> {
+export async function saveSlaPolicies(_prev: ServiceDeskFormState, formData: FormData): Promise<ServiceDeskFormState> {
   const { org, error: authError } = await requireAdmin();
   if (!org) return { error: authError };
 
@@ -374,7 +374,7 @@ export async function saveSlaPolicies(_prev: GlassFormState, formData: FormData)
   return { error: null, success: "SLA targets saved. They apply to new tickets and to priority changes." };
 }
 
-export async function createTicketCategory(_prev: GlassFormState, formData: FormData): Promise<GlassFormState> {
+export async function createTicketCategory(_prev: ServiceDeskFormState, formData: FormData): Promise<ServiceDeskFormState> {
   const { org, error: authError } = await requireAdmin();
   if (!org) return { error: authError };
 
@@ -411,7 +411,7 @@ export async function deleteTicketCategory(categoryId: string) {
   revalidatePath("/tickets/settings");
 }
 
-export async function createTicketMacro(_prev: GlassFormState, formData: FormData): Promise<GlassFormState> {
+export async function createTicketMacro(_prev: ServiceDeskFormState, formData: FormData): Promise<ServiceDeskFormState> {
   const { org, error: authError } = await requireEditor();
   if (!org) return { error: authError };
 

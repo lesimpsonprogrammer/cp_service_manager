@@ -5,8 +5,8 @@ import { useActionState, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Select } from "@/components/ui/Input";
 import { cn } from "@/lib/utils/cn";
-import { bulkUpdateTickets, type GlassFormState } from "@/app/(dashboard)/tickets/actions";
-import { PRIORITY_LABELS, STATUS_LABELS, TICKET_PRIORITIES, TICKET_STATUSES } from "@/lib/glass/constants";
+import { bulkUpdateTickets, type ServiceDeskFormState } from "@/app/(dashboard)/tickets/actions";
+import { PRIORITY_LABELS, STATUS_LABELS, TICKET_PRIORITIES, TICKET_STATUSES } from "@/lib/service-desk/constants";
 import type { TicketPriority, TicketStatus } from "@/types/database";
 import { TicketPriorityBadge, TicketStatusBadge } from "./TicketBadges";
 import { LocalTime } from "./LocalTime";
@@ -37,11 +37,11 @@ export function TicketQueue({
   canEdit: boolean;
 }) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
-  const [state, formAction, pending] = useActionState(async (prev: GlassFormState, formData: FormData) => {
+  const [state, formAction, pending] = useActionState(async (prev: ServiceDeskFormState, formData: FormData) => {
     const result = await bulkUpdateTickets(prev, formData);
     if (!result.error) setSelected(new Set());
     return result;
-  }, { error: null } as GlassFormState);
+  }, { error: null } as ServiceDeskFormState);
 
   const allSelected = rows.length > 0 && rows.every((r) => selected.has(r.id));
   const toggle = (id: string) =>

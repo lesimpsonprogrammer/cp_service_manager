@@ -1,7 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database, PipelineRunStatus } from "@/types/database";
 import { getConnectorAdapter } from "@/lib/connectors";
-import { dispatchEvent } from "@/lib/webhooks/dispatch";
+import { emitEvent } from "@/lib/webhooks/emit";
 import { sendPipelineRunClientEmail } from "@/lib/email/resend";
 import { applyMapping, applyTransforms, type FieldMapping, type TransformStep } from "./transforms";
 
@@ -89,7 +89,9 @@ export async function runPipeline(
       .select("run_number")
       .single();
 
-    await dispatchEvent(supabase, pipeline.org_id, "pipeline.run.completed", {
+    // Service role inside emitEvent: webhooks are admin-only under RLS, and a
+    // run started by a non-admin must still reach subscribed endpoints.
+    emitEvent(pipeline.org_id, "pipeline.run.completed", {
       pipeline_id: pipeline.id,
       run_id: run.id,
       ...result,

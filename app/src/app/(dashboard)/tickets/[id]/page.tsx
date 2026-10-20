@@ -4,16 +4,16 @@ import { createClient } from "@/lib/supabase/server";
 import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
 import { getOrgMembers } from "@/lib/org/getOrgMembers";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { TicketPriorityBadge, TicketStatusBadge, SlaClockRow } from "@/components/glass/TicketBadges";
-import { TicketThread } from "@/components/glass/TicketThread";
-import { TicketReplyComposer } from "@/components/glass/TicketReplyComposer";
-import { TicketPropertiesForm } from "@/components/glass/TicketPropertiesForm";
-import { TicketActivity } from "@/components/glass/TicketActivity";
-import { TicketLiveRefresh } from "@/components/glass/TicketLiveRefresh";
-import { DeleteTicketButton, WatchButton } from "@/components/glass/TicketHeaderActions";
-import { LocalTime } from "@/components/glass/LocalTime";
-import { CHANNEL_LABELS, CLIENT_STATUS_LABELS, TYPE_LABELS } from "@/lib/glass/constants";
-import { formatDuration, getSlaSnapshot } from "@/lib/glass/sla";
+import { TicketPriorityBadge, TicketStatusBadge, SlaClockRow } from "@/components/service-desk/TicketBadges";
+import { TicketThread } from "@/components/service-desk/TicketThread";
+import { TicketReplyComposer } from "@/components/service-desk/TicketReplyComposer";
+import { TicketPropertiesForm } from "@/components/service-desk/TicketPropertiesForm";
+import { TicketActivity } from "@/components/service-desk/TicketActivity";
+import { TicketLiveRefresh } from "@/components/service-desk/TicketLiveRefresh";
+import { DeleteTicketButton, WatchButton } from "@/components/service-desk/TicketHeaderActions";
+import { LocalTime } from "@/components/service-desk/LocalTime";
+import { CHANNEL_LABELS, CLIENT_STATUS_LABELS, TYPE_LABELS } from "@/lib/service-desk/constants";
+import { formatDuration, getSlaSnapshot } from "@/lib/service-desk/sla";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -100,7 +100,7 @@ export default async function TicketPage({
       <TicketLiveRefresh ticketId={ticket.id} showIndicator={false} />
       <div className="mb-1 flex items-center gap-2 text-sm text-muted">
         <Link href="/tickets" className="hover:text-foreground">
-          ← GLASS Tickets
+          ← Service Desk
         </Link>
       </div>
       <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
@@ -167,7 +167,7 @@ export default async function TicketPage({
               />
             </>
           ) : (
-            <p className="text-sm text-muted">You have view-only access to GLASS.</p>
+            <p className="text-sm text-muted">You have view-only access to the Service Desk.</p>
           )}
         </div>
 

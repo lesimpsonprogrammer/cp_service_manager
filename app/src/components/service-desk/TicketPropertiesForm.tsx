@@ -4,7 +4,7 @@ import { useActionState, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Input, Label, Select } from "@/components/ui/Input";
 import { cn } from "@/lib/utils/cn";
-import { updateTicketProperties, type GlassFormState } from "@/app/(dashboard)/tickets/actions";
+import { updateTicketProperties, type ServiceDeskFormState } from "@/app/(dashboard)/tickets/actions";
 import {
   PRIORITY_LABELS,
   STATUS_LABELS,
@@ -12,7 +12,7 @@ import {
   TICKET_STATUSES,
   TICKET_TYPES,
   TYPE_LABELS,
-} from "@/lib/glass/constants";
+} from "@/lib/service-desk/constants";
 import type { TicketPriority, TicketStatus, TicketType } from "@/types/database";
 
 export interface TicketPropertiesValue {
@@ -47,7 +47,7 @@ export function TicketPropertiesForm({
 }) {
   const [state, formAction, pending] = useActionState(
     updateTicketProperties.bind(null, ticketId),
-    { error: null } as GlassFormState
+    { error: null } as ServiceDeskFormState
   );
   const [clientId, setClientId] = useState(value.client_id ?? "");
   const clientProjects = projects.filter((p) => p.client_id === clientId);

@@ -1,8 +1,8 @@
 import { after } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { authenticateApiKey, unauthorized } from "@/lib/api-keys/auth";
-import { notifyAssigned, notifyStatusChanged } from "@/lib/glass/notify";
-import { apiUpdateTicketSchema, firstIssue } from "@/lib/glass/validation";
+import { notifyAssigned, notifyStatusChanged } from "@/lib/service-desk/notify";
+import { apiUpdateTicketSchema, firstIssue } from "@/lib/service-desk/validation";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -59,8 +59,8 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     .single();
 
   if (error || !data) {
-    const glass = error?.message.match(/GLASS: (.+)$/);
-    return Response.json({ error: glass ? glass[1] : "Couldn't update the ticket." }, { status: glass ? 422 : 500 });
+    const dbError = error?.message.match(/SERVICE_DESK: (.+)$/);
+    return Response.json({ error: dbError ? dbError[1] : "Couldn't update the ticket." }, { status: dbError ? 422 : 500 });
   }
 
   if (parsed.data.status && parsed.data.status !== before.status) after(() => notifyStatusChanged(id, before.status, null));

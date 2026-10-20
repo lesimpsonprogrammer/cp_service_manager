@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { reportJob } from "@/lib/webhooks/emit";
 import { sendDueContractReminders } from "@/lib/contracts/reminders";
 
 /**
@@ -12,6 +13,6 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const result = await sendDueContractReminders();
+  const result = await reportJob("contract-reminders", () => sendDueContractReminders());
   return NextResponse.json(result);
 }

@@ -1,4 +1,4 @@
-import { PRIORITY_LABELS, STATUS_LABELS, TYPE_LABELS } from "@/lib/glass/constants";
+import { PRIORITY_LABELS, STATUS_LABELS, TYPE_LABELS } from "@/lib/service-desk/constants";
 import type { TicketPriority, TicketStatus, TicketType } from "@/types/database";
 import { LocalTime } from "./LocalTime";
 

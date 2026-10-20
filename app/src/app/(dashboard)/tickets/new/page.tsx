@@ -4,7 +4,7 @@ import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
 import { getOrgMembers } from "@/lib/org/getOrgMembers";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card, CardContent } from "@/components/ui/Card";
-import { NewTicketForm } from "@/components/glass/NewTicketForm";
+import { NewTicketForm } from "@/components/service-desk/NewTicketForm";
 
 export default async function NewTicketPage({ searchParams }: { searchParams: Promise<{ client?: string }> }) {
   const org = await getCurrentOrg();

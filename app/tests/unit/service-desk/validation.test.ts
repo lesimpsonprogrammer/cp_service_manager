@@ -10,7 +10,7 @@ import {
   slaPolicySchema,
   staffCreateTicketSchema,
   validateAttachments,
-} from "@/lib/glass/validation";
+} from "@/lib/service-desk/validation";
 
 const UUID = "3f2b8c1e-9a4d-4c2b-8e1f-0a1b2c3d4e5f";
 

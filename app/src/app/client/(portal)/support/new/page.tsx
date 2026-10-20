@@ -5,7 +5,7 @@ import { getCurrentClientPortalUser } from "@/lib/portal/getCurrentClientPortalU
 import { canAccessPortalScreen, firstAccessiblePortalPath } from "@/lib/portal/permissions";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card, CardContent } from "@/components/ui/Card";
-import { ClientNewTicketForm } from "@/components/glass/ClientPortalTicketForms";
+import { ClientNewTicketForm } from "@/components/service-desk/ClientPortalTicketForms";
 
 export default async function ClientNewTicketPage() {
   const clientUser = await getCurrentClientPortalUser();

@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
 import { getOrgMembers } from "@/lib/org/getOrgMembers";
-import { CHANNEL_LABELS, PRIORITY_LABELS, STATUS_LABELS, TYPE_LABELS } from "@/lib/glass/constants";
-import { csvCell, fetchQueue, parseQueueFilters } from "@/lib/glass/queue";
-import { getSlaSnapshot } from "@/lib/glass/sla";
+import { CHANNEL_LABELS, PRIORITY_LABELS, STATUS_LABELS, TYPE_LABELS } from "@/lib/service-desk/constants";
+import { csvCell, fetchQueue, parseQueueFilters } from "@/lib/service-desk/queue";
+import { getSlaSnapshot } from "@/lib/service-desk/sla";
 
 // CSV of exactly what the queue is showing (same filters), RLS-scoped.
 export async function GET(request: Request) {
@@ -81,7 +81,7 @@ export async function GET(request: Request) {
   return new NextResponse(`﻿${csv}`, {
     headers: {
       "Content-Type": "text/csv; charset=utf-8",
-      "Content-Disposition": `attachment; filename="glass-tickets-${filters.queue}-${stamp}.csv"`,
+      "Content-Disposition": `attachment; filename="service-desk-tickets-${filters.queue}-${stamp}.csv"`,
       "Cache-Control": "no-store",
     },
   });

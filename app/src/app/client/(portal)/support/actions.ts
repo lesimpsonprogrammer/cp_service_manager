@@ -8,9 +8,9 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getCurrentClientPortalUser } from "@/lib/portal/getCurrentClientPortalUser";
 import { canAccessPortalScreen } from "@/lib/portal/permissions";
-import { checkAttachments, filesFromForm, storeAttachments } from "@/lib/glass/attachments";
-import { notifyStatusChanged, notifyTicketCreated, notifyTicketReply } from "@/lib/glass/notify";
-import { clientCreateTicketSchema, firstIssue, replySchema } from "@/lib/glass/validation";
+import { checkAttachments, filesFromForm, storeAttachments } from "@/lib/service-desk/attachments";
+import { notifyStatusChanged, notifyTicketCreated, notifyTicketReply } from "@/lib/service-desk/notify";
+import { clientCreateTicketSchema, firstIssue, replySchema } from "@/lib/service-desk/validation";
 
 export interface PortalFormState {
   error: string | null;
@@ -130,7 +130,7 @@ export async function createClientTicket(_prev: PortalFormState, formData: FormD
     .single();
 
   if (error || !ticket) {
-    console.error("GLASS portal ticket insert failed:", error);
+    console.error("Service Desk portal ticket insert failed:", error);
     return { error: "We couldn't submit your request. Please try again." };
   }
 
@@ -176,7 +176,7 @@ export async function replyAsClient(ticketId: string, _prev: PortalFormState, fo
     .single();
 
   if (error || !message) {
-    console.error("GLASS portal reply failed:", error);
+    console.error("Service Desk portal reply failed:", error);
     return { error: "We couldn't send your reply. Please try again." };
   }
 

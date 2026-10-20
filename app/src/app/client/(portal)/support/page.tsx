@@ -7,11 +7,11 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { TicketPriorityBadge, TicketStatusBadge } from "@/components/glass/TicketBadges";
-import { LocalTime } from "@/components/glass/LocalTime";
-import { TicketLiveRefresh } from "@/components/glass/TicketLiveRefresh";
+import { TicketPriorityBadge, TicketStatusBadge } from "@/components/service-desk/TicketBadges";
+import { LocalTime } from "@/components/service-desk/LocalTime";
+import { TicketLiveRefresh } from "@/components/service-desk/TicketLiveRefresh";
 import { cn } from "@/lib/utils/cn";
-import { ACTIVE_STATUSES, DONE_STATUSES } from "@/lib/glass/constants";
+import { ACTIVE_STATUSES, DONE_STATUSES } from "@/lib/service-desk/constants";
 
 const VIEWS = { open: "Open", done: "Resolved & closed", all: "All" } as const;
 type View = keyof typeof VIEWS;

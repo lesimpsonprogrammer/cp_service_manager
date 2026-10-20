@@ -9,14 +9,14 @@ import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Input, Select } from "@/components/ui/Input";
 import { StatCard } from "@/components/ui/StatCard";
-import { TicketQueue } from "@/components/glass/TicketQueue";
-import { TicketBoard } from "@/components/glass/TicketBoard";
-import { TicketLiveRefresh } from "@/components/glass/TicketLiveRefresh";
-import { buildQueueRows } from "@/components/glass/buildQueueRows";
+import { TicketQueue } from "@/components/service-desk/TicketQueue";
+import { TicketBoard } from "@/components/service-desk/TicketBoard";
+import { TicketLiveRefresh } from "@/components/service-desk/TicketLiveRefresh";
+import { buildQueueRows } from "@/components/service-desk/buildQueueRows";
 import { cn } from "@/lib/utils/cn";
-import { ACTIVE_STATUSES, PRIORITY_LABELS, TICKET_PRIORITIES, TICKET_TYPES, TYPE_LABELS } from "@/lib/glass/constants";
-import { fetchQueue, parseQueueFilters, queueHref, QUEUE_LABELS, QUEUES, SORT_LABELS, SORTS } from "@/lib/glass/queue";
-import { getSlaSnapshot } from "@/lib/glass/sla";
+import { ACTIVE_STATUSES, PRIORITY_LABELS, TICKET_PRIORITIES, TICKET_TYPES, TYPE_LABELS } from "@/lib/service-desk/constants";
+import { fetchQueue, parseQueueFilters, queueHref, QUEUE_LABELS, QUEUES, SORT_LABELS, SORTS } from "@/lib/service-desk/queue";
+import { getSlaSnapshot } from "@/lib/service-desk/sla";
 import { hoursAgoIso } from "@/lib/utils/time";
 
 export default async function TicketsPage({
@@ -76,7 +76,7 @@ export default async function TicketsPage({
       <PageHeader
         title={
           <span className="flex items-center gap-3">
-            GLASS Tickets <TicketLiveRefresh orgId={org.orgId} />
+            Service Desk <TicketLiveRefresh orgId={org.orgId} />
           </span>
         }
         description="Service desk for client requests and internal issues — SLAs, ownership, and the full conversation in one place."

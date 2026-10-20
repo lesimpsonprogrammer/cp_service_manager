@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { csvCell, parseQueueFilters, queueHref, sortRows, type QueueRow } from "@/lib/glass/queue";
+import { csvCell, parseQueueFilters, queueHref, sortRows, type QueueRow } from "@/lib/service-desk/queue";
 
 const UUID = "3f2b8c1e-9a4d-4c2b-8e1f-0a1b2c3d4e5f";
 

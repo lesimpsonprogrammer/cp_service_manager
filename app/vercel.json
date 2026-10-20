@@ -9,7 +9,7 @@
       "schedule": "0 12 * * *"
     },
     {
-      "path": "/api/cron/glass",
+      "path": "/api/cron/service-desk",
       "schedule": "0 14 * * *"
     }
   ]

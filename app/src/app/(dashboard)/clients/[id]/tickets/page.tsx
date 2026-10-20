@@ -5,10 +5,10 @@ import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
 import { getOrgMembers } from "@/lib/org/getOrgMembers";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { TicketQueue } from "@/components/glass/TicketQueue";
-import { buildQueueRows } from "@/components/glass/buildQueueRows";
-import { ACTIVE_STATUSES } from "@/lib/glass/constants";
-import { fetchQueue, parseQueueFilters } from "@/lib/glass/queue";
+import { TicketQueue } from "@/components/service-desk/TicketQueue";
+import { buildQueueRows } from "@/components/service-desk/buildQueueRows";
+import { ACTIVE_STATUSES } from "@/lib/service-desk/constants";
+import { fetchQueue, parseQueueFilters } from "@/lib/service-desk/queue";
 
 export default async function ClientTicketsPage({ params }: { params: Promise<{ id: string }> }) {
   const org = await getCurrentOrg();

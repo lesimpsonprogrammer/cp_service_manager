@@ -4,7 +4,7 @@ import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/Button";
 import { Input, Label, Select, Textarea } from "@/components/ui/Input";
-import { createTicket, type GlassFormState } from "@/app/(dashboard)/tickets/actions";
+import { createTicket, type ServiceDeskFormState } from "@/app/(dashboard)/tickets/actions";
 import {
   MAX_ATTACHMENTS_PER_MESSAGE,
   MAX_ATTACHMENT_BYTES,
@@ -14,7 +14,7 @@ import {
   TICKET_PRIORITIES,
   TICKET_TYPES,
   TYPE_LABELS,
-} from "@/lib/glass/constants";
+} from "@/lib/service-desk/constants";
 
 interface Option {
   id: string;
@@ -43,7 +43,7 @@ export function NewTicketForm({
   members: { userId: string; fullName: string }[];
   defaultClientId: string | null;
 }) {
-  const [state, formAction] = useActionState(createTicket, { error: null } as GlassFormState);
+  const [state, formAction] = useActionState(createTicket, { error: null } as ServiceDeskFormState);
   const [clientId, setClientId] = useState(defaultClientId ?? "");
   const [priority, setPriority] = useState("normal");
   const clientProjects = projects.filter((p) => p.client_id === clientId);

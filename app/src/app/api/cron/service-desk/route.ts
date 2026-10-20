@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { runGlassMaintenance } from "@/lib/glass/maintenance";
+import { reportJob } from "@/lib/webhooks/emit";
+import { runServiceDeskMaintenance } from "@/lib/service-desk/maintenance";
 
 /**
  * Invoked daily by Vercel Cron (see vercel.json). Same CRON_SECRET bearer
@@ -11,6 +12,8 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const result = await runGlassMaintenance();
+  const result = await reportJob("service-desk-maintenance", () => runServiceDeskMaintenance(), (r) =>
+    r.errors.length ? r.errors.join("; ") : null
+  );
   return NextResponse.json(result, { status: result.errors.length ? 207 : 200 });
 }

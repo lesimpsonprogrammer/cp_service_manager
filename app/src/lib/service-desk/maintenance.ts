@@ -1,26 +1,27 @@
 import { createAdminClient } from "@/lib/supabase/admin";
-import { sendGlassTicketEmail } from "@/lib/email/resend";
+import { sendServiceDeskTicketEmail } from "@/lib/email/resend";
 import { ACTIVE_STATUSES, AUTO_CLOSE_AFTER_DAYS, PAUSED_STATUSES } from "./constants";
 import { staffTicketUrl } from "./notify";
 import { getUserEmails } from "./people";
 import { getSlaSnapshot } from "./sla";
+import { emitEvent } from "@/lib/webhooks/emit";
 
-export interface GlassMaintenanceResult {
+export interface ServiceDeskMaintenanceResult {
   autoClosed: number;
   breachAlerts: number;
   errors: string[];
 }
 
 /**
- * Daily housekeeping (Vercel Cron → /api/cron/glass):
+ * Daily housekeeping (Vercel Cron → /api/cron/service-desk):
  *   1. Close resolved tickets that have been quiet for AUTO_CLOSE_AFTER_DAYS.
  *   2. Email the owner (or the workspace admins, if unassigned) once per
  *      ticket when an SLA is breached. `sla_breach_notified_at` makes it
  *      idempotent; the trigger clears it on reopen or priority change.
  */
-export async function runGlassMaintenance(now = new Date()): Promise<GlassMaintenanceResult> {
+export async function runServiceDeskMaintenance(now = new Date()): Promise<ServiceDeskMaintenanceResult> {
   const admin = createAdminClient();
-  const result: GlassMaintenanceResult = { autoClosed: 0, breachAlerts: 0, errors: [] };
+  const result: ServiceDeskMaintenanceResult = { autoClosed: 0, breachAlerts: 0, errors: [] };
 
   const cutoff = new Date(now.getTime() - AUTO_CLOSE_AFTER_DAYS * 24 * 60 * 60 * 1000).toISOString();
   const { data: stale, error: staleError } = await admin
@@ -45,7 +46,7 @@ export async function runGlassMaintenance(now = new Date()): Promise<GlassMainte
   const { data: candidates, error: breachError } = await admin
     .from("tickets")
     .select(
-      "id, org_id, ticket_number, subject, priority, status, assignee_id, first_response_due_at, resolution_due_at, first_responded_at, resolved_at, sla_paused_at"
+      "id, org_id, ticket_number, subject, priority, status, client_id, assignee_id, first_response_due_at, resolution_due_at, first_responded_at, resolved_at, sla_paused_at"
     )
     .in("status", ACTIVE_STATUSES.filter((s) => !PAUSED_STATUSES.includes(s)))
     .is("sla_breach_notified_at", null)
@@ -79,15 +80,31 @@ export async function runGlassMaintenance(now = new Date()): Promise<GlassMainte
       }
 
       if (recipients.length) {
-        await sendGlassTicketEmail({
+        await sendServiceDeskTicketEmail({
           to: recipients,
           subject: `[${ticket.ticket_number}] SLA breached: ${ticket.subject}`,
           heading: `${ticket.ticket_number} is past its SLA`,
           intro: ticket.assignee_id
             ? `This ${ticket.priority} ticket assigned to you is overdue.`
             : `This ${ticket.priority} ticket is overdue and has no owner — please assign it.`,
-          ctaLabel: "Open the ticket in GLASS",
+          ctaLabel: "Open the ticket in the Service Desk",
           ctaUrl: staffTicketUrl(ticket.id),
+        });
+      }
+
+      // Urgent client requests past SLA are also reported to Global Security
+      // (via any webhook subscribed to service_desk.sla_breached).
+      if (ticket.priority === "urgent" && ticket.client_id) {
+        const snapshot = getSlaSnapshot(ticket, now);
+        const { data: client } = await admin.from("clients").select("name").eq("id", ticket.client_id).maybeSingle();
+        emitEvent(ticket.org_id, "service_desk.sla_breached", {
+          ticket_id: ticket.id,
+          ticket_number: ticket.ticket_number,
+          subject: ticket.subject,
+          priority: ticket.priority,
+          client_name: client?.name ?? null,
+          clock: snapshot.firstResponse.state === "breached" ? "first response" : "resolution",
+          url: staffTicketUrl(ticket.id),
         });
       }
 

@@ -20,7 +20,7 @@ import {
   TICKET_PRIORITIES,
   TICKET_TYPES,
   TYPE_LABELS,
-} from "@/lib/glass/constants";
+} from "@/lib/service-desk/constants";
 
 const fileInputClass =
   "block w-full text-sm text-muted file:mr-3 file:rounded-md file:border file:border-border file:bg-surface-2 file:px-3 file:py-1.5 file:text-sm file:text-foreground";
