@@ -52,6 +52,16 @@ export type EnhancementTaskPriority = "low" | "medium" | "high";
 
 export type ArtifactStatus = "pending" | "available";
 
+export type TicketStatus = "new" | "open" | "pending_client" | "on_hold" | "resolved" | "closed";
+
+export type TicketPriority = "low" | "normal" | "high" | "urgent";
+
+export type TicketType = "question" | "incident" | "service_request" | "change_request" | "problem";
+
+export type TicketChannel = "portal" | "staff" | "email" | "api";
+
+export type TicketAuthorType = "staff" | "client" | "system";
+
 import type { SavedDecisionRun } from "@/lib/decision-engine/scenarios";
 
 export interface Database {
@@ -1044,6 +1054,181 @@ export interface Database {
             referencedColumns: ["id"];
           }
         ];
+      };
+      tickets: {
+        Row: {
+          id: string;
+          org_id: string;
+          ticket_number: string;
+          client_id: string | null;
+          project_id: string | null;
+          category_id: string | null;
+          subject: string;
+          description: string;
+          status: TicketStatus;
+          priority: TicketPriority;
+          type: TicketType;
+          channel: TicketChannel;
+          client_visible: boolean;
+          requester_user_id: string | null;
+          requester_name: string | null;
+          requester_email: string | null;
+          assignee_id: string | null;
+          tags: string[];
+          first_response_due_at: string | null;
+          resolution_due_at: string | null;
+          first_responded_at: string | null;
+          sla_paused_at: string | null;
+          sla_paused_seconds: number;
+          sla_breach_notified_at: string | null;
+          resolved_at: string | null;
+          closed_at: string | null;
+          reopened_count: number;
+          satisfaction_rating: number | null;
+          satisfaction_comment: string | null;
+          last_activity_at: string;
+          created_by: string | null;
+          updated_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["tickets"]["Row"]> & {
+          org_id: string;
+          subject: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["tickets"]["Row"]>;
+        Relationships: [];
+      };
+      ticket_messages: {
+        Row: {
+          id: string;
+          ticket_id: string;
+          org_id: string;
+          author_id: string | null;
+          author_type: TicketAuthorType;
+          author_name: string | null;
+          body: string;
+          is_internal: boolean;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["ticket_messages"]["Row"]> & {
+          ticket_id: string;
+          org_id: string;
+          author_type: TicketAuthorType;
+          body: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["ticket_messages"]["Row"]>;
+        Relationships: [];
+      };
+      ticket_attachments: {
+        Row: {
+          id: string;
+          ticket_id: string;
+          message_id: string | null;
+          org_id: string;
+          storage_path: string;
+          file_name: string;
+          content_type: string | null;
+          size_bytes: number;
+          uploaded_by: string | null;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["ticket_attachments"]["Row"]> & {
+          ticket_id: string;
+          org_id: string;
+          storage_path: string;
+          file_name: string;
+          size_bytes: number;
+        };
+        Update: Partial<Database["public"]["Tables"]["ticket_attachments"]["Row"]>;
+        Relationships: [];
+      };
+      ticket_events: {
+        Row: {
+          id: string;
+          ticket_id: string;
+          org_id: string;
+          actor_id: string | null;
+          event_type: string;
+          from_value: string | null;
+          to_value: string | null;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["ticket_events"]["Row"]> & {
+          ticket_id: string;
+          org_id: string;
+          event_type: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["ticket_events"]["Row"]>;
+        Relationships: [];
+      };
+      ticket_watchers: {
+        Row: {
+          ticket_id: string;
+          user_id: string;
+          org_id: string;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["ticket_watchers"]["Row"]> & {
+          ticket_id: string;
+          user_id: string;
+          org_id: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["ticket_watchers"]["Row"]>;
+        Relationships: [];
+      };
+      ticket_categories: {
+        Row: {
+          id: string;
+          org_id: string;
+          name: string;
+          description: string | null;
+          default_assignee_id: string | null;
+          is_active: boolean;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["ticket_categories"]["Row"]> & {
+          org_id: string;
+          name: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["ticket_categories"]["Row"]>;
+        Relationships: [];
+      };
+      ticket_sla_policies: {
+        Row: {
+          org_id: string;
+          priority: TicketPriority;
+          first_response_minutes: number;
+          resolution_minutes: number;
+          updated_by: string | null;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["ticket_sla_policies"]["Row"]> & {
+          org_id: string;
+          priority: TicketPriority;
+          first_response_minutes: number;
+          resolution_minutes: number;
+        };
+        Update: Partial<Database["public"]["Tables"]["ticket_sla_policies"]["Row"]>;
+        Relationships: [];
+      };
+      ticket_macros: {
+        Row: {
+          id: string;
+          org_id: string;
+          name: string;
+          body: string;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["ticket_macros"]["Row"]> & {
+          org_id: string;
+          name: string;
+          body: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["ticket_macros"]["Row"]>;
+        Relationships: [];
       };
       jaren_agent_settings: {
         Row: {

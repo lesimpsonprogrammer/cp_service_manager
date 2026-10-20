@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { reportJob } from "@/lib/webhooks/emit";
 import { sendSystemReports } from "@/lib/reports/systemReport";
 
 /**
@@ -13,6 +14,6 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const result = await sendSystemReports();
+  const result = await reportJob("system-report", () => sendSystemReports());
   return NextResponse.json(result);
 }
