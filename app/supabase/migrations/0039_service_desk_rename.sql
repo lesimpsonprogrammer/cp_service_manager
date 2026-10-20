@@ -10,9 +10,18 @@
 --     the Supabase security advisor warning.
 --
 -- Tables, columns, policies, the storage bucket and the per-workspace
--- counter are unchanged. Safe to run before or after any tickets exist.
+-- counter are unchanged. Safe to run before or after any tickets exist, and
+-- safe to run more than once.
 
 begin;
+
+-- Stop early, before changing anything, if this is the wrong project.
+do $$
+begin
+  if to_regclass('public.tickets') is null or to_regclass('public.ticket_counters') is null then
+    raise exception 'Wrong project: run this in the CP Service Manager Supabase project (lesimpsonprogrammer''s Project, ucuejofewehpuxcwvubu) after 0038_glass_ticketing.sql.';
+  end if;
+end $$;
 
 drop trigger if exists glass_tickets_before_insert on public.tickets;
 drop trigger if exists glass_tickets_before_update on public.tickets;
@@ -21,6 +30,15 @@ drop trigger if exists glass_messages_before_insert on public.ticket_messages;
 drop trigger if exists glass_messages_after_insert on public.ticket_messages;
 drop trigger if exists glass_attachments_pin_org on public.ticket_attachments;
 drop trigger if exists glass_watchers_pin_org on public.ticket_watchers;
+
+-- Re-runnable: clear this migration's own triggers too before recreating them.
+drop trigger if exists service_desk_tickets_before_insert on public.tickets;
+drop trigger if exists service_desk_tickets_before_update on public.tickets;
+drop trigger if exists service_desk_tickets_audit on public.tickets;
+drop trigger if exists service_desk_messages_before_insert on public.ticket_messages;
+drop trigger if exists service_desk_messages_after_insert on public.ticket_messages;
+drop trigger if exists service_desk_attachments_pin_org on public.ticket_attachments;
+drop trigger if exists service_desk_watchers_pin_org on public.ticket_watchers;
 
 drop function if exists public.glass_tickets_before_insert();
 drop function if exists public.glass_tickets_before_update();
@@ -465,5 +483,7 @@ revoke execute on function public.service_desk_tickets_audit() from public, anon
 revoke execute on function public.service_desk_messages_before_insert() from public, anon, authenticated;
 revoke execute on function public.service_desk_messages_after_insert() from public, anon, authenticated;
 revoke execute on function public.service_desk_pin_ticket_org() from public, anon, authenticated;
+
+select 'Service Desk rename applied' as result;
 
 commit;
