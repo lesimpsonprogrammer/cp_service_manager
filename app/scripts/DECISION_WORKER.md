@@ -40,3 +40,17 @@ SCOPE: local component styles; no global CSS changes.
 RISK: worker deployment and migration required before jobs can complete; limits
 are per-organization and advisory under concurrent submissions.
 ROLLBACK: revert this feature commit; retain stored results.
+
+## Built-in mode (no worker, no Python service)
+
+Set `DECISION_ENGINE_MODE=builtin` on a CPSM deployment to run the three
+computations inside CPSM (`src/lib/decision-engine/builtin.ts`) instead of
+calling the Python engine. Runs are computed when submitted and saved already
+finished, so that deployment needs no worker and no `DECISION_ENGINE_URL` or
+`DECISION_ENGINE_API_KEY`. Leave the variable unset to keep the external
+engine and this worker; deployments without it behave exactly as before.
+
+Simulation and optimization return the same answers as the Python engine.
+Risk uses the same lognormal model and seeds, but a different random-number
+generator, so individual sampled values differ slightly from the Python
+engine's for the same seed.

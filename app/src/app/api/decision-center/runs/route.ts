@@ -1,6 +1,7 @@
 import { getCurrentOrg } from "@/lib/org/getCurrentOrg";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { decisionSubmissionSchema } from "@/lib/decision-engine/scenarios";
+import { decisionResponseSchema, decisionSubmissionSchema, type DecisionSubmission } from "@/lib/decision-engine/scenarios";
+import { isBuiltinDecisionEngine, runDecision } from "@/lib/decision-engine/client";
 import { z } from "zod";
 
 export const runtime = "nodejs";
@@ -24,6 +25,17 @@ async function readBody(request: Request): Promise<unknown> {
   const bytes = new Uint8Array(length); let offset = 0;
   for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.length; }
   return JSON.parse(new TextDecoder().decode(bytes));
+}
+
+// Built-in mode has no queue worker: compute now so the run is saved finished in a single write.
+async function computeNow(input: DecisionSubmission) {
+  const finished_at = new Date().toISOString();
+  try {
+    const response = decisionResponseSchema.parse(await runDecision({ engine: input.engine, scenario: input.scenario }));
+    return { status: response.status, response, error: null, finished_at, attempts: 1 };
+  } catch (error) {
+    return { status: "failed" as const, response: null, error: `The built-in Decision Engine could not complete this run: ${error instanceof Error ? error.message : "unknown error"}`, finished_at, attempts: 1 };
+  }
 }
 
 export async function GET(request: Request) {
@@ -63,7 +75,10 @@ export async function POST(request: Request) {
   const { count, error: countError } = await db.from("decision_runs").select("id", { count: "exact", head: true }).eq("org_id", org.orgId).gte("created_at", new Date(Date.now() - 3_600_000).toISOString());
   if (countError) return json({ error: "Run history is unavailable. The run was not started." }, 503);
   if ((count ?? 0) >= 60) return json({ error: "This organization has reached 60 runs in the last hour. Try again later." }, 429);
-  const { error: insertError } = await db.from("decision_runs").insert({ id: input.requestId, org_id: org.orgId, created_by: org.userId, name: input.name, engine: input.engine, scenario: input.scenario, status: "queued" });
+  const outcome = isBuiltinDecisionEngine() ? await computeNow(input) : null;
+  const { error: insertError } = await db.from("decision_runs").insert({ id: input.requestId, org_id: org.orgId, created_by: org.userId, name: input.name, engine: input.engine, scenario: input.scenario, status: "queued", ...outcome });
   if (insertError) return json({ error: insertError.code === "23505" ? "This run was already submitted. Refresh history." : "The run could not be saved and was not started." }, insertError.code === "23505" ? 409 : 503);
-  return json({ run: { id: input.requestId, name: input.name, engine: input.engine, scenario: input.scenario, status: "queued", response: null, error: null, created_at: new Date().toISOString(), finished_at: null }, saved: true }, 202);
+  const run = { id: input.requestId, name: input.name, engine: input.engine, scenario: input.scenario, status: "queued", response: null, error: null, created_at: new Date().toISOString(), finished_at: null };
+  if (outcome) return json({ run: { ...run, status: outcome.status, response: outcome.response, error: outcome.error, finished_at: outcome.finished_at }, saved: true });
+  return json({ run, saved: true }, 202);
 }
