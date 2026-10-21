@@ -42,7 +42,17 @@ function getConfig() {
   };
 }
 
+/**
+ * DECISION_ENGINE_MODE=builtin runs the computations inside CPSM instead of
+ * calling the external service. Loaded lazily so the standalone worker, which
+ * imports this file directly under Node, never has to resolve it.
+ */
+export function isBuiltinDecisionEngine(): boolean {
+  return process.env.DECISION_ENGINE_MODE === "builtin";
+}
+
 export function isDecisionEngineConfigured(): boolean {
+  if (isBuiltinDecisionEngine()) return true;
   const { url, apiKey } = getConfig();
   return Boolean(url && apiKey);
 }
@@ -56,6 +66,7 @@ function authHeaders(apiKey: string): HeadersInit {
 }
 
 export async function getDecisionEngineHealth(): Promise<DecisionEngineHealth> {
+  if (isBuiltinDecisionEngine()) return (await import("./builtin")).getBuiltinHealth();
   const { url, apiKey, timeoutMs } = getConfig();
   if (!url || !apiKey) {
     return {
@@ -106,6 +117,7 @@ export async function getDecisionEngineHealth(): Promise<DecisionEngineHealth> {
 }
 
 export async function runDecision(request: DecisionRunRequest): Promise<DecisionRunResponse> {
+  if (isBuiltinDecisionEngine()) return (await import("./builtin")).runBuiltinDecision(request);
   const { url, apiKey, timeoutMs } = getConfig();
   if (!url || !apiKey) {
     throw new Error("Decision Engine is not configured.");

@@ -19,4 +19,16 @@ describe('Organization decision queue submission', () => {
   it('does not accept work when storage is unavailable', async () => {mocks.db.mockReturnValue(database([{error:{message:'unavailable'},data:null}]));expect((await POST(request())).status).toBe(503);});
   it('returns an existing in-flight run without inserting twice', async () => {const db=database([{data:{id:input.requestId,status:'queued'},error:null}]);mocks.db.mockReturnValue(db);expect((await POST(request())).status).toBe(409);expect(db.from).toHaveBeenCalledTimes(1);});
   it('persists a job and acknowledges before executing it', async () => {const db=database([{data:null,error:null},{count:0,error:null},{error:null}]);mocks.db.mockReturnValue(db);const res=await POST(request());expect(res.status).toBe(202);expect((await res.json()).run.status).toBe('queued');});
+  it('computes and saves a finished run in built-in mode', async () => {
+    vi.stubEnv('DECISION_ENGINE_MODE','builtin');
+    const db=database([{data:null,error:null},{count:0,error:null},{error:null}]);mocks.db.mockReturnValue(db);
+    const res=await POST(request());
+    expect(res.status).toBe(200);
+    const body=await res.json();
+    expect(body.run.status).toBe('completed');
+    expect(body.run.response.result.completion_time).toBe(3);
+    const query=db.from.mock.results[0]!.value as {insert:ReturnType<typeof vi.fn>};
+    expect(query.insert).toHaveBeenCalledWith(expect.objectContaining({status:'completed',attempts:1,error:null}));
+    vi.unstubAllEnvs();
+  });
 });
