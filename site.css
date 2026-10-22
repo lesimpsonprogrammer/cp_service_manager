@@ -703,6 +703,24 @@ p {
   margin-bottom: 6px;
 }
 
+.glossary-list {
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+
+.glossary-list dt {
+  padding-top: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.glossary-list dd {
+  margin: 4px 0 0;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+}
+
 .page-hero-lede {
   max-width: 640px;
   margin: 12px 0 0;
