@@ -3,6 +3,14 @@
     { "source": "/blog", "destination": "https://app.momentumdatasolutions.com/blog" },
     { "source": "/blog/:path*", "destination": "https://app.momentumdatasolutions.com/blog/:path*" }
   ],
+  "redirects": [
+    { "source": "/what-we-offer", "destination": "/services.html", "permanent": true },
+    { "source": "/informationsecurity", "destination": "/data-security-governance.html", "permanent": true },
+    { "source": "/home", "destination": "/", "permanent": true },
+    { "source": "/about-us", "destination": "/about.html", "permanent": true },
+    { "source": "/contact-us", "destination": "/contact.html", "permanent": true },
+    { "source": "/:page(about|contact|data-apis|data-connectors|data-glossary|data-handling-policy|data-security-governance|data-webhooks|executive-brief|hipaa|hr-consulting|managed-payroll|project-management|relentless|resources|services|get-started|thank-you)", "destination": "/:page.html", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*).html",
