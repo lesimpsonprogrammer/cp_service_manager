@@ -752,6 +752,14 @@ p {
   line-height: 1.6;
 }
 
+.story-card figcaption {
+  margin-top: auto;
+  padding-top: 4px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
 .relentless-close {
   padding: 32px 24px;
   background: var(--blue-tint);
