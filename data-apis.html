@@ -80,7 +80,13 @@
       </button>
       <div class="nav-links">
         <a href="index.html">Home</a>
-        <a href="about.html">About</a>
+        <div class="has-dropdown">
+          <a href="about.html">About</a>
+          <div class="dropdown-menu">
+            <a href="about.html">About Us</a>
+            <a href="relentless.html">Relentless Commitment</a>
+          </div>
+        </div>
         <div class="has-dropdown">
           <a href="services.html">Services</a>
           <div class="dropdown-menu">
@@ -103,9 +109,8 @@
           <div class="dropdown-menu">
             <a href="/blog">Blog</a>
             <a href="data-glossary.html">Data Glossary</a>
-            <a href="relentless.html">Relentless Commitment</a>
             <a href="executive-brief.html">Executive Brief</a>
-            <a href="data-apis.html">Data API's</a>
+            <a href="data-apis.html">Data APIs</a>
             <a href="data-webhooks.html">Data Webhooks</a>
             <a href="data-connectors.html">Data Connectors</a>
           </div>
@@ -154,9 +159,6 @@
         <h2>APIs and Data Readiness</h2>
         <p>An API is only as reliable as the data readiness work behind it. If underlying data isn't clean, consistent, and well-governed, an API will faithfully move that inaccuracy from one system to another &mdash; quickly and at scale. That's why API integration work has to start with the same foundation as any connector project: verified, well-structured data on both ends of the exchange.</p>
 
-        <div class="notice-card">
-          <strong>Migration note:</strong> the live site also has an interactive "API Request Explorer" demo tool on this page &mdash; a live-feeling sandbox for testing request/response shapes. That's a JS-driven feature, not static content, and needs to be rebuilt separately.
-        </div>
       </div>
     </section>
   </main>

@@ -80,7 +80,13 @@
       </button>
       <div class="nav-links">
         <a href="index.html">Home</a>
-        <a href="about.html">About</a>
+        <div class="has-dropdown">
+          <a href="about.html">About</a>
+          <div class="dropdown-menu">
+            <a href="about.html">About Us</a>
+            <a href="relentless.html">Relentless Commitment</a>
+          </div>
+        </div>
         <div class="has-dropdown">
           <a href="services.html">Services</a>
           <div class="dropdown-menu">
@@ -103,9 +109,8 @@
           <div class="dropdown-menu">
             <a href="/blog">Blog</a>
             <a href="data-glossary.html">Data Glossary</a>
-            <a href="relentless.html">Relentless Commitment</a>
             <a href="executive-brief.html">Executive Brief</a>
-            <a href="data-apis.html">Data API's</a>
+            <a href="data-apis.html">Data APIs</a>
             <a href="data-webhooks.html">Data Webhooks</a>
             <a href="data-connectors.html">Data Connectors</a>
           </div>
@@ -127,9 +132,73 @@
     <section class="section page-body">
       <div class="container">
         <p>The Momentum Knowledge Hub &mdash; explore connected terminology across HR, Payroll, Finance, and Data to discover how business concepts connect.</p>
-        <div class="notice-card">
-          <strong>Migration note:</strong> on the live site this is an interactive, searchable tool ("Search the Knowledge Hub &mdash; All / HR / Payroll / Finance / Data") that loads terms dynamically. It isn't static content we could export as text, so it needs to be rebuilt as an actual interactive feature (e.g. a small JSON-backed search widget) rather than carried over as a page.
-        </div>
+        <h2>Human Resources</h2>
+        <dl class="glossary-list">
+          <dt>HRIS (Human Resources Information System)</dt>
+          <dd>The system of record for employee data &mdash; personal details, job information, and employment history.</dd>
+          <dt>HCM (Human Capital Management)</dt>
+          <dd>A broader platform that typically combines the HRIS with talent, performance, time, and often payroll functions.</dd>
+          <dt>Employee Record</dt>
+          <dd>The complete set of information about one employee, including identifiers, position, compensation, and status.</dd>
+          <dt>Onboarding</dt>
+          <dd>The process and data steps required to bring a new hire into every system they need on day one.</dd>
+          <dt>Benefits Enrollment</dt>
+          <dd>The elections an employee makes for health, retirement, and other benefits, and the data feeds that send them to carriers.</dd>
+        </dl>
+
+        <h2>Payroll</h2>
+        <dl class="glossary-list">
+          <dt>Gross Pay</dt>
+          <dd>Total earnings for a pay period before any taxes or deductions are taken out.</dd>
+          <dt>Net Pay</dt>
+          <dd>The amount an employee actually receives after taxes and deductions.</dd>
+          <dt>Pay Period</dt>
+          <dd>The recurring span of time an employee is paid for, such as weekly, biweekly, or semi-monthly.</dd>
+          <dt>Payroll Register</dt>
+          <dd>A report listing every employee's earnings, taxes, and deductions for a payroll run.</dd>
+          <dt>Year-to-Date (YTD) Balances</dt>
+          <dd>Running totals of earnings, taxes, and deductions for the year. They must carry over accurately during a payroll conversion.</dd>
+          <dt>Payroll Conversion</dt>
+          <dd>Moving payroll from one provider or system to another, including employee setup, tax details, and YTD balances.</dd>
+        </dl>
+
+        <h2>Finance</h2>
+        <dl class="glossary-list">
+          <dt>ERP (Enterprise Resource Planning)</dt>
+          <dd>An integrated system that manages core operations such as finance, purchasing, inventory, and vendors.</dd>
+          <dt>General Ledger (GL)</dt>
+          <dd>The central record of every financial transaction, organized by account.</dd>
+          <dt>Chart of Accounts</dt>
+          <dd>The structured list of account codes an organization uses to categorize transactions in the general ledger.</dd>
+          <dt>Cost Center</dt>
+          <dd>A department or unit that costs are tracked against for budgeting and reporting.</dd>
+          <dt>Reconciliation</dt>
+          <dd>Comparing two sets of records to confirm they agree and to explain any differences.</dd>
+        </dl>
+
+        <h2>Data</h2>
+        <dl class="glossary-list">
+          <dt>Legacy System</dt>
+          <dd>An older platform an organization still depends on, often the source of data in a migration.</dd>
+          <dt>Data Cleansing</dt>
+          <dd>Finding and correcting duplicates, errors, missing values, and inconsistent formatting.</dd>
+          <dt>Data Mapping</dt>
+          <dd>Defining how each field in a source system corresponds to a field in the destination system.</dd>
+          <dt>Data Validation</dt>
+          <dd>Checking data against business rules to confirm it is complete, accurate, and correctly formatted.</dd>
+          <dt>Data Migration</dt>
+          <dd>Moving data from one system to another, usually as part of an implementation or upgrade.</dd>
+          <dt>ETL (Extract, Transform, Load)</dt>
+          <dd>The process of pulling data from a source, cleaning and reshaping it, and loading it into a destination.</dd>
+          <dt>Master File</dt>
+          <dd>A single, consolidated, authoritative dataset built from several sources.</dd>
+          <dt>API</dt>
+          <dd>A defined set of rules that lets two systems exchange data. <a href="data-apis.html">Learn more about APIs</a>.</dd>
+          <dt>Data Connector</dt>
+          <dd>A configured, reusable pipeline that moves data between systems. <a href="data-connectors.html">Learn more about connectors</a>.</dd>
+          <dt>Webhook</dt>
+          <dd>An automatic message a system sends when an event happens. <a href="data-webhooks.html">Learn more about webhooks</a>.</dd>
+        </dl>
       </div>
     </section>
   </main>

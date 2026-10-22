@@ -80,7 +80,13 @@
       </button>
       <div class="nav-links">
         <a href="index.html">Home</a>
-        <a href="about.html">About</a>
+        <div class="has-dropdown">
+          <a href="about.html">About</a>
+          <div class="dropdown-menu">
+            <a href="about.html">About Us</a>
+            <a href="relentless.html">Relentless Commitment</a>
+          </div>
+        </div>
         <div class="has-dropdown">
           <a href="services.html">Services</a>
           <div class="dropdown-menu">
@@ -103,9 +109,8 @@
           <div class="dropdown-menu">
             <a href="/blog">Blog</a>
             <a href="data-glossary.html">Data Glossary</a>
-            <a href="relentless.html">Relentless Commitment</a>
             <a href="executive-brief.html">Executive Brief</a>
-            <a href="data-apis.html">Data API's</a>
+            <a href="data-apis.html">Data APIs</a>
             <a href="data-webhooks.html">Data Webhooks</a>
             <a href="data-connectors.html">Data Connectors</a>
           </div>
@@ -127,11 +132,39 @@
     <section class="section page-body">
       <div class="container">
         <p>Event-driven integrations that initiate workflows when a source application reports a relevant event or change &mdash; covering webhook events, endpoints, payloads, verification concepts, retries, testing, and workflow triggers.</p>
-        <h2>Webhook Event Explorer</h2>
-        <p>The live site includes an interactive demo: trigger a payroll event, an onboarding event, or a failed delivery to see how Momentum's webhook system handles each one, including what happens when an endpoint doesn't respond right away (signed and delivered payloads, delivery lifecycle, response headers).</p>
-        <div class="notice-card">
-          <strong>Migration note:</strong> this is a JS-driven simulated sandbox, not static content &mdash; it needs to be rebuilt as an actual interactive feature rather than carried over as a page.
-        </div>
+
+        <h2>What Is a Webhook?</h2>
+        <p>A webhook is an automatic message one system sends to another the moment something happens. Instead of a system repeatedly asking &ldquo;has anything changed?&rdquo; through an <a href="data-apis.html">API</a>, the source system pushes a notification to a predefined address &mdash; the endpoint &mdash; as soon as a relevant event occurs.</p>
+        <p>For HR, payroll, and finance teams, that means a new hire, a completed payroll run, or an approved change can start the next step in a workflow right away rather than waiting for a nightly batch or a manual hand-off.</p>
+
+        <h2>How a Webhook Delivery Works</h2>
+        <ul>
+          <li><strong>Event</strong> &mdash; Something happens in the source system, such as an employee being onboarded or a payroll being finalized.</li>
+          <li><strong>Payload</strong> &mdash; The source system packages the details of the event, typically as structured JSON.</li>
+          <li><strong>Endpoint</strong> &mdash; The payload is sent to a URL the receiving system has registered to listen on.</li>
+          <li><strong>Verification</strong> &mdash; The receiver confirms the message is genuine, usually by checking a signature created with a shared secret, before acting on it.</li>
+          <li><strong>Response</strong> &mdash; The receiver replies to confirm delivery. If it doesn't respond in time, the sender retries on a schedule rather than losing the event.</li>
+          <li><strong>Workflow Trigger</strong> &mdash; Once accepted, the event starts the next action &mdash; updating a record, provisioning access, or kicking off a <a href="data-connectors.html">connector</a> run.</li>
+        </ul>
+
+        <h2>Common Uses</h2>
+        <ul>
+          <li><strong>Onboarding</strong> &mdash; A completed hire in the HRIS triggers account setup, equipment requests, and benefits eligibility.</li>
+          <li><strong>Payroll Events</strong> &mdash; A finalized payroll run notifies finance, triggers general ledger posting, or alerts reviewers to exceptions.</li>
+          <li><strong>Compliance Alerts</strong> &mdash; A missing document or an expiring certification raises a notification before it becomes a finding.</li>
+          <li><strong>Status Changes</strong> &mdash; Terminations, leave updates, or role changes reach every downstream system that depends on them.</li>
+        </ul>
+
+        <h2>Key Benefits</h2>
+        <ul>
+          <li><strong>Speed</strong> &mdash; Workflows start when the event happens, not hours later.</li>
+          <li><strong>Efficiency</strong> &mdash; Systems no longer poll each other repeatedly for changes that usually haven't happened.</li>
+          <li><strong>Reliability</strong> &mdash; Signed payloads and automatic retries keep events from being spoofed or silently dropped.</li>
+          <li><strong>Testability</strong> &mdash; Events can be replayed in a test environment to confirm a workflow behaves correctly before go-live.</li>
+        </ul>
+
+        <h2>Webhooks and Data Readiness</h2>
+        <p>A webhook fires on whatever data the source system holds. If an employee record is incomplete or a code is wrong, that error is pushed downstream instantly. Clean, validated source data is what makes event-driven workflows something you can trust.</p>
       </div>
     </section>
   </main>

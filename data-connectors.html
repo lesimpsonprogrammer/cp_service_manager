@@ -80,7 +80,13 @@
       </button>
       <div class="nav-links">
         <a href="index.html">Home</a>
-        <a href="about.html">About</a>
+        <div class="has-dropdown">
+          <a href="about.html">About</a>
+          <div class="dropdown-menu">
+            <a href="about.html">About Us</a>
+            <a href="relentless.html">Relentless Commitment</a>
+          </div>
+        </div>
         <div class="has-dropdown">
           <a href="services.html">Services</a>
           <div class="dropdown-menu">
@@ -103,9 +109,8 @@
           <div class="dropdown-menu">
             <a href="/blog">Blog</a>
             <a href="data-glossary.html">Data Glossary</a>
-            <a href="relentless.html">Relentless Commitment</a>
             <a href="executive-brief.html">Executive Brief</a>
-            <a href="data-apis.html">Data API's</a>
+            <a href="data-apis.html">Data APIs</a>
             <a href="data-webhooks.html">Data Webhooks</a>
             <a href="data-connectors.html">Data Connectors</a>
           </div>
@@ -127,9 +132,40 @@
     <section class="section page-body">
       <div class="container">
         <p>Reusable connectors simplify communication between source and destination systems &mdash; covering connection configuration, data movement, mapping, scheduling concepts, status monitoring, and troubleshooting.</p>
-        <div class="notice-card">
-          <strong>Migration note:</strong> this page's detailed content on the live site is rendered dynamically (no static text came through the export) &mdash; it needs a follow-up visit to capture the full copy directly, similar to the Data API's page.
-        </div>
+
+        <h2>What Is a Data Connector?</h2>
+        <p>A data connector is a reusable, configured link between two systems that moves data from a source to a destination on a defined schedule or trigger. Where an <a href="data-apis.html">API</a> is the doorway a system opens to the outside world, the connector is the pipeline that walks through it &mdash; handling authentication, pulling the right records, mapping fields from one structure to another, and delivering the result where it needs to go.</p>
+        <p>For organizations running HCM, HRIS, payroll, or ERP platforms, connectors replace the recurring cycle of exporting a file, reformatting it by hand, and uploading it somewhere else.</p>
+
+        <h2>How a Connector Works</h2>
+        <ul>
+          <li><strong>Connection Configuration</strong> &mdash; Credentials, endpoints, and permissions are set up once, so each run connects securely without manual steps.</li>
+          <li><strong>Data Movement</strong> &mdash; The connector extracts the required records from the source system and delivers them to the destination.</li>
+          <li><strong>Field Mapping</strong> &mdash; Source fields are matched to destination fields, with formats, codes, and values standardized along the way.</li>
+          <li><strong>Scheduling</strong> &mdash; Runs happen on a set cadence (hourly, nightly, each pay period) or in response to an event such as a <a href="data-webhooks.html">webhook</a>.</li>
+          <li><strong>Status Monitoring</strong> &mdash; Every run is logged, so successes, partial loads, and failures are visible rather than discovered weeks later.</li>
+          <li><strong>Troubleshooting</strong> &mdash; When a run fails, logs and error details point to the cause &mdash; an expired credential, a changed field, or a record that failed validation.</li>
+        </ul>
+
+        <h2>Common Uses</h2>
+        <ul>
+          <li><strong>HR to Payroll</strong> &mdash; New hires, terminations, pay rate changes, and deductions flow from the HR system to payroll without re-keying.</li>
+          <li><strong>Benefits Carrier Feeds</strong> &mdash; Enrollment and eligibility data is delivered to benefits providers in the format each carrier requires.</li>
+          <li><strong>Payroll to General Ledger</strong> &mdash; Payroll results post to the ERP or accounting system mapped to the correct accounts and cost centers.</li>
+          <li><strong>Parallel Runs During Migrations</strong> &mdash; Legacy and new systems stay in sync while a transition is validated.</li>
+          <li><strong>Reporting and Dashboards</strong> &mdash; Data from several systems is consolidated into one reporting destination on a predictable schedule.</li>
+        </ul>
+
+        <h2>Key Benefits</h2>
+        <ul>
+          <li><strong>Repeatability</strong> &mdash; The same mapping and rules apply on every run, eliminating one-off manual fixes.</li>
+          <li><strong>Reduced Manual Work</strong> &mdash; File exports, spreadsheet reformatting, and uploads are no longer someone's recurring task.</li>
+          <li><strong>Visibility</strong> &mdash; Monitoring shows exactly what moved, when, and whether it succeeded.</li>
+          <li><strong>Security</strong> &mdash; Credentials and data stay inside a controlled connection instead of being emailed or saved to shared drives.</li>
+        </ul>
+
+        <h2>Connectors and Data Readiness</h2>
+        <p>A connector moves whatever it is given. If the source data has duplicates, missing fields, or inconsistent codes, the connector will deliver those problems to the destination on schedule, every time. That's why every connector project should start with clean, validated, well-mapped data on both ends.</p>
       </div>
     </section>
   </main>
