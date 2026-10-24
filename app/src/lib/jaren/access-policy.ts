@@ -44,19 +44,30 @@ export function authorize(
   return null;
 }
 
-/** Exact configured origin: never derive trust from Host or forwarded headers. */
+/** Allow only explicitly enumerated CPSM application origins.
+ * Never trust arbitrary Origin, Host, or forwarded-host headers as an allowlist.
+ * A same-origin browser request must also target that exact authorized origin.
+ */
 export function checkMutationOrigin(request: Request, configuredOrigin?: string): Response | null {
-  let expected: string;
-  try {
-    const url = new URL(configuredOrigin ?? "");
-    if (!["https:", "http:"].includes(url.protocol) || url.username || url.password ||
-        url.pathname !== "/" || url.search || url.hash) throw new Error("Invalid origin");
-    expected = url.origin;
-  } catch {
-    return Response.json({ error: "CPSM application origin is not configured." }, { status: 503 });
-  }
-  if (request.headers.get("origin") !== expected || request.headers.get("sec-fetch-site") === "cross-site") {
-    return Response.json({ error: "Request origin denied." }, { status: 403 });
+  const allowed = new Set([
+    configuredOrigin,
+    "https://app.cpservicemanager.com",
+    "https://app2.cpservicemanager.com",
+  ].filter((value): value is string => Boolean(value)).map((value) => {
+    try {
+      const url = new URL(value);
+      return url.protocol === "https:" && !url.username && !url.password &&
+        url.pathname === "/" && !url.search && !url.hash ? url.origin : "";
+    } catch {
+      return "";
+    }
+  }).filter(Boolean));
+
+  const requestOrigin = new URL(request.url).origin;
+  const browserOrigin = request.headers.get("origin");
+  if (!allowed.has(requestOrigin) || browserOrigin !== requestOrigin ||
+      request.headers.get("sec-fetch-site") === "cross-site") {
+    return Response.json({ error: "Request origin denied." }, { status: 403, headers: { "cache-control": "no-store" } });
   }
   return null;
 }
