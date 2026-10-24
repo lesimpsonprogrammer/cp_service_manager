@@ -1,0 +1,279 @@
+{
+  "settings": {
+    "tenant": {
+      "name": "Acme Services LLC",
+      "market": "US",
+      "currency": "USD",
+      "timezone": "America/Chicago",
+      "modules": {
+        "coreHR": true,
+        "payroll": true,
+        "benefits": true,
+        "recruiting": true,
+        "onboarding": true,
+        "offboarding": true,
+        "performance": true,
+        "expenses": true,
+        "it": true,
+        "accounting": true
+      }
+    },
+    "security": {
+      "mfaRequiredForAdmins": true,
+      "fieldLevelSecurity": true,
+      "auditLogging": true,
+      "sessionMinutes": 480
+    },
+    "payroll": {
+      "providerMode": "partner_api_first",
+      "defaultPayFrequency": "biweekly",
+      "approvalRequired": true,
+      "payrollPreviewRequired": true
+    },
+    "expenses": {
+      "receiptRequiredOver": 25,
+      "managerApprovalOver": 100,
+      "financeApprovalOver": 500
+    }
+  },
+  "users": [
+    {
+      "id": "usr_admin",
+      "name": "Avery Admin",
+      "email": "admin@acme.test",
+      "password": "demo123",
+      "role": "Super Admin",
+      "employeeId": "emp_001"
+    },
+    {
+      "id": "usr_hr",
+      "name": "Harper HR",
+      "email": "hr@acme.test",
+      "password": "demo123",
+      "role": "HR Admin",
+      "employeeId": "emp_002"
+    },
+    {
+      "id": "usr_manager",
+      "name": "Morgan Manager",
+      "email": "manager@acme.test",
+      "password": "demo123",
+      "role": "Manager",
+      "employeeId": "emp_003"
+    }
+  ],
+  "employees": [
+    {
+      "id": "emp_001",
+      "employeeNumber": "E-1001",
+      "firstName": "Avery",
+      "lastName": "Admin",
+      "email": "admin@acme.test",
+      "department": "Operations",
+      "location": "Dallas, TX",
+      "jobTitle": "Chief Operating Officer",
+      "managerId": null,
+      "employmentType": "Full-Time",
+      "status": "Active",
+      "hireDate": "2022-04-01",
+      "salary": 155000,
+      "payType": "Salary",
+      "costCenter": "OPS-100",
+      "ssnMasked": "***-**-1001"
+    },
+    {
+      "id": "emp_002",
+      "employeeNumber": "E-1002",
+      "firstName": "Harper",
+      "lastName": "HR",
+      "email": "hr@acme.test",
+      "department": "Human Resources",
+      "location": "Dallas, TX",
+      "jobTitle": "HR Director",
+      "managerId": "emp_001",
+      "employmentType": "Full-Time",
+      "status": "Active",
+      "hireDate": "2023-01-15",
+      "salary": 98000,
+      "payType": "Salary",
+      "costCenter": "HR-200",
+      "ssnMasked": "***-**-1002"
+    },
+    {
+      "id": "emp_003",
+      "employeeNumber": "E-1003",
+      "firstName": "Morgan",
+      "lastName": "Manager",
+      "email": "manager@acme.test",
+      "department": "Sales",
+      "location": "Remote",
+      "jobTitle": "Sales Manager",
+      "managerId": "emp_001",
+      "employmentType": "Full-Time",
+      "status": "Active",
+      "hireDate": "2023-07-01",
+      "salary": 112000,
+      "payType": "Salary",
+      "costCenter": "SALES-300",
+      "ssnMasked": "***-**-1003"
+    },
+    {
+      "id": "emp_004",
+      "employeeNumber": "E-1004",
+      "firstName": "Riley",
+      "lastName": "Rep",
+      "email": "riley.rep@acme.test",
+      "department": "Sales",
+      "location": "Austin, TX",
+      "jobTitle": "Account Executive",
+      "managerId": "emp_003",
+      "employmentType": "Full-Time",
+      "status": "Onboarding",
+      "hireDate": "2026-06-03",
+      "salary": 84000,
+      "payType": "Salary",
+      "costCenter": "SALES-300",
+      "ssnMasked": "***-**-1004"
+    }
+  ],
+  "requisitions": [
+    {
+      "id": "req_001",
+      "title": "Payroll Specialist",
+      "department": "Human Resources",
+      "location": "Dallas, TX",
+      "status": "Open",
+      "hiringManagerId": "emp_002",
+      "targetStartDate": "2026-07-01",
+      "budgetedSalaryMin": 65000,
+      "budgetedSalaryMax": 82000
+    }
+  ],
+  "candidates": [
+    {
+      "id": "cand_001",
+      "name": "Jordan Candidate",
+      "email": "jordan.candidate@example.com",
+      "phone": "555-0100",
+      "requisitionId": "req_001",
+      "stage": "Manager Review",
+      "rating": 4,
+      "source": "LinkedIn"
+    }
+  ],
+  "benefitPlans": [
+    {
+      "id": "ben_med_ppo",
+      "name": "Medical PPO Gold",
+      "type": "Medical",
+      "carrier": "DemoHealth",
+      "employeeMonthlyCost": 220,
+      "employerMonthlyCost": 560,
+      "eligibility": "Full-Time",
+      "status": "Active"
+    },
+    {
+      "id": "ben_den_standard",
+      "name": "Dental Standard",
+      "type": "Dental",
+      "carrier": "DemoDental",
+      "employeeMonthlyCost": 28,
+      "employerMonthlyCost": 34,
+      "eligibility": "Full-Time",
+      "status": "Active"
+    }
+  ],
+  "enrollments": [
+    {
+      "id": "enr_001",
+      "employeeId": "emp_002",
+      "planId": "ben_med_ppo",
+      "coverageTier": "Employee + Family",
+      "effectiveDate": "2026-01-01",
+      "status": "Active"
+    }
+  ],
+  "payrollRuns": [
+    {
+      "id": "pay_001",
+      "payGroup": "US Biweekly",
+      "periodStart": "2026-05-10",
+      "periodEnd": "2026-05-23",
+      "payDate": "2026-05-29",
+      "status": "Draft",
+      "grossPay": 0,
+      "employeeTaxes": 0,
+      "deductions": 0,
+      "employerTaxes": 0,
+      "netPay": 0,
+      "employeeCount": 0
+    }
+  ],
+  "expenseReports": [
+    {
+      "id": "exp_001",
+      "employeeId": "emp_003",
+      "title": "Client visit meals and mileage",
+      "amount": 236.44,
+      "category": "Travel",
+      "status": "Manager Approved",
+      "submittedDate": "2026-05-21",
+      "costCenter": "SALES-300",
+      "receiptAttached": true
+    }
+  ],
+  "performanceReviews": [
+    {
+      "id": "rev_001",
+      "employeeId": "emp_004",
+      "cycle": "30 Day New Hire Review",
+      "dueDate": "2026-07-03",
+      "status": "Not Started",
+      "managerId": "emp_003"
+    }
+  ],
+  "assets": [
+    {
+      "id": "asset_001",
+      "assetTag": "LAP-1001",
+      "type": "Laptop",
+      "model": "MacBook Pro 14",
+      "assignedTo": "emp_004",
+      "status": "Assigned",
+      "serialNumber": "DEMO-MBP-1001"
+    }
+  ],
+  "journals": [
+    {
+      "id": "jrnl_001",
+      "source": "Payroll",
+      "date": "2026-05-29",
+      "status": "Draft",
+      "description": "Biweekly payroll journal pending preview",
+      "totalDebit": 0,
+      "totalCredit": 0,
+      "lines": []
+    }
+  ],
+  "tasks": [
+    {
+      "id": "task_001",
+      "type": "Onboarding",
+      "title": "Complete I-9",
+      "ownerRole": "HR Admin",
+      "employeeId": "emp_004",
+      "dueDate": "2026-06-03",
+      "status": "Open"
+    },
+    {
+      "id": "task_002",
+      "type": "IT",
+      "title": "Provision Google Workspace and Slack",
+      "ownerRole": "IT Admin",
+      "employeeId": "emp_004",
+      "dueDate": "2026-06-02",
+      "status": "Open"
+    }
+  ],
+  "auditLogs": []
+}
