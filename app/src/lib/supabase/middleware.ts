@@ -12,6 +12,8 @@ const PUBLIC_PATHS = [
   "/client/login",
   "/client/accept",
   "/blog",
+  // Website chat bubble, loaded by momentumdatasolutions.com.
+  "/chat-widget.js",
 ];
 
 function isPublicPath(pathname: string) {

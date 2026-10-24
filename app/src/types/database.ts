@@ -58,7 +58,7 @@ export type TicketPriority = "low" | "normal" | "high" | "urgent";
 
 export type TicketType = "question" | "incident" | "service_request" | "change_request" | "problem";
 
-export type TicketChannel = "portal" | "staff" | "email" | "api";
+export type TicketChannel = "portal" | "staff" | "email" | "api" | "chat";
 
 export type TicketAuthorType = "staff" | "client" | "system";
 
@@ -1228,6 +1228,50 @@ export interface Database {
           body: string;
         };
         Update: Partial<Database["public"]["Tables"]["ticket_macros"]["Row"]>;
+        Relationships: [];
+      };
+      chat_widget_settings: {
+        Row: {
+          org_id: string;
+          widget_key: string;
+          is_enabled: boolean;
+          title: string;
+          greeting: string;
+          accent_color: string;
+          default_assignee_id: string | null;
+          allowed_origins: string[];
+          site_url: string | null;
+          updated_by: string | null;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["chat_widget_settings"]["Row"]> & {
+          org_id: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["chat_widget_settings"]["Row"]>;
+        Relationships: [];
+      };
+      chat_sessions: {
+        Row: {
+          id: string;
+          org_id: string;
+          ticket_id: string;
+          token_hash: string;
+          visitor_name: string | null;
+          visitor_email: string;
+          page_url: string | null;
+          user_agent: string | null;
+          ip_hash: string | null;
+          last_seen_at: string;
+          staff_notified_at: string | null;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["chat_sessions"]["Row"]> & {
+          org_id: string;
+          ticket_id: string;
+          token_hash: string;
+          visitor_email: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["chat_sessions"]["Row"]>;
         Relationships: [];
       };
       jaren_agent_settings: {

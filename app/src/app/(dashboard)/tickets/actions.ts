@@ -56,6 +56,7 @@ function friendlyDbError(message: string | undefined, fallback: string): string 
 
 function revalidateTicket(ticketId?: string, clientId?: string | null) {
   revalidatePath("/tickets");
+  revalidatePath("/chat");
   if (ticketId) revalidatePath(`/tickets/${ticketId}`);
   if (clientId) revalidatePath(`/clients/${clientId}/tickets`);
   revalidatePath("/client/support");

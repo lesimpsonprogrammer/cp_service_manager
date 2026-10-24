@@ -17,6 +17,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/dashboard", label: "Overview", icon: "◱" },
   { href: "/clients", label: "Clients", icon: "🏢" },
   { href: "/workflow", label: "Workflow Center", icon: "🗂" },
+  { href: "/chat", label: "Live Chat", icon: "💬" },
   { href: "/tickets", label: "Service Desk", icon: "🎫" },
   { href: "/tasks", label: "Task Manager", icon: "✓" },
   { href: "/time", label: "Time Tracking", icon: "⏱" },

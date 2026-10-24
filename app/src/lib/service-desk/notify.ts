@@ -4,6 +4,7 @@ import { dispatchEvent } from "@/lib/webhooks/dispatch";
 import type { TicketStatus } from "@/types/database";
 import { CLIENT_STATUS_LABELS, PRIORITY_LABELS, STATUS_LABELS, WEBHOOK_EVENTS } from "./constants";
 import { getUserEmails } from "./people";
+import { chatReturnUrl, isOnline } from "@/lib/chat/widget";
 
 // Every notification here is best-effort: it runs after the response (see
 // `after()` in the callers), loads fresh state with the service role, and
@@ -12,13 +13,36 @@ import { getUserEmails } from "./people";
 const appUrl = () => process.env.NEXT_PUBLIC_APP_URL ?? "";
 export const staffTicketUrl = (id: string) => `${appUrl()}/tickets/${id}`;
 export const portalTicketUrl = (id: string) => `${appUrl()}/client/support/${id}`;
+export const chatInboxUrl = (id: string) => `${appUrl()}/chat?c=${id}`;
+
+type Admin = ReturnType<typeof createAdminClient>;
+
+/** Where the requester follows up: the portal for clients, the website chat for chats. */
+async function requesterTicketUrl(
+  admin: Admin,
+  ticket: { id: string; org_id: string; client_id: string | null; channel: string }
+): Promise<string> {
+  if (ticket.client_id) return portalTicketUrl(ticket.id);
+  if (ticket.channel === "chat") {
+    const { data } = await admin.from("chat_widget_settings").select("site_url").eq("org_id", ticket.org_id).maybeSingle();
+    return chatReturnUrl(data?.site_url);
+  }
+  return staffTicketUrl(ticket.id);
+}
+
+/** A chat visitor with the widget open sees the reply there; no email needed. */
+async function chatVisitorIsOnline(admin: Admin, ticket: { id: string; channel: string }): Promise<boolean> {
+  if (ticket.channel !== "chat") return false;
+  const { data } = await admin.from("chat_sessions").select("last_seen_at").eq("ticket_id", ticket.id).maybeSingle();
+  return isOnline(data?.last_seen_at);
+}
 
 async function loadTicket(ticketId: string) {
   const admin = createAdminClient();
   const { data: ticket } = await admin
     .from("tickets")
     .select(
-      "id, org_id, ticket_number, subject, status, priority, client_id, client_visible, assignee_id, requester_user_id, requester_email, requester_name, channel, created_by"
+      "id, org_id, ticket_number, subject, status, priority, client_id, client_visible, assignee_id, requester_user_id, requester_email, requester_name, channel, created_by, description"
     )
     .eq("id", ticketId)
     .maybeSingle();
@@ -65,7 +89,17 @@ export async function notifyTicketCreated(ticketId: string, actorId: string | nu
     if (!ticket) return;
 
     const staff = await staffRecipients(admin, ticket, actorId);
-    if (staff.length) {
+    if (staff.length && ticket.channel === "chat") {
+      await sendServiceDeskTicketEmail({
+        to: staff,
+        subject: `[${ticket.ticket_number}] New chat from ${ticket.requester_name ?? ticket.requester_email ?? "a visitor"}`,
+        heading: "Someone is chatting on your website",
+        intro: `${ticket.requester_name ?? "A visitor"}${ticket.requester_email ? ` (${ticket.requester_email})` : ""} started a chat. Answer while they're still on the page.`,
+        quote: ticket.description,
+        ctaLabel: "Answer in Live Chat",
+        ctaUrl: chatInboxUrl(ticket.id),
+      });
+    } else if (staff.length) {
       await sendServiceDeskTicketEmail({
         to: staff,
         subject: `[${ticket.ticket_number}] New ${PRIORITY_LABELS[ticket.priority].toLowerCase()} ticket: ${ticket.subject}`,
@@ -80,13 +114,16 @@ export async function notifyTicketCreated(ticketId: string, actorId: string | nu
     if (ticket.channel !== "staff") {
       const to = await requesterEmail(admin, ticket);
       if (to) {
+        const chat = ticket.channel === "chat";
         await sendServiceDeskTicketEmail({
           to,
-          subject: `[${ticket.ticket_number}] We received your request: ${ticket.subject}`,
+          subject: `[${ticket.ticket_number}] We received your ${chat ? "message" : "request"}: ${ticket.subject}`,
           heading: `We've got it — ${ticket.ticket_number}`,
-          intro: "Thanks for reaching out. Your request is in our queue and you'll get an email each time we reply.",
-          ctaLabel: "Track this request",
-          ctaUrl: ticket.client_id ? portalTicketUrl(ticket.id) : staffTicketUrl(ticket.id),
+          intro: chat
+            ? "Thanks for chatting with us. We'll answer in the chat on our website, and email you here if you've stepped away."
+            : "Thanks for reaching out. Your request is in our queue and you'll get an email each time we reply.",
+          ctaLabel: chat ? "Open the chat" : "Track this request",
+          ctaUrl: await requesterTicketUrl(admin, ticket),
         });
       }
     }
@@ -119,12 +156,15 @@ export async function notifyTicketReply(ticketId: string, messageId: string) {
       if (staff.length) {
         await sendServiceDeskTicketEmail({
           to: staff,
-          subject: `[${ticket.ticket_number}] Client replied: ${ticket.subject}`,
-          heading: `${message.author_name ?? "The client"} replied`,
-          intro: `New reply on ${ticket.ticket_number}.`,
+          subject:
+            ticket.channel === "chat"
+              ? `[${ticket.ticket_number}] New chat message from ${message.author_name ?? "a visitor"}`
+              : `[${ticket.ticket_number}] Client replied: ${ticket.subject}`,
+          heading: `${message.author_name ?? "The client"} ${ticket.channel === "chat" ? "wrote in the chat" : "replied"}`,
+          intro: `New ${ticket.channel === "chat" ? "message" : "reply"} on ${ticket.ticket_number}.`,
           quote: message.body,
-          ctaLabel: "Respond in the Service Desk",
-          ctaUrl: staffTicketUrl(ticket.id),
+          ctaLabel: ticket.channel === "chat" ? "Answer in Live Chat" : "Respond in the Service Desk",
+          ctaUrl: ticket.channel === "chat" ? chatInboxUrl(ticket.id) : staffTicketUrl(ticket.id),
         });
       }
     } else if (message.is_internal) {
@@ -143,7 +183,7 @@ export async function notifyTicketReply(ticketId: string, messageId: string) {
       }
       return;
     } else {
-      const to = await requesterEmail(admin, ticket);
+      const to = (await chatVisitorIsOnline(admin, ticket)) ? null : await requesterEmail(admin, ticket);
       if (to) {
         await sendServiceDeskTicketEmail({
           to,
@@ -151,8 +191,8 @@ export async function notifyTicketReply(ticketId: string, messageId: string) {
           heading: `${message.author_name ?? "Our team"} replied to your request`,
           intro: `There's an update on ${ticket.ticket_number}.`,
           quote: message.body,
-          ctaLabel: "View and reply",
-          ctaUrl: ticket.client_id ? portalTicketUrl(ticket.id) : staffTicketUrl(ticket.id),
+          ctaLabel: ticket.channel === "chat" ? "Reply in the chat" : "View and reply",
+          ctaUrl: await requesterTicketUrl(admin, ticket),
         });
       }
     }
@@ -183,8 +223,8 @@ export async function notifyStatusChanged(ticketId: string, from: TicketStatus, 
           intro: resolved
             ? "We've marked your request as resolved. If anything's still off, just reply and it reopens automatically — otherwise let us know how we did."
             : "Our team is waiting on information from you before we can continue.",
-          ctaLabel: resolved ? "Review and rate" : "Reply now",
-          ctaUrl: ticket.client_id ? portalTicketUrl(ticket.id) : staffTicketUrl(ticket.id),
+          ctaLabel: ticket.channel === "chat" ? "Open the chat" : resolved ? "Review and rate" : "Reply now",
+          ctaUrl: await requesterTicketUrl(admin, ticket),
         });
       }
     }

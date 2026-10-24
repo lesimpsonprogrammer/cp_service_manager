@@ -83,6 +83,19 @@ deployment.
   etc.), both with a delivery log.
 - **Public REST API** — `/api/v1/*`, authenticated with `Authorization: Bearer <api key>`.
   Keys are managed in-app and only ever shown once, in full, at creation time.
+- **Live Chat** — the chat bubble on momentumdatasolutions.com
+  (`public/chat-widget.js`, `0040_website_chat.sql`) and the inbox the team
+  answers it from (`src/app/(dashboard)/chat`). Every chat is a Service Desk
+  ticket with channel `chat`, so replies, macros, SLA, and the audit trail
+  all come along. The site embeds
+  `<script src="https://app.momentumdatasolutions.com/chat-widget.js" data-key="mds-website" defer></script>`;
+  the widget talks to the public `/api/chat/*` routes with a per-chat token
+  (only its hash is stored). The assignee is emailed when a chat starts and
+  when the visitor writes again after a few quiet minutes; the visitor is
+  emailed staff replies only when they've left the page. The inbox chimes and
+  can show desktop alerts. Settings (on/off, title, greeting, color, owner,
+  allowed sites) live at `/chat/settings`. Any element with `data-open-chat`,
+  or `?chat=open` on a URL, opens the chat.
 - **Artifacts** — a versioned file store for everything MDS produces or
   receives (`src/app/(dashboard)/artifacts`, `0036_artifact_management.sql`),
   modeled on HPE Cray System Management's S3 "Artifact Management":

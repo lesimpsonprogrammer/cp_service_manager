@@ -59,6 +59,7 @@ export const CHANNEL_LABELS: Record<TicketChannel, string> = {
   staff: "Staff",
   email: "Email",
   api: "API",
+  chat: "Website chat",
 };
 
 export type Tone = "neutral" | "success" | "warning" | "danger" | "brand";
