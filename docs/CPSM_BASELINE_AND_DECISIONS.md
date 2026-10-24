@@ -92,6 +92,49 @@ git switch backup/cpsm-login-baseline-v1-standalone
 
 Only force-push after confirming that the restored version is the intended version.
 
+## Decision: CPSM Platform Architecture (Approved Direction, 2026-10-24)
+
+CPSM becomes three parts that share one system of record:
+
+```
+CPSM (customer-facing)      CPSM (internal only)
+          \                      /
+           \                    /
+     Database Management Platform  (separate domain)
+     one system of record for all entities, on Supabase
+```
+
+| Part | Who uses it | Grows out of | Holds database credentials |
+|---|---|---|---|
+| **CPSM — internal** | Momentum staff only | today's staff dashboard (`app/src/app/(dashboard)`) | No |
+| **CPSM — customer-facing** | Clients only | today's client portal (`app/src/app/client`) | No |
+| **Database Management Platform** | Momentum admins (screens) + both CPSM apps (API) | new | **Yes — the only part that does** |
+
+### Rules
+
+1. **One system of record.** Every entity (clients, contacts, contracts, invoices, tickets, projects, etc.) is defined once, in the Database Management Platform. Neither CPSM app keeps its own copy, so there is nothing to sync.
+2. **Only the platform touches the database.** The Supabase service-role key and database URL live on the platform's deployment only. The CPSM apps read and write through the platform's versioned API.
+3. **The platform decides access.** Each CPSM app calls the API with its own app key plus the signed-in person's Supabase access token. The platform resolves who that person is server-side and never trusts an org or client ID sent in the request. A customer request is always scoped to that customer's own client.
+4. **Login stays Supabase Auth**, one shared user pool. Staff are `org_members` and customers are `client_portal_users`; the two are already mutually exclusive.
+5. **Stay on Supabase for now.** Moving off Supabase is a separate, later decision. Migrations stay manual (see `CLAUDE.md`).
+6. **The platform is on a separate domain.** Its name and address are not decided yet, so no domain is hard-coded: every app reads the others' addresses from environment variables.
+7. **The protected login rules above apply to both CPSM login pages** once they are separate apps.
+
+### Phases (one controlled change at a time)
+
+0. **Record the decision.** (This entry.)
+1. **Scaffold the platform** in a new top-level `dmp/` folder, alongside `app/` and `decision-engine/`. Nothing in `app/` changes. It gets an entity registry (which tables and columns each entity exposes), a versioned API (`/api/v1/entities/...`) with app-key + user-token auth, and read endpoints for a first entity. It also gets its own Vercel project.
+2. **Move CPSM onto the API, one entity at a time.** Start with the client portal's Service Desk writes, which use the service-role key today, so the customer-facing side loses database access first.
+3. **Platform screens:** entity browser, access rules, and an audit log. The existing SQL Editor and Data Studio are database-management tools and are candidates to move here.
+4. **Split CPSM** into its internal and customer-facing deployments. Neither gets database keys.
+5. **Optional, later:** leave Supabase. Because all access goes through the platform, this becomes a change to one app instead of three.
+
+### Still open
+
+- Platform name and domain.
+- Customer-facing CPSM name and domain.
+- Whether the SQL Editor and Data Studio move to the platform (Phase 3).
+
 ## Going Forward
 
 This document must be updated whenever we make or approve major decisions related to:
@@ -105,4 +148,4 @@ This document must be updated whenever we make or approve major decisions relate
 - External design references and inspiration sources.
 - Major feature additions that affect the app structure.
 
-Last updated: 2026-06-23
+Last updated: 2026-10-24
