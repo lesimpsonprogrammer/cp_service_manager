@@ -3,7 +3,7 @@ import type { ConnectorDefinition } from "./types";
 export const CONNECTOR_DEFINITIONS: ConnectorDefinition[] = [
   {
     type: "webhook",
-    category: "Integration",
+    category: "API",
     label: "Data Preview Validation Summaries",
     description: "Receive approved validation summaries from Data Preview for the linked client. No employee rows or import files are transferred.",
     icon: "↳",
