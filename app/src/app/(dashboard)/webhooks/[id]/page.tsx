@@ -18,9 +18,15 @@ export default async function WebhookDetailPage({ params }: { params: Promise<{ 
     .order("created_at", { ascending: false })
     .limit(25);
 
+  const { data: destinationSource } = webhook.data_source_id
+    ? await supabase.from("data_sources").select("config, client_id").eq("id", webhook.data_source_id).eq("org_id", webhook.org_id).maybeSingle()
+    : { data: null };
+  const sourceConfig = (destinationSource?.config ?? {}) as Record<string, unknown>;
+  const dataPreviewConnection = typeof sourceConfig.datapreview_organization_id === "string";
+  const receiverPath = dataPreviewConnection ? "/api/integrations/data-preview/" : "/api/webhooks/inbound/";
   const inboundUrl =
     webhook.direction === "inbound"
-      ? `${process.env.NEXT_PUBLIC_APP_URL}/api/webhooks/inbound/${webhook.inbound_token}`
+      ? `${process.env.NEXT_PUBLIC_APP_URL}${receiverPath}${webhook.inbound_token}`
       : null;
 
   return (
@@ -36,6 +42,9 @@ export default async function WebhookDetailPage({ params }: { params: Promise<{ 
           <CardTitle>Configuration</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3 text-sm">
+          {dataPreviewConnection && (
+            <p className="text-muted">Data Preview Summary Delivery · Client: {destinationSource?.client_id ?? "Select a Client Before Connecting"} · Source Organization: {String(sourceConfig.datapreview_organization_id)}. Delivery receipts confirm summary storage, not import acceptance.</p>
+          )}
           {inboundUrl && (
             <div>
               <p className="text-muted">Receiver URL</p>

@@ -2,6 +2,14 @@ import type { ConnectorDefinition } from "./types";
 
 export const CONNECTOR_DEFINITIONS: ConnectorDefinition[] = [
   {
+    type: "webhook",
+    category: "Integration",
+    label: "Data Preview Validation Summaries",
+    description: "Receive approved validation summaries from Data Preview for the linked client. No employee rows or import files are transferred.",
+    icon: "↳",
+    fields: [{key: "datapreview_organization_id", label: "Data Preview Organization UUID", type: "text", required: true, helpText: "Pair this source with one Data Preview organization. Select its CPSM client before creating an inbound webhook."}],
+  },
+  {
     type: "spreadsheet",
     category: "Spreadsheet",
     label: "CSV / Spreadsheet",
