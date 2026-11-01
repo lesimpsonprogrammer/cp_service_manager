@@ -1,6 +1,6 @@
 import {describe,it,expect} from 'vitest';
 import {createHmac} from 'node:crypto';
-import {signatureValid,validateEnvelope,receiptFor,canonical} from '../../src/lib/integrations/dataPreview.mjs';
+import {signatureValid,validateEnvelope,receiptFor,canonical} from '../../../src/lib/integrations/dataPreview.mjs';
 const report={sourceOrganizationId:'11111111-1111-4111-a111-111111111111',clientId:'22222222-2222-4222-a222-222222222222',jobId:'33333333-3333-4333-a333-333333333333',template:{name:'Employee',version:'1.0'},status:'Ready',summary:{inputRows:2,acceptedRows:2,rejectedRows:0,errors:0},createdAt:'2026-11-01T00:00:00Z'};
 const envelope=()=>({event:'data_preview.validation.completed',version:1,deliveryId:'a'.repeat(64),timestamp:new Date().toISOString(),report});
 describe('Data Preview summary delivery contract',()=>{
