@@ -1,6 +1,5 @@
 import * as cheerio from "cheerio";
 import ExcelJS from "exceljs";
-import { PDFParse } from "pdf-parse";
 import type { ConnectorAdapter, ExtractedRecord } from "../types";
 
 const MAX_FETCH_BYTES = 25 * 1024 * 1024; // 25MB — enough for a real report, small enough to stay in memory safely.
@@ -61,6 +60,9 @@ function extractHtmlTable(html: string, tableIndex: number): ExtractedRecord[] {
 }
 
 async function extractPdfText(buffer: Buffer): Promise<ExtractedRecord[]> {
+  // pdf-parse requires browser-like DOMMatrix globals at module initialization.
+  // Defer loading until PDF extraction so unrelated SSR pages remain safe.
+  const { PDFParse } = await import("pdf-parse");
   const parser = new PDFParse({ data: buffer });
   try {
     const result = await parser.getText();
